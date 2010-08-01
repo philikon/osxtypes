@@ -115,7 +115,8 @@ def writeEnum(declaration, out):
         out.write('    this.%s = %s;\n' % (name, value));
 
 def writeStruct(declaration, out):
-    if declaration.class_type != "struct":
+    #TODO need to deal with unions separately... how does ctypes handle them?
+    if declaration.class_type not in ("struct", "union"):
         return
     name = declaration.name
     try:
