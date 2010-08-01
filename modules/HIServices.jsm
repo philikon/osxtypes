@@ -1,5 +1,7 @@
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/HIServices.framework/Headers/AXValue.h
 function AXValue_h(lib) {
+    CFBase_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._AXVALUE_H)
         return;
@@ -13,11 +15,20 @@ function AXValue_h(lib) {
     this.kAXValueIllegalType = 0;
     this.__AXValue = new ctypes.StructType("__AXValue");
     this.AXValueRef = this.__AXValue.ptr;
+    this.AXValueGetTypeID = lib.declare("AXValueGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.AXValueCreate = lib.declare("AXValueCreate", ctypes.default_abi, this.AXValueRef, this.AXValueType, ctypes.void_t.ptr);
+    this.AXValueGetType = lib.declare("AXValueGetType", ctypes.default_abi, this.AXValueType, this.AXValueRef);
+    this.AXValueGetValue = lib.declare("AXValueGetValue", ctypes.default_abi, this.Boolean, this.AXValueRef, this.AXValueType, ctypes.void_t.ptr);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/HIServices.framework/Headers/Icons.h
 function Icons_h(lib) {
     QuickdrawTypes_h.call(this, lib);
+    CGGeometry_h.call(this, lib);
+    CGContext_h.call(this, lib);
+    IconsCore_h.call(this, lib);
+    HIShape_h.call(this, lib);
+    IconStorage_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._ICONS_H)
@@ -149,15 +160,70 @@ function Icons_h(lib) {
     this.CIconHandle = this.CIconPtr.ptr;
     this.IconSuiteRef = this.Handle;
     this.IconCacheRef = this.Handle;
+    this.GetCIcon = lib.declare("GetCIcon", ctypes.default_abi, this.CIconHandle, this.SInt16);
+    this.PlotCIcon = lib.declare("PlotCIcon", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, this.CIconHandle);
+    this.DisposeCIcon = lib.declare("DisposeCIcon", ctypes.default_abi, ctypes.void_t, this.CIconHandle);
+    this.GetIcon = lib.declare("GetIcon", ctypes.default_abi, this.Handle, this.SInt16);
+    this.PlotIcon = lib.declare("PlotIcon", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, this.Handle);
+    this.PlotIconID = lib.declare("PlotIconID", ctypes.default_abi, this.OSErr, this.Rect.ptr, this.IconAlignmentType, this.IconTransformType, this.SInt16);
+    this.NewIconSuite = lib.declare("NewIconSuite", ctypes.default_abi, this.OSErr, this.IconSuiteRef.ptr);
+    this.AddIconToSuite = lib.declare("AddIconToSuite", ctypes.default_abi, this.OSErr, this.Handle, this.IconSuiteRef, this.ResType);
+    this.GetIconFromSuite = lib.declare("GetIconFromSuite", ctypes.default_abi, this.OSErr, this.Handle.ptr, this.IconSuiteRef, this.ResType);
+    this.ForEachIconDo = lib.declare("ForEachIconDo", ctypes.default_abi, this.OSErr, this.IconSuiteRef, this.IconSelectorValue, this.IconActionUPP, ctypes.void_t.ptr);
+    this.GetIconSuite = lib.declare("GetIconSuite", ctypes.default_abi, this.OSErr, this.IconSuiteRef.ptr, this.SInt16, this.IconSelectorValue);
+    this.DisposeIconSuite = lib.declare("DisposeIconSuite", ctypes.default_abi, this.OSErr, this.IconSuiteRef, this.Boolean);
+    this.PlotIconSuite = lib.declare("PlotIconSuite", ctypes.default_abi, this.OSErr, this.Rect.ptr, this.IconAlignmentType, this.IconTransformType, this.IconSuiteRef);
+    this.MakeIconCache = lib.declare("MakeIconCache", ctypes.default_abi, this.OSErr, this.IconCacheRef.ptr, this.IconGetterUPP, ctypes.void_t.ptr);
+    this.LoadIconCache = lib.declare("LoadIconCache", ctypes.default_abi, this.OSErr, this.Rect.ptr, this.IconAlignmentType, this.IconTransformType, this.IconCacheRef);
+    this.PlotIconMethod = lib.declare("PlotIconMethod", ctypes.default_abi, this.OSErr, this.Rect.ptr, this.IconAlignmentType, this.IconTransformType, this.IconGetterUPP, ctypes.void_t.ptr);
+    this.GetLabel = lib.declare("GetLabel", ctypes.default_abi, this.OSErr, this.SInt16, this.RGBColor.ptr, ctypes.unsigned_char.ptr);
+    this.PtInIconID = lib.declare("PtInIconID", ctypes.default_abi, this.Boolean, this.Point, this.Rect.ptr, this.IconAlignmentType, this.SInt16);
+    this.PtInIconSuite = lib.declare("PtInIconSuite", ctypes.default_abi, this.Boolean, this.Point, this.Rect.ptr, this.IconAlignmentType, this.IconSuiteRef);
+    this.PtInIconMethod = lib.declare("PtInIconMethod", ctypes.default_abi, this.Boolean, this.Point, this.Rect.ptr, this.IconAlignmentType, this.IconGetterUPP, ctypes.void_t.ptr);
+    this.RectInIconID = lib.declare("RectInIconID", ctypes.default_abi, this.Boolean, this.Rect.ptr, this.Rect.ptr, this.IconAlignmentType, this.SInt16);
+    this.RectInIconSuite = lib.declare("RectInIconSuite", ctypes.default_abi, this.Boolean, this.Rect.ptr, this.Rect.ptr, this.IconAlignmentType, this.IconSuiteRef);
+    this.RectInIconMethod = lib.declare("RectInIconMethod", ctypes.default_abi, this.Boolean, this.Rect.ptr, this.Rect.ptr, this.IconAlignmentType, this.IconGetterUPP, ctypes.void_t.ptr);
+    this.IconIDToRgn = lib.declare("IconIDToRgn", ctypes.default_abi, this.OSErr, this.RgnHandle, this.Rect.ptr, this.IconAlignmentType, this.SInt16);
+    this.IconSuiteToRgn = lib.declare("IconSuiteToRgn", ctypes.default_abi, this.OSErr, this.RgnHandle, this.Rect.ptr, this.IconAlignmentType, this.IconSuiteRef);
+    this.IconMethodToRgn = lib.declare("IconMethodToRgn", ctypes.default_abi, this.OSErr, this.RgnHandle, this.Rect.ptr, this.IconAlignmentType, this.IconGetterUPP, ctypes.void_t.ptr);
+    this.SetSuiteLabel = lib.declare("SetSuiteLabel", ctypes.default_abi, this.OSErr, this.IconSuiteRef, this.SInt16);
+    this.GetSuiteLabel = lib.declare("GetSuiteLabel", ctypes.default_abi, this.SInt16, this.IconSuiteRef);
+    this.GetIconCacheData = lib.declare("GetIconCacheData", ctypes.default_abi, this.OSErr, this.IconCacheRef, ctypes.void_t.ptr.ptr);
+    this.SetIconCacheData = lib.declare("SetIconCacheData", ctypes.default_abi, this.OSErr, this.IconCacheRef, ctypes.void_t.ptr);
+    this.GetIconCacheProc = lib.declare("GetIconCacheProc", ctypes.default_abi, this.OSErr, this.IconCacheRef, this.IconGetterUPP.ptr);
+    this.SetIconCacheProc = lib.declare("SetIconCacheProc", ctypes.default_abi, this.OSErr, this.IconCacheRef, this.IconGetterUPP);
+    this.PlotIconHandle = lib.declare("PlotIconHandle", ctypes.default_abi, this.OSErr, this.Rect.ptr, this.IconAlignmentType, this.IconTransformType, this.Handle);
+    this.PlotSICNHandle = lib.declare("PlotSICNHandle", ctypes.default_abi, this.OSErr, this.Rect.ptr, this.IconAlignmentType, this.IconTransformType, this.Handle);
+    this.PlotCIconHandle = lib.declare("PlotCIconHandle", ctypes.default_abi, this.OSErr, this.Rect.ptr, this.IconAlignmentType, this.IconTransformType, this.CIconHandle);
     this.PlotIconRefFlags = this.UInt32;
     this.kPlotIconRefNormalFlags = 0;
     this.kPlotIconRefNoImage = 2;
     this.kPlotIconRefNoMask = 4;
+    this.IconRefToIconFamily = lib.declare("IconRefToIconFamily", ctypes.default_abi, this.OSErr, this.IconRef, this.IconSelectorValue, this.IconFamilyHandle.ptr);
+    this.IconFamilyToIconSuite = lib.declare("IconFamilyToIconSuite", ctypes.default_abi, this.OSErr, this.IconFamilyHandle, this.IconSelectorValue, this.IconSuiteRef.ptr);
+    this.IconSuiteToIconFamily = lib.declare("IconSuiteToIconFamily", ctypes.default_abi, this.OSErr, this.IconSuiteRef, this.IconSelectorValue, this.IconFamilyHandle.ptr);
+    this.SetIconFamilyData = lib.declare("SetIconFamilyData", ctypes.default_abi, this.OSErr, this.IconFamilyHandle, this.OSType, this.Handle);
+    this.GetIconFamilyData = lib.declare("GetIconFamilyData", ctypes.default_abi, this.OSErr, this.IconFamilyHandle, this.OSType, this.Handle);
+    this.PlotIconRef = lib.declare("PlotIconRef", ctypes.default_abi, this.OSErr, this.Rect.ptr, this.IconAlignmentType, this.IconTransformType, this.IconServicesUsageFlags, this.IconRef);
+    this.PlotIconRefInContext = lib.declare("PlotIconRefInContext", ctypes.default_abi, this.OSStatus, this.CGContextRef, this.CGRect.ptr, this.IconAlignmentType, this.IconTransformType, this.RGBColor.ptr, this.PlotIconRefFlags, this.IconRef);
+    this.PtInIconRef = lib.declare("PtInIconRef", ctypes.default_abi, this.Boolean, this.Point.ptr, this.Rect.ptr, this.IconAlignmentType, this.IconServicesUsageFlags, this.IconRef);
+    this.RectInIconRef = lib.declare("RectInIconRef", ctypes.default_abi, this.Boolean, this.Rect.ptr, this.Rect.ptr, this.IconAlignmentType, this.IconServicesUsageFlags, this.IconRef);
+    this.IconRefToRgn = lib.declare("IconRefToRgn", ctypes.default_abi, this.OSErr, this.RgnHandle, this.Rect.ptr, this.IconAlignmentType, this.IconServicesUsageFlags, this.IconRef);
+    this.IconRefContainsCGPoint = lib.declare("IconRefContainsCGPoint", ctypes.default_abi, this.Boolean, this.CGPoint.ptr, this.CGRect.ptr, this.IconAlignmentType, this.IconServicesUsageFlags, this.IconRef);
+    this.IconRefIntersectsCGRect = lib.declare("IconRefIntersectsCGRect", ctypes.default_abi, this.Boolean, this.CGRect.ptr, this.CGRect.ptr, this.IconAlignmentType, this.IconServicesUsageFlags, this.IconRef);
+    this.IconRefToHIShape = lib.declare("IconRefToHIShape", ctypes.default_abi, this.HIShapeRef, this.CGRect.ptr, this.IconAlignmentType, this.IconServicesUsageFlags, this.IconRef);
+    this.GetIconSizesFromIconRef = lib.declare("GetIconSizesFromIconRef", ctypes.default_abi, this.OSErr, this.IconSelectorValue, this.IconSelectorValue.ptr, this.IconServicesUsageFlags, this.IconRef);
+    this.IsIconRefMaskEmpty = lib.declare("IsIconRefMaskEmpty", ctypes.default_abi, this.Boolean, this.IconRef);
+    this.GetIconRefVariant = lib.declare("GetIconRefVariant", ctypes.default_abi, this.IconRef, this.IconRef, this.OSType, this.IconTransformType.ptr);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/HIServices.framework/Headers/HIShape.h
 function HIShape_h(lib) {
+    QuickdrawTypes_h.call(this, lib);
     CGGeometry_h.call(this, lib);
+    CGContext_h.call(this, lib);
+    CGBase_h.call(this, lib);
+    CFBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._HISHAPE_H)
@@ -177,10 +243,41 @@ function HIShape_h(lib) {
     this.kHIShapeParseFromTopLeft = 0;
     this.kHIShapeParseFromBottomRight = 3;
     this.HIShapeEnumerateProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.OSStatus, [ctypes.int, this.HIShapeRef, this.CGRect.ptr, ctypes.void_t.ptr]).ptr;
+    this.HIShapeGetTypeID = lib.declare("HIShapeGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.HIShapeCreateEmpty = lib.declare("HIShapeCreateEmpty", ctypes.default_abi, this.HIShapeRef);
+    this.HIShapeCreateWithQDRgn = lib.declare("HIShapeCreateWithQDRgn", ctypes.default_abi, this.HIShapeRef, this.RgnHandle);
+    this.HIShapeCreateWithRect = lib.declare("HIShapeCreateWithRect", ctypes.default_abi, this.HIShapeRef, this.CGRect.ptr);
+    this.HIShapeCreateCopy = lib.declare("HIShapeCreateCopy", ctypes.default_abi, this.HIShapeRef, this.HIShapeRef);
+    this.HIShapeCreateIntersection = lib.declare("HIShapeCreateIntersection", ctypes.default_abi, this.HIShapeRef, this.HIShapeRef, this.HIShapeRef);
+    this.HIShapeCreateDifference = lib.declare("HIShapeCreateDifference", ctypes.default_abi, this.HIShapeRef, this.HIShapeRef, this.HIShapeRef);
+    this.HIShapeCreateUnion = lib.declare("HIShapeCreateUnion", ctypes.default_abi, this.HIShapeRef, this.HIShapeRef, this.HIShapeRef);
+    this.HIShapeCreateXor = lib.declare("HIShapeCreateXor", ctypes.default_abi, this.HIShapeRef, this.HIShapeRef, this.HIShapeRef);
+    this.HIShapeIsEmpty = lib.declare("HIShapeIsEmpty", ctypes.default_abi, this.Boolean, this.HIShapeRef);
+    this.HIShapeIsRectangular = lib.declare("HIShapeIsRectangular", ctypes.default_abi, this.Boolean, this.HIShapeRef);
+    this.HIShapeContainsPoint = lib.declare("HIShapeContainsPoint", ctypes.default_abi, this.Boolean, this.HIShapeRef, this.CGPoint.ptr);
+    this.HIShapeIntersectsRect = lib.declare("HIShapeIntersectsRect", ctypes.default_abi, this.Boolean, this.HIShapeRef, this.CGRect.ptr);
+    this.HIShapeGetBounds = lib.declare("HIShapeGetBounds", ctypes.default_abi, this.CGRect.ptr, this.HIShapeRef, this.CGRect.ptr);
+    this.HIShapeGetAsQDRgn = lib.declare("HIShapeGetAsQDRgn", ctypes.default_abi, this.OSStatus, this.HIShapeRef, this.RgnHandle);
+    this.HIShapeReplacePathInCGContext = lib.declare("HIShapeReplacePathInCGContext", ctypes.default_abi, this.OSStatus, this.HIShapeRef, this.CGContextRef);
+    this.HIShapeSetQDClip = lib.declare("HIShapeSetQDClip", ctypes.default_abi, this.OSStatus, this.HIShapeRef, this.CGrafPtr);
+    this.HIShapeEnumerate = lib.declare("HIShapeEnumerate", ctypes.default_abi, this.OSStatus, this.HIShapeRef, this.OptionBits, this.HIShapeEnumerateProcPtr, ctypes.void_t.ptr);
+    this.HIShapeCreateMutable = lib.declare("HIShapeCreateMutable", ctypes.default_abi, this.HIMutableShapeRef);
+    this.HIShapeCreateMutableCopy = lib.declare("HIShapeCreateMutableCopy", ctypes.default_abi, this.HIMutableShapeRef, this.HIShapeRef);
+    this.HIShapeCreateMutableWithRect = lib.declare("HIShapeCreateMutableWithRect", ctypes.default_abi, this.HIMutableShapeRef, this.CGRect.ptr);
+    this.HIShapeSetEmpty = lib.declare("HIShapeSetEmpty", ctypes.default_abi, this.OSStatus, this.HIMutableShapeRef);
+    this.HIShapeSetWithShape = lib.declare("HIShapeSetWithShape", ctypes.default_abi, this.OSStatus, this.HIMutableShapeRef, this.HIShapeRef);
+    this.HIShapeIntersect = lib.declare("HIShapeIntersect", ctypes.default_abi, this.OSStatus, this.HIShapeRef, this.HIShapeRef, this.HIMutableShapeRef);
+    this.HIShapeDifference = lib.declare("HIShapeDifference", ctypes.default_abi, this.OSStatus, this.HIShapeRef, this.HIShapeRef, this.HIMutableShapeRef);
+    this.HIShapeUnion = lib.declare("HIShapeUnion", ctypes.default_abi, this.OSStatus, this.HIShapeRef, this.HIShapeRef, this.HIMutableShapeRef);
+    this.HIShapeXor = lib.declare("HIShapeXor", ctypes.default_abi, this.OSStatus, this.HIShapeRef, this.HIShapeRef, this.HIMutableShapeRef);
+    this.HIShapeOffset = lib.declare("HIShapeOffset", ctypes.default_abi, this.OSStatus, this.HIMutableShapeRef, this.CGFloat, this.CGFloat);
+    this.HIShapeInset = lib.declare("HIShapeInset", ctypes.default_abi, this.OSStatus, this.HIMutableShapeRef, this.CGFloat, this.CGFloat);
+    this.HIShapeUnionWithRect = lib.declare("HIShapeUnionWithRect", ctypes.default_abi, this.OSStatus, this.HIMutableShapeRef, this.CGRect.ptr);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/HIServices.framework/Headers/InternetConfig.h
 function InternetConfig_h(lib) {
+    AEDataModel_h.call(this, lib);
     Files_h.call(this, lib);
     MacTypes_h.call(this, lib);
     Aliases_h.call(this, lib);
@@ -283,28 +380,101 @@ function InternetConfig_h(lib) {
     this.ICServices = new ctypes.StructType("ICServices", [{count: this.SInt16}, {services: this.ICServiceEntry.array(1)}]);
     this.ICServicesPtr = this.ICServices.ptr;
     this.ICServicesHandle = this.ICServicesPtr.ptr;
+    this.ICStart = lib.declare("ICStart", ctypes.default_abi, this.OSStatus, this.ICInstance.ptr, this.OSType);
+    this.ICStop = lib.declare("ICStop", ctypes.default_abi, this.OSStatus, this.ICInstance);
+    this.ICGetVersion = lib.declare("ICGetVersion", ctypes.default_abi, this.OSStatus, this.ICInstance, ctypes.long, this.UInt32.ptr);
+    this.ICGetConfigName = lib.declare("ICGetConfigName", ctypes.default_abi, this.OSStatus, this.ICInstance, this.Boolean, ctypes.unsigned_char.ptr);
+    this.ICGetSeed = lib.declare("ICGetSeed", ctypes.default_abi, this.OSStatus, this.ICInstance, ctypes.long.ptr);
+    this.ICGetPerm = lib.declare("ICGetPerm", ctypes.default_abi, this.OSStatus, this.ICInstance, this.ICPerm.ptr);
+    this.ICBegin = lib.declare("ICBegin", ctypes.default_abi, this.OSStatus, this.ICInstance, this.ICPerm);
+    this.ICGetPref = lib.declare("ICGetPref", ctypes.default_abi, this.OSStatus, this.ICInstance, this.ConstStr255Param, this.ICAttr.ptr, ctypes.void_t.ptr, ctypes.long.ptr);
+    this.ICSetPref = lib.declare("ICSetPref", ctypes.default_abi, this.OSStatus, this.ICInstance, this.ConstStr255Param, this.ICAttr, ctypes.void_t.ptr, ctypes.long);
+    this.ICFindPrefHandle = lib.declare("ICFindPrefHandle", ctypes.default_abi, this.OSStatus, this.ICInstance, this.ConstStr255Param, this.ICAttr.ptr, this.Handle);
+    this.ICGetPrefHandle = lib.declare("ICGetPrefHandle", ctypes.default_abi, this.OSStatus, this.ICInstance, this.ConstStr255Param, this.ICAttr.ptr, this.Handle.ptr);
+    this.ICSetPrefHandle = lib.declare("ICSetPrefHandle", ctypes.default_abi, this.OSStatus, this.ICInstance, this.ConstStr255Param, this.ICAttr, this.Handle);
+    this.ICCountPref = lib.declare("ICCountPref", ctypes.default_abi, this.OSStatus, this.ICInstance, ctypes.long.ptr);
+    this.ICGetIndPref = lib.declare("ICGetIndPref", ctypes.default_abi, this.OSStatus, this.ICInstance, ctypes.long, ctypes.unsigned_char.ptr);
+    this.ICDeletePref = lib.declare("ICDeletePref", ctypes.default_abi, this.OSStatus, this.ICInstance, this.ConstStr255Param);
+    this.ICEnd = lib.declare("ICEnd", ctypes.default_abi, this.OSStatus, this.ICInstance);
+    this.ICGetDefaultPref = lib.declare("ICGetDefaultPref", ctypes.default_abi, this.OSStatus, this.ICInstance, this.ConstStr255Param, this.Handle);
+    this.ICEditPreferences = lib.declare("ICEditPreferences", ctypes.default_abi, this.OSStatus, this.ICInstance, this.ConstStr255Param);
+    this.ICLaunchURL = lib.declare("ICLaunchURL", ctypes.default_abi, this.OSStatus, this.ICInstance, this.ConstStr255Param, ctypes.void_t.ptr, ctypes.long, ctypes.long.ptr, ctypes.long.ptr);
+    this.ICParseURL = lib.declare("ICParseURL", ctypes.default_abi, this.OSStatus, this.ICInstance, this.ConstStr255Param, ctypes.void_t.ptr, ctypes.long, ctypes.long.ptr, ctypes.long.ptr, this.Handle);
+    this.ICCreateGURLEvent = lib.declare("ICCreateGURLEvent", ctypes.default_abi, this.OSStatus, this.ICInstance, this.OSType, this.Handle, this.AppleEvent.ptr);
+    this.ICSendGURLEvent = lib.declare("ICSendGURLEvent", ctypes.default_abi, this.OSStatus, this.ICInstance, this.AppleEvent.ptr);
+    this.ICMapFilename = lib.declare("ICMapFilename", ctypes.default_abi, this.OSStatus, this.ICInstance, this.ConstStr255Param, this.ICMapEntry.ptr);
+    this.ICMapTypeCreator = lib.declare("ICMapTypeCreator", ctypes.default_abi, this.OSStatus, this.ICInstance, this.OSType, this.OSType, this.ConstStr255Param, this.ICMapEntry.ptr);
+    this.ICMapEntriesFilename = lib.declare("ICMapEntriesFilename", ctypes.default_abi, this.OSStatus, this.ICInstance, this.Handle, this.ConstStr255Param, this.ICMapEntry.ptr);
+    this.ICMapEntriesTypeCreator = lib.declare("ICMapEntriesTypeCreator", ctypes.default_abi, this.OSStatus, this.ICInstance, this.Handle, this.OSType, this.OSType, this.ConstStr255Param, this.ICMapEntry.ptr);
+    this.ICCountMapEntries = lib.declare("ICCountMapEntries", ctypes.default_abi, this.OSStatus, this.ICInstance, this.Handle, ctypes.long.ptr);
+    this.ICGetIndMapEntry = lib.declare("ICGetIndMapEntry", ctypes.default_abi, this.OSStatus, this.ICInstance, this.Handle, ctypes.long, ctypes.long.ptr, this.ICMapEntry.ptr);
+    this.ICGetMapEntry = lib.declare("ICGetMapEntry", ctypes.default_abi, this.OSStatus, this.ICInstance, this.Handle, ctypes.long, this.ICMapEntry.ptr);
+    this.ICSetMapEntry = lib.declare("ICSetMapEntry", ctypes.default_abi, this.OSStatus, this.ICInstance, this.Handle, ctypes.long, this.ICMapEntry.ptr);
+    this.ICDeleteMapEntry = lib.declare("ICDeleteMapEntry", ctypes.default_abi, this.OSStatus, this.ICInstance, this.Handle, ctypes.long);
+    this.ICAddMapEntry = lib.declare("ICAddMapEntry", ctypes.default_abi, this.OSStatus, this.ICInstance, this.Handle, this.ICMapEntry.ptr);
+    this.ICGetCurrentProfile = lib.declare("ICGetCurrentProfile", ctypes.default_abi, this.OSStatus, this.ICInstance, this.ICProfileID.ptr);
+    this.ICSetCurrentProfile = lib.declare("ICSetCurrentProfile", ctypes.default_abi, this.OSStatus, this.ICInstance, this.ICProfileID);
+    this.ICCountProfiles = lib.declare("ICCountProfiles", ctypes.default_abi, this.OSStatus, this.ICInstance, ctypes.long.ptr);
+    this.ICGetIndProfile = lib.declare("ICGetIndProfile", ctypes.default_abi, this.OSStatus, this.ICInstance, ctypes.long, this.ICProfileID.ptr);
+    this.ICGetProfileName = lib.declare("ICGetProfileName", ctypes.default_abi, this.OSStatus, this.ICInstance, this.ICProfileID, ctypes.unsigned_char.ptr);
+    this.ICSetProfileName = lib.declare("ICSetProfileName", ctypes.default_abi, this.OSStatus, this.ICInstance, this.ICProfileID, this.ConstStr255Param);
+    this.ICAddProfile = lib.declare("ICAddProfile", ctypes.default_abi, this.OSStatus, this.ICInstance, this.ICProfileID, this.ICProfileID.ptr);
+    this.ICDeleteProfile = lib.declare("ICDeleteProfile", ctypes.default_abi, this.OSStatus, this.ICInstance, this.ICProfileID);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/HIServices.framework/Headers/AXUIElement.h
 function AXUIElement_h(lib) {
+    CGRemoteOperation_h.call(this, lib);
+    CFRunLoop_h.call(this, lib);
+    AXError_h.call(this, lib);
     CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._AXUIELEMENT_H)
         return;
     this._AXUIELEMENT_H = true;
 
+    this.AXAPIEnabled = lib.declare("AXAPIEnabled", ctypes.default_abi, this.Boolean);
+    this.AXIsProcessTrusted = lib.declare("AXIsProcessTrusted", ctypes.default_abi, this.Boolean);
+    this.AXMakeProcessTrusted = lib.declare("AXMakeProcessTrusted", ctypes.default_abi, this.AXError, this.CFStringRef);
     this.__AXUIElement = new ctypes.StructType("__AXUIElement");
     this.AXUIElementRef = this.__AXUIElement.ptr;
     this.kAXCopyMultipleAttributeOptionStopOnError = 1;
     this.AXCopyMultipleAttributeOptions = this.UInt32;
+    this.AXUIElementGetTypeID = lib.declare("AXUIElementGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.AXUIElementCopyAttributeNames = lib.declare("AXUIElementCopyAttributeNames", ctypes.default_abi, this.AXError, this.AXUIElementRef, this.CFArrayRef.ptr);
+    this.AXUIElementCopyAttributeValue = lib.declare("AXUIElementCopyAttributeValue", ctypes.default_abi, this.AXError, this.AXUIElementRef, this.CFStringRef, this.CFTypeRef.ptr);
+    this.AXUIElementGetAttributeValueCount = lib.declare("AXUIElementGetAttributeValueCount", ctypes.default_abi, this.AXError, this.AXUIElementRef, this.CFStringRef, this.CFIndex.ptr);
+    this.AXUIElementCopyAttributeValues = lib.declare("AXUIElementCopyAttributeValues", ctypes.default_abi, this.AXError, this.AXUIElementRef, this.CFStringRef, this.CFIndex, this.CFIndex, this.CFArrayRef.ptr);
+    this.AXUIElementIsAttributeSettable = lib.declare("AXUIElementIsAttributeSettable", ctypes.default_abi, this.AXError, this.AXUIElementRef, this.CFStringRef, this.Boolean.ptr);
+    this.AXUIElementSetAttributeValue = lib.declare("AXUIElementSetAttributeValue", ctypes.default_abi, this.AXError, this.AXUIElementRef, this.CFStringRef, this.CFTypeRef);
+    this.AXUIElementCopyMultipleAttributeValues = lib.declare("AXUIElementCopyMultipleAttributeValues", ctypes.default_abi, this.AXError, this.AXUIElementRef, this.CFArrayRef, this.AXCopyMultipleAttributeOptions, this.CFArrayRef.ptr);
+    this.AXUIElementCopyParameterizedAttributeNames = lib.declare("AXUIElementCopyParameterizedAttributeNames", ctypes.default_abi, this.AXError, this.AXUIElementRef, this.CFArrayRef.ptr);
+    this.AXUIElementCopyParameterizedAttributeValue = lib.declare("AXUIElementCopyParameterizedAttributeValue", ctypes.default_abi, this.AXError, this.AXUIElementRef, this.CFStringRef, this.CFTypeRef, this.CFTypeRef.ptr);
+    this.AXUIElementCopyActionNames = lib.declare("AXUIElementCopyActionNames", ctypes.default_abi, this.AXError, this.AXUIElementRef, this.CFArrayRef.ptr);
+    this.AXUIElementCopyActionDescription = lib.declare("AXUIElementCopyActionDescription", ctypes.default_abi, this.AXError, this.AXUIElementRef, this.CFStringRef, this.CFStringRef.ptr);
+    this.AXUIElementPerformAction = lib.declare("AXUIElementPerformAction", ctypes.default_abi, this.AXError, this.AXUIElementRef, this.CFStringRef);
+    this.AXUIElementCopyElementAtPosition = lib.declare("AXUIElementCopyElementAtPosition", ctypes.default_abi, this.AXError, this.AXUIElementRef, ctypes.float, ctypes.float, this.AXUIElementRef.ptr);
+    // Dropping declaration of 'AXUIElementCreateApplication': 'pid_t' defined out of scope
+    this.AXUIElementCreateSystemWide = lib.declare("AXUIElementCreateSystemWide", ctypes.default_abi, this.AXUIElementRef);
+    // Dropping declaration of 'AXUIElementGetPid': 'pid_t' defined out of scope
+    this.AXUIElementSetMessagingTimeout = lib.declare("AXUIElementSetMessagingTimeout", ctypes.default_abi, this.AXError, this.AXUIElementRef, ctypes.float);
+    this.AXUIElementPostKeyboardEvent = lib.declare("AXUIElementPostKeyboardEvent", ctypes.default_abi, this.AXError, this.AXUIElementRef, this.CGCharCode, this.CGKeyCode, this.Boolean);
     this.__AXObserver = new ctypes.StructType("__AXObserver");
     this.AXObserverRef = this.__AXObserver.ptr;
     this.AXObserverCallback = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.AXObserverRef, this.AXUIElementRef, this.CFStringRef, ctypes.void_t.ptr]).ptr;
+    this.AXObserverGetTypeID = lib.declare("AXObserverGetTypeID", ctypes.default_abi, this.CFTypeID);
+    // Dropping declaration of 'AXObserverCreate': 'pid_t' defined out of scope
+    this.AXObserverAddNotification = lib.declare("AXObserverAddNotification", ctypes.default_abi, this.AXError, this.AXObserverRef, this.AXUIElementRef, this.CFStringRef, ctypes.void_t.ptr);
+    this.AXObserverRemoveNotification = lib.declare("AXObserverRemoveNotification", ctypes.default_abi, this.AXError, this.AXObserverRef, this.AXUIElementRef, this.CFStringRef);
+    this.AXObserverGetRunLoopSource = lib.declare("AXObserverGetRunLoopSource", ctypes.default_abi, this.CFRunLoopSourceRef, this.AXObserverRef);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/HIServices.framework/Headers/Processes.h
 function Processes_h(lib) {
+    CFDictionary_h.call(this, lib);
+    CFBase_h.call(this, lib);
     Files_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
@@ -364,8 +534,27 @@ function Processes_h(lib) {
     this.kQuitOptionsMask = 127;
     this.kQuitNotQuitDuringInstallMask = 256;
     this.kQuitNotQuitDuringLogoutMask = 512;
+    this.LaunchApplication = lib.declare("LaunchApplication", ctypes.default_abi, this.OSErr, this.LaunchPBPtr);
+    this.GetCurrentProcess = lib.declare("GetCurrentProcess", ctypes.default_abi, this.OSErr, this.ProcessSerialNumber.ptr);
+    this.GetFrontProcess = lib.declare("GetFrontProcess", ctypes.default_abi, this.OSErr, this.ProcessSerialNumber.ptr);
+    this.GetNextProcess = lib.declare("GetNextProcess", ctypes.default_abi, this.OSErr, this.ProcessSerialNumber.ptr);
+    this.GetProcessInformation = lib.declare("GetProcessInformation", ctypes.default_abi, this.OSErr, this.ProcessSerialNumber.ptr, this.ProcessInfoRec.ptr);
+    this.ProcessInformationCopyDictionary = lib.declare("ProcessInformationCopyDictionary", ctypes.default_abi, this.CFDictionaryRef, this.ProcessSerialNumber.ptr, this.UInt32);
+    this.SetFrontProcess = lib.declare("SetFrontProcess", ctypes.default_abi, this.OSErr, this.ProcessSerialNumber.ptr);
     this.kSetFrontProcessFrontWindowOnly = 1;
     this.kSetFrontProcessCausedByUser = 2;
+    this.SetFrontProcessWithOptions = lib.declare("SetFrontProcessWithOptions", ctypes.default_abi, this.OSStatus, this.ProcessSerialNumber.ptr, this.OptionBits);
+    this.WakeUpProcess = lib.declare("WakeUpProcess", ctypes.default_abi, this.OSErr, this.ProcessSerialNumber.ptr);
+    this.SameProcess = lib.declare("SameProcess", ctypes.default_abi, this.OSErr, this.ProcessSerialNumber.ptr, this.ProcessSerialNumber.ptr, this.Boolean.ptr);
+    this.ExitToShell = lib.declare("ExitToShell", ctypes.default_abi, ctypes.void_t);
+    this.KillProcess = lib.declare("KillProcess", ctypes.default_abi, this.OSErr, this.ProcessSerialNumber.ptr);
+    this.GetProcessBundleLocation = lib.declare("GetProcessBundleLocation", ctypes.default_abi, this.OSStatus, this.ProcessSerialNumber.ptr, this.FSRef.ptr);
+    this.CopyProcessName = lib.declare("CopyProcessName", ctypes.default_abi, this.OSStatus, this.ProcessSerialNumber.ptr, this.CFStringRef.ptr);
+    // Dropping declaration of 'GetProcessPID': 'pid_t' defined out of scope
+    // Dropping declaration of 'GetProcessForPID': 'pid_t' defined out of scope
+    this.IsProcessVisible = lib.declare("IsProcessVisible", ctypes.default_abi, this.Boolean, this.ProcessSerialNumber.ptr);
+    this.ShowHideProcess = lib.declare("ShowHideProcess", ctypes.default_abi, this.OSErr, this.ProcessSerialNumber.ptr, this.Boolean);
+    this.TransformProcessType = lib.declare("TransformProcessType", ctypes.default_abi, this.OSStatus, this.ProcessSerialNumber.ptr, this.ProcessApplicationTransformState);
     this.initDev = 0;
     this.hitDev = 1;
     this.closeDev = 2;
@@ -389,7 +578,10 @@ function Processes_h(lib) {
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/HIServices.framework/Headers/Pasteboard.h
 function Pasteboard_h(lib) {
+    CFData_h.call(this, lib);
+    CFURL_h.call(this, lib);
     CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._PASTEBOARD_H)
@@ -420,7 +612,22 @@ function Pasteboard_h(lib) {
     this.PasteboardStandardLocation = this.OSType;
     this.kPasteboardStandardLocationTrash = 1953657704;
     this.kPasteboardStandardLocationUnknown = 1970170734;
+    this.PasteboardGetTypeID = lib.declare("PasteboardGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.PasteboardCreate = lib.declare("PasteboardCreate", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.PasteboardRef.ptr);
+    this.PasteboardSynchronize = lib.declare("PasteboardSynchronize", ctypes.default_abi, this.PasteboardSyncFlags, this.PasteboardRef);
+    this.PasteboardClear = lib.declare("PasteboardClear", ctypes.default_abi, this.OSStatus, this.PasteboardRef);
+    this.PasteboardCopyName = lib.declare("PasteboardCopyName", ctypes.default_abi, this.OSStatus, this.PasteboardRef, this.CFStringRef.ptr);
+    this.PasteboardGetItemCount = lib.declare("PasteboardGetItemCount", ctypes.default_abi, this.OSStatus, this.PasteboardRef, this.ItemCount.ptr);
+    this.PasteboardGetItemIdentifier = lib.declare("PasteboardGetItemIdentifier", ctypes.default_abi, this.OSStatus, this.PasteboardRef, this.CFIndex, this.PasteboardItemID.ptr);
+    this.PasteboardCopyItemFlavors = lib.declare("PasteboardCopyItemFlavors", ctypes.default_abi, this.OSStatus, this.PasteboardRef, this.PasteboardItemID, this.CFArrayRef.ptr);
+    this.PasteboardGetItemFlavorFlags = lib.declare("PasteboardGetItemFlavorFlags", ctypes.default_abi, this.OSStatus, this.PasteboardRef, this.PasteboardItemID, this.CFStringRef, this.PasteboardFlavorFlags.ptr);
+    this.PasteboardCopyItemFlavorData = lib.declare("PasteboardCopyItemFlavorData", ctypes.default_abi, this.OSStatus, this.PasteboardRef, this.PasteboardItemID, this.CFStringRef, this.CFDataRef.ptr);
+    this.PasteboardPutItemFlavor = lib.declare("PasteboardPutItemFlavor", ctypes.default_abi, this.OSStatus, this.PasteboardRef, this.PasteboardItemID, this.CFStringRef, this.CFDataRef, this.PasteboardFlavorFlags);
+    this.PasteboardCopyPasteLocation = lib.declare("PasteboardCopyPasteLocation", ctypes.default_abi, this.OSStatus, this.PasteboardRef, this.CFURLRef.ptr);
+    this.PasteboardSetPasteLocation = lib.declare("PasteboardSetPasteLocation", ctypes.default_abi, this.OSStatus, this.PasteboardRef, this.CFURLRef);
     this.PasteboardPromiseKeeperProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.OSStatus, [this.PasteboardRef, this.PasteboardItemID, this.CFStringRef, ctypes.void_t.ptr]).ptr;
+    this.PasteboardSetPromiseKeeper = lib.declare("PasteboardSetPromiseKeeper", ctypes.default_abi, this.OSStatus, this.PasteboardRef, this.PasteboardPromiseKeeperProcPtr, ctypes.void_t.ptr);
+    this.PasteboardResolvePromises = lib.declare("PasteboardResolvePromises", ctypes.default_abi, this.OSStatus, this.PasteboardRef);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/HIServices.framework/Headers/AXTextAttributedString.h
@@ -440,6 +647,7 @@ function AXTextAttributedString_h(lib) {
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/HIServices.framework/Headers/UniversalAccess.h
 function UniversalAccess_h(lib) {
+    CGGeometry_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._UNIVERSALACCESS_H)
@@ -449,10 +657,18 @@ function UniversalAccess_h(lib) {
     this.UAZoomChangeFocusType = this.UInt32;
     this.kUAZoomFocusTypeOther = 0;
     this.kUAZoomFocusTypeInsertionPoint = 1;
+    this.UAZoomEnabled = lib.declare("UAZoomEnabled", ctypes.default_abi, this.Boolean);
+    this.UAZoomChangeFocus = lib.declare("UAZoomChangeFocus", ctypes.default_abi, this.OSStatus, this.CGRect.ptr, this.CGRect.ptr, this.UAZoomChangeFocusType);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/HIServices.framework/Headers/TranslationServices.h
 function TranslationServices_h(lib) {
+    CFData_h.call(this, lib);
+    Files_h.call(this, lib);
+    CFDictionary_h.call(this, lib);
+    CFURL_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._TRANSLATIONSERVICES_H)
@@ -465,6 +681,15 @@ function TranslationServices_h(lib) {
     this.TranslationFlags = this.OptionBits;
     this.kTranslationDataTranslation = 1;
     this.kTranslationFileTranslation = 2;
+    this.TranslationGetTypeID = lib.declare("TranslationGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.TranslationCreate = lib.declare("TranslationCreate", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.CFStringRef, this.TranslationFlags, this.TranslationRef.ptr);
+    this.TranslationCreateWithSourceArray = lib.declare("TranslationCreateWithSourceArray", ctypes.default_abi, this.OSStatus, this.CFArrayRef, this.TranslationFlags, this.CFArrayRef.ptr, this.CFDictionaryRef.ptr);
+    this.TranslationPerformForData = lib.declare("TranslationPerformForData", ctypes.default_abi, this.OSStatus, this.TranslationRef, this.CFDataRef, this.CFDataRef.ptr);
+    this.TranslationPerformForFile = lib.declare("TranslationPerformForFile", ctypes.default_abi, this.OSStatus, this.TranslationRef, this.FSRef.ptr, this.FSRef.ptr, this.CFStringRef, this.FSRef.ptr);
+    this.TranslationPerformForURL = lib.declare("TranslationPerformForURL", ctypes.default_abi, this.OSStatus, this.TranslationRef, this.CFURLRef, this.CFURLRef, this.CFURLRef.ptr);
+    this.TranslationCopySourceType = lib.declare("TranslationCopySourceType", ctypes.default_abi, this.OSStatus, this.TranslationRef, this.CFStringRef.ptr);
+    this.TranslationCopyDestinationType = lib.declare("TranslationCopyDestinationType", ctypes.default_abi, this.OSStatus, this.TranslationRef, this.CFStringRef.ptr);
+    this.TranslationGetTranslationFlags = lib.declare("TranslationGetTranslationFlags", ctypes.default_abi, this.OSStatus, this.TranslationRef, this.TranslationFlags.ptr);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/HIServices.framework/Headers/AXError.h
@@ -496,18 +721,31 @@ function AXError_h(lib) {
 
 Components.utils.import("resource://gre/modules/ctypes.jsm");
 Components.utils.import("resource://osxtypes/CoreFoundation.jsm");
-Components.utils.import("resource://osxtypes/CarbonCore.jsm");
+Components.utils.import("resource://osxtypes/AE.jsm");
+Components.utils.import("resource://osxtypes/OSServices.jsm");
 Components.utils.import("resource://osxtypes/MacTypes.jsm");
+Components.utils.import("resource://osxtypes/CarbonCore.jsm");
 Components.utils.import("resource://osxtypes/CoreGraphics.jsm");
 Components.utils.import("resource://osxtypes/QD.jsm");
+Components.utils.import("resource://osxtypes/LaunchServices.jsm");
 
 const EXPORTED_SYMBOLS = ["HIServices", "AXValue_h", "Icons_h", "HIShape_h", "InternetConfig_h", "AXUIElement_h", "Processes_h", "Pasteboard_h", "AXTextAttributedString_h", "UniversalAccess_h", "TranslationServices_h", "AXError_h"];
 
 function HIServices() {
     let libpath = "/System/Library/Frameworks/ApplicationServices.framework/Frameworks/HIServices.framework/HIServices";
-    let lib = ctypes.open(libpath);
+    let library = ctypes.open(libpath);
     this.close = function() {
-        lib.close();
+        library.close();
+    };
+    let lib = {
+        declare: function() {
+            try {
+                return library.declare.apply(library, arguments);
+            } catch (ex) {
+                dump("Failed to declare " + arguments[0] + "\n");
+                return null;
+            }
+        }
     };
 
     AXValue_h.call(this, lib);

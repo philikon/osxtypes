@@ -1,8 +1,12 @@
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/Ink.framework/Headers/Ink.h
 function Ink_h(lib) {
-    CFBase_h.call(this, lib);
+    CFData_h.call(this, lib);
     HIGeometry_h.call(this, lib);
+    CGGeometry_h.call(this, lib);
+    CGContext_h.call(this, lib);
     CarbonEvents_h.call(this, lib);
+    Menus_h.call(this, lib);
+    CFBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._INK_H)
@@ -73,20 +77,54 @@ function Ink_h(lib) {
     this.kInkPenTipButtonMask = 1;
     this.kInkPenLowerSideButtonMask = 2;
     this.kInkPenUpperSideButtonMask = 4;
+    this.InkUserWritingMode = lib.declare("InkUserWritingMode", ctypes.default_abi, this.InkUserWritingModeType);
+    this.InkSetApplicationWritingMode = lib.declare("InkSetApplicationWritingMode", ctypes.default_abi, ctypes.void_t, this.InkApplicationWritingModeType);
+    this.InkSetApplicationRecognitionMode = lib.declare("InkSetApplicationRecognitionMode", ctypes.default_abi, ctypes.void_t, this.InkRecognitionType);
+    this.InkSetPhraseTerminationMode = lib.declare("InkSetPhraseTerminationMode", ctypes.default_abi, ctypes.void_t, this.InkSourceType, this.InkTerminationType);
+    this.InkIsPhraseInProgress = lib.declare("InkIsPhraseInProgress", ctypes.default_abi, this.Boolean);
+    this.InkSetDrawingMode = lib.declare("InkSetDrawingMode", ctypes.default_abi, ctypes.void_t, this.InkDrawingModeType);
+    this.InkAddStrokeToCurrentPhrase = lib.declare("InkAddStrokeToCurrentPhrase", ctypes.default_abi, ctypes.void_t, ctypes.unsigned_long, this.InkPoint.ptr);
+    this.InkTerminateCurrentPhrase = lib.declare("InkTerminateCurrentPhrase", ctypes.default_abi, ctypes.void_t, this.InkSourceType);
+    this.InkTextAlternatesCount = lib.declare("InkTextAlternatesCount", ctypes.default_abi, this.CFIndex, this.InkTextRef);
+    this.InkTextCreateCFString = lib.declare("InkTextCreateCFString", ctypes.default_abi, this.CFStringRef, this.InkTextRef, this.CFIndex);
+    this.InkTextInsertAlternatesInMenu = lib.declare("InkTextInsertAlternatesInMenu", ctypes.default_abi, this.ItemCount, this.InkTextRef, this.MenuRef, this.MenuItemIndex);
+    this.InkTextKeyModifiers = lib.declare("InkTextKeyModifiers", ctypes.default_abi, this.UInt32, this.InkTextRef);
+    this.InkTextCopy = lib.declare("InkTextCopy", ctypes.default_abi, this.InkTextRef, this.InkTextRef);
+    this.InkTextBounds = lib.declare("InkTextBounds", ctypes.default_abi, this.HIRect, this.InkTextRef);
+    this.InkTextDraw = lib.declare("InkTextDraw", ctypes.default_abi, ctypes.void_t, this.InkTextRef, this.CGContextRef, this.CGRect.ptr, this.InkTextDrawFlagsType);
+    this.InkTextFlatten = lib.declare("InkTextFlatten", ctypes.default_abi, this.CFIndex, this.InkTextRef, this.CFMutableDataRef, this.CFIndex);
+    this.InkTextCreateFromCFData = lib.declare("InkTextCreateFromCFData", ctypes.default_abi, this.InkTextRef, this.CFDataRef, this.CFIndex);
+    this.InkTextGetTypeID = lib.declare("InkTextGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.InkTextGetStrokeCount = lib.declare("InkTextGetStrokeCount", ctypes.default_abi, this.CFIndex, this.InkTextRef);
+    this.InkTextGetStroke = lib.declare("InkTextGetStroke", ctypes.default_abi, this.InkStrokeRef, this.InkTextRef, this.CFIndex);
+    this.InkStrokeGetPointCount = lib.declare("InkStrokeGetPointCount", ctypes.default_abi, this.CFIndex, this.InkStrokeRef);
+    this.InkStrokeGetPoints = lib.declare("InkStrokeGetPoints", ctypes.default_abi, this.InkPoint.ptr, this.InkStrokeRef, this.InkPoint.ptr);
+    this.InkStrokeGetTypeID = lib.declare("InkStrokeGetTypeID", ctypes.default_abi, this.CFTypeID);
 }
 
 Components.utils.import("resource://gre/modules/ctypes.jsm");
 Components.utils.import("resource://osxtypes/CoreFoundation.jsm");
 Components.utils.import("resource://osxtypes/MacTypes.jsm");
+Components.utils.import("resource://osxtypes/CoreGraphics.jsm");
 Components.utils.import("resource://osxtypes/HIToolbox.jsm");
 
 const EXPORTED_SYMBOLS = ["Ink", "Ink_h"];
 
 function Ink() {
     let libpath = "/System/Library/Frameworks/Carbon.framework/Frameworks/Ink.framework/Ink";
-    let lib = ctypes.open(libpath);
+    let library = ctypes.open(libpath);
     this.close = function() {
-        lib.close();
+        library.close();
+    };
+    let lib = {
+        declare: function() {
+            try {
+                return library.declare.apply(library, arguments);
+            } catch (ex) {
+                dump("Failed to declare " + arguments[0] + "\n");
+                return null;
+            }
+        }
     };
 
     Ink_h.call(this, lib);

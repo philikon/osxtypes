@@ -1,5 +1,7 @@
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/OSServices.framework/Headers/NSLCore.h
 function NSLCore_h(lib) {
+    Files_h.call(this, lib);
+    Threads_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._NSLCORE_H)
@@ -54,13 +56,52 @@ function NSLCore_h(lib) {
     this.NSLServicesListHeaderPtr = this.NSLServicesListHeader.ptr;
     this.NSLPluginData = new ctypes.StructType("NSLPluginData", [{reserved1: ctypes.long}, {reserved2: ctypes.long}, {reserved3: ctypes.long}, {supportsRegistration: this.Boolean}, {isPurgeable: this.Boolean}, {totalLen: this.UInt16}, {dataTypeOffset: this.UInt16}, {serviceListOffset: this.UInt16}, {protocolListOffset: this.UInt16}, {commentStringOffset: this.UInt16}]);
     this.NSLPluginDataPtr = this.NSLPluginData.ptr;
+    this.NSLLibraryVersion = lib.declare("NSLLibraryVersion", ctypes.default_abi, this.UInt32);
+    this.NSLStandardRegisterURL = lib.declare("NSLStandardRegisterURL", ctypes.default_abi, this.NSLError, this.NSLPath, this.NSLNeighborhood);
+    this.NSLStandardDeregisterURL = lib.declare("NSLStandardDeregisterURL", ctypes.default_abi, this.NSLError, this.NSLPath, this.NSLNeighborhood);
+    this.NSLHexEncodeText = lib.declare("NSLHexEncodeText", ctypes.default_abi, this.OSStatus, ctypes.char.ptr, this.UInt16, ctypes.char.ptr, this.UInt16.ptr, this.Boolean.ptr);
+    this.NSLHexDecodeText = lib.declare("NSLHexDecodeText", ctypes.default_abi, this.OSStatus, ctypes.char.ptr, this.UInt16, ctypes.char.ptr, this.UInt16.ptr, this.Boolean.ptr);
+    this.NSLMakeNewServicesList = lib.declare("NSLMakeNewServicesList", ctypes.default_abi, this.NSLServicesList, ctypes.char.ptr);
+    this.NSLAddServiceToServicesList = lib.declare("NSLAddServiceToServicesList", ctypes.default_abi, this.NSLError, this.NSLServicesList, this.NSLServiceType);
+    this.NSLDisposeServicesList = lib.declare("NSLDisposeServicesList", ctypes.default_abi, ctypes.void_t, this.NSLServicesList);
+    this.NSLMakeNewNeighborhood = lib.declare("NSLMakeNewNeighborhood", ctypes.default_abi, this.NSLNeighborhood, ctypes.char.ptr, ctypes.char.ptr);
+    this.NSLCopyNeighborhood = lib.declare("NSLCopyNeighborhood", ctypes.default_abi, this.NSLNeighborhood, this.NSLNeighborhood);
+    this.NSLFreeNeighborhood = lib.declare("NSLFreeNeighborhood", ctypes.default_abi, this.NSLNeighborhood, this.NSLNeighborhood);
+    this.NSLGetNameFromNeighborhood = lib.declare("NSLGetNameFromNeighborhood", ctypes.default_abi, ctypes.void_t, this.NSLNeighborhood, ctypes.char.ptr.ptr, ctypes.long.ptr);
+    this.NSLMakeServicesRequestPB = lib.declare("NSLMakeServicesRequestPB", ctypes.default_abi, this.OSStatus, this.NSLServicesList, this.NSLTypedDataPtr.ptr);
+    this.NSLFreeTypedDataPtr = lib.declare("NSLFreeTypedDataPtr", ctypes.default_abi, this.NSLTypedDataPtr, this.NSLTypedDataPtr);
+    this.NSLGetNextUrl = lib.declare("NSLGetNextUrl", ctypes.default_abi, this.Boolean, this.NSLClientAsyncInfoPtr, ctypes.char.ptr.ptr, ctypes.long.ptr);
+    this.NSLGetNextNeighborhood = lib.declare("NSLGetNextNeighborhood", ctypes.default_abi, this.Boolean, this.NSLClientAsyncInfoPtr, this.NSLNeighborhood.ptr, ctypes.long.ptr);
+    this.NSLErrorToString = lib.declare("NSLErrorToString", ctypes.default_abi, this.OSStatus, this.NSLError, ctypes.char.ptr, ctypes.char.ptr);
+    this.NSLOpenNavigationAPI = lib.declare("NSLOpenNavigationAPI", ctypes.default_abi, this.OSStatus, this.NSLClientRef.ptr);
+    this.NSLCloseNavigationAPI = lib.declare("NSLCloseNavigationAPI", ctypes.default_abi, ctypes.void_t, this.NSLClientRef);
+    this.NSLPrepareRequest = lib.declare("NSLPrepareRequest", ctypes.default_abi, this.NSLError, this.NSLClientNotifyUPP, ctypes.void_t.ptr, this.NSLClientRef, this.NSLRequestRef.ptr, ctypes.char.ptr, ctypes.unsigned_long, this.NSLClientAsyncInfoPtr.ptr);
+    this.NSLStartNeighborhoodLookup = lib.declare("NSLStartNeighborhoodLookup", ctypes.default_abi, this.NSLError, this.NSLRequestRef, this.NSLNeighborhood, this.NSLClientAsyncInfo.ptr);
+    this.NSLStartServicesLookup = lib.declare("NSLStartServicesLookup", ctypes.default_abi, this.NSLError, this.NSLRequestRef, this.NSLNeighborhood, this.NSLTypedDataPtr, this.NSLClientAsyncInfo.ptr);
+    this.NSLContinueLookup = lib.declare("NSLContinueLookup", ctypes.default_abi, this.NSLError, this.NSLClientAsyncInfo.ptr);
+    this.NSLCancelRequest = lib.declare("NSLCancelRequest", ctypes.default_abi, this.NSLError, this.NSLRequestRef);
+    this.NSLDeleteRequest = lib.declare("NSLDeleteRequest", ctypes.default_abi, this.NSLError, this.NSLRequestRef);
+    this.NSLParseServicesRequestPB = lib.declare("NSLParseServicesRequestPB", ctypes.default_abi, this.OSStatus, this.NSLTypedDataPtr, ctypes.char.ptr.ptr, this.UInt16.ptr);
+    this.NSLParseServiceRegistrationPB = lib.declare("NSLParseServiceRegistrationPB", ctypes.default_abi, this.OSStatus, this.NSLTypedDataPtr, this.NSLNeighborhood.ptr, this.UInt16.ptr, ctypes.char.ptr.ptr, this.UInt16.ptr);
+    this.NSLGetErrorStringsFromResource = lib.declare("NSLGetErrorStringsFromResource", ctypes.default_abi, this.OSStatus, this.OSStatus, this.FSSpec.ptr, this.SInt16, ctypes.char.ptr, ctypes.char.ptr);
+    this.NSLServiceIsInServiceList = lib.declare("NSLServiceIsInServiceList", ctypes.default_abi, this.Boolean, this.NSLServicesList, this.NSLServiceType);
+    this.NSLGetServiceFromURL = lib.declare("NSLGetServiceFromURL", ctypes.default_abi, this.OSStatus, ctypes.char.ptr, ctypes.char.ptr.ptr, this.UInt16.ptr);
+    this.NSLGetNeighborhoodLength = lib.declare("NSLGetNeighborhoodLength", ctypes.default_abi, ctypes.long, this.NSLNeighborhood);
+    this.NSLNewThread = lib.declare("NSLNewThread", ctypes.default_abi, this.OSErr, this.ThreadStyle, this.ThreadEntryProcPtr, ctypes.void_t.ptr, this.Size, this.ThreadOptions, ctypes.void_t.ptr.ptr, this.ThreadID.ptr);
+    this.NSLDisposeThread = lib.declare("NSLDisposeThread", ctypes.default_abi, this.OSErr, this.ThreadID, ctypes.void_t.ptr, this.Boolean);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/OSServices.framework/Headers/WSMethodInvocation.h
 function WSMethodInvocation_h(lib) {
-    CFDictionary_h.call(this, lib);
-    CFBase_h.call(this, lib);
+    CFData_h.call(this, lib);
+    CFRunLoop_h.call(this, lib);
+    WSTypes_h.call(this, lib);
     CFXMLNode_h.call(this, lib);
+    CFDictionary_h.call(this, lib);
+    CFURL_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._WSMETHODINVOCATION_H)
         return;
@@ -68,15 +109,34 @@ function WSMethodInvocation_h(lib) {
 
     this.OpaqueWSMethodInvocationRef = new ctypes.StructType("OpaqueWSMethodInvocationRef");
     this.WSMethodInvocationRef = this.OpaqueWSMethodInvocationRef.ptr;
+    this.WSMethodInvocationGetTypeID = lib.declare("WSMethodInvocationGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.WSMethodInvocationCreate = lib.declare("WSMethodInvocationCreate", ctypes.default_abi, this.WSMethodInvocationRef, this.CFURLRef, this.CFStringRef, this.CFStringRef);
+    this.WSMethodInvocationCreateFromSerialization = lib.declare("WSMethodInvocationCreateFromSerialization", ctypes.default_abi, this.WSMethodInvocationRef, this.CFDataRef);
+    this.WSMethodInvocationCopySerialization = lib.declare("WSMethodInvocationCopySerialization", ctypes.default_abi, this.CFDataRef, this.WSMethodInvocationRef);
+    this.WSMethodInvocationSetParameters = lib.declare("WSMethodInvocationSetParameters", ctypes.default_abi, ctypes.void_t, this.WSMethodInvocationRef, this.CFDictionaryRef, this.CFArrayRef);
+    this.WSMethodInvocationCopyParameters = lib.declare("WSMethodInvocationCopyParameters", ctypes.default_abi, this.CFDictionaryRef, this.WSMethodInvocationRef, this.CFArrayRef.ptr);
+    this.WSMethodInvocationSetProperty = lib.declare("WSMethodInvocationSetProperty", ctypes.default_abi, ctypes.void_t, this.WSMethodInvocationRef, this.CFStringRef, this.CFTypeRef);
+    this.WSMethodInvocationCopyProperty = lib.declare("WSMethodInvocationCopyProperty", ctypes.default_abi, this.CFTypeRef, this.WSMethodInvocationRef, this.CFStringRef);
+    this.WSMethodInvocationInvoke = lib.declare("WSMethodInvocationInvoke", ctypes.default_abi, this.CFDictionaryRef, this.WSMethodInvocationRef);
     this.WSMethodInvocationCallBackProcPtr = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.WSMethodInvocationRef, ctypes.void_t.ptr, this.CFDictionaryRef]).ptr;
+    this.WSMethodInvocationSetCallBack = lib.declare("WSMethodInvocationSetCallBack", ctypes.default_abi, ctypes.void_t, this.WSMethodInvocationRef, this.WSMethodInvocationCallBackProcPtr, this.WSClientContext.ptr);
+    this.WSMethodInvocationScheduleWithRunLoop = lib.declare("WSMethodInvocationScheduleWithRunLoop", ctypes.default_abi, ctypes.void_t, this.WSMethodInvocationRef, this.CFRunLoopRef, this.CFStringRef);
+    this.WSMethodInvocationUnscheduleFromRunLoop = lib.declare("WSMethodInvocationUnscheduleFromRunLoop", ctypes.default_abi, ctypes.void_t, this.WSMethodInvocationRef, this.CFRunLoopRef, this.CFStringRef);
+    this.WSMethodResultIsFault = lib.declare("WSMethodResultIsFault", ctypes.default_abi, this.Boolean, this.CFDictionaryRef);
     this.WSMethodInvocationSerializationProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.CFStringRef, [this.WSMethodInvocationRef, this.CFTypeRef, ctypes.void_t.ptr]).ptr;
+    this.WSMethodInvocationAddSerializationOverride = lib.declare("WSMethodInvocationAddSerializationOverride", ctypes.default_abi, ctypes.void_t, this.WSMethodInvocationRef, this.CFTypeID, this.WSMethodInvocationSerializationProcPtr, this.WSClientContext.ptr);
     this.WSMethodInvocationDeserializationProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.CFTypeRef, [this.WSMethodInvocationRef, this.CFXMLTreeRef, this.CFXMLTreeRef, ctypes.void_t.ptr]).ptr;
+    this.WSMethodInvocationAddDeserializationOverride = lib.declare("WSMethodInvocationAddDeserializationOverride", ctypes.default_abi, ctypes.void_t, this.WSMethodInvocationRef, this.CFStringRef, this.CFStringRef, this.WSMethodInvocationDeserializationProcPtr, this.WSClientContext.ptr);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/OSServices.framework/Headers/WSProtocolHandler.h
 function WSProtocolHandler_h(lib) {
+    CFData_h.call(this, lib);
+    WSTypes_h.call(this, lib);
+    CFDictionary_h.call(this, lib);
     CFXMLNode_h.call(this, lib);
     CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
 
     if (this._WSPROTOCOLHANDLER_H)
         return;
@@ -84,8 +144,19 @@ function WSProtocolHandler_h(lib) {
 
     this.OpaqueWSProtocolHandlerRef = new ctypes.StructType("OpaqueWSProtocolHandlerRef");
     this.WSProtocolHandlerRef = this.OpaqueWSProtocolHandlerRef.ptr;
+    this.WSProtocolHandlerGetTypeID = lib.declare("WSProtocolHandlerGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.WSProtocolHandlerCreate = lib.declare("WSProtocolHandlerCreate", ctypes.default_abi, this.WSProtocolHandlerRef, this.CFAllocatorRef, this.CFStringRef);
+    this.WSProtocolHandlerCopyRequestDictionary = lib.declare("WSProtocolHandlerCopyRequestDictionary", ctypes.default_abi, this.CFDictionaryRef, this.WSProtocolHandlerRef, this.CFDataRef);
+    this.WSProtocolHandlerCopyReplyDictionary = lib.declare("WSProtocolHandlerCopyReplyDictionary", ctypes.default_abi, this.CFDictionaryRef, this.WSProtocolHandlerRef, this.CFStringRef, this.CFDataRef);
+    this.WSProtocolHandlerCopyReplyDocument = lib.declare("WSProtocolHandlerCopyReplyDocument", ctypes.default_abi, this.CFDataRef, this.WSProtocolHandlerRef, this.CFDictionaryRef, this.CFTypeRef);
+    this.WSProtocolHandlerCopyFaultDocument = lib.declare("WSProtocolHandlerCopyFaultDocument", ctypes.default_abi, this.CFDataRef, this.WSProtocolHandlerRef, this.CFDictionaryRef, this.CFDictionaryRef);
+    this.WSProtocolHandlerCopyRequestDocument = lib.declare("WSProtocolHandlerCopyRequestDocument", ctypes.default_abi, this.CFDataRef, this.WSProtocolHandlerRef, this.CFStringRef, this.CFDictionaryRef, this.CFArrayRef, this.CFDictionaryRef);
+    this.WSProtocolHandlerCopyProperty = lib.declare("WSProtocolHandlerCopyProperty", ctypes.default_abi, this.CFTypeRef, this.WSProtocolHandlerRef, this.CFStringRef);
+    this.WSProtocolHandlerSetProperty = lib.declare("WSProtocolHandlerSetProperty", ctypes.default_abi, ctypes.void_t, this.WSProtocolHandlerRef, this.CFStringRef, this.CFTypeRef);
     this.WSProtocolHandlerSerializationProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.CFStringRef, [this.WSProtocolHandlerRef, this.CFTypeRef, ctypes.void_t.ptr]).ptr;
+    this.WSProtocolHandlerSetSerializationOverride = lib.declare("WSProtocolHandlerSetSerializationOverride", ctypes.default_abi, ctypes.void_t, this.WSProtocolHandlerRef, this.CFTypeID, this.WSProtocolHandlerSerializationProcPtr, this.WSClientContext.ptr);
     this.WSProtocolHandlerDeserializationProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.CFTypeRef, [this.WSProtocolHandlerRef, this.CFXMLTreeRef, this.CFXMLTreeRef, ctypes.void_t.ptr]).ptr;
+    this.WSProtocolHandlerSetDeserializationOverride = lib.declare("WSProtocolHandlerSetDeserializationOverride", ctypes.default_abi, ctypes.void_t, this.WSProtocolHandlerRef, this.CFStringRef, this.CFStringRef, this.WSProtocolHandlerDeserializationProcPtr, this.WSClientContext.ptr);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/OSServices.framework/Headers/Power.h
@@ -139,6 +210,14 @@ function Power_h(lib) {
     // Dropping inline function 'DisposeSleepQUPP'.
     // Dropping inline function 'InvokeSleepQUPP'.
     this.SleepQRec = new ctypes.StructType("SleepQRec", [{sleepQLink: this.SleepQRecPtr}, {sleepQType: ctypes.short}, {sleepQProc: this.SleepQUPP}, {sleepQFlags: ctypes.short}]);
+    this.GetCPUSpeed = lib.declare("GetCPUSpeed", ctypes.default_abi, ctypes.long);
+    this.SleepQInstall = lib.declare("SleepQInstall", ctypes.default_abi, ctypes.void_t, this.SleepQRecPtr);
+    this.SleepQRemove = lib.declare("SleepQRemove", ctypes.default_abi, ctypes.void_t, this.SleepQRecPtr);
+    this.MaximumProcessorSpeed = lib.declare("MaximumProcessorSpeed", ctypes.default_abi, ctypes.short);
+    this.MinimumProcessorSpeed = lib.declare("MinimumProcessorSpeed", ctypes.default_abi, ctypes.short);
+    this.CurrentProcessorSpeed = lib.declare("CurrentProcessorSpeed", ctypes.default_abi, ctypes.short);
+    this.BatteryCount = lib.declare("BatteryCount", ctypes.default_abi, ctypes.short);
+    this.UpdateSystemActivity = lib.declare("UpdateSystemActivity", ctypes.default_abi, this.OSErr, this.UInt8);
     this.kMediaModeOn = 0;
     this.kMediaModeStandBy = 1;
     this.kMediaModeSuspend = 2;
@@ -302,6 +381,60 @@ function Power_h(lib) {
     this.BatteryTimeRec = new ctypes.StructType("BatteryTimeRec", [{expectedBatteryTime: ctypes.unsigned_long}, {minimumBatteryTime: ctypes.unsigned_long}, {maximumBatteryTime: ctypes.unsigned_long}, {timeUntilCharged: ctypes.unsigned_long}]);
     this.WakeupTime = new ctypes.StructType("WakeupTime", [{wakeTime: ctypes.unsigned_long}, {wakeEnabled: this.Boolean}, {filler: this.SInt8}]);
     this.StartupTime = new ctypes.StructType("StartupTime", [{startTime: ctypes.unsigned_long}, {startEnabled: this.Boolean}, {filler: this.SInt8}]);
+    this.SetSpindownDisable = lib.declare("SetSpindownDisable", ctypes.default_abi, ctypes.void_t, this.Boolean);
+    this.PMSelectorCount = lib.declare("PMSelectorCount", ctypes.default_abi, ctypes.short);
+    this.PMFeatures = lib.declare("PMFeatures", ctypes.default_abi, this.UInt32);
+    this.SetProcessorSpeed = lib.declare("SetProcessorSpeed", ctypes.default_abi, this.Boolean, this.Boolean);
+    this.FullProcessorSpeed = lib.declare("FullProcessorSpeed", ctypes.default_abi, this.Boolean);
+    this.DisableWUTime = lib.declare("DisableWUTime", ctypes.default_abi, this.OSErr);
+    this.SetWUTime = lib.declare("SetWUTime", ctypes.default_abi, this.OSErr, ctypes.long);
+    this.GetWUTime = lib.declare("GetWUTime", ctypes.default_abi, this.OSErr, ctypes.long.ptr, this.Byte.ptr);
+    this.BatteryStatus = lib.declare("BatteryStatus", ctypes.default_abi, this.OSErr, this.Byte.ptr, this.Byte.ptr);
+    this.ModemStatus = lib.declare("ModemStatus", ctypes.default_abi, this.OSErr, this.Byte.ptr);
+    this.IdleUpdate = lib.declare("IdleUpdate", ctypes.default_abi, ctypes.long);
+    this.EnableIdle = lib.declare("EnableIdle", ctypes.default_abi, ctypes.void_t);
+    this.DisableIdle = lib.declare("DisableIdle", ctypes.default_abi, ctypes.void_t);
+    this.AOn = lib.declare("AOn", ctypes.default_abi, ctypes.void_t);
+    this.AOnIgnoreModem = lib.declare("AOnIgnoreModem", ctypes.default_abi, ctypes.void_t);
+    this.BOn = lib.declare("BOn", ctypes.default_abi, ctypes.void_t);
+    this.AOff = lib.declare("AOff", ctypes.default_abi, ctypes.void_t);
+    this.BOff = lib.declare("BOff", ctypes.default_abi, ctypes.void_t);
+    this.GetSleepTimeout = lib.declare("GetSleepTimeout", ctypes.default_abi, this.UInt8);
+    this.SetSleepTimeout = lib.declare("SetSleepTimeout", ctypes.default_abi, ctypes.void_t, this.UInt8);
+    this.GetHardDiskTimeout = lib.declare("GetHardDiskTimeout", ctypes.default_abi, this.UInt8);
+    this.SetHardDiskTimeout = lib.declare("SetHardDiskTimeout", ctypes.default_abi, ctypes.void_t, this.UInt8);
+    this.HardDiskPowered = lib.declare("HardDiskPowered", ctypes.default_abi, this.Boolean);
+    this.SpinDownHardDisk = lib.declare("SpinDownHardDisk", ctypes.default_abi, ctypes.void_t);
+    this.IsSpindownDisabled = lib.declare("IsSpindownDisabled", ctypes.default_abi, this.Boolean);
+    this.HardDiskQInstall = lib.declare("HardDiskQInstall", ctypes.default_abi, this.OSErr, this.HDQueueElement.ptr);
+    this.HardDiskQRemove = lib.declare("HardDiskQRemove", ctypes.default_abi, this.OSErr, this.HDQueueElement.ptr);
+    this.GetScaledBatteryInfo = lib.declare("GetScaledBatteryInfo", ctypes.default_abi, ctypes.void_t, ctypes.short, this.BatteryInfo.ptr);
+    this.AutoSleepControl = lib.declare("AutoSleepControl", ctypes.default_abi, ctypes.void_t, this.Boolean);
+    this.GetIntModemInfo = lib.declare("GetIntModemInfo", ctypes.default_abi, this.UInt32);
+    this.SetIntModemState = lib.declare("SetIntModemState", ctypes.default_abi, ctypes.void_t, ctypes.short);
+    this.GetSCSIDiskModeAddress = lib.declare("GetSCSIDiskModeAddress", ctypes.default_abi, ctypes.short);
+    this.SetSCSIDiskModeAddress = lib.declare("SetSCSIDiskModeAddress", ctypes.default_abi, ctypes.void_t, ctypes.short);
+    this.GetWakeupTimer = lib.declare("GetWakeupTimer", ctypes.default_abi, ctypes.void_t, this.WakeupTime.ptr);
+    this.SetWakeupTimer = lib.declare("SetWakeupTimer", ctypes.default_abi, ctypes.void_t, this.WakeupTime.ptr);
+    this.IsProcessorCyclingEnabled = lib.declare("IsProcessorCyclingEnabled", ctypes.default_abi, this.Boolean);
+    this.EnableProcessorCycling = lib.declare("EnableProcessorCycling", ctypes.default_abi, ctypes.void_t, this.Boolean);
+    this.GetBatteryVoltage = lib.declare("GetBatteryVoltage", ctypes.default_abi, this.Fixed, ctypes.short);
+    this.GetBatteryTimes = lib.declare("GetBatteryTimes", ctypes.default_abi, ctypes.void_t, ctypes.short, this.BatteryTimeRec.ptr);
+    this.GetDimmingTimeout = lib.declare("GetDimmingTimeout", ctypes.default_abi, this.UInt8);
+    this.SetDimmingTimeout = lib.declare("SetDimmingTimeout", ctypes.default_abi, ctypes.void_t, this.UInt8);
+    this.DimmingControl = lib.declare("DimmingControl", ctypes.default_abi, ctypes.void_t, this.Boolean);
+    this.IsDimmingControlDisabled = lib.declare("IsDimmingControlDisabled", ctypes.default_abi, this.Boolean);
+    this.IsAutoSlpControlDisabled = lib.declare("IsAutoSlpControlDisabled", ctypes.default_abi, this.Boolean);
+    this.PMgrStateQInstall = lib.declare("PMgrStateQInstall", ctypes.default_abi, this.OSErr, this.PMgrQueueElement.ptr);
+    this.PMgrStateQRemove = lib.declare("PMgrStateQRemove", ctypes.default_abi, this.OSErr, this.PMgrQueueElement.ptr);
+    this.DelaySystemIdle = lib.declare("DelaySystemIdle", ctypes.default_abi, this.OSErr);
+    this.GetStartupTimer = lib.declare("GetStartupTimer", ctypes.default_abi, this.OSErr, this.StartupTime.ptr);
+    this.SetStartupTimer = lib.declare("SetStartupTimer", ctypes.default_abi, this.OSErr, this.StartupTime.ptr);
+    this.GetLastActivity = lib.declare("GetLastActivity", ctypes.default_abi, this.OSErr, this.ActivityInfo.ptr);
+    this.GetSoundMixerState = lib.declare("GetSoundMixerState", ctypes.default_abi, this.OSErr, this.SoundMixerByte.ptr);
+    this.SetSoundMixerState = lib.declare("SetSoundMixerState", ctypes.default_abi, this.OSErr, this.SoundMixerByte.ptr);
+    this.GetDimSuspendState = lib.declare("GetDimSuspendState", ctypes.default_abi, this.Boolean);
+    this.SetDimSuspendState = lib.declare("SetDimSuspendState", ctypes.default_abi, ctypes.void_t, this.Boolean);
     // Dropping inline function 'NewHDSpindownUPP'.
     // Dropping inline function 'NewPMgrStateChangeUPP'.
     // Dropping inline function 'DisposeHDSpindownUPP'.
@@ -638,25 +771,40 @@ function SCSI_h(lib) {
     this.kHeadOfQueueTagMsg = 33;
     this.kOrderedQueueTagMsg = 34;
     this.kIgnoreWideResidueMsg = 35;
+    this.SCSIAction = lib.declare("SCSIAction", ctypes.default_abi, this.OSErr, this.SCSI_PB.ptr);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/OSServices.framework/Headers/CSIdentityQuery.h
 function CSIdentityQuery_h(lib) {
-    CSIdentity_h.call(this, lib);
+    CFData_h.call(this, lib);
+    CFUUID_h.call(this, lib);
+    CFRunLoop_h.call(this, lib);
     CFError_h.call(this, lib);
+    CSIdentity_h.call(this, lib);
+    MacTypes_h.call(this, lib);
     CFBase_h.call(this, lib);
     CFArray_h.call(this, lib);
+    CSIdentityAuthority_h.call(this, lib);
 
     if (this._CSIDENTITYQUERY_H)
         return;
     this._CSIDENTITYQUERY_H = true;
 
+    this.CSIdentityQueryGetTypeID = lib.declare("CSIdentityQueryGetTypeID", ctypes.default_abi, this.CFTypeID);
     this.kCSIdentityQueryGenerateUpdateEvents = 1;
     this.kCSIdentityQueryIncludeHiddenIdentities = 2;
     this.CSIdentityQueryFlags = this.CFOptionFlags;
     this.kCSIdentityQueryStringEquals = 1;
     this.kCSIdentityQueryStringBeginsWith = 2;
     this.CSIdentityQueryStringComparisonMethod = this.CFIndex;
+    this.CSIdentityQueryCreate = lib.declare("CSIdentityQueryCreate", ctypes.default_abi, this.CSIdentityQueryRef, this.CFAllocatorRef, this.CSIdentityClass, this.CSIdentityAuthorityRef);
+    this.CSIdentityQueryCreateForName = lib.declare("CSIdentityQueryCreateForName", ctypes.default_abi, this.CSIdentityQueryRef, this.CFAllocatorRef, this.CFStringRef, this.CSIdentityQueryStringComparisonMethod, this.CSIdentityClass, this.CSIdentityAuthorityRef);
+    this.CSIdentityQueryCreateForUUID = lib.declare("CSIdentityQueryCreateForUUID", ctypes.default_abi, this.CSIdentityQueryRef, this.CFAllocatorRef, this.CFUUIDRef, this.CSIdentityAuthorityRef);
+    // Dropping declaration of 'CSIdentityQueryCreateForPosixID': 'id_t' defined out of scope
+    this.CSIdentityQueryCreateForPersistentReference = lib.declare("CSIdentityQueryCreateForPersistentReference", ctypes.default_abi, this.CSIdentityQueryRef, this.CFAllocatorRef, this.CFDataRef);
+    this.CSIdentityQueryCreateForCurrentUser = lib.declare("CSIdentityQueryCreateForCurrentUser", ctypes.default_abi, this.CSIdentityQueryRef, this.CFAllocatorRef);
+    this.CSIdentityQueryCopyResults = lib.declare("CSIdentityQueryCopyResults", ctypes.default_abi, this.CFArrayRef, this.CSIdentityQueryRef);
+    this.CSIdentityQueryExecute = lib.declare("CSIdentityQueryExecute", ctypes.default_abi, this.Boolean, this.CSIdentityQueryRef, this.CSIdentityQueryFlags, this.CFErrorRef.ptr);
     this.kCSIdentityQueryEventSearchPhaseFinished = 1;
     this.kCSIdentityQueryEventResultsAdded = 2;
     this.kCSIdentityQueryEventResultsChanged = 3;
@@ -665,10 +813,14 @@ function CSIdentityQuery_h(lib) {
     this.CSIdentityQueryEvent = this.CFIndex;
     this.CSIdentityQueryReceiveEventCallback = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.CSIdentityQueryRef, this.CSIdentityQueryEvent, this.CFArrayRef, this.CFErrorRef, ctypes.void_t.ptr]).ptr;
     this.CSIdentityQueryClientContext = new ctypes.StructType("CSIdentityQueryClientContext", [{version: this.CFIndex}, {info: ctypes.void_t.ptr}, {retainInfo: this.CFAllocatorRetainCallBack}, {releaseInfo: this.CFAllocatorReleaseCallBack}, {copyInfoDescription: this.CFAllocatorCopyDescriptionCallBack}, {receiveEvent: this.CSIdentityQueryReceiveEventCallback}]);
+    this.CSIdentityQueryExecuteAsynchronously = lib.declare("CSIdentityQueryExecuteAsynchronously", ctypes.default_abi, this.Boolean, this.CSIdentityQueryRef, this.CSIdentityQueryFlags, this.CSIdentityQueryClientContext.ptr, this.CFRunLoopRef, this.CFStringRef);
+    this.CSIdentityQueryStop = lib.declare("CSIdentityQueryStop", ctypes.default_abi, ctypes.void_t, this.CSIdentityQueryRef);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/OSServices.framework/Headers/KeychainCore.h
 function KeychainCore_h(lib) {
+    Files_h.call(this, lib);
+    Aliases_h.call(this, lib);
     SecBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
@@ -833,16 +985,58 @@ function KeychainCore_h(lib) {
     this.kAnyPort = 0;
     this.kAnyProtocol = 0;
     this.kAnyAuthType = 0;
+    this.KCGetKeychainManagerVersion = lib.declare("KCGetKeychainManagerVersion", ctypes.default_abi, this.OSStatus, this.UInt32.ptr);
     // Dropping inline function 'KeychainManagerAvailable'.
+    this.KCSetInteractionAllowed = lib.declare("KCSetInteractionAllowed", ctypes.default_abi, this.OSStatus, this.Boolean);
+    this.KCIsInteractionAllowed = lib.declare("KCIsInteractionAllowed", ctypes.default_abi, this.Boolean);
+    this.KCMakeKCRefFromFSSpec = lib.declare("KCMakeKCRefFromFSSpec", ctypes.default_abi, this.OSStatus, this.FSSpec.ptr, this.KCRef.ptr);
+    this.KCMakeKCRefFromFSRef = lib.declare("KCMakeKCRefFromFSRef", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.KCRef.ptr);
+    this.KCMakeKCRefFromAlias = lib.declare("KCMakeKCRefFromAlias", ctypes.default_abi, this.OSStatus, this.AliasHandle, this.KCRef.ptr);
+    this.KCMakeAliasFromKCRef = lib.declare("KCMakeAliasFromKCRef", ctypes.default_abi, this.OSStatus, this.KCRef, this.AliasHandle.ptr);
+    this.KCReleaseKeychain = lib.declare("KCReleaseKeychain", ctypes.default_abi, this.OSStatus, this.KCRef.ptr);
+    this.KCGetDefaultKeychain = lib.declare("KCGetDefaultKeychain", ctypes.default_abi, this.OSStatus, this.KCRef.ptr);
+    this.KCSetDefaultKeychain = lib.declare("KCSetDefaultKeychain", ctypes.default_abi, this.OSStatus, this.KCRef);
+    this.KCGetStatus = lib.declare("KCGetStatus", ctypes.default_abi, this.OSStatus, this.KCRef, this.UInt32.ptr);
+    this.KCGetKeychain = lib.declare("KCGetKeychain", ctypes.default_abi, this.OSStatus, this.KCItemRef, this.KCRef.ptr);
+    this.KCGetKeychainName = lib.declare("KCGetKeychainName", ctypes.default_abi, this.OSStatus, this.KCRef, this.StringPtr);
+    this.KCCountKeychains = lib.declare("KCCountKeychains", ctypes.default_abi, this.UInt16);
+    this.KCGetIndKeychain = lib.declare("KCGetIndKeychain", ctypes.default_abi, this.OSStatus, this.UInt16, this.KCRef.ptr);
     this.KCCallbackProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.OSStatus, [this.KCEvent, this.KCCallbackInfo.ptr, ctypes.void_t.ptr]).ptr;
     this.KCCallbackUPP = this.KCCallbackProcPtr;
     // Dropping inline function 'NewKCCallbackUPP'.
     // Dropping inline function 'DisposeKCCallbackUPP'.
     // Dropping inline function 'InvokeKCCallbackUPP'.
+    this.KCFindAppleSharePassword = lib.declare("KCFindAppleSharePassword", ctypes.default_abi, this.OSStatus, this.AFPServerSignature.ptr, this.ConstStringPtr, this.ConstStringPtr, this.ConstStringPtr, this.ConstStringPtr, this.UInt32, ctypes.void_t.ptr, this.UInt32.ptr, this.KCItemRef.ptr);
+    this.KCFindInternetPassword = lib.declare("KCFindInternetPassword", ctypes.default_abi, this.OSStatus, this.ConstStringPtr, this.ConstStringPtr, this.ConstStringPtr, this.UInt16, this.OSType, this.OSType, this.UInt32, ctypes.void_t.ptr, this.UInt32.ptr, this.KCItemRef.ptr);
+    this.KCFindInternetPasswordWithPath = lib.declare("KCFindInternetPasswordWithPath", ctypes.default_abi, this.OSStatus, this.ConstStringPtr, this.ConstStringPtr, this.ConstStringPtr, this.ConstStringPtr, this.UInt16, this.OSType, this.OSType, this.UInt32, ctypes.void_t.ptr, this.UInt32.ptr, this.KCItemRef.ptr);
+    this.KCFindGenericPassword = lib.declare("KCFindGenericPassword", ctypes.default_abi, this.OSStatus, this.ConstStringPtr, this.ConstStringPtr, this.UInt32, ctypes.void_t.ptr, this.UInt32.ptr, this.KCItemRef.ptr);
+    this.KCAddCallback = lib.declare("KCAddCallback", ctypes.default_abi, this.OSStatus, this.KCCallbackUPP, this.KCEventMask, ctypes.void_t.ptr);
+    this.KCRemoveCallback = lib.declare("KCRemoveCallback", ctypes.default_abi, this.OSStatus, this.KCCallbackUPP);
+    this.KCNewItem = lib.declare("KCNewItem", ctypes.default_abi, this.OSStatus, this.KCItemClass, this.OSType, this.UInt32, ctypes.void_t.ptr, this.KCItemRef.ptr);
+    this.KCSetAttribute = lib.declare("KCSetAttribute", ctypes.default_abi, this.OSStatus, this.KCItemRef, this.KCAttribute.ptr);
+    this.KCGetAttribute = lib.declare("KCGetAttribute", ctypes.default_abi, this.OSStatus, this.KCItemRef, this.KCAttribute.ptr, this.UInt32.ptr);
+    this.KCSetData = lib.declare("KCSetData", ctypes.default_abi, this.OSStatus, this.KCItemRef, this.UInt32, ctypes.void_t.ptr);
+    this.KCUpdateItem = lib.declare("KCUpdateItem", ctypes.default_abi, this.OSStatus, this.KCItemRef);
+    this.KCReleaseItem = lib.declare("KCReleaseItem", ctypes.default_abi, this.OSStatus, this.KCItemRef.ptr);
+    this.KCCopyItem = lib.declare("KCCopyItem", ctypes.default_abi, this.OSStatus, this.KCItemRef, this.KCRef, this.KCItemRef.ptr);
+    this.KCFindFirstItem = lib.declare("KCFindFirstItem", ctypes.default_abi, this.OSStatus, this.KCRef, this.KCAttributeList.ptr, this.KCSearchRef.ptr, this.KCItemRef.ptr);
+    this.KCFindNextItem = lib.declare("KCFindNextItem", ctypes.default_abi, this.OSStatus, this.KCSearchRef, this.KCItemRef.ptr);
+    this.KCReleaseSearch = lib.declare("KCReleaseSearch", ctypes.default_abi, this.OSStatus, this.KCSearchRef.ptr);
+    this.KCDeleteItem = lib.declare("KCDeleteItem", ctypes.default_abi, this.OSStatus, this.KCItemRef);
+    this.KCGetData = lib.declare("KCGetData", ctypes.default_abi, this.OSStatus, this.KCItemRef, this.UInt32, ctypes.void_t.ptr, this.UInt32.ptr);
+    this.KCLock = lib.declare("KCLock", ctypes.default_abi, this.OSStatus, this.KCRef);
+    this.kcgetkeychainname = lib.declare("kcgetkeychainname", ctypes.default_abi, this.OSStatus, this.KCRef, ctypes.char.ptr);
+    this.kcfindapplesharepassword = lib.declare("kcfindapplesharepassword", ctypes.default_abi, this.OSStatus, this.AFPServerSignature.ptr, ctypes.char.ptr, ctypes.char.ptr, ctypes.char.ptr, ctypes.char.ptr, this.UInt32, ctypes.void_t.ptr, this.UInt32.ptr, this.KCItemRef.ptr);
+    this.kcfindinternetpassword = lib.declare("kcfindinternetpassword", ctypes.default_abi, this.OSStatus, ctypes.char.ptr, ctypes.char.ptr, ctypes.char.ptr, this.UInt16, this.OSType, this.OSType, this.UInt32, ctypes.void_t.ptr, this.UInt32.ptr, this.KCItemRef.ptr);
+    this.kcfindinternetpasswordwithpath = lib.declare("kcfindinternetpasswordwithpath", ctypes.default_abi, this.OSStatus, ctypes.char.ptr, ctypes.char.ptr, ctypes.char.ptr, ctypes.char.ptr, this.UInt16, this.OSType, this.OSType, this.UInt32, ctypes.void_t.ptr, this.UInt32.ptr, this.KCItemRef.ptr);
+    this.kcfindgenericpassword = lib.declare("kcfindgenericpassword", ctypes.default_abi, this.OSStatus, ctypes.char.ptr, ctypes.char.ptr, this.UInt32, ctypes.void_t.ptr, this.UInt32.ptr, this.KCItemRef.ptr);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/OSServices.framework/Headers/SystemSound.h
 function SystemSound_h(lib) {
+    CFRunLoop_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    Files_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._SYSTEMSOUND_H)
@@ -858,12 +1052,28 @@ function SystemSound_h(lib) {
     // Dropping inline function 'NewSystemSoundCompletionUPP'.
     // Dropping inline function 'DisposeSystemSoundCompletionUPP'.
     // Dropping inline function 'InvokeSystemSoundCompletionUPP'.
+    this.AlertSoundPlay = lib.declare("AlertSoundPlay", ctypes.default_abi, ctypes.void_t);
+    this.AlertSoundPlayCustomSound = lib.declare("AlertSoundPlayCustomSound", ctypes.default_abi, ctypes.void_t, this.SystemSoundActionID);
+    this.SystemSoundPlay = lib.declare("SystemSoundPlay", ctypes.default_abi, ctypes.void_t, this.SystemSoundActionID);
+    this.SystemSoundGetActionID = lib.declare("SystemSoundGetActionID", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.SystemSoundActionID.ptr);
+    this.SystemSoundRemoveActionID = lib.declare("SystemSoundRemoveActionID", ctypes.default_abi, this.OSStatus, this.SystemSoundActionID);
+    this.SystemSoundSetCompletionRoutine = lib.declare("SystemSoundSetCompletionRoutine", ctypes.default_abi, this.OSStatus, this.SystemSoundActionID, this.CFRunLoopRef, this.CFStringRef, this.SystemSoundCompletionUPP, ctypes.void_t.ptr);
+    this.SystemSoundRemoveCompletionRoutine = lib.declare("SystemSoundRemoveCompletionRoutine", ctypes.default_abi, ctypes.void_t, this.SystemSoundActionID);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/OSServices.framework/Headers/CSIdentity.h
 function CSIdentity_h(lib) {
-    CFBase_h.call(this, lib);
+    CFData_h.call(this, lib);
+    Authorization_h.call(this, lib);
+    SecBase_h.call(this, lib);
+    CFUUID_h.call(this, lib);
+    CFRunLoop_h.call(this, lib);
     CFError_h.call(this, lib);
+    MacTypes_h.call(this, lib);
+    CFURL_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
+    CSIdentityAuthority_h.call(this, lib);
 
     if (this._CSIDENTITY_H)
         return;
@@ -887,9 +1097,46 @@ function CSIdentity_h(lib) {
     this.kCSIdentityFlagNone = 0;
     this.kCSIdentityFlagHidden = 1;
     this.CSIdentityFlags = this.CFOptionFlags;
+    this.CSIdentityGetTypeID = lib.declare("CSIdentityGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CSIdentityCreate = lib.declare("CSIdentityCreate", ctypes.default_abi, this.CSIdentityRef, this.CFAllocatorRef, this.CSIdentityClass, this.CFStringRef, this.CFStringRef, this.CSIdentityFlags, this.CSIdentityAuthorityRef);
+    this.CSIdentityCreateCopy = lib.declare("CSIdentityCreateCopy", ctypes.default_abi, this.CSIdentityRef, this.CFAllocatorRef, this.CSIdentityRef);
+    this.CSIdentityGetClass = lib.declare("CSIdentityGetClass", ctypes.default_abi, this.CSIdentityClass, this.CSIdentityRef);
+    this.CSIdentityGetAuthority = lib.declare("CSIdentityGetAuthority", ctypes.default_abi, this.CSIdentityAuthorityRef, this.CSIdentityRef);
+    this.CSIdentityGetUUID = lib.declare("CSIdentityGetUUID", ctypes.default_abi, this.CFUUIDRef, this.CSIdentityRef);
+    this.CSIdentityGetFullName = lib.declare("CSIdentityGetFullName", ctypes.default_abi, this.CFStringRef, this.CSIdentityRef);
+    // Dropping declaration of 'CSIdentityGetPosixID': 'id_t' defined out of scope
+    this.CSIdentityGetPosixName = lib.declare("CSIdentityGetPosixName", ctypes.default_abi, this.CFStringRef, this.CSIdentityRef);
+    this.CSIdentityGetEmailAddress = lib.declare("CSIdentityGetEmailAddress", ctypes.default_abi, this.CFStringRef, this.CSIdentityRef);
+    this.CSIdentityGetImageURL = lib.declare("CSIdentityGetImageURL", ctypes.default_abi, this.CFURLRef, this.CSIdentityRef);
+    this.CSIdentityGetImageData = lib.declare("CSIdentityGetImageData", ctypes.default_abi, this.CFDataRef, this.CSIdentityRef);
+    this.CSIdentityGetImageDataType = lib.declare("CSIdentityGetImageDataType", ctypes.default_abi, this.CFStringRef, this.CSIdentityRef);
+    this.CSIdentityGetAliases = lib.declare("CSIdentityGetAliases", ctypes.default_abi, this.CFArrayRef, this.CSIdentityRef);
+    this.CSIdentityIsMemberOfGroup = lib.declare("CSIdentityIsMemberOfGroup", ctypes.default_abi, this.Boolean, this.CSIdentityRef, this.CSIdentityRef);
+    this.CSIdentityIsHidden = lib.declare("CSIdentityIsHidden", ctypes.default_abi, this.Boolean, this.CSIdentityRef);
+    this.CSIdentityCreatePersistentReference = lib.declare("CSIdentityCreatePersistentReference", ctypes.default_abi, this.CFDataRef, this.CFAllocatorRef, this.CSIdentityRef);
+    this.CSIdentityIsEnabled = lib.declare("CSIdentityIsEnabled", ctypes.default_abi, this.Boolean, this.CSIdentityRef);
+    this.CSIdentityAuthenticateUsingPassword = lib.declare("CSIdentityAuthenticateUsingPassword", ctypes.default_abi, this.Boolean, this.CSIdentityRef, this.CFStringRef);
+    this.CSIdentityGetCertificate = lib.declare("CSIdentityGetCertificate", ctypes.default_abi, this.SecCertificateRef, this.CSIdentityRef);
+    this.CSIdentityCreateGroupMembershipQuery = lib.declare("CSIdentityCreateGroupMembershipQuery", ctypes.default_abi, this.CSIdentityQueryRef, this.CFAllocatorRef, this.CSIdentityRef);
+    this.CSIdentitySetFullName = lib.declare("CSIdentitySetFullName", ctypes.default_abi, ctypes.void_t, this.CSIdentityRef, this.CFStringRef);
+    this.CSIdentitySetEmailAddress = lib.declare("CSIdentitySetEmailAddress", ctypes.default_abi, ctypes.void_t, this.CSIdentityRef, this.CFStringRef);
+    this.CSIdentitySetImageURL = lib.declare("CSIdentitySetImageURL", ctypes.default_abi, ctypes.void_t, this.CSIdentityRef, this.CFURLRef);
+    this.CSIdentitySetImageData = lib.declare("CSIdentitySetImageData", ctypes.default_abi, ctypes.void_t, this.CSIdentityRef, this.CFDataRef, this.CFStringRef);
+    this.CSIdentityAddAlias = lib.declare("CSIdentityAddAlias", ctypes.default_abi, ctypes.void_t, this.CSIdentityRef, this.CFStringRef);
+    this.CSIdentityRemoveAlias = lib.declare("CSIdentityRemoveAlias", ctypes.default_abi, ctypes.void_t, this.CSIdentityRef, this.CFStringRef);
+    this.CSIdentityAddMember = lib.declare("CSIdentityAddMember", ctypes.default_abi, ctypes.void_t, this.CSIdentityRef, this.CSIdentityRef);
+    this.CSIdentityRemoveMember = lib.declare("CSIdentityRemoveMember", ctypes.default_abi, ctypes.void_t, this.CSIdentityRef, this.CSIdentityRef);
+    this.CSIdentitySetIsEnabled = lib.declare("CSIdentitySetIsEnabled", ctypes.default_abi, ctypes.void_t, this.CSIdentityRef, this.Boolean);
+    this.CSIdentitySetPassword = lib.declare("CSIdentitySetPassword", ctypes.default_abi, ctypes.void_t, this.CSIdentityRef, this.CFStringRef);
+    this.CSIdentitySetCertificate = lib.declare("CSIdentitySetCertificate", ctypes.default_abi, ctypes.void_t, this.CSIdentityRef, this.SecCertificateRef);
+    this.CSIdentityDelete = lib.declare("CSIdentityDelete", ctypes.default_abi, ctypes.void_t, this.CSIdentityRef);
+    this.CSIdentityCommit = lib.declare("CSIdentityCommit", ctypes.default_abi, this.Boolean, this.CSIdentityRef, this.AuthorizationRef, this.CFErrorRef.ptr);
     this.kCSIdentityCommitCompleted = 1;
     this.CSIdentityStatusUpdatedCallback = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.CSIdentityRef, this.CFIndex, this.CFErrorRef, ctypes.void_t.ptr]).ptr;
     this.CSIdentityClientContext = new ctypes.StructType("CSIdentityClientContext", [{version: this.CFIndex}, {info: ctypes.void_t.ptr}, {retain: this.CFAllocatorRetainCallBack}, {release: this.CFAllocatorReleaseCallBack}, {copyDescription: this.CFAllocatorCopyDescriptionCallBack}, {statusUpdated: this.CSIdentityStatusUpdatedCallback}]);
+    this.CSIdentityCommitAsynchronously = lib.declare("CSIdentityCommitAsynchronously", ctypes.default_abi, this.Boolean, this.CSIdentityRef, this.CSIdentityClientContext.ptr, this.CFRunLoopRef, this.CFStringRef, this.AuthorizationRef);
+    this.CSIdentityIsCommitting = lib.declare("CSIdentityIsCommitting", ctypes.default_abi, this.Boolean, this.CSIdentityRef);
+    this.CSIdentityRemoveClient = lib.declare("CSIdentityRemoveClient", ctypes.default_abi, ctypes.void_t, this.CSIdentityRef);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/OSServices.framework/Headers/WSTypes.h
@@ -918,10 +1165,13 @@ function WSTypes_h(lib) {
     this.WSClientContextReleaseCallBackProcPtr = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [ctypes.void_t.ptr]).ptr;
     this.WSClientContextCopyDescriptionCallBackProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.CFStringRef, [ctypes.void_t.ptr]).ptr;
     this.WSClientContext = new ctypes.StructType("WSClientContext", [{version: this.CFIndex}, {info: ctypes.void_t.ptr}, {retain: this.WSClientContextRetainCallBackProcPtr}, {release: this.WSClientContextReleaseCallBackProcPtr}, {copyDescription: this.WSClientContextCopyDescriptionCallBackProcPtr}]);
+    this.WSGetWSTypeIDFromCFType = lib.declare("WSGetWSTypeIDFromCFType", ctypes.default_abi, this.WSTypeID, this.CFTypeRef);
+    this.WSGetCFTypeIDFromWSTypeID = lib.declare("WSGetCFTypeIDFromWSTypeID", ctypes.default_abi, this.CFTypeID, this.WSTypeID);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/OSServices.framework/Headers/CSIdentityAuthority.h
 function CSIdentityAuthority_h(lib) {
+    CFBase_h.call(this, lib);
 
     if (this._CSIDENTITYAUTHORITY_H)
         return;
@@ -929,9 +1179,15 @@ function CSIdentityAuthority_h(lib) {
 
     this.__CSIdentityAuthority = new ctypes.StructType("__CSIdentityAuthority");
     this.CSIdentityAuthorityRef = this.__CSIdentityAuthority.ptr;
+    this.CSIdentityAuthorityGetTypeID = lib.declare("CSIdentityAuthorityGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CSGetDefaultIdentityAuthority = lib.declare("CSGetDefaultIdentityAuthority", ctypes.default_abi, this.CSIdentityAuthorityRef);
+    this.CSGetLocalIdentityAuthority = lib.declare("CSGetLocalIdentityAuthority", ctypes.default_abi, this.CSIdentityAuthorityRef);
+    this.CSGetManagedIdentityAuthority = lib.declare("CSGetManagedIdentityAuthority", ctypes.default_abi, this.CSIdentityAuthorityRef);
+    this.CSIdentityAuthorityCopyLocalizedName = lib.declare("CSIdentityAuthorityCopyLocalizedName", ctypes.default_abi, this.CFStringRef, this.CSIdentityAuthorityRef);
 }
 
 Components.utils.import("resource://gre/modules/ctypes.jsm");
+Components.utils.import("resource://osxtypes/CarbonCore.jsm");
 Components.utils.import("resource://osxtypes/MacTypes.jsm");
 Components.utils.import("resource://osxtypes/Security.jsm");
 Components.utils.import("resource://osxtypes/CoreFoundation.jsm");
@@ -940,9 +1196,19 @@ const EXPORTED_SYMBOLS = ["OSServices", "NSLCore_h", "WSMethodInvocation_h", "WS
 
 function OSServices() {
     let libpath = "/System/Library/Frameworks/CoreServices.framework/Frameworks/OSServices.framework/OSServices";
-    let lib = ctypes.open(libpath);
+    let library = ctypes.open(libpath);
     this.close = function() {
-        lib.close();
+        library.close();
+    };
+    let lib = {
+        declare: function() {
+            try {
+                return library.declare.apply(library, arguments);
+            } catch (ex) {
+                dump("Failed to declare " + arguments[0] + "\n");
+                return null;
+            }
+        }
     };
 
     NSLCore_h.call(this, lib);

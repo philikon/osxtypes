@@ -90,8 +90,6 @@ def writeTypedef(declaration, out):
 
 def writeFunction(declaration, out):
     name = declaration.name
-    if declaration.has_extern:
-        return
     if declaration.inline:
         out.write("    // Dropping inline function '%s'.\n" % name);
         return
@@ -267,9 +265,19 @@ const EXPORTED_SYMBOLS = ["%(framework)s", %(headers)s];
 
 function %(framework)s() {
     let libpath = "%(framework_path)s/%(framework)s";
-    let lib = ctypes.open(libpath);
+    let library = ctypes.open(libpath);
     this.close = function() {
-        lib.close();
+        library.close();
+    };
+    let lib = {
+        declare: function() {
+            try {
+                return library.declare.apply(library, arguments);
+            } catch (ex) {
+                dump("Failed to declare " + arguments[0] + "\\n");
+                return null;
+            }
+        }
     };
 
 %(basecalls)s}

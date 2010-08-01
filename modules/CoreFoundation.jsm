@@ -1,6 +1,11 @@
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFString.h
 function CFString_h(lib) {
+    CFData_h.call(this, lib);
+    CFCharacterSet_h.call(this, lib);
+    CFArray_h.call(this, lib);
+    CFDictionary_h.call(this, lib);
     CFBase_h.call(this, lib);
+    CFLocale_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._CFSTRING_H)
@@ -23,6 +28,42 @@ function CFString_h(lib) {
     this.kCFStringEncodingUTF32BE = 402653440;
     this.kCFStringEncodingUTF32LE = 469762304;
     this.CFStringBuiltInEncodings = this.CFStringEncoding;
+    this.CFStringGetTypeID = lib.declare("CFStringGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFStringCreateWithPascalString = lib.declare("CFStringCreateWithPascalString", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, this.ConstStr255Param, this.CFStringEncoding);
+    this.CFStringCreateWithCString = lib.declare("CFStringCreateWithCString", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, ctypes.char.ptr, this.CFStringEncoding);
+    this.CFStringCreateWithBytes = lib.declare("CFStringCreateWithBytes", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, this.UInt8.ptr, this.CFIndex, this.CFStringEncoding, this.Boolean);
+    this.CFStringCreateWithCharacters = lib.declare("CFStringCreateWithCharacters", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, this.UniChar.ptr, this.CFIndex);
+    this.CFStringCreateWithPascalStringNoCopy = lib.declare("CFStringCreateWithPascalStringNoCopy", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, this.ConstStr255Param, this.CFStringEncoding, this.CFAllocatorRef);
+    this.CFStringCreateWithCStringNoCopy = lib.declare("CFStringCreateWithCStringNoCopy", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, ctypes.char.ptr, this.CFStringEncoding, this.CFAllocatorRef);
+    this.CFStringCreateWithBytesNoCopy = lib.declare("CFStringCreateWithBytesNoCopy", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, this.UInt8.ptr, this.CFIndex, this.CFStringEncoding, this.Boolean, this.CFAllocatorRef);
+    this.CFStringCreateWithCharactersNoCopy = lib.declare("CFStringCreateWithCharactersNoCopy", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, this.UniChar.ptr, this.CFIndex, this.CFAllocatorRef);
+    this.CFStringCreateWithSubstring = lib.declare("CFStringCreateWithSubstring", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, this.CFStringRef, this.CFRange);
+    this.CFStringCreateCopy = lib.declare("CFStringCreateCopy", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, this.CFStringRef);
+    this.CFStringCreateWithFormat = lib.declare("CFStringCreateWithFormat", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, this.CFDictionaryRef, this.CFStringRef, "...");
+    // Dropping declaration of 'CFStringCreateWithFormatAndArguments': 'va_list' defined out of scope
+    this.CFStringCreateMutable = lib.declare("CFStringCreateMutable", ctypes.default_abi, this.CFMutableStringRef, this.CFAllocatorRef, this.CFIndex);
+    this.CFStringCreateMutableCopy = lib.declare("CFStringCreateMutableCopy", ctypes.default_abi, this.CFMutableStringRef, this.CFAllocatorRef, this.CFIndex, this.CFStringRef);
+    this.CFStringCreateMutableWithExternalCharactersNoCopy = lib.declare("CFStringCreateMutableWithExternalCharactersNoCopy", ctypes.default_abi, this.CFMutableStringRef, this.CFAllocatorRef, this.UniChar.ptr, this.CFIndex, this.CFIndex, this.CFAllocatorRef);
+    this.CFStringCreateMutableWithExternalCharactersNoCopy = lib.declare("CFStringCreateMutableWithExternalCharactersNoCopy", ctypes.default_abi, this.CFMutableStringRef, this.CFAllocatorRef, ctypes.unsigned_short.ptr, this.CFIndex, this.CFIndex, this.CFAllocatorRef);
+    this.CFStringGetLength = lib.declare("CFStringGetLength", ctypes.default_abi, this.CFIndex, this.CFStringRef);
+    this.CFStringGetCharacterAtIndex = lib.declare("CFStringGetCharacterAtIndex", ctypes.default_abi, this.UniChar, this.CFStringRef, this.CFIndex);
+    this.CFStringGetCharacters = lib.declare("CFStringGetCharacters", ctypes.default_abi, ctypes.void_t, this.CFStringRef, this.CFRange, this.UniChar.ptr);
+    this.CFStringGetCharacters = lib.declare("CFStringGetCharacters", ctypes.default_abi, ctypes.void_t, this.CFStringRef, this.CFRange, ctypes.unsigned_short.ptr);
+    this.CFStringGetPascalString = lib.declare("CFStringGetPascalString", ctypes.default_abi, this.Boolean, this.CFStringRef, this.StringPtr, this.CFIndex, this.CFStringEncoding);
+    this.CFStringGetCString = lib.declare("CFStringGetCString", ctypes.default_abi, this.Boolean, this.CFStringRef, ctypes.char.ptr, this.CFIndex, this.CFStringEncoding);
+    this.CFStringGetPascalStringPtr = lib.declare("CFStringGetPascalStringPtr", ctypes.default_abi, this.ConstStringPtr, this.CFStringRef, this.CFStringEncoding);
+    this.CFStringGetCStringPtr = lib.declare("CFStringGetCStringPtr", ctypes.default_abi, ctypes.char.ptr, this.CFStringRef, this.CFStringEncoding);
+    this.CFStringGetCharactersPtr = lib.declare("CFStringGetCharactersPtr", ctypes.default_abi, this.UniChar.ptr, this.CFStringRef);
+    this.CFStringGetBytes = lib.declare("CFStringGetBytes", ctypes.default_abi, this.CFIndex, this.CFStringRef, this.CFRange, this.CFStringEncoding, this.UInt8, this.Boolean, this.UInt8.ptr, this.CFIndex, this.CFIndex.ptr);
+    this.CFStringCreateFromExternalRepresentation = lib.declare("CFStringCreateFromExternalRepresentation", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, this.CFDataRef, this.CFStringEncoding);
+    this.CFStringCreateExternalRepresentation = lib.declare("CFStringCreateExternalRepresentation", ctypes.default_abi, this.CFDataRef, this.CFAllocatorRef, this.CFStringRef, this.CFStringEncoding, this.UInt8);
+    this.CFStringGetSmallestEncoding = lib.declare("CFStringGetSmallestEncoding", ctypes.default_abi, this.CFStringEncoding, this.CFStringRef);
+    this.CFStringGetFastestEncoding = lib.declare("CFStringGetFastestEncoding", ctypes.default_abi, this.CFStringEncoding, this.CFStringRef);
+    this.CFStringGetSystemEncoding = lib.declare("CFStringGetSystemEncoding", ctypes.default_abi, this.CFStringEncoding);
+    this.CFStringGetMaximumSizeForEncoding = lib.declare("CFStringGetMaximumSizeForEncoding", ctypes.default_abi, this.CFIndex, this.CFIndex, this.CFStringEncoding);
+    this.CFStringGetFileSystemRepresentation = lib.declare("CFStringGetFileSystemRepresentation", ctypes.default_abi, this.Boolean, this.CFStringRef, ctypes.char.ptr, this.CFIndex);
+    this.CFStringGetMaximumSizeOfFileSystemRepresentation = lib.declare("CFStringGetMaximumSizeOfFileSystemRepresentation", ctypes.default_abi, this.CFIndex, this.CFStringRef);
+    this.CFStringCreateWithFileSystemRepresentation = lib.declare("CFStringCreateWithFileSystemRepresentation", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, ctypes.char.ptr);
     this.kCFCompareCaseInsensitive = 1;
     this.kCFCompareBackwards = 4;
     this.kCFCompareAnchored = 8;
@@ -33,11 +74,60 @@ function CFString_h(lib) {
     this.kCFCompareWidthInsensitive = 256;
     this.kCFCompareForcedOrdering = 512;
     this.CFStringCompareFlags = this.CFOptionFlags;
+    this.CFStringCompareWithOptionsAndLocale = lib.declare("CFStringCompareWithOptionsAndLocale", ctypes.default_abi, this.CFComparisonResult, this.CFStringRef, this.CFStringRef, this.CFRange, this.CFStringCompareFlags, this.CFLocaleRef);
+    this.CFStringCompareWithOptions = lib.declare("CFStringCompareWithOptions", ctypes.default_abi, this.CFComparisonResult, this.CFStringRef, this.CFStringRef, this.CFRange, this.CFStringCompareFlags);
+    this.CFStringCompare = lib.declare("CFStringCompare", ctypes.default_abi, this.CFComparisonResult, this.CFStringRef, this.CFStringRef, this.CFStringCompareFlags);
+    this.CFStringFindWithOptionsAndLocale = lib.declare("CFStringFindWithOptionsAndLocale", ctypes.default_abi, this.Boolean, this.CFStringRef, this.CFStringRef, this.CFRange, this.CFStringCompareFlags, this.CFLocaleRef, this.CFRange.ptr);
+    this.CFStringFindWithOptions = lib.declare("CFStringFindWithOptions", ctypes.default_abi, this.Boolean, this.CFStringRef, this.CFStringRef, this.CFRange, this.CFStringCompareFlags, this.CFRange.ptr);
+    this.CFStringCreateArrayWithFindResults = lib.declare("CFStringCreateArrayWithFindResults", ctypes.default_abi, this.CFArrayRef, this.CFAllocatorRef, this.CFStringRef, this.CFStringRef, this.CFRange, this.CFStringCompareFlags);
+    this.CFStringFind = lib.declare("CFStringFind", ctypes.default_abi, this.CFRange, this.CFStringRef, this.CFStringRef, this.CFStringCompareFlags);
+    this.CFStringHasPrefix = lib.declare("CFStringHasPrefix", ctypes.default_abi, this.Boolean, this.CFStringRef, this.CFStringRef);
+    this.CFStringHasSuffix = lib.declare("CFStringHasSuffix", ctypes.default_abi, this.Boolean, this.CFStringRef, this.CFStringRef);
+    this.CFStringGetRangeOfComposedCharactersAtIndex = lib.declare("CFStringGetRangeOfComposedCharactersAtIndex", ctypes.default_abi, this.CFRange, this.CFStringRef, this.CFIndex);
+    this.CFStringFindCharacterFromSet = lib.declare("CFStringFindCharacterFromSet", ctypes.default_abi, this.Boolean, this.CFStringRef, this.CFCharacterSetRef, this.CFRange, this.CFStringCompareFlags, this.CFRange.ptr);
+    this.CFStringGetLineBounds = lib.declare("CFStringGetLineBounds", ctypes.default_abi, ctypes.void_t, this.CFStringRef, this.CFRange, this.CFIndex.ptr, this.CFIndex.ptr, this.CFIndex.ptr);
+    this.CFStringGetParagraphBounds = lib.declare("CFStringGetParagraphBounds", ctypes.default_abi, ctypes.void_t, this.CFStringRef, this.CFRange, this.CFIndex.ptr, this.CFIndex.ptr, this.CFIndex.ptr);
+    this.CFStringCreateByCombiningStrings = lib.declare("CFStringCreateByCombiningStrings", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, this.CFArrayRef, this.CFStringRef);
+    this.CFStringCreateArrayBySeparatingStrings = lib.declare("CFStringCreateArrayBySeparatingStrings", ctypes.default_abi, this.CFArrayRef, this.CFAllocatorRef, this.CFStringRef, this.CFStringRef);
+    this.CFStringGetIntValue = lib.declare("CFStringGetIntValue", ctypes.default_abi, this.SInt32, this.CFStringRef);
+    this.CFStringGetDoubleValue = lib.declare("CFStringGetDoubleValue", ctypes.default_abi, ctypes.double, this.CFStringRef);
+    this.CFStringAppend = lib.declare("CFStringAppend", ctypes.default_abi, ctypes.void_t, this.CFMutableStringRef, this.CFStringRef);
+    this.CFStringAppendCharacters = lib.declare("CFStringAppendCharacters", ctypes.default_abi, ctypes.void_t, this.CFMutableStringRef, this.UniChar.ptr, this.CFIndex);
+    this.CFStringAppendPascalString = lib.declare("CFStringAppendPascalString", ctypes.default_abi, ctypes.void_t, this.CFMutableStringRef, this.ConstStr255Param, this.CFStringEncoding);
+    this.CFStringAppendCString = lib.declare("CFStringAppendCString", ctypes.default_abi, ctypes.void_t, this.CFMutableStringRef, ctypes.char.ptr, this.CFStringEncoding);
+    this.CFStringAppendFormat = lib.declare("CFStringAppendFormat", ctypes.default_abi, ctypes.void_t, this.CFMutableStringRef, this.CFDictionaryRef, this.CFStringRef, "...");
+    // Dropping declaration of 'CFStringAppendFormatAndArguments': 'va_list' defined out of scope
+    this.CFStringInsert = lib.declare("CFStringInsert", ctypes.default_abi, ctypes.void_t, this.CFMutableStringRef, this.CFIndex, this.CFStringRef);
+    this.CFStringDelete = lib.declare("CFStringDelete", ctypes.default_abi, ctypes.void_t, this.CFMutableStringRef, this.CFRange);
+    this.CFStringReplace = lib.declare("CFStringReplace", ctypes.default_abi, ctypes.void_t, this.CFMutableStringRef, this.CFRange, this.CFStringRef);
+    this.CFStringReplaceAll = lib.declare("CFStringReplaceAll", ctypes.default_abi, ctypes.void_t, this.CFMutableStringRef, this.CFStringRef);
+    this.CFStringFindAndReplace = lib.declare("CFStringFindAndReplace", ctypes.default_abi, this.CFIndex, this.CFMutableStringRef, this.CFStringRef, this.CFStringRef, this.CFRange, this.CFStringCompareFlags);
+    this.CFStringSetExternalCharactersNoCopy = lib.declare("CFStringSetExternalCharactersNoCopy", ctypes.default_abi, ctypes.void_t, this.CFMutableStringRef, this.UniChar.ptr, this.CFIndex, this.CFIndex);
+    this.CFStringSetExternalCharactersNoCopy = lib.declare("CFStringSetExternalCharactersNoCopy", ctypes.default_abi, ctypes.void_t, this.CFMutableStringRef, ctypes.unsigned_short.ptr, this.CFIndex, this.CFIndex);
+    this.CFStringPad = lib.declare("CFStringPad", ctypes.default_abi, ctypes.void_t, this.CFMutableStringRef, this.CFStringRef, this.CFIndex, this.CFIndex);
+    this.CFStringTrim = lib.declare("CFStringTrim", ctypes.default_abi, ctypes.void_t, this.CFMutableStringRef, this.CFStringRef);
+    this.CFStringTrimWhitespace = lib.declare("CFStringTrimWhitespace", ctypes.default_abi, ctypes.void_t, this.CFMutableStringRef);
+    this.CFStringLowercase = lib.declare("CFStringLowercase", ctypes.default_abi, ctypes.void_t, this.CFMutableStringRef, this.CFLocaleRef);
+    this.CFStringUppercase = lib.declare("CFStringUppercase", ctypes.default_abi, ctypes.void_t, this.CFMutableStringRef, this.CFLocaleRef);
+    this.CFStringCapitalize = lib.declare("CFStringCapitalize", ctypes.default_abi, ctypes.void_t, this.CFMutableStringRef, this.CFLocaleRef);
     this.kCFStringNormalizationFormD = 0;
     this.kCFStringNormalizationFormKD = 1;
     this.kCFStringNormalizationFormC = 2;
     this.kCFStringNormalizationFormKC = 3;
     this.CFStringNormalizationForm = this.CFIndex;
+    this.CFStringNormalize = lib.declare("CFStringNormalize", ctypes.default_abi, ctypes.void_t, this.CFMutableStringRef, this.CFStringNormalizationForm);
+    this.CFStringFold = lib.declare("CFStringFold", ctypes.default_abi, ctypes.void_t, this.CFMutableStringRef, this.CFOptionFlags, this.CFLocaleRef);
+    this.CFStringTransform = lib.declare("CFStringTransform", ctypes.default_abi, this.Boolean, this.CFMutableStringRef, this.CFRange.ptr, this.CFStringRef, this.Boolean);
+    this.CFStringIsEncodingAvailable = lib.declare("CFStringIsEncodingAvailable", ctypes.default_abi, this.Boolean, this.CFStringEncoding);
+    this.CFStringGetListOfAvailableEncodings = lib.declare("CFStringGetListOfAvailableEncodings", ctypes.default_abi, this.CFStringEncoding.ptr);
+    this.CFStringGetNameOfEncoding = lib.declare("CFStringGetNameOfEncoding", ctypes.default_abi, this.CFStringRef, this.CFStringEncoding);
+    this.CFStringConvertEncodingToNSStringEncoding = lib.declare("CFStringConvertEncodingToNSStringEncoding", ctypes.default_abi, ctypes.unsigned_long, this.CFStringEncoding);
+    this.CFStringConvertNSStringEncodingToEncoding = lib.declare("CFStringConvertNSStringEncodingToEncoding", ctypes.default_abi, this.CFStringEncoding, ctypes.unsigned_long);
+    this.CFStringConvertEncodingToWindowsCodepage = lib.declare("CFStringConvertEncodingToWindowsCodepage", ctypes.default_abi, this.UInt32, this.CFStringEncoding);
+    this.CFStringConvertWindowsCodepageToEncoding = lib.declare("CFStringConvertWindowsCodepageToEncoding", ctypes.default_abi, this.CFStringEncoding, this.UInt32);
+    this.CFStringConvertIANACharSetNameToEncoding = lib.declare("CFStringConvertIANACharSetNameToEncoding", ctypes.default_abi, this.CFStringEncoding, this.CFStringRef);
+    this.CFStringConvertEncodingToIANACharSetName = lib.declare("CFStringConvertEncodingToIANACharSetName", ctypes.default_abi, this.CFStringRef, this.CFStringEncoding);
+    this.CFStringGetMostCompatibleMacStringEncoding = lib.declare("CFStringGetMostCompatibleMacStringEncoding", ctypes.default_abi, this.CFStringEncoding, this.CFStringEncoding);
     this.CFStringInlineBuffer = new ctypes.StructType("CFStringInlineBuffer", [{buffer: this.UniChar.array(64)}, {theString: this.CFStringRef}, {directBuffer: this.UniChar.ptr}, {rangeToBuffer: this.CFRange}, {bufferedRangeStart: this.CFIndex}, {bufferedRangeEnd: this.CFIndex}]);
     // Dropping inline function 'CFStringInitInlineBuffer'.
     // Dropping inline function 'CFStringGetCharacterFromInlineBuffer'.
@@ -46,16 +136,22 @@ function CFString_h(lib) {
     // Dropping inline function 'CFStringGetLongCharacterForSurrogatePair'.
     // Dropping inline function 'CFStringGetSurrogatePairForLongCharacter'.
     // Dropping inline function 'CFStringGetSurrogatePairForLongCharacter'.
+    this.CFShow = lib.declare("CFShow", ctypes.default_abi, ctypes.void_t, this.CFTypeRef);
+    this.CFShowStr = lib.declare("CFShowStr", ctypes.default_abi, ctypes.void_t, this.CFStringRef);
+    this.__CFStringMakeConstantString = lib.declare("__CFStringMakeConstantString", ctypes.default_abi, this.CFStringRef, ctypes.char.ptr);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFStringTokenizer.h
 function CFStringTokenizer_h(lib) {
     CFBase_h.call(this, lib);
+    CFLocale_h.call(this, lib);
+    CFArray_h.call(this, lib);
 
     if (this._CFSTRINGTOKENIZER_H)
         return;
     this._CFSTRINGTOKENIZER_H = true;
 
+    this.CFStringTokenizerCopyBestStringLanguage = lib.declare("CFStringTokenizerCopyBestStringLanguage", ctypes.default_abi, this.CFStringRef, this.CFStringRef, this.CFRange);
     this.__CFStringTokenizer = new ctypes.StructType("__CFStringTokenizer");
     this.CFStringTokenizerRef = this.__CFStringTokenizer.ptr;
     this.kCFStringTokenizerUnitWord = 0;
@@ -73,11 +169,22 @@ function CFStringTokenizer_h(lib) {
     this.kCFStringTokenizerTokenHasNonLettersMask = 16;
     this.kCFStringTokenizerTokenIsCJWordMask = 32;
     this.CFStringTokenizerTokenType = this.CFOptionFlags;
+    this.CFStringTokenizerGetTypeID = lib.declare("CFStringTokenizerGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFStringTokenizerCreate = lib.declare("CFStringTokenizerCreate", ctypes.default_abi, this.CFStringTokenizerRef, this.CFAllocatorRef, this.CFStringRef, this.CFRange, this.CFOptionFlags, this.CFLocaleRef);
+    this.CFStringTokenizerSetString = lib.declare("CFStringTokenizerSetString", ctypes.default_abi, ctypes.void_t, this.CFStringTokenizerRef, this.CFStringRef, this.CFRange);
+    this.CFStringTokenizerGoToTokenAtIndex = lib.declare("CFStringTokenizerGoToTokenAtIndex", ctypes.default_abi, this.CFStringTokenizerTokenType, this.CFStringTokenizerRef, this.CFIndex);
+    this.CFStringTokenizerAdvanceToNextToken = lib.declare("CFStringTokenizerAdvanceToNextToken", ctypes.default_abi, this.CFStringTokenizerTokenType, this.CFStringTokenizerRef);
+    this.CFStringTokenizerGetCurrentTokenRange = lib.declare("CFStringTokenizerGetCurrentTokenRange", ctypes.default_abi, this.CFRange, this.CFStringTokenizerRef);
+    this.CFStringTokenizerCopyCurrentTokenAttribute = lib.declare("CFStringTokenizerCopyCurrentTokenAttribute", ctypes.default_abi, this.CFTypeRef, this.CFStringTokenizerRef, this.CFOptionFlags);
+    this.CFStringTokenizerGetCurrentSubTokens = lib.declare("CFStringTokenizerGetCurrentSubTokens", ctypes.default_abi, this.CFIndex, this.CFStringTokenizerRef, this.CFRange.ptr, this.CFIndex, this.CFMutableArrayRef);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFNumberFormatter.h
 function CFNumberFormatter_h(lib) {
+    MacTypes_h.call(this, lib);
     CFBase_h.call(this, lib);
+    CFLocale_h.call(this, lib);
+    CFNumber_h.call(this, lib);
 
     if (this._CFNUMBERFORMATTER_H)
         return;
@@ -85,6 +192,7 @@ function CFNumberFormatter_h(lib) {
 
     this.__CFNumberFormatter = new ctypes.StructType("__CFNumberFormatter");
     this.CFNumberFormatterRef = this.__CFNumberFormatter.ptr;
+    this.CFNumberFormatterGetTypeID = lib.declare("CFNumberFormatterGetTypeID", ctypes.default_abi, this.CFTypeID);
     this.kCFNumberFormatterNoStyle = 0;
     this.kCFNumberFormatterDecimalStyle = 1;
     this.kCFNumberFormatterCurrencyStyle = 2;
@@ -92,8 +200,19 @@ function CFNumberFormatter_h(lib) {
     this.kCFNumberFormatterScientificStyle = 4;
     this.kCFNumberFormatterSpellOutStyle = 5;
     this.CFNumberFormatterStyle = this.CFIndex;
+    this.CFNumberFormatterCreate = lib.declare("CFNumberFormatterCreate", ctypes.default_abi, this.CFNumberFormatterRef, this.CFAllocatorRef, this.CFLocaleRef, this.CFNumberFormatterStyle);
+    this.CFNumberFormatterGetLocale = lib.declare("CFNumberFormatterGetLocale", ctypes.default_abi, this.CFLocaleRef, this.CFNumberFormatterRef);
+    this.CFNumberFormatterGetStyle = lib.declare("CFNumberFormatterGetStyle", ctypes.default_abi, this.CFNumberFormatterStyle, this.CFNumberFormatterRef);
+    this.CFNumberFormatterGetFormat = lib.declare("CFNumberFormatterGetFormat", ctypes.default_abi, this.CFStringRef, this.CFNumberFormatterRef);
+    this.CFNumberFormatterSetFormat = lib.declare("CFNumberFormatterSetFormat", ctypes.default_abi, ctypes.void_t, this.CFNumberFormatterRef, this.CFStringRef);
+    this.CFNumberFormatterCreateStringWithNumber = lib.declare("CFNumberFormatterCreateStringWithNumber", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, this.CFNumberFormatterRef, this.CFNumberRef);
+    this.CFNumberFormatterCreateStringWithValue = lib.declare("CFNumberFormatterCreateStringWithValue", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, this.CFNumberFormatterRef, this.CFNumberType, ctypes.void_t.ptr);
     this.kCFNumberFormatterParseIntegersOnly = 1;
     this.CFNumberFormatterOptionFlags = this.CFOptionFlags;
+    this.CFNumberFormatterCreateNumberFromString = lib.declare("CFNumberFormatterCreateNumberFromString", ctypes.default_abi, this.CFNumberRef, this.CFAllocatorRef, this.CFNumberFormatterRef, this.CFStringRef, this.CFRange.ptr, this.CFOptionFlags);
+    this.CFNumberFormatterGetValueFromString = lib.declare("CFNumberFormatterGetValueFromString", ctypes.default_abi, this.Boolean, this.CFNumberFormatterRef, this.CFStringRef, this.CFRange.ptr, this.CFNumberType, ctypes.void_t.ptr);
+    this.CFNumberFormatterSetProperty = lib.declare("CFNumberFormatterSetProperty", ctypes.default_abi, ctypes.void_t, this.CFNumberFormatterRef, this.CFStringRef, this.CFTypeRef);
+    this.CFNumberFormatterCopyProperty = lib.declare("CFNumberFormatterCopyProperty", ctypes.default_abi, this.CFTypeRef, this.CFNumberFormatterRef, this.CFStringRef);
     this.kCFNumberFormatterRoundCeiling = 0;
     this.kCFNumberFormatterRoundFloor = 1;
     this.kCFNumberFormatterRoundDown = 2;
@@ -107,6 +226,7 @@ function CFNumberFormatter_h(lib) {
     this.kCFNumberFormatterPadBeforeSuffix = 2;
     this.kCFNumberFormatterPadAfterSuffix = 3;
     this.CFNumberFormatterPadPosition = this.CFIndex;
+    // Dropping declaration of 'CFNumberFormatterGetDecimalInfoForCurrencyCode': 'int32_t' defined out of scope
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFByteOrder.h
@@ -151,6 +271,8 @@ function CFByteOrder_h(lib) {
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFError.h
 function CFError_h(lib) {
+    CFDictionary_h.call(this, lib);
+    CFBase_h.call(this, lib);
 
     if (this._CFERROR_H)
         return;
@@ -158,10 +280,23 @@ function CFError_h(lib) {
 
     this.__CFError = new ctypes.StructType("__CFError");
     this.CFErrorRef = this.__CFError.ptr;
+    this.CFErrorGetTypeID = lib.declare("CFErrorGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFErrorCreate = lib.declare("CFErrorCreate", ctypes.default_abi, this.CFErrorRef, this.CFAllocatorRef, this.CFStringRef, this.CFIndex, this.CFDictionaryRef);
+    this.CFErrorCreateWithUserInfoKeysAndValues = lib.declare("CFErrorCreateWithUserInfoKeysAndValues", ctypes.default_abi, this.CFErrorRef, this.CFAllocatorRef, this.CFStringRef, this.CFIndex, ctypes.void_t.ptr.ptr, ctypes.void_t.ptr.ptr, this.CFIndex);
+    this.CFErrorGetDomain = lib.declare("CFErrorGetDomain", ctypes.default_abi, this.CFStringRef, this.CFErrorRef);
+    this.CFErrorGetCode = lib.declare("CFErrorGetCode", ctypes.default_abi, this.CFIndex, this.CFErrorRef);
+    this.CFErrorCopyUserInfo = lib.declare("CFErrorCopyUserInfo", ctypes.default_abi, this.CFDictionaryRef, this.CFErrorRef);
+    this.CFErrorCopyDescription = lib.declare("CFErrorCopyDescription", ctypes.default_abi, this.CFStringRef, this.CFErrorRef);
+    this.CFErrorCopyFailureReason = lib.declare("CFErrorCopyFailureReason", ctypes.default_abi, this.CFStringRef, this.CFErrorRef);
+    this.CFErrorCopyRecoverySuggestion = lib.declare("CFErrorCopyRecoverySuggestion", ctypes.default_abi, this.CFStringRef, this.CFErrorRef);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFStream.h
 function CFStream_h(lib) {
+    CFRunLoop_h.call(this, lib);
+    CFError_h.call(this, lib);
+    CFURL_h.call(this, lib);
+    CFSocket_h.call(this, lib);
     CFBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
@@ -192,20 +327,65 @@ function CFStream_h(lib) {
     this.CFWriteStreamRef = this.__CFWriteStream.ptr;
     this.CFReadStreamClientCallBack = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.CFReadStreamRef, this.CFStreamEventType, ctypes.void_t.ptr]).ptr;
     this.CFWriteStreamClientCallBack = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.CFWriteStreamRef, this.CFStreamEventType, ctypes.void_t.ptr]).ptr;
+    this.CFReadStreamGetTypeID = lib.declare("CFReadStreamGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFWriteStreamGetTypeID = lib.declare("CFWriteStreamGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFReadStreamCreateWithBytesNoCopy = lib.declare("CFReadStreamCreateWithBytesNoCopy", ctypes.default_abi, this.CFReadStreamRef, this.CFAllocatorRef, this.UInt8.ptr, this.CFIndex, this.CFAllocatorRef);
+    this.CFWriteStreamCreateWithBuffer = lib.declare("CFWriteStreamCreateWithBuffer", ctypes.default_abi, this.CFWriteStreamRef, this.CFAllocatorRef, this.UInt8.ptr, this.CFIndex);
+    this.CFWriteStreamCreateWithAllocatedBuffers = lib.declare("CFWriteStreamCreateWithAllocatedBuffers", ctypes.default_abi, this.CFWriteStreamRef, this.CFAllocatorRef, this.CFAllocatorRef);
+    this.CFReadStreamCreateWithFile = lib.declare("CFReadStreamCreateWithFile", ctypes.default_abi, this.CFReadStreamRef, this.CFAllocatorRef, this.CFURLRef);
+    this.CFWriteStreamCreateWithFile = lib.declare("CFWriteStreamCreateWithFile", ctypes.default_abi, this.CFWriteStreamRef, this.CFAllocatorRef, this.CFURLRef);
+    this.CFStreamCreateBoundPair = lib.declare("CFStreamCreateBoundPair", ctypes.default_abi, ctypes.void_t, this.CFAllocatorRef, this.CFReadStreamRef.ptr, this.CFWriteStreamRef.ptr, this.CFIndex);
+    this.CFStreamCreatePairWithSocket = lib.declare("CFStreamCreatePairWithSocket", ctypes.default_abi, ctypes.void_t, this.CFAllocatorRef, this.CFSocketNativeHandle, this.CFReadStreamRef.ptr, this.CFWriteStreamRef.ptr);
+    this.CFStreamCreatePairWithSocketToHost = lib.declare("CFStreamCreatePairWithSocketToHost", ctypes.default_abi, ctypes.void_t, this.CFAllocatorRef, this.CFStringRef, this.UInt32, this.CFReadStreamRef.ptr, this.CFWriteStreamRef.ptr);
+    this.CFStreamCreatePairWithPeerSocketSignature = lib.declare("CFStreamCreatePairWithPeerSocketSignature", ctypes.default_abi, ctypes.void_t, this.CFAllocatorRef, this.CFSocketSignature.ptr, this.CFReadStreamRef.ptr, this.CFWriteStreamRef.ptr);
+    this.CFReadStreamGetStatus = lib.declare("CFReadStreamGetStatus", ctypes.default_abi, this.CFStreamStatus, this.CFReadStreamRef);
+    this.CFWriteStreamGetStatus = lib.declare("CFWriteStreamGetStatus", ctypes.default_abi, this.CFStreamStatus, this.CFWriteStreamRef);
+    this.CFReadStreamCopyError = lib.declare("CFReadStreamCopyError", ctypes.default_abi, this.CFErrorRef, this.CFReadStreamRef);
+    this.CFWriteStreamCopyError = lib.declare("CFWriteStreamCopyError", ctypes.default_abi, this.CFErrorRef, this.CFWriteStreamRef);
+    this.CFReadStreamOpen = lib.declare("CFReadStreamOpen", ctypes.default_abi, this.Boolean, this.CFReadStreamRef);
+    this.CFWriteStreamOpen = lib.declare("CFWriteStreamOpen", ctypes.default_abi, this.Boolean, this.CFWriteStreamRef);
+    this.CFReadStreamClose = lib.declare("CFReadStreamClose", ctypes.default_abi, ctypes.void_t, this.CFReadStreamRef);
+    this.CFWriteStreamClose = lib.declare("CFWriteStreamClose", ctypes.default_abi, ctypes.void_t, this.CFWriteStreamRef);
+    this.CFReadStreamHasBytesAvailable = lib.declare("CFReadStreamHasBytesAvailable", ctypes.default_abi, this.Boolean, this.CFReadStreamRef);
+    this.CFReadStreamRead = lib.declare("CFReadStreamRead", ctypes.default_abi, this.CFIndex, this.CFReadStreamRef, this.UInt8.ptr, this.CFIndex);
+    this.CFReadStreamGetBuffer = lib.declare("CFReadStreamGetBuffer", ctypes.default_abi, this.UInt8.ptr, this.CFReadStreamRef, this.CFIndex, this.CFIndex.ptr);
+    this.CFWriteStreamCanAcceptBytes = lib.declare("CFWriteStreamCanAcceptBytes", ctypes.default_abi, this.Boolean, this.CFWriteStreamRef);
+    this.CFWriteStreamWrite = lib.declare("CFWriteStreamWrite", ctypes.default_abi, this.CFIndex, this.CFWriteStreamRef, this.UInt8.ptr, this.CFIndex);
+    this.CFReadStreamCopyProperty = lib.declare("CFReadStreamCopyProperty", ctypes.default_abi, this.CFTypeRef, this.CFReadStreamRef, this.CFStringRef);
+    this.CFWriteStreamCopyProperty = lib.declare("CFWriteStreamCopyProperty", ctypes.default_abi, this.CFTypeRef, this.CFWriteStreamRef, this.CFStringRef);
+    this.CFReadStreamSetProperty = lib.declare("CFReadStreamSetProperty", ctypes.default_abi, this.Boolean, this.CFReadStreamRef, this.CFStringRef, this.CFTypeRef);
+    this.CFWriteStreamSetProperty = lib.declare("CFWriteStreamSetProperty", ctypes.default_abi, this.Boolean, this.CFWriteStreamRef, this.CFStringRef, this.CFTypeRef);
+    this.CFReadStreamSetClient = lib.declare("CFReadStreamSetClient", ctypes.default_abi, this.Boolean, this.CFReadStreamRef, this.CFOptionFlags, this.CFReadStreamClientCallBack, this.CFStreamClientContext.ptr);
+    this.CFWriteStreamSetClient = lib.declare("CFWriteStreamSetClient", ctypes.default_abi, this.Boolean, this.CFWriteStreamRef, this.CFOptionFlags, this.CFWriteStreamClientCallBack, this.CFStreamClientContext.ptr);
+    this.CFReadStreamScheduleWithRunLoop = lib.declare("CFReadStreamScheduleWithRunLoop", ctypes.default_abi, ctypes.void_t, this.CFReadStreamRef, this.CFRunLoopRef, this.CFStringRef);
+    this.CFWriteStreamScheduleWithRunLoop = lib.declare("CFWriteStreamScheduleWithRunLoop", ctypes.default_abi, ctypes.void_t, this.CFWriteStreamRef, this.CFRunLoopRef, this.CFStringRef);
+    this.CFReadStreamUnscheduleFromRunLoop = lib.declare("CFReadStreamUnscheduleFromRunLoop", ctypes.default_abi, ctypes.void_t, this.CFReadStreamRef, this.CFRunLoopRef, this.CFStringRef);
+    this.CFWriteStreamUnscheduleFromRunLoop = lib.declare("CFWriteStreamUnscheduleFromRunLoop", ctypes.default_abi, ctypes.void_t, this.CFWriteStreamRef, this.CFRunLoopRef, this.CFStringRef);
     this.kCFStreamErrorDomainCustom = -1;
     this.kCFStreamErrorDomainPOSIX = 1;
     this.kCFStreamErrorDomainMacOSStatus = 2;
     this.CFStreamErrorDomain = this.CFIndex;
     this.CFStreamError = new ctypes.StructType("CFStreamError", [{domain: this.CFIndex}, {error: this.SInt32}]);
+    this.CFReadStreamGetError = lib.declare("CFReadStreamGetError", ctypes.default_abi, this.CFStreamError, this.CFReadStreamRef);
+    this.CFWriteStreamGetError = lib.declare("CFWriteStreamGetError", ctypes.default_abi, this.CFStreamError, this.CFWriteStreamRef);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFURL.h
 function CFURL_h(lib) {
+    CFData_h.call(this, lib);
+    CFError_h.call(this, lib);
+    CFDictionary_h.call(this, lib);
+    CFString_h.call(this, lib);
     CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._CFURL_H)
         return;
     this._CFURL_H = true;
+
+    // Fwd declaration to avoid importing CarbonCore/Files.h (cyclic import!)
+    this.FSRef = new ctypes.StructType("FSRef", [{hidden: this.UInt8.array(80)}]);
 
     this.kCFURLPOSIXPathStyle = 0;
     this.kCFURLHFSPathStyle = 1;
@@ -213,6 +393,41 @@ function CFURL_h(lib) {
     this.CFURLPathStyle = this.CFIndex;
     this.__CFURL = new ctypes.StructType("__CFURL");
     this.CFURLRef = this.__CFURL.ptr;
+    this.CFURLGetTypeID = lib.declare("CFURLGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFURLCreateWithBytes = lib.declare("CFURLCreateWithBytes", ctypes.default_abi, this.CFURLRef, this.CFAllocatorRef, this.UInt8.ptr, this.CFIndex, this.CFStringEncoding, this.CFURLRef);
+    this.CFURLCreateData = lib.declare("CFURLCreateData", ctypes.default_abi, this.CFDataRef, this.CFAllocatorRef, this.CFURLRef, this.CFStringEncoding, this.Boolean);
+    this.CFURLCreateWithString = lib.declare("CFURLCreateWithString", ctypes.default_abi, this.CFURLRef, this.CFAllocatorRef, this.CFStringRef, this.CFURLRef);
+    this.CFURLCreateAbsoluteURLWithBytes = lib.declare("CFURLCreateAbsoluteURLWithBytes", ctypes.default_abi, this.CFURLRef, this.CFAllocatorRef, this.UInt8.ptr, this.CFIndex, this.CFStringEncoding, this.CFURLRef, this.Boolean);
+    this.CFURLCreateWithFileSystemPath = lib.declare("CFURLCreateWithFileSystemPath", ctypes.default_abi, this.CFURLRef, this.CFAllocatorRef, this.CFStringRef, this.CFURLPathStyle, this.Boolean);
+    this.CFURLCreateFromFileSystemRepresentation = lib.declare("CFURLCreateFromFileSystemRepresentation", ctypes.default_abi, this.CFURLRef, this.CFAllocatorRef, this.UInt8.ptr, this.CFIndex, this.Boolean);
+    this.CFURLCreateWithFileSystemPathRelativeToBase = lib.declare("CFURLCreateWithFileSystemPathRelativeToBase", ctypes.default_abi, this.CFURLRef, this.CFAllocatorRef, this.CFStringRef, this.CFURLPathStyle, this.Boolean, this.CFURLRef);
+    this.CFURLCreateFromFileSystemRepresentationRelativeToBase = lib.declare("CFURLCreateFromFileSystemRepresentationRelativeToBase", ctypes.default_abi, this.CFURLRef, this.CFAllocatorRef, this.UInt8.ptr, this.CFIndex, this.Boolean, this.CFURLRef);
+    this.CFURLGetFileSystemRepresentation = lib.declare("CFURLGetFileSystemRepresentation", ctypes.default_abi, this.Boolean, this.CFURLRef, this.Boolean, this.UInt8.ptr, this.CFIndex);
+    this.CFURLCopyAbsoluteURL = lib.declare("CFURLCopyAbsoluteURL", ctypes.default_abi, this.CFURLRef, this.CFURLRef);
+    this.CFURLGetString = lib.declare("CFURLGetString", ctypes.default_abi, this.CFStringRef, this.CFURLRef);
+    this.CFURLGetBaseURL = lib.declare("CFURLGetBaseURL", ctypes.default_abi, this.CFURLRef, this.CFURLRef);
+    this.CFURLCanBeDecomposed = lib.declare("CFURLCanBeDecomposed", ctypes.default_abi, this.Boolean, this.CFURLRef);
+    this.CFURLCopyScheme = lib.declare("CFURLCopyScheme", ctypes.default_abi, this.CFStringRef, this.CFURLRef);
+    this.CFURLCopyNetLocation = lib.declare("CFURLCopyNetLocation", ctypes.default_abi, this.CFStringRef, this.CFURLRef);
+    this.CFURLCopyPath = lib.declare("CFURLCopyPath", ctypes.default_abi, this.CFStringRef, this.CFURLRef);
+    this.CFURLCopyStrictPath = lib.declare("CFURLCopyStrictPath", ctypes.default_abi, this.CFStringRef, this.CFURLRef, this.Boolean.ptr);
+    this.CFURLCopyFileSystemPath = lib.declare("CFURLCopyFileSystemPath", ctypes.default_abi, this.CFStringRef, this.CFURLRef, this.CFURLPathStyle);
+    this.CFURLHasDirectoryPath = lib.declare("CFURLHasDirectoryPath", ctypes.default_abi, this.Boolean, this.CFURLRef);
+    this.CFURLCopyResourceSpecifier = lib.declare("CFURLCopyResourceSpecifier", ctypes.default_abi, this.CFStringRef, this.CFURLRef);
+    this.CFURLCopyHostName = lib.declare("CFURLCopyHostName", ctypes.default_abi, this.CFStringRef, this.CFURLRef);
+    this.CFURLGetPortNumber = lib.declare("CFURLGetPortNumber", ctypes.default_abi, this.SInt32, this.CFURLRef);
+    this.CFURLCopyUserName = lib.declare("CFURLCopyUserName", ctypes.default_abi, this.CFStringRef, this.CFURLRef);
+    this.CFURLCopyPassword = lib.declare("CFURLCopyPassword", ctypes.default_abi, this.CFStringRef, this.CFURLRef);
+    this.CFURLCopyParameterString = lib.declare("CFURLCopyParameterString", ctypes.default_abi, this.CFStringRef, this.CFURLRef, this.CFStringRef);
+    this.CFURLCopyQueryString = lib.declare("CFURLCopyQueryString", ctypes.default_abi, this.CFStringRef, this.CFURLRef, this.CFStringRef);
+    this.CFURLCopyFragment = lib.declare("CFURLCopyFragment", ctypes.default_abi, this.CFStringRef, this.CFURLRef, this.CFStringRef);
+    this.CFURLCopyLastPathComponent = lib.declare("CFURLCopyLastPathComponent", ctypes.default_abi, this.CFStringRef, this.CFURLRef);
+    this.CFURLCopyPathExtension = lib.declare("CFURLCopyPathExtension", ctypes.default_abi, this.CFStringRef, this.CFURLRef);
+    this.CFURLCreateCopyAppendingPathComponent = lib.declare("CFURLCreateCopyAppendingPathComponent", ctypes.default_abi, this.CFURLRef, this.CFAllocatorRef, this.CFURLRef, this.CFStringRef, this.Boolean);
+    this.CFURLCreateCopyDeletingLastPathComponent = lib.declare("CFURLCreateCopyDeletingLastPathComponent", ctypes.default_abi, this.CFURLRef, this.CFAllocatorRef, this.CFURLRef);
+    this.CFURLCreateCopyAppendingPathExtension = lib.declare("CFURLCreateCopyAppendingPathExtension", ctypes.default_abi, this.CFURLRef, this.CFAllocatorRef, this.CFURLRef, this.CFStringRef);
+    this.CFURLCreateCopyDeletingPathExtension = lib.declare("CFURLCreateCopyDeletingPathExtension", ctypes.default_abi, this.CFURLRef, this.CFAllocatorRef, this.CFURLRef);
+    this.CFURLGetBytes = lib.declare("CFURLGetBytes", ctypes.default_abi, this.CFIndex, this.CFURLRef, this.UInt8.ptr, this.CFIndex);
     this.kCFURLComponentScheme = 1;
     this.kCFURLComponentNetLocation = 2;
     this.kCFURLComponentPath = 3;
@@ -226,6 +441,22 @@ function CFURL_h(lib) {
     this.kCFURLComponentQuery = 11;
     this.kCFURLComponentFragment = 12;
     this.CFURLComponentType = this.CFIndex;
+    this.CFURLGetByteRangeForComponent = lib.declare("CFURLGetByteRangeForComponent", ctypes.default_abi, this.CFRange, this.CFURLRef, this.CFURLComponentType, this.CFRange.ptr);
+    this.CFURLCreateStringByReplacingPercentEscapes = lib.declare("CFURLCreateStringByReplacingPercentEscapes", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, this.CFStringRef, this.CFStringRef);
+    this.CFURLCreateStringByReplacingPercentEscapesUsingEncoding = lib.declare("CFURLCreateStringByReplacingPercentEscapesUsingEncoding", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, this.CFStringRef, this.CFStringRef, this.CFStringEncoding);
+    this.CFURLCreateStringByAddingPercentEscapes = lib.declare("CFURLCreateStringByAddingPercentEscapes", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, this.CFStringRef, this.CFStringRef, this.CFStringRef, this.CFStringEncoding);
+    this.CFURLCreateFileReferenceURL = lib.declare("CFURLCreateFileReferenceURL", ctypes.default_abi, this.CFURLRef, this.CFAllocatorRef, this.CFURLRef, this.CFErrorRef.ptr);
+    this.CFURLCreateFilePathURL = lib.declare("CFURLCreateFilePathURL", ctypes.default_abi, this.CFURLRef, this.CFAllocatorRef, this.CFURLRef, this.CFErrorRef.ptr);
+    this.CFURLCreateFromFSRef = lib.declare("CFURLCreateFromFSRef", ctypes.default_abi, this.CFURLRef, this.CFAllocatorRef, this.FSRef.ptr);
+    this.CFURLGetFSRef = lib.declare("CFURLGetFSRef", ctypes.default_abi, this.Boolean, this.CFURLRef, this.FSRef.ptr);
+    this.CFURLCopyResourcePropertyForKey = lib.declare("CFURLCopyResourcePropertyForKey", ctypes.default_abi, this.Boolean, this.CFURLRef, this.CFStringRef, ctypes.void_t.ptr, this.CFErrorRef.ptr);
+    this.CFURLCopyResourcePropertiesForKeys = lib.declare("CFURLCopyResourcePropertiesForKeys", ctypes.default_abi, this.CFDictionaryRef, this.CFURLRef, this.CFArrayRef, this.CFErrorRef.ptr);
+    this.CFURLSetResourcePropertyForKey = lib.declare("CFURLSetResourcePropertyForKey", ctypes.default_abi, this.Boolean, this.CFURLRef, this.CFStringRef, this.CFTypeRef, this.CFErrorRef.ptr);
+    this.CFURLSetResourcePropertiesForKeys = lib.declare("CFURLSetResourcePropertiesForKeys", ctypes.default_abi, this.Boolean, this.CFURLRef, this.CFDictionaryRef, this.CFErrorRef.ptr);
+    this.CFURLClearResourcePropertyCacheForKey = lib.declare("CFURLClearResourcePropertyCacheForKey", ctypes.default_abi, ctypes.void_t, this.CFURLRef, this.CFStringRef);
+    this.CFURLClearResourcePropertyCache = lib.declare("CFURLClearResourcePropertyCache", ctypes.default_abi, ctypes.void_t, this.CFURLRef);
+    this.CFURLSetTemporaryResourcePropertyForKey = lib.declare("CFURLSetTemporaryResourcePropertyForKey", ctypes.default_abi, ctypes.void_t, this.CFURLRef, this.CFStringRef, this.CFTypeRef);
+    this.CFURLResourceIsReachable = lib.declare("CFURLResourceIsReachable", ctypes.default_abi, this.Boolean, this.CFURLRef, this.CFErrorRef.ptr);
     this.kCFURLBookmarkCreationPreferFileIDResolutionMask = 256;
     this.kCFURLBookmarkCreationMinimalBookmarkMask = 512;
     this.kCFURLBookmarkCreationSuitableForBookmarkFile = 1024;
@@ -234,11 +465,20 @@ function CFURL_h(lib) {
     this.kCFBookmarkResolutionWithoutMountingMask = 512;
     this.CFURLBookmarkResolutionOptions = this.CFOptionFlags;
     this.CFURLBookmarkFileCreationOptions = this.CFOptionFlags;
+    this.CFURLCreateBookmarkData = lib.declare("CFURLCreateBookmarkData", ctypes.default_abi, this.CFDataRef, this.CFAllocatorRef, this.CFURLRef, this.CFURLBookmarkCreationOptions, this.CFArrayRef, this.CFURLRef, this.CFErrorRef.ptr);
+    this.CFURLCreateByResolvingBookmarkData = lib.declare("CFURLCreateByResolvingBookmarkData", ctypes.default_abi, this.CFURLRef, this.CFAllocatorRef, this.CFDataRef, this.CFURLBookmarkResolutionOptions, this.CFURLRef, this.CFArrayRef, this.Boolean.ptr, this.CFErrorRef.ptr);
+    this.CFURLCreateResourcePropertiesForKeysFromBookmarkData = lib.declare("CFURLCreateResourcePropertiesForKeysFromBookmarkData", ctypes.default_abi, this.CFDictionaryRef, this.CFAllocatorRef, this.CFArrayRef, this.CFDataRef);
+    this.CFURLCreateResourcePropertyForKeyFromBookmarkData = lib.declare("CFURLCreateResourcePropertyForKeyFromBookmarkData", ctypes.default_abi, this.CFTypeRef, this.CFAllocatorRef, this.CFStringRef, this.CFDataRef);
+    this.CFURLCreateBookmarkDataFromFile = lib.declare("CFURLCreateBookmarkDataFromFile", ctypes.default_abi, this.CFDataRef, this.CFAllocatorRef, this.CFURLRef, this.CFErrorRef.ptr);
+    this.CFURLWriteBookmarkDataToFile = lib.declare("CFURLWriteBookmarkDataToFile", ctypes.default_abi, this.Boolean, this.CFDataRef, this.CFURLRef, this.CFURLBookmarkFileCreationOptions, this.CFErrorRef.ptr);
+    this.CFURLCreateBookmarkDataFromAliasRecord = lib.declare("CFURLCreateBookmarkDataFromAliasRecord", ctypes.default_abi, this.CFDataRef, this.CFAllocatorRef, this.CFDataRef);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFMessagePort.h
 function CFMessagePort_h(lib) {
     CFData_h.call(this, lib);
+    CFDate_h.call(this, lib);
+    CFRunLoop_h.call(this, lib);
     CFBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
@@ -257,6 +497,20 @@ function CFMessagePort_h(lib) {
     this.CFMessagePortContext = new ctypes.StructType("CFMessagePortContext", [{version: this.CFIndex}, {info: ctypes.void_t.ptr}, {retain: new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t.ptr, [ctypes.void_t.ptr]).ptr}, {release: new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [ctypes.void_t.ptr]).ptr}, {copyDescription: new ctypes.FunctionType(ctypes.default_abi, this.CFStringRef, [ctypes.void_t.ptr]).ptr}]);
     this.CFMessagePortCallBack = new ctypes.FunctionType(ctypes.default_abi, this.CFDataRef, [this.CFMessagePortRef, this.SInt32, this.CFDataRef, ctypes.void_t.ptr]).ptr;
     this.CFMessagePortInvalidationCallBack = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.CFMessagePortRef, ctypes.void_t.ptr]).ptr;
+    this.CFMessagePortGetTypeID = lib.declare("CFMessagePortGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFMessagePortCreateLocal = lib.declare("CFMessagePortCreateLocal", ctypes.default_abi, this.CFMessagePortRef, this.CFAllocatorRef, this.CFStringRef, this.CFMessagePortCallBack, this.CFMessagePortContext.ptr, this.Boolean.ptr);
+    this.CFMessagePortCreateRemote = lib.declare("CFMessagePortCreateRemote", ctypes.default_abi, this.CFMessagePortRef, this.CFAllocatorRef, this.CFStringRef);
+    this.CFMessagePortIsRemote = lib.declare("CFMessagePortIsRemote", ctypes.default_abi, this.Boolean, this.CFMessagePortRef);
+    this.CFMessagePortGetName = lib.declare("CFMessagePortGetName", ctypes.default_abi, this.CFStringRef, this.CFMessagePortRef);
+    this.CFMessagePortSetName = lib.declare("CFMessagePortSetName", ctypes.default_abi, this.Boolean, this.CFMessagePortRef, this.CFStringRef);
+    this.CFMessagePortGetContext = lib.declare("CFMessagePortGetContext", ctypes.default_abi, ctypes.void_t, this.CFMessagePortRef, this.CFMessagePortContext.ptr);
+    this.CFMessagePortInvalidate = lib.declare("CFMessagePortInvalidate", ctypes.default_abi, ctypes.void_t, this.CFMessagePortRef);
+    this.CFMessagePortIsValid = lib.declare("CFMessagePortIsValid", ctypes.default_abi, this.Boolean, this.CFMessagePortRef);
+    this.CFMessagePortGetInvalidationCallBack = lib.declare("CFMessagePortGetInvalidationCallBack", ctypes.default_abi, this.CFMessagePortInvalidationCallBack, this.CFMessagePortRef);
+    this.CFMessagePortSetInvalidationCallBack = lib.declare("CFMessagePortSetInvalidationCallBack", ctypes.default_abi, ctypes.void_t, this.CFMessagePortRef, this.CFMessagePortInvalidationCallBack);
+    this.CFMessagePortSendRequest = lib.declare("CFMessagePortSendRequest", ctypes.default_abi, this.SInt32, this.CFMessagePortRef, this.SInt32, this.CFDataRef, this.CFTimeInterval, this.CFTimeInterval, this.CFStringRef, this.CFDataRef.ptr);
+    this.CFMessagePortCreateRunLoopSource = lib.declare("CFMessagePortCreateRunLoopSource", ctypes.default_abi, this.CFRunLoopSourceRef, this.CFAllocatorRef, this.CFMessagePortRef, this.CFIndex);
+    // Dropping declaration of 'CFMessagePortSetDispatchQueue': 'dispatch_queue_t' defined out of scope
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFDictionary.h
@@ -279,15 +533,53 @@ function CFDictionary_h(lib) {
     this.__CFDictionary = new ctypes.StructType("__CFDictionary");
     this.CFDictionaryRef = this.__CFDictionary.ptr;
     this.CFMutableDictionaryRef = this.__CFDictionary.ptr;
+    this.CFDictionaryGetTypeID = lib.declare("CFDictionaryGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFDictionaryCreate = lib.declare("CFDictionaryCreate", ctypes.default_abi, this.CFDictionaryRef, this.CFAllocatorRef, ctypes.void_t.ptr.ptr, ctypes.void_t.ptr.ptr, this.CFIndex, this.CFDictionaryKeyCallBacks.ptr, this.CFDictionaryValueCallBacks.ptr);
+    this.CFDictionaryCreateCopy = lib.declare("CFDictionaryCreateCopy", ctypes.default_abi, this.CFDictionaryRef, this.CFAllocatorRef, this.CFDictionaryRef);
+    this.CFDictionaryCreateMutable = lib.declare("CFDictionaryCreateMutable", ctypes.default_abi, this.CFMutableDictionaryRef, this.CFAllocatorRef, this.CFIndex, this.CFDictionaryKeyCallBacks.ptr, this.CFDictionaryValueCallBacks.ptr);
+    this.CFDictionaryCreateMutableCopy = lib.declare("CFDictionaryCreateMutableCopy", ctypes.default_abi, this.CFMutableDictionaryRef, this.CFAllocatorRef, this.CFIndex, this.CFDictionaryRef);
+    this.CFDictionaryGetCount = lib.declare("CFDictionaryGetCount", ctypes.default_abi, this.CFIndex, this.CFDictionaryRef);
+    this.CFDictionaryGetCountOfKey = lib.declare("CFDictionaryGetCountOfKey", ctypes.default_abi, this.CFIndex, this.CFDictionaryRef, ctypes.void_t.ptr);
+    this.CFDictionaryGetCountOfValue = lib.declare("CFDictionaryGetCountOfValue", ctypes.default_abi, this.CFIndex, this.CFDictionaryRef, ctypes.void_t.ptr);
+    this.CFDictionaryContainsKey = lib.declare("CFDictionaryContainsKey", ctypes.default_abi, this.Boolean, this.CFDictionaryRef, ctypes.void_t.ptr);
+    this.CFDictionaryContainsValue = lib.declare("CFDictionaryContainsValue", ctypes.default_abi, this.Boolean, this.CFDictionaryRef, ctypes.void_t.ptr);
+    this.CFDictionaryGetValue = lib.declare("CFDictionaryGetValue", ctypes.default_abi, ctypes.void_t.ptr, this.CFDictionaryRef, ctypes.void_t.ptr);
+    this.CFDictionaryGetValueIfPresent = lib.declare("CFDictionaryGetValueIfPresent", ctypes.default_abi, this.Boolean, this.CFDictionaryRef, ctypes.void_t.ptr, ctypes.void_t.ptr.ptr);
+    this.CFDictionaryGetKeysAndValues = lib.declare("CFDictionaryGetKeysAndValues", ctypes.default_abi, ctypes.void_t, this.CFDictionaryRef, ctypes.void_t.ptr.ptr, ctypes.void_t.ptr.ptr);
+    this.CFDictionaryApplyFunction = lib.declare("CFDictionaryApplyFunction", ctypes.default_abi, ctypes.void_t, this.CFDictionaryRef, this.CFDictionaryApplierFunction, ctypes.void_t.ptr);
+    this.CFDictionaryAddValue = lib.declare("CFDictionaryAddValue", ctypes.default_abi, ctypes.void_t, this.CFMutableDictionaryRef, ctypes.void_t.ptr, ctypes.void_t.ptr);
+    this.CFDictionarySetValue = lib.declare("CFDictionarySetValue", ctypes.default_abi, ctypes.void_t, this.CFMutableDictionaryRef, ctypes.void_t.ptr, ctypes.void_t.ptr);
+    this.CFDictionaryReplaceValue = lib.declare("CFDictionaryReplaceValue", ctypes.default_abi, ctypes.void_t, this.CFMutableDictionaryRef, ctypes.void_t.ptr, ctypes.void_t.ptr);
+    this.CFDictionaryRemoveValue = lib.declare("CFDictionaryRemoveValue", ctypes.default_abi, ctypes.void_t, this.CFMutableDictionaryRef, ctypes.void_t.ptr);
+    this.CFDictionaryRemoveAllValues = lib.declare("CFDictionaryRemoveAllValues", ctypes.default_abi, ctypes.void_t, this.CFMutableDictionaryRef);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFPreferences.h
 function CFPreferences_h(lib) {
+    CFDictionary_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._CFPREFERENCES_H)
         return;
     this._CFPREFERENCES_H = true;
 
+    this.CFPreferencesCopyAppValue = lib.declare("CFPreferencesCopyAppValue", ctypes.default_abi, this.CFPropertyListRef, this.CFStringRef, this.CFStringRef);
+    this.CFPreferencesGetAppBooleanValue = lib.declare("CFPreferencesGetAppBooleanValue", ctypes.default_abi, this.Boolean, this.CFStringRef, this.CFStringRef, this.Boolean.ptr);
+    this.CFPreferencesGetAppIntegerValue = lib.declare("CFPreferencesGetAppIntegerValue", ctypes.default_abi, this.CFIndex, this.CFStringRef, this.CFStringRef, this.Boolean.ptr);
+    this.CFPreferencesSetAppValue = lib.declare("CFPreferencesSetAppValue", ctypes.default_abi, ctypes.void_t, this.CFStringRef, this.CFPropertyListRef, this.CFStringRef);
+    this.CFPreferencesAddSuitePreferencesToApp = lib.declare("CFPreferencesAddSuitePreferencesToApp", ctypes.default_abi, ctypes.void_t, this.CFStringRef, this.CFStringRef);
+    this.CFPreferencesRemoveSuitePreferencesFromApp = lib.declare("CFPreferencesRemoveSuitePreferencesFromApp", ctypes.default_abi, ctypes.void_t, this.CFStringRef, this.CFStringRef);
+    this.CFPreferencesAppSynchronize = lib.declare("CFPreferencesAppSynchronize", ctypes.default_abi, this.Boolean, this.CFStringRef);
+    this.CFPreferencesCopyValue = lib.declare("CFPreferencesCopyValue", ctypes.default_abi, this.CFPropertyListRef, this.CFStringRef, this.CFStringRef, this.CFStringRef, this.CFStringRef);
+    this.CFPreferencesCopyMultiple = lib.declare("CFPreferencesCopyMultiple", ctypes.default_abi, this.CFDictionaryRef, this.CFArrayRef, this.CFStringRef, this.CFStringRef, this.CFStringRef);
+    this.CFPreferencesSetValue = lib.declare("CFPreferencesSetValue", ctypes.default_abi, ctypes.void_t, this.CFStringRef, this.CFPropertyListRef, this.CFStringRef, this.CFStringRef, this.CFStringRef);
+    this.CFPreferencesSetMultiple = lib.declare("CFPreferencesSetMultiple", ctypes.default_abi, ctypes.void_t, this.CFDictionaryRef, this.CFArrayRef, this.CFStringRef, this.CFStringRef, this.CFStringRef);
+    this.CFPreferencesSynchronize = lib.declare("CFPreferencesSynchronize", ctypes.default_abi, this.Boolean, this.CFStringRef, this.CFStringRef, this.CFStringRef);
+    this.CFPreferencesCopyApplicationList = lib.declare("CFPreferencesCopyApplicationList", ctypes.default_abi, this.CFArrayRef, this.CFStringRef, this.CFStringRef);
+    this.CFPreferencesCopyKeyList = lib.declare("CFPreferencesCopyKeyList", ctypes.default_abi, this.CFArrayRef, this.CFStringRef, this.CFStringRef, this.CFStringRef);
+    this.CFPreferencesAppValueIsForced = lib.declare("CFPreferencesAppValueIsForced", ctypes.default_abi, this.Boolean, this.CFStringRef, this.CFStringRef);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFSet.h
@@ -309,11 +601,31 @@ function CFSet_h(lib) {
     this.__CFSet = new ctypes.StructType("__CFSet");
     this.CFSetRef = this.__CFSet.ptr;
     this.CFMutableSetRef = this.__CFSet.ptr;
+    this.CFSetGetTypeID = lib.declare("CFSetGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFSetCreate = lib.declare("CFSetCreate", ctypes.default_abi, this.CFSetRef, this.CFAllocatorRef, ctypes.void_t.ptr.ptr, this.CFIndex, this.CFSetCallBacks.ptr);
+    this.CFSetCreateCopy = lib.declare("CFSetCreateCopy", ctypes.default_abi, this.CFSetRef, this.CFAllocatorRef, this.CFSetRef);
+    this.CFSetCreateMutable = lib.declare("CFSetCreateMutable", ctypes.default_abi, this.CFMutableSetRef, this.CFAllocatorRef, this.CFIndex, this.CFSetCallBacks.ptr);
+    this.CFSetCreateMutableCopy = lib.declare("CFSetCreateMutableCopy", ctypes.default_abi, this.CFMutableSetRef, this.CFAllocatorRef, this.CFIndex, this.CFSetRef);
+    this.CFSetGetCount = lib.declare("CFSetGetCount", ctypes.default_abi, this.CFIndex, this.CFSetRef);
+    this.CFSetGetCountOfValue = lib.declare("CFSetGetCountOfValue", ctypes.default_abi, this.CFIndex, this.CFSetRef, ctypes.void_t.ptr);
+    this.CFSetContainsValue = lib.declare("CFSetContainsValue", ctypes.default_abi, this.Boolean, this.CFSetRef, ctypes.void_t.ptr);
+    this.CFSetGetValue = lib.declare("CFSetGetValue", ctypes.default_abi, ctypes.void_t.ptr, this.CFSetRef, ctypes.void_t.ptr);
+    this.CFSetGetValueIfPresent = lib.declare("CFSetGetValueIfPresent", ctypes.default_abi, this.Boolean, this.CFSetRef, ctypes.void_t.ptr, ctypes.void_t.ptr.ptr);
+    this.CFSetGetValues = lib.declare("CFSetGetValues", ctypes.default_abi, ctypes.void_t, this.CFSetRef, ctypes.void_t.ptr.ptr);
+    this.CFSetApplyFunction = lib.declare("CFSetApplyFunction", ctypes.default_abi, ctypes.void_t, this.CFSetRef, this.CFSetApplierFunction, ctypes.void_t.ptr);
+    this.CFSetAddValue = lib.declare("CFSetAddValue", ctypes.default_abi, ctypes.void_t, this.CFMutableSetRef, ctypes.void_t.ptr);
+    this.CFSetReplaceValue = lib.declare("CFSetReplaceValue", ctypes.default_abi, ctypes.void_t, this.CFMutableSetRef, ctypes.void_t.ptr);
+    this.CFSetSetValue = lib.declare("CFSetSetValue", ctypes.default_abi, ctypes.void_t, this.CFMutableSetRef, ctypes.void_t.ptr);
+    this.CFSetRemoveValue = lib.declare("CFSetRemoveValue", ctypes.default_abi, ctypes.void_t, this.CFMutableSetRef, ctypes.void_t.ptr);
+    this.CFSetRemoveAllValues = lib.declare("CFSetRemoveAllValues", ctypes.default_abi, ctypes.void_t, this.CFMutableSetRef);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFLocale.h
 function CFLocale_h(lib) {
+    CFDictionary_h.call(this, lib);
     CFBase_h.call(this, lib);
+    MacTypes_h.call(this, lib);
+    CFArray_h.call(this, lib);
 
     if (this._CFLOCALE_H)
         return;
@@ -321,17 +633,45 @@ function CFLocale_h(lib) {
 
     this.__CFLocale = new ctypes.StructType("__CFLocale");
     this.CFLocaleRef = this.__CFLocale.ptr;
+    this.CFLocaleGetTypeID = lib.declare("CFLocaleGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFLocaleGetSystem = lib.declare("CFLocaleGetSystem", ctypes.default_abi, this.CFLocaleRef);
+    this.CFLocaleCopyCurrent = lib.declare("CFLocaleCopyCurrent", ctypes.default_abi, this.CFLocaleRef);
+    this.CFLocaleCopyAvailableLocaleIdentifiers = lib.declare("CFLocaleCopyAvailableLocaleIdentifiers", ctypes.default_abi, this.CFArrayRef);
+    this.CFLocaleCopyISOLanguageCodes = lib.declare("CFLocaleCopyISOLanguageCodes", ctypes.default_abi, this.CFArrayRef);
+    this.CFLocaleCopyISOCountryCodes = lib.declare("CFLocaleCopyISOCountryCodes", ctypes.default_abi, this.CFArrayRef);
+    this.CFLocaleCopyISOCurrencyCodes = lib.declare("CFLocaleCopyISOCurrencyCodes", ctypes.default_abi, this.CFArrayRef);
+    this.CFLocaleCopyCommonISOCurrencyCodes = lib.declare("CFLocaleCopyCommonISOCurrencyCodes", ctypes.default_abi, this.CFArrayRef);
+    this.CFLocaleCopyPreferredLanguages = lib.declare("CFLocaleCopyPreferredLanguages", ctypes.default_abi, this.CFArrayRef);
+    this.CFLocaleCreateCanonicalLanguageIdentifierFromString = lib.declare("CFLocaleCreateCanonicalLanguageIdentifierFromString", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, this.CFStringRef);
+    this.CFLocaleCreateCanonicalLocaleIdentifierFromString = lib.declare("CFLocaleCreateCanonicalLocaleIdentifierFromString", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, this.CFStringRef);
+    this.CFLocaleCreateCanonicalLocaleIdentifierFromScriptManagerCodes = lib.declare("CFLocaleCreateCanonicalLocaleIdentifierFromScriptManagerCodes", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, this.LangCode, this.RegionCode);
+    // Dropping declaration of 'CFLocaleCreateLocaleIdentifierFromWindowsLocaleCode': 'uint32_t' defined out of scope
+    // Dropping declaration of 'CFLocaleGetWindowsLocaleCodeFromLocaleIdentifier': 'uint32_t' defined out of scope
     this.kCFLocaleLanguageDirectionUnknown = 0;
     this.kCFLocaleLanguageDirectionLeftToRight = 1;
     this.kCFLocaleLanguageDirectionRightToLeft = 2;
     this.kCFLocaleLanguageDirectionTopToBottom = 3;
     this.kCFLocaleLanguageDirectionBottomToTop = 4;
     this.CFLocaleLanguageDirection = this.CFIndex;
+    this.CFLocaleGetLanguageCharacterDirection = lib.declare("CFLocaleGetLanguageCharacterDirection", ctypes.default_abi, this.CFLocaleLanguageDirection, this.CFStringRef);
+    this.CFLocaleGetLanguageLineDirection = lib.declare("CFLocaleGetLanguageLineDirection", ctypes.default_abi, this.CFLocaleLanguageDirection, this.CFStringRef);
+    this.CFLocaleCreateComponentsFromLocaleIdentifier = lib.declare("CFLocaleCreateComponentsFromLocaleIdentifier", ctypes.default_abi, this.CFDictionaryRef, this.CFAllocatorRef, this.CFStringRef);
+    this.CFLocaleCreateLocaleIdentifierFromComponents = lib.declare("CFLocaleCreateLocaleIdentifierFromComponents", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, this.CFDictionaryRef);
+    this.CFLocaleCreate = lib.declare("CFLocaleCreate", ctypes.default_abi, this.CFLocaleRef, this.CFAllocatorRef, this.CFStringRef);
+    this.CFLocaleCreateCopy = lib.declare("CFLocaleCreateCopy", ctypes.default_abi, this.CFLocaleRef, this.CFAllocatorRef, this.CFLocaleRef);
+    this.CFLocaleGetIdentifier = lib.declare("CFLocaleGetIdentifier", ctypes.default_abi, this.CFStringRef, this.CFLocaleRef);
+    this.CFLocaleGetValue = lib.declare("CFLocaleGetValue", ctypes.default_abi, this.CFTypeRef, this.CFLocaleRef, this.CFStringRef);
+    this.CFLocaleCopyDisplayNameForPropertyValue = lib.declare("CFLocaleCopyDisplayNameForPropertyValue", ctypes.default_abi, this.CFStringRef, this.CFLocaleRef, this.CFStringRef, this.CFStringRef);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFUserNotification.h
 function CFUserNotification_h(lib) {
+    CFDate_h.call(this, lib);
+    CFRunLoop_h.call(this, lib);
+    CFDictionary_h.call(this, lib);
+    CFURL_h.call(this, lib);
     CFBase_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._CFUSERNOTIFICATION_H)
         return;
@@ -340,6 +680,16 @@ function CFUserNotification_h(lib) {
     this.__CFUserNotification = new ctypes.StructType("__CFUserNotification");
     this.CFUserNotificationRef = this.__CFUserNotification.ptr;
     this.CFUserNotificationCallBack = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.CFUserNotificationRef, this.CFOptionFlags]).ptr;
+    this.CFUserNotificationGetTypeID = lib.declare("CFUserNotificationGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFUserNotificationCreate = lib.declare("CFUserNotificationCreate", ctypes.default_abi, this.CFUserNotificationRef, this.CFAllocatorRef, this.CFTimeInterval, this.CFOptionFlags, this.SInt32.ptr, this.CFDictionaryRef);
+    this.CFUserNotificationReceiveResponse = lib.declare("CFUserNotificationReceiveResponse", ctypes.default_abi, this.SInt32, this.CFUserNotificationRef, this.CFTimeInterval, this.CFOptionFlags.ptr);
+    this.CFUserNotificationGetResponseValue = lib.declare("CFUserNotificationGetResponseValue", ctypes.default_abi, this.CFStringRef, this.CFUserNotificationRef, this.CFStringRef, this.CFIndex);
+    this.CFUserNotificationGetResponseDictionary = lib.declare("CFUserNotificationGetResponseDictionary", ctypes.default_abi, this.CFDictionaryRef, this.CFUserNotificationRef);
+    this.CFUserNotificationUpdate = lib.declare("CFUserNotificationUpdate", ctypes.default_abi, this.SInt32, this.CFUserNotificationRef, this.CFTimeInterval, this.CFOptionFlags, this.CFDictionaryRef);
+    this.CFUserNotificationCancel = lib.declare("CFUserNotificationCancel", ctypes.default_abi, this.SInt32, this.CFUserNotificationRef);
+    this.CFUserNotificationCreateRunLoopSource = lib.declare("CFUserNotificationCreateRunLoopSource", ctypes.default_abi, this.CFRunLoopSourceRef, this.CFAllocatorRef, this.CFUserNotificationRef, this.CFUserNotificationCallBack, this.CFIndex);
+    this.CFUserNotificationDisplayNotice = lib.declare("CFUserNotificationDisplayNotice", ctypes.default_abi, this.SInt32, this.CFTimeInterval, this.CFOptionFlags, this.CFURLRef, this.CFURLRef, this.CFURLRef, this.CFStringRef, this.CFStringRef, this.CFStringRef);
+    this.CFUserNotificationDisplayAlert = lib.declare("CFUserNotificationDisplayAlert", ctypes.default_abi, this.SInt32, this.CFTimeInterval, this.CFOptionFlags, this.CFURLRef, this.CFURLRef, this.CFURLRef, this.CFStringRef, this.CFStringRef, this.CFStringRef, this.CFStringRef, this.CFStringRef, this.CFOptionFlags.ptr);
     this.kCFUserNotificationStopAlertLevel = 0;
     this.kCFUserNotificationNoteAlertLevel = 1;
     this.kCFUserNotificationCautionAlertLevel = 2;
@@ -358,6 +708,7 @@ function CFUserNotification_h(lib) {
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFBinaryHeap.h
 function CFBinaryHeap_h(lib) {
     CFBase_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._CFBINARYHEAP_H)
         return;
@@ -368,11 +719,26 @@ function CFBinaryHeap_h(lib) {
     this.CFBinaryHeapApplierFunction = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [ctypes.void_t.ptr, ctypes.void_t.ptr]).ptr;
     this.__CFBinaryHeap = new ctypes.StructType("__CFBinaryHeap");
     this.CFBinaryHeapRef = this.__CFBinaryHeap.ptr;
+    this.CFBinaryHeapGetTypeID = lib.declare("CFBinaryHeapGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFBinaryHeapCreate = lib.declare("CFBinaryHeapCreate", ctypes.default_abi, this.CFBinaryHeapRef, this.CFAllocatorRef, this.CFIndex, this.CFBinaryHeapCallBacks.ptr, this.CFBinaryHeapCompareContext.ptr);
+    this.CFBinaryHeapCreateCopy = lib.declare("CFBinaryHeapCreateCopy", ctypes.default_abi, this.CFBinaryHeapRef, this.CFAllocatorRef, this.CFIndex, this.CFBinaryHeapRef);
+    this.CFBinaryHeapGetCount = lib.declare("CFBinaryHeapGetCount", ctypes.default_abi, this.CFIndex, this.CFBinaryHeapRef);
+    this.CFBinaryHeapGetCountOfValue = lib.declare("CFBinaryHeapGetCountOfValue", ctypes.default_abi, this.CFIndex, this.CFBinaryHeapRef, ctypes.void_t.ptr);
+    this.CFBinaryHeapContainsValue = lib.declare("CFBinaryHeapContainsValue", ctypes.default_abi, this.Boolean, this.CFBinaryHeapRef, ctypes.void_t.ptr);
+    this.CFBinaryHeapGetMinimum = lib.declare("CFBinaryHeapGetMinimum", ctypes.default_abi, ctypes.void_t.ptr, this.CFBinaryHeapRef);
+    this.CFBinaryHeapGetMinimumIfPresent = lib.declare("CFBinaryHeapGetMinimumIfPresent", ctypes.default_abi, this.Boolean, this.CFBinaryHeapRef, ctypes.void_t.ptr.ptr);
+    this.CFBinaryHeapGetValues = lib.declare("CFBinaryHeapGetValues", ctypes.default_abi, ctypes.void_t, this.CFBinaryHeapRef, ctypes.void_t.ptr.ptr);
+    this.CFBinaryHeapApplyFunction = lib.declare("CFBinaryHeapApplyFunction", ctypes.default_abi, ctypes.void_t, this.CFBinaryHeapRef, this.CFBinaryHeapApplierFunction, ctypes.void_t.ptr);
+    this.CFBinaryHeapAddValue = lib.declare("CFBinaryHeapAddValue", ctypes.default_abi, ctypes.void_t, this.CFBinaryHeapRef, ctypes.void_t.ptr);
+    this.CFBinaryHeapRemoveMinimumValue = lib.declare("CFBinaryHeapRemoveMinimumValue", ctypes.default_abi, ctypes.void_t, this.CFBinaryHeapRef);
+    this.CFBinaryHeapRemoveAllValues = lib.declare("CFBinaryHeapRemoveAllValues", ctypes.default_abi, ctypes.void_t, this.CFBinaryHeapRef);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFFileDescriptor.h
 function CFFileDescriptor_h(lib) {
     CFBase_h.call(this, lib);
+    MacTypes_h.call(this, lib);
+    CFRunLoop_h.call(this, lib);
 
     if (this._CFFILEDESCRIPTOR_H)
         return;
@@ -385,12 +751,23 @@ function CFFileDescriptor_h(lib) {
     this.kCFFileDescriptorWriteCallBack = 2;
     this.CFFileDescriptorCallBack = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.CFFileDescriptorRef, this.CFOptionFlags, ctypes.void_t.ptr]).ptr;
     this.CFFileDescriptorContext = new ctypes.StructType("CFFileDescriptorContext", [{version: this.CFIndex}, {info: ctypes.void_t.ptr}, {retain: new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t.ptr, [ctypes.void_t.ptr]).ptr}, {release: new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [ctypes.void_t.ptr]).ptr}, {copyDescription: new ctypes.FunctionType(ctypes.default_abi, this.CFStringRef, [ctypes.void_t.ptr]).ptr}]);
+    this.CFFileDescriptorGetTypeID = lib.declare("CFFileDescriptorGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFFileDescriptorCreate = lib.declare("CFFileDescriptorCreate", ctypes.default_abi, this.CFFileDescriptorRef, this.CFAllocatorRef, this.CFFileDescriptorNativeDescriptor, this.Boolean, this.CFFileDescriptorCallBack, this.CFFileDescriptorContext.ptr);
+    this.CFFileDescriptorGetNativeDescriptor = lib.declare("CFFileDescriptorGetNativeDescriptor", ctypes.default_abi, this.CFFileDescriptorNativeDescriptor, this.CFFileDescriptorRef);
+    this.CFFileDescriptorGetContext = lib.declare("CFFileDescriptorGetContext", ctypes.default_abi, ctypes.void_t, this.CFFileDescriptorRef, this.CFFileDescriptorContext.ptr);
+    this.CFFileDescriptorEnableCallBacks = lib.declare("CFFileDescriptorEnableCallBacks", ctypes.default_abi, ctypes.void_t, this.CFFileDescriptorRef, this.CFOptionFlags);
+    this.CFFileDescriptorDisableCallBacks = lib.declare("CFFileDescriptorDisableCallBacks", ctypes.default_abi, ctypes.void_t, this.CFFileDescriptorRef, this.CFOptionFlags);
+    this.CFFileDescriptorInvalidate = lib.declare("CFFileDescriptorInvalidate", ctypes.default_abi, ctypes.void_t, this.CFFileDescriptorRef);
+    this.CFFileDescriptorIsValid = lib.declare("CFFileDescriptorIsValid", ctypes.default_abi, this.Boolean, this.CFFileDescriptorRef);
+    this.CFFileDescriptorCreateRunLoopSource = lib.declare("CFFileDescriptorCreateRunLoopSource", ctypes.default_abi, this.CFRunLoopSourceRef, this.CFAllocatorRef, this.CFFileDescriptorRef, this.CFIndex);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFRunLoop.h
 function CFRunLoop_h(lib) {
     CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
     MacTypes_h.call(this, lib);
+    CFDate_h.call(this, lib);
 
     if (this._CFRUNLOOP_H)
         return;
@@ -416,17 +793,64 @@ function CFRunLoop_h(lib) {
     this.kCFRunLoopExit = 128;
     this.kCFRunLoopAllActivities = 268435455;
     this.CFRunLoopActivity = this.CFOptionFlags;
+    this.CFRunLoopGetTypeID = lib.declare("CFRunLoopGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFRunLoopGetCurrent = lib.declare("CFRunLoopGetCurrent", ctypes.default_abi, this.CFRunLoopRef);
+    this.CFRunLoopGetMain = lib.declare("CFRunLoopGetMain", ctypes.default_abi, this.CFRunLoopRef);
+    this.CFRunLoopCopyCurrentMode = lib.declare("CFRunLoopCopyCurrentMode", ctypes.default_abi, this.CFStringRef, this.CFRunLoopRef);
+    this.CFRunLoopCopyAllModes = lib.declare("CFRunLoopCopyAllModes", ctypes.default_abi, this.CFArrayRef, this.CFRunLoopRef);
+    this.CFRunLoopAddCommonMode = lib.declare("CFRunLoopAddCommonMode", ctypes.default_abi, ctypes.void_t, this.CFRunLoopRef, this.CFStringRef);
+    this.CFRunLoopGetNextTimerFireDate = lib.declare("CFRunLoopGetNextTimerFireDate", ctypes.default_abi, this.CFAbsoluteTime, this.CFRunLoopRef, this.CFStringRef);
+    this.CFRunLoopRun = lib.declare("CFRunLoopRun", ctypes.default_abi, ctypes.void_t);
+    this.CFRunLoopRunInMode = lib.declare("CFRunLoopRunInMode", ctypes.default_abi, this.SInt32, this.CFStringRef, this.CFTimeInterval, this.Boolean);
+    this.CFRunLoopIsWaiting = lib.declare("CFRunLoopIsWaiting", ctypes.default_abi, this.Boolean, this.CFRunLoopRef);
+    this.CFRunLoopWakeUp = lib.declare("CFRunLoopWakeUp", ctypes.default_abi, ctypes.void_t, this.CFRunLoopRef);
+    this.CFRunLoopStop = lib.declare("CFRunLoopStop", ctypes.default_abi, ctypes.void_t, this.CFRunLoopRef);
+    this.CFRunLoopContainsSource = lib.declare("CFRunLoopContainsSource", ctypes.default_abi, this.Boolean, this.CFRunLoopRef, this.CFRunLoopSourceRef, this.CFStringRef);
+    this.CFRunLoopAddSource = lib.declare("CFRunLoopAddSource", ctypes.default_abi, ctypes.void_t, this.CFRunLoopRef, this.CFRunLoopSourceRef, this.CFStringRef);
+    this.CFRunLoopRemoveSource = lib.declare("CFRunLoopRemoveSource", ctypes.default_abi, ctypes.void_t, this.CFRunLoopRef, this.CFRunLoopSourceRef, this.CFStringRef);
+    this.CFRunLoopContainsObserver = lib.declare("CFRunLoopContainsObserver", ctypes.default_abi, this.Boolean, this.CFRunLoopRef, this.CFRunLoopObserverRef, this.CFStringRef);
+    this.CFRunLoopAddObserver = lib.declare("CFRunLoopAddObserver", ctypes.default_abi, ctypes.void_t, this.CFRunLoopRef, this.CFRunLoopObserverRef, this.CFStringRef);
+    this.CFRunLoopRemoveObserver = lib.declare("CFRunLoopRemoveObserver", ctypes.default_abi, ctypes.void_t, this.CFRunLoopRef, this.CFRunLoopObserverRef, this.CFStringRef);
+    this.CFRunLoopContainsTimer = lib.declare("CFRunLoopContainsTimer", ctypes.default_abi, this.Boolean, this.CFRunLoopRef, this.CFRunLoopTimerRef, this.CFStringRef);
+    this.CFRunLoopAddTimer = lib.declare("CFRunLoopAddTimer", ctypes.default_abi, ctypes.void_t, this.CFRunLoopRef, this.CFRunLoopTimerRef, this.CFStringRef);
+    this.CFRunLoopRemoveTimer = lib.declare("CFRunLoopRemoveTimer", ctypes.default_abi, ctypes.void_t, this.CFRunLoopRef, this.CFRunLoopTimerRef, this.CFStringRef);
     this.CFRunLoopSourceContext = new ctypes.StructType("CFRunLoopSourceContext", [{version: this.CFIndex}, {info: ctypes.void_t.ptr}, {retain: new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t.ptr, [ctypes.void_t.ptr]).ptr}, {release: new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [ctypes.void_t.ptr]).ptr}, {copyDescription: new ctypes.FunctionType(ctypes.default_abi, this.CFStringRef, [ctypes.void_t.ptr]).ptr}, {equal: new ctypes.FunctionType(ctypes.default_abi, this.Boolean, [ctypes.void_t.ptr, ctypes.void_t.ptr]).ptr}, {hash: new ctypes.FunctionType(ctypes.default_abi, this.CFHashCode, [ctypes.void_t.ptr]).ptr}, {schedule: new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [ctypes.void_t.ptr, this.CFRunLoopRef, this.CFStringRef]).ptr}, {cancel: new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [ctypes.void_t.ptr, this.CFRunLoopRef, this.CFStringRef]).ptr}, {perform: new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [ctypes.void_t.ptr]).ptr}]);
     this.CFRunLoopSourceContext1 = new ctypes.StructType("CFRunLoopSourceContext1", []);
+    this.CFRunLoopSourceGetTypeID = lib.declare("CFRunLoopSourceGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFRunLoopSourceCreate = lib.declare("CFRunLoopSourceCreate", ctypes.default_abi, this.CFRunLoopSourceRef, this.CFAllocatorRef, this.CFIndex, this.CFRunLoopSourceContext.ptr);
+    this.CFRunLoopSourceGetOrder = lib.declare("CFRunLoopSourceGetOrder", ctypes.default_abi, this.CFIndex, this.CFRunLoopSourceRef);
+    this.CFRunLoopSourceInvalidate = lib.declare("CFRunLoopSourceInvalidate", ctypes.default_abi, ctypes.void_t, this.CFRunLoopSourceRef);
+    this.CFRunLoopSourceIsValid = lib.declare("CFRunLoopSourceIsValid", ctypes.default_abi, this.Boolean, this.CFRunLoopSourceRef);
+    this.CFRunLoopSourceGetContext = lib.declare("CFRunLoopSourceGetContext", ctypes.default_abi, ctypes.void_t, this.CFRunLoopSourceRef, this.CFRunLoopSourceContext.ptr);
+    this.CFRunLoopSourceSignal = lib.declare("CFRunLoopSourceSignal", ctypes.default_abi, ctypes.void_t, this.CFRunLoopSourceRef);
     this.CFRunLoopObserverContext = new ctypes.StructType("CFRunLoopObserverContext", [{version: this.CFIndex}, {info: ctypes.void_t.ptr}, {retain: new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t.ptr, [ctypes.void_t.ptr]).ptr}, {release: new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [ctypes.void_t.ptr]).ptr}, {copyDescription: new ctypes.FunctionType(ctypes.default_abi, this.CFStringRef, [ctypes.void_t.ptr]).ptr}]);
     this.CFRunLoopObserverCallBack = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.CFRunLoopObserverRef, this.CFRunLoopActivity, ctypes.void_t.ptr]).ptr;
+    this.CFRunLoopObserverGetTypeID = lib.declare("CFRunLoopObserverGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFRunLoopObserverCreate = lib.declare("CFRunLoopObserverCreate", ctypes.default_abi, this.CFRunLoopObserverRef, this.CFAllocatorRef, this.CFOptionFlags, this.Boolean, this.CFIndex, this.CFRunLoopObserverCallBack, this.CFRunLoopObserverContext.ptr);
+    this.CFRunLoopObserverGetActivities = lib.declare("CFRunLoopObserverGetActivities", ctypes.default_abi, this.CFOptionFlags, this.CFRunLoopObserverRef);
+    this.CFRunLoopObserverDoesRepeat = lib.declare("CFRunLoopObserverDoesRepeat", ctypes.default_abi, this.Boolean, this.CFRunLoopObserverRef);
+    this.CFRunLoopObserverGetOrder = lib.declare("CFRunLoopObserverGetOrder", ctypes.default_abi, this.CFIndex, this.CFRunLoopObserverRef);
+    this.CFRunLoopObserverInvalidate = lib.declare("CFRunLoopObserverInvalidate", ctypes.default_abi, ctypes.void_t, this.CFRunLoopObserverRef);
+    this.CFRunLoopObserverIsValid = lib.declare("CFRunLoopObserverIsValid", ctypes.default_abi, this.Boolean, this.CFRunLoopObserverRef);
+    this.CFRunLoopObserverGetContext = lib.declare("CFRunLoopObserverGetContext", ctypes.default_abi, ctypes.void_t, this.CFRunLoopObserverRef, this.CFRunLoopObserverContext.ptr);
     this.CFRunLoopTimerContext = new ctypes.StructType("CFRunLoopTimerContext", [{version: this.CFIndex}, {info: ctypes.void_t.ptr}, {retain: new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t.ptr, [ctypes.void_t.ptr]).ptr}, {release: new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [ctypes.void_t.ptr]).ptr}, {copyDescription: new ctypes.FunctionType(ctypes.default_abi, this.CFStringRef, [ctypes.void_t.ptr]).ptr}]);
     this.CFRunLoopTimerCallBack = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.CFRunLoopTimerRef, ctypes.void_t.ptr]).ptr;
+    this.CFRunLoopTimerGetTypeID = lib.declare("CFRunLoopTimerGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFRunLoopTimerCreate = lib.declare("CFRunLoopTimerCreate", ctypes.default_abi, this.CFRunLoopTimerRef, this.CFAllocatorRef, this.CFAbsoluteTime, this.CFTimeInterval, this.CFOptionFlags, this.CFIndex, this.CFRunLoopTimerCallBack, this.CFRunLoopTimerContext.ptr);
+    this.CFRunLoopTimerGetNextFireDate = lib.declare("CFRunLoopTimerGetNextFireDate", ctypes.default_abi, this.CFAbsoluteTime, this.CFRunLoopTimerRef);
+    this.CFRunLoopTimerSetNextFireDate = lib.declare("CFRunLoopTimerSetNextFireDate", ctypes.default_abi, ctypes.void_t, this.CFRunLoopTimerRef, this.CFAbsoluteTime);
+    this.CFRunLoopTimerGetInterval = lib.declare("CFRunLoopTimerGetInterval", ctypes.default_abi, this.CFTimeInterval, this.CFRunLoopTimerRef);
+    this.CFRunLoopTimerDoesRepeat = lib.declare("CFRunLoopTimerDoesRepeat", ctypes.default_abi, this.Boolean, this.CFRunLoopTimerRef);
+    this.CFRunLoopTimerGetOrder = lib.declare("CFRunLoopTimerGetOrder", ctypes.default_abi, this.CFIndex, this.CFRunLoopTimerRef);
+    this.CFRunLoopTimerInvalidate = lib.declare("CFRunLoopTimerInvalidate", ctypes.default_abi, ctypes.void_t, this.CFRunLoopTimerRef);
+    this.CFRunLoopTimerIsValid = lib.declare("CFRunLoopTimerIsValid", ctypes.default_abi, this.Boolean, this.CFRunLoopTimerRef);
+    this.CFRunLoopTimerGetContext = lib.declare("CFRunLoopTimerGetContext", ctypes.default_abi, ctypes.void_t, this.CFRunLoopTimerRef, this.CFRunLoopTimerContext.ptr);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFData.h
 function CFData_h(lib) {
     CFBase_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._CFDATA_H)
         return;
@@ -435,13 +859,34 @@ function CFData_h(lib) {
     this.__CFData = new ctypes.StructType("__CFData");
     this.CFDataRef = this.__CFData.ptr;
     this.CFMutableDataRef = this.__CFData.ptr;
+    this.CFDataGetTypeID = lib.declare("CFDataGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFDataCreate = lib.declare("CFDataCreate", ctypes.default_abi, this.CFDataRef, this.CFAllocatorRef, this.UInt8.ptr, this.CFIndex);
+    this.CFDataCreateWithBytesNoCopy = lib.declare("CFDataCreateWithBytesNoCopy", ctypes.default_abi, this.CFDataRef, this.CFAllocatorRef, this.UInt8.ptr, this.CFIndex, this.CFAllocatorRef);
+    this.CFDataCreateCopy = lib.declare("CFDataCreateCopy", ctypes.default_abi, this.CFDataRef, this.CFAllocatorRef, this.CFDataRef);
+    this.CFDataCreateMutable = lib.declare("CFDataCreateMutable", ctypes.default_abi, this.CFMutableDataRef, this.CFAllocatorRef, this.CFIndex);
+    this.CFDataCreateMutableCopy = lib.declare("CFDataCreateMutableCopy", ctypes.default_abi, this.CFMutableDataRef, this.CFAllocatorRef, this.CFIndex, this.CFDataRef);
+    this.CFDataGetLength = lib.declare("CFDataGetLength", ctypes.default_abi, this.CFIndex, this.CFDataRef);
+    this.CFDataGetBytePtr = lib.declare("CFDataGetBytePtr", ctypes.default_abi, this.UInt8.ptr, this.CFDataRef);
+    this.CFDataGetMutableBytePtr = lib.declare("CFDataGetMutableBytePtr", ctypes.default_abi, this.UInt8.ptr, this.CFMutableDataRef);
+    this.CFDataGetBytes = lib.declare("CFDataGetBytes", ctypes.default_abi, ctypes.void_t, this.CFDataRef, this.CFRange, this.UInt8.ptr);
+    this.CFDataSetLength = lib.declare("CFDataSetLength", ctypes.default_abi, ctypes.void_t, this.CFMutableDataRef, this.CFIndex);
+    this.CFDataIncreaseLength = lib.declare("CFDataIncreaseLength", ctypes.default_abi, ctypes.void_t, this.CFMutableDataRef, this.CFIndex);
+    this.CFDataAppendBytes = lib.declare("CFDataAppendBytes", ctypes.default_abi, ctypes.void_t, this.CFMutableDataRef, this.UInt8.ptr, this.CFIndex);
+    this.CFDataReplaceBytes = lib.declare("CFDataReplaceBytes", ctypes.default_abi, ctypes.void_t, this.CFMutableDataRef, this.CFRange, this.UInt8.ptr, this.CFIndex);
+    this.CFDataDeleteBytes = lib.declare("CFDataDeleteBytes", ctypes.default_abi, ctypes.void_t, this.CFMutableDataRef, this.CFRange);
     this.kCFDataSearchBackwards = 1;
     this.kCFDataSearchAnchored = 2;
     this.CFDataSearchFlags = this.CFOptionFlags;
+    this.CFDataFind = lib.declare("CFDataFind", ctypes.default_abi, this.CFRange, this.CFDataRef, this.CFDataRef, this.CFRange, this.CFDataSearchFlags);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFBundle.h
 function CFBundle_h(lib) {
+    CFError_h.call(this, lib);
+    CFDictionary_h.call(this, lib);
+    CFURL_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._CFBUNDLE_H)
@@ -451,11 +896,62 @@ function CFBundle_h(lib) {
     this.__CFBundle = new ctypes.StructType("__CFBundle");
     this.CFBundleRef = this.__CFBundle.ptr;
     this.CFPlugInRef = this.__CFBundle.ptr;
+    this.CFBundleGetMainBundle = lib.declare("CFBundleGetMainBundle", ctypes.default_abi, this.CFBundleRef);
+    this.CFBundleGetBundleWithIdentifier = lib.declare("CFBundleGetBundleWithIdentifier", ctypes.default_abi, this.CFBundleRef, this.CFStringRef);
+    this.CFBundleGetAllBundles = lib.declare("CFBundleGetAllBundles", ctypes.default_abi, this.CFArrayRef);
+    this.CFBundleGetTypeID = lib.declare("CFBundleGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFBundleCreate = lib.declare("CFBundleCreate", ctypes.default_abi, this.CFBundleRef, this.CFAllocatorRef, this.CFURLRef);
+    this.CFBundleCreateBundlesFromDirectory = lib.declare("CFBundleCreateBundlesFromDirectory", ctypes.default_abi, this.CFArrayRef, this.CFAllocatorRef, this.CFURLRef, this.CFStringRef);
+    this.CFBundleCopyBundleURL = lib.declare("CFBundleCopyBundleURL", ctypes.default_abi, this.CFURLRef, this.CFBundleRef);
+    this.CFBundleGetValueForInfoDictionaryKey = lib.declare("CFBundleGetValueForInfoDictionaryKey", ctypes.default_abi, this.CFTypeRef, this.CFBundleRef, this.CFStringRef);
+    this.CFBundleGetInfoDictionary = lib.declare("CFBundleGetInfoDictionary", ctypes.default_abi, this.CFDictionaryRef, this.CFBundleRef);
+    this.CFBundleGetLocalInfoDictionary = lib.declare("CFBundleGetLocalInfoDictionary", ctypes.default_abi, this.CFDictionaryRef, this.CFBundleRef);
+    this.CFBundleGetPackageInfo = lib.declare("CFBundleGetPackageInfo", ctypes.default_abi, ctypes.void_t, this.CFBundleRef, this.UInt32.ptr, this.UInt32.ptr);
+    this.CFBundleGetIdentifier = lib.declare("CFBundleGetIdentifier", ctypes.default_abi, this.CFStringRef, this.CFBundleRef);
+    this.CFBundleGetVersionNumber = lib.declare("CFBundleGetVersionNumber", ctypes.default_abi, this.UInt32, this.CFBundleRef);
+    this.CFBundleGetDevelopmentRegion = lib.declare("CFBundleGetDevelopmentRegion", ctypes.default_abi, this.CFStringRef, this.CFBundleRef);
+    this.CFBundleCopySupportFilesDirectoryURL = lib.declare("CFBundleCopySupportFilesDirectoryURL", ctypes.default_abi, this.CFURLRef, this.CFBundleRef);
+    this.CFBundleCopyResourcesDirectoryURL = lib.declare("CFBundleCopyResourcesDirectoryURL", ctypes.default_abi, this.CFURLRef, this.CFBundleRef);
+    this.CFBundleCopyPrivateFrameworksURL = lib.declare("CFBundleCopyPrivateFrameworksURL", ctypes.default_abi, this.CFURLRef, this.CFBundleRef);
+    this.CFBundleCopySharedFrameworksURL = lib.declare("CFBundleCopySharedFrameworksURL", ctypes.default_abi, this.CFURLRef, this.CFBundleRef);
+    this.CFBundleCopySharedSupportURL = lib.declare("CFBundleCopySharedSupportURL", ctypes.default_abi, this.CFURLRef, this.CFBundleRef);
+    this.CFBundleCopyBuiltInPlugInsURL = lib.declare("CFBundleCopyBuiltInPlugInsURL", ctypes.default_abi, this.CFURLRef, this.CFBundleRef);
+    this.CFBundleCopyInfoDictionaryInDirectory = lib.declare("CFBundleCopyInfoDictionaryInDirectory", ctypes.default_abi, this.CFDictionaryRef, this.CFURLRef);
+    this.CFBundleGetPackageInfoInDirectory = lib.declare("CFBundleGetPackageInfoInDirectory", ctypes.default_abi, this.Boolean, this.CFURLRef, this.UInt32.ptr, this.UInt32.ptr);
+    this.CFBundleCopyResourceURL = lib.declare("CFBundleCopyResourceURL", ctypes.default_abi, this.CFURLRef, this.CFBundleRef, this.CFStringRef, this.CFStringRef, this.CFStringRef);
+    this.CFBundleCopyResourceURLsOfType = lib.declare("CFBundleCopyResourceURLsOfType", ctypes.default_abi, this.CFArrayRef, this.CFBundleRef, this.CFStringRef, this.CFStringRef);
+    this.CFBundleCopyLocalizedString = lib.declare("CFBundleCopyLocalizedString", ctypes.default_abi, this.CFStringRef, this.CFBundleRef, this.CFStringRef, this.CFStringRef, this.CFStringRef);
+    this.CFBundleCopyResourceURLInDirectory = lib.declare("CFBundleCopyResourceURLInDirectory", ctypes.default_abi, this.CFURLRef, this.CFURLRef, this.CFStringRef, this.CFStringRef, this.CFStringRef);
+    this.CFBundleCopyResourceURLsOfTypeInDirectory = lib.declare("CFBundleCopyResourceURLsOfTypeInDirectory", ctypes.default_abi, this.CFArrayRef, this.CFURLRef, this.CFStringRef, this.CFStringRef);
+    this.CFBundleCopyBundleLocalizations = lib.declare("CFBundleCopyBundleLocalizations", ctypes.default_abi, this.CFArrayRef, this.CFBundleRef);
+    this.CFBundleCopyPreferredLocalizationsFromArray = lib.declare("CFBundleCopyPreferredLocalizationsFromArray", ctypes.default_abi, this.CFArrayRef, this.CFArrayRef);
+    this.CFBundleCopyLocalizationsForPreferences = lib.declare("CFBundleCopyLocalizationsForPreferences", ctypes.default_abi, this.CFArrayRef, this.CFArrayRef, this.CFArrayRef);
+    this.CFBundleCopyResourceURLForLocalization = lib.declare("CFBundleCopyResourceURLForLocalization", ctypes.default_abi, this.CFURLRef, this.CFBundleRef, this.CFStringRef, this.CFStringRef, this.CFStringRef, this.CFStringRef);
+    this.CFBundleCopyResourceURLsOfTypeForLocalization = lib.declare("CFBundleCopyResourceURLsOfTypeForLocalization", ctypes.default_abi, this.CFArrayRef, this.CFBundleRef, this.CFStringRef, this.CFStringRef, this.CFStringRef);
+    this.CFBundleCopyInfoDictionaryForURL = lib.declare("CFBundleCopyInfoDictionaryForURL", ctypes.default_abi, this.CFDictionaryRef, this.CFURLRef);
+    this.CFBundleCopyLocalizationsForURL = lib.declare("CFBundleCopyLocalizationsForURL", ctypes.default_abi, this.CFArrayRef, this.CFURLRef);
+    this.CFBundleCopyExecutableArchitecturesForURL = lib.declare("CFBundleCopyExecutableArchitecturesForURL", ctypes.default_abi, this.CFArrayRef, this.CFURLRef);
+    this.CFBundleCopyExecutableURL = lib.declare("CFBundleCopyExecutableURL", ctypes.default_abi, this.CFURLRef, this.CFBundleRef);
     this.kCFBundleExecutableArchitectureI386 = 7;
     this.kCFBundleExecutableArchitecturePPC = 18;
     this.kCFBundleExecutableArchitectureX86_64 = 16777223;
     this.kCFBundleExecutableArchitecturePPC64 = 16777234;
+    this.CFBundleCopyExecutableArchitectures = lib.declare("CFBundleCopyExecutableArchitectures", ctypes.default_abi, this.CFArrayRef, this.CFBundleRef);
+    this.CFBundlePreflightExecutable = lib.declare("CFBundlePreflightExecutable", ctypes.default_abi, this.Boolean, this.CFBundleRef, this.CFErrorRef.ptr);
+    this.CFBundleLoadExecutableAndReturnError = lib.declare("CFBundleLoadExecutableAndReturnError", ctypes.default_abi, this.Boolean, this.CFBundleRef, this.CFErrorRef.ptr);
+    this.CFBundleLoadExecutable = lib.declare("CFBundleLoadExecutable", ctypes.default_abi, this.Boolean, this.CFBundleRef);
+    this.CFBundleIsExecutableLoaded = lib.declare("CFBundleIsExecutableLoaded", ctypes.default_abi, this.Boolean, this.CFBundleRef);
+    this.CFBundleUnloadExecutable = lib.declare("CFBundleUnloadExecutable", ctypes.default_abi, ctypes.void_t, this.CFBundleRef);
+    this.CFBundleGetFunctionPointerForName = lib.declare("CFBundleGetFunctionPointerForName", ctypes.default_abi, ctypes.void_t.ptr, this.CFBundleRef, this.CFStringRef);
+    this.CFBundleGetFunctionPointersForNames = lib.declare("CFBundleGetFunctionPointersForNames", ctypes.default_abi, ctypes.void_t, this.CFBundleRef, this.CFArrayRef, ctypes.void_t.ptr.ptr);
+    this.CFBundleGetDataPointerForName = lib.declare("CFBundleGetDataPointerForName", ctypes.default_abi, ctypes.void_t.ptr, this.CFBundleRef, this.CFStringRef);
+    this.CFBundleGetDataPointersForNames = lib.declare("CFBundleGetDataPointersForNames", ctypes.default_abi, ctypes.void_t, this.CFBundleRef, this.CFArrayRef, ctypes.void_t.ptr.ptr);
+    this.CFBundleCopyAuxiliaryExecutableURL = lib.declare("CFBundleCopyAuxiliaryExecutableURL", ctypes.default_abi, this.CFURLRef, this.CFBundleRef, this.CFStringRef);
+    this.CFBundleGetPlugIn = lib.declare("CFBundleGetPlugIn", ctypes.default_abi, this.CFPlugInRef, this.CFBundleRef);
     this.CFBundleRefNum = this.SInt16;
+    this.CFBundleOpenBundleResourceMap = lib.declare("CFBundleOpenBundleResourceMap", ctypes.default_abi, this.CFBundleRefNum, this.CFBundleRef);
+    this.CFBundleOpenBundleResourceFiles = lib.declare("CFBundleOpenBundleResourceFiles", ctypes.default_abi, this.SInt32, this.CFBundleRef, this.CFBundleRefNum.ptr, this.CFBundleRefNum.ptr);
+    this.CFBundleCloseBundleResourceMap = lib.declare("CFBundleCloseBundleResourceMap", ctypes.default_abi, ctypes.void_t, this.CFBundleRef, this.CFBundleRefNum);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFDate.h
@@ -469,8 +965,14 @@ function CFDate_h(lib) {
 
     this.CFTimeInterval = ctypes.double;
     this.CFAbsoluteTime = this.CFTimeInterval;
+    this.CFAbsoluteTimeGetCurrent = lib.declare("CFAbsoluteTimeGetCurrent", ctypes.default_abi, this.CFAbsoluteTime);
     this.__CFDate = new ctypes.StructType("__CFDate");
     this.CFDateRef = this.__CFDate.ptr;
+    this.CFDateGetTypeID = lib.declare("CFDateGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFDateCreate = lib.declare("CFDateCreate", ctypes.default_abi, this.CFDateRef, this.CFAllocatorRef, this.CFAbsoluteTime);
+    this.CFDateGetAbsoluteTime = lib.declare("CFDateGetAbsoluteTime", ctypes.default_abi, this.CFAbsoluteTime, this.CFDateRef);
+    this.CFDateGetTimeIntervalSinceDate = lib.declare("CFDateGetTimeIntervalSinceDate", ctypes.default_abi, this.CFTimeInterval, this.CFDateRef, this.CFDateRef);
+    this.CFDateCompare = lib.declare("CFDateCompare", ctypes.default_abi, this.CFComparisonResult, this.CFDateRef, this.CFDateRef, ctypes.void_t.ptr);
     this.__CFTimeZone = new ctypes.StructType("__CFTimeZone");
     this.CFTimeZoneRef = this.__CFTimeZone.ptr;
     this.CFGregorianDate = new ctypes.StructType("CFGregorianDate", [{year: this.SInt32}, {month: this.SInt8}, {day: this.SInt8}, {hour: this.SInt8}, {minute: this.SInt8}, {second: ctypes.double}]);
@@ -483,11 +985,23 @@ function CFDate_h(lib) {
     this.kCFGregorianUnitsSeconds = 32;
     this.kCFGregorianAllUnits = 16777215;
     this.CFGregorianUnitFlags = this.CFOptionFlags;
+    this.CFGregorianDateIsValid = lib.declare("CFGregorianDateIsValid", ctypes.default_abi, this.Boolean, this.CFGregorianDate, this.CFOptionFlags);
+    this.CFGregorianDateGetAbsoluteTime = lib.declare("CFGregorianDateGetAbsoluteTime", ctypes.default_abi, this.CFAbsoluteTime, this.CFGregorianDate, this.CFTimeZoneRef);
+    this.CFAbsoluteTimeGetGregorianDate = lib.declare("CFAbsoluteTimeGetGregorianDate", ctypes.default_abi, this.CFGregorianDate, this.CFAbsoluteTime, this.CFTimeZoneRef);
+    this.CFAbsoluteTimeAddGregorianUnits = lib.declare("CFAbsoluteTimeAddGregorianUnits", ctypes.default_abi, this.CFAbsoluteTime, this.CFAbsoluteTime, this.CFTimeZoneRef, this.CFGregorianUnits);
+    this.CFAbsoluteTimeGetDifferenceAsGregorianUnits = lib.declare("CFAbsoluteTimeGetDifferenceAsGregorianUnits", ctypes.default_abi, this.CFGregorianUnits, this.CFAbsoluteTime, this.CFAbsoluteTime, this.CFTimeZoneRef, this.CFOptionFlags);
+    this.CFAbsoluteTimeGetDayOfWeek = lib.declare("CFAbsoluteTimeGetDayOfWeek", ctypes.default_abi, this.SInt32, this.CFAbsoluteTime, this.CFTimeZoneRef);
+    this.CFAbsoluteTimeGetDayOfYear = lib.declare("CFAbsoluteTimeGetDayOfYear", ctypes.default_abi, this.SInt32, this.CFAbsoluteTime, this.CFTimeZoneRef);
+    this.CFAbsoluteTimeGetWeekOfYear = lib.declare("CFAbsoluteTimeGetWeekOfYear", ctypes.default_abi, this.SInt32, this.CFAbsoluteTime, this.CFTimeZoneRef);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFURLEnumerator.h
 function CFURLEnumerator_h(lib) {
+    CFError_h.call(this, lib);
+    CFURL_h.call(this, lib);
     CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._CFURLENUMERATOR_H)
         return;
@@ -495,20 +1009,29 @@ function CFURLEnumerator_h(lib) {
 
     this.__CFURLEnumerator = new ctypes.StructType("__CFURLEnumerator");
     this.CFURLEnumeratorRef = this.__CFURLEnumerator.ptr;
+    this.CFURLEnumeratorGetTypeID = lib.declare("CFURLEnumeratorGetTypeID", ctypes.default_abi, this.CFTypeID);
     this.kCFURLEnumeratorDescendRecursively = 1;
     this.kCFURLEnumeratorSkipInvisibles = 2;
     this.kCFURLEnumeratorGenerateFileReferenceURLs = 4;
     this.kCFURLEnumeratorSkipPackageContents = 8;
     this.CFURLEnumeratorOptions = this.CFOptionFlags;
+    this.CFURLEnumeratorCreateForDirectoryURL = lib.declare("CFURLEnumeratorCreateForDirectoryURL", ctypes.default_abi, this.CFURLEnumeratorRef, this.CFAllocatorRef, this.CFURLRef, this.CFURLEnumeratorOptions, this.CFArrayRef);
+    this.CFURLEnumeratorCreateForMountedVolumes = lib.declare("CFURLEnumeratorCreateForMountedVolumes", ctypes.default_abi, this.CFURLEnumeratorRef, this.CFAllocatorRef, this.CFURLEnumeratorOptions, this.CFArrayRef);
     this.kCFURLEnumeratorSuccess = 1;
     this.kCFURLEnumeratorEnd = 2;
     this.kCFURLEnumeratorError = 3;
     this.CFURLEnumeratorResult = this.CFIndex;
+    this.CFURLEnumeratorGetNextURL = lib.declare("CFURLEnumeratorGetNextURL", ctypes.default_abi, this.CFURLEnumeratorResult, this.CFURLEnumeratorRef, this.CFURLRef.ptr, this.CFErrorRef.ptr);
+    this.CFURLEnumeratorSkipDescendents = lib.declare("CFURLEnumeratorSkipDescendents", ctypes.default_abi, ctypes.void_t, this.CFURLEnumeratorRef);
+    this.CFURLEnumeratorGetDescendentLevel = lib.declare("CFURLEnumeratorGetDescendentLevel", ctypes.default_abi, this.CFIndex, this.CFURLEnumeratorRef);
+    this.CFURLEnumeratorGetSourceDidChange = lib.declare("CFURLEnumeratorGetSourceDidChange", ctypes.default_abi, this.Boolean, this.CFURLEnumeratorRef);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFSocket.h
 function CFSocket_h(lib) {
     CFData_h.call(this, lib);
+    CFDate_h.call(this, lib);
+    CFRunLoop_h.call(this, lib);
     CFBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
@@ -539,10 +1062,37 @@ function CFSocket_h(lib) {
     this.kCFSocketCloseOnInvalidate = 128;
     this.CFSocketCallBack = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.CFSocketRef, this.CFSocketCallBackType, this.CFDataRef, ctypes.void_t.ptr, ctypes.void_t.ptr]).ptr;
     this.CFSocketContext = new ctypes.StructType("CFSocketContext", [{version: this.CFIndex}, {info: ctypes.void_t.ptr}, {retain: new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t.ptr, [ctypes.void_t.ptr]).ptr}, {release: new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [ctypes.void_t.ptr]).ptr}, {copyDescription: new ctypes.FunctionType(ctypes.default_abi, this.CFStringRef, [ctypes.void_t.ptr]).ptr}]);
+    this.CFSocketGetTypeID = lib.declare("CFSocketGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFSocketCreate = lib.declare("CFSocketCreate", ctypes.default_abi, this.CFSocketRef, this.CFAllocatorRef, this.SInt32, this.SInt32, this.SInt32, this.CFOptionFlags, this.CFSocketCallBack, this.CFSocketContext.ptr);
+    this.CFSocketCreateWithNative = lib.declare("CFSocketCreateWithNative", ctypes.default_abi, this.CFSocketRef, this.CFAllocatorRef, this.CFSocketNativeHandle, this.CFOptionFlags, this.CFSocketCallBack, this.CFSocketContext.ptr);
+    this.CFSocketCreateWithSocketSignature = lib.declare("CFSocketCreateWithSocketSignature", ctypes.default_abi, this.CFSocketRef, this.CFAllocatorRef, this.CFSocketSignature.ptr, this.CFOptionFlags, this.CFSocketCallBack, this.CFSocketContext.ptr);
+    this.CFSocketCreateConnectedToSocketSignature = lib.declare("CFSocketCreateConnectedToSocketSignature", ctypes.default_abi, this.CFSocketRef, this.CFAllocatorRef, this.CFSocketSignature.ptr, this.CFOptionFlags, this.CFSocketCallBack, this.CFSocketContext.ptr, this.CFTimeInterval);
+    this.CFSocketSetAddress = lib.declare("CFSocketSetAddress", ctypes.default_abi, this.CFSocketError, this.CFSocketRef, this.CFDataRef);
+    this.CFSocketConnectToAddress = lib.declare("CFSocketConnectToAddress", ctypes.default_abi, this.CFSocketError, this.CFSocketRef, this.CFDataRef, this.CFTimeInterval);
+    this.CFSocketInvalidate = lib.declare("CFSocketInvalidate", ctypes.default_abi, ctypes.void_t, this.CFSocketRef);
+    this.CFSocketIsValid = lib.declare("CFSocketIsValid", ctypes.default_abi, this.Boolean, this.CFSocketRef);
+    this.CFSocketCopyAddress = lib.declare("CFSocketCopyAddress", ctypes.default_abi, this.CFDataRef, this.CFSocketRef);
+    this.CFSocketCopyPeerAddress = lib.declare("CFSocketCopyPeerAddress", ctypes.default_abi, this.CFDataRef, this.CFSocketRef);
+    this.CFSocketGetContext = lib.declare("CFSocketGetContext", ctypes.default_abi, ctypes.void_t, this.CFSocketRef, this.CFSocketContext.ptr);
+    this.CFSocketGetNative = lib.declare("CFSocketGetNative", ctypes.default_abi, this.CFSocketNativeHandle, this.CFSocketRef);
+    this.CFSocketCreateRunLoopSource = lib.declare("CFSocketCreateRunLoopSource", ctypes.default_abi, this.CFRunLoopSourceRef, this.CFAllocatorRef, this.CFSocketRef, this.CFIndex);
+    this.CFSocketGetSocketFlags = lib.declare("CFSocketGetSocketFlags", ctypes.default_abi, this.CFOptionFlags, this.CFSocketRef);
+    this.CFSocketSetSocketFlags = lib.declare("CFSocketSetSocketFlags", ctypes.default_abi, ctypes.void_t, this.CFSocketRef, this.CFOptionFlags);
+    this.CFSocketDisableCallBacks = lib.declare("CFSocketDisableCallBacks", ctypes.default_abi, ctypes.void_t, this.CFSocketRef, this.CFOptionFlags);
+    this.CFSocketEnableCallBacks = lib.declare("CFSocketEnableCallBacks", ctypes.default_abi, ctypes.void_t, this.CFSocketRef, this.CFOptionFlags);
+    this.CFSocketSendData = lib.declare("CFSocketSendData", ctypes.default_abi, this.CFSocketError, this.CFSocketRef, this.CFDataRef, this.CFDataRef, this.CFTimeInterval);
+    this.CFSocketRegisterValue = lib.declare("CFSocketRegisterValue", ctypes.default_abi, this.CFSocketError, this.CFSocketSignature.ptr, this.CFTimeInterval, this.CFStringRef, this.CFPropertyListRef);
+    this.CFSocketCopyRegisteredValue = lib.declare("CFSocketCopyRegisteredValue", ctypes.default_abi, this.CFSocketError, this.CFSocketSignature.ptr, this.CFTimeInterval, this.CFStringRef, this.CFPropertyListRef.ptr, this.CFDataRef.ptr);
+    this.CFSocketRegisterSocketSignature = lib.declare("CFSocketRegisterSocketSignature", ctypes.default_abi, this.CFSocketError, this.CFSocketSignature.ptr, this.CFTimeInterval, this.CFStringRef, this.CFSocketSignature.ptr);
+    this.CFSocketCopyRegisteredSocketSignature = lib.declare("CFSocketCopyRegisteredSocketSignature", ctypes.default_abi, this.CFSocketError, this.CFSocketSignature.ptr, this.CFTimeInterval, this.CFStringRef, this.CFSocketSignature.ptr, this.CFDataRef.ptr);
+    this.CFSocketUnregister = lib.declare("CFSocketUnregister", ctypes.default_abi, this.CFSocketError, this.CFSocketSignature.ptr, this.CFTimeInterval, this.CFStringRef);
+    this.CFSocketSetDefaultNameRegistryPortNumber = lib.declare("CFSocketSetDefaultNameRegistryPortNumber", ctypes.default_abi, ctypes.void_t, this.UInt16);
+    this.CFSocketGetDefaultNameRegistryPortNumber = lib.declare("CFSocketGetDefaultNameRegistryPortNumber", ctypes.default_abi, this.UInt16);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFBitVector.h
 function CFBitVector_h(lib) {
+    CFBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._CFBITVECTOR_H)
@@ -553,11 +1103,32 @@ function CFBitVector_h(lib) {
     this.__CFBitVector = new ctypes.StructType("__CFBitVector");
     this.CFBitVectorRef = this.__CFBitVector.ptr;
     this.CFMutableBitVectorRef = this.__CFBitVector.ptr;
+    this.CFBitVectorGetTypeID = lib.declare("CFBitVectorGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFBitVectorCreate = lib.declare("CFBitVectorCreate", ctypes.default_abi, this.CFBitVectorRef, this.CFAllocatorRef, this.UInt8.ptr, this.CFIndex);
+    this.CFBitVectorCreateCopy = lib.declare("CFBitVectorCreateCopy", ctypes.default_abi, this.CFBitVectorRef, this.CFAllocatorRef, this.CFBitVectorRef);
+    this.CFBitVectorCreateMutable = lib.declare("CFBitVectorCreateMutable", ctypes.default_abi, this.CFMutableBitVectorRef, this.CFAllocatorRef, this.CFIndex);
+    this.CFBitVectorCreateMutableCopy = lib.declare("CFBitVectorCreateMutableCopy", ctypes.default_abi, this.CFMutableBitVectorRef, this.CFAllocatorRef, this.CFIndex, this.CFBitVectorRef);
+    this.CFBitVectorGetCount = lib.declare("CFBitVectorGetCount", ctypes.default_abi, this.CFIndex, this.CFBitVectorRef);
+    this.CFBitVectorGetCountOfBit = lib.declare("CFBitVectorGetCountOfBit", ctypes.default_abi, this.CFIndex, this.CFBitVectorRef, this.CFRange, this.CFBit);
+    this.CFBitVectorContainsBit = lib.declare("CFBitVectorContainsBit", ctypes.default_abi, this.Boolean, this.CFBitVectorRef, this.CFRange, this.CFBit);
+    this.CFBitVectorGetBitAtIndex = lib.declare("CFBitVectorGetBitAtIndex", ctypes.default_abi, this.CFBit, this.CFBitVectorRef, this.CFIndex);
+    this.CFBitVectorGetBits = lib.declare("CFBitVectorGetBits", ctypes.default_abi, ctypes.void_t, this.CFBitVectorRef, this.CFRange, this.UInt8.ptr);
+    this.CFBitVectorGetFirstIndexOfBit = lib.declare("CFBitVectorGetFirstIndexOfBit", ctypes.default_abi, this.CFIndex, this.CFBitVectorRef, this.CFRange, this.CFBit);
+    this.CFBitVectorGetLastIndexOfBit = lib.declare("CFBitVectorGetLastIndexOfBit", ctypes.default_abi, this.CFIndex, this.CFBitVectorRef, this.CFRange, this.CFBit);
+    this.CFBitVectorSetCount = lib.declare("CFBitVectorSetCount", ctypes.default_abi, ctypes.void_t, this.CFMutableBitVectorRef, this.CFIndex);
+    this.CFBitVectorFlipBitAtIndex = lib.declare("CFBitVectorFlipBitAtIndex", ctypes.default_abi, ctypes.void_t, this.CFMutableBitVectorRef, this.CFIndex);
+    this.CFBitVectorFlipBits = lib.declare("CFBitVectorFlipBits", ctypes.default_abi, ctypes.void_t, this.CFMutableBitVectorRef, this.CFRange);
+    this.CFBitVectorSetBitAtIndex = lib.declare("CFBitVectorSetBitAtIndex", ctypes.default_abi, ctypes.void_t, this.CFMutableBitVectorRef, this.CFIndex, this.CFBit);
+    this.CFBitVectorSetBits = lib.declare("CFBitVectorSetBits", ctypes.default_abi, ctypes.void_t, this.CFMutableBitVectorRef, this.CFRange, this.CFBit);
+    this.CFBitVectorSetAllBits = lib.declare("CFBitVectorSetAllBits", ctypes.default_abi, ctypes.void_t, this.CFMutableBitVectorRef, this.CFBit);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFCalendar.h
 function CFCalendar_h(lib) {
+    CFDate_h.call(this, lib);
     CFBase_h.call(this, lib);
+    CFLocale_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._CFCALENDAR_H)
         return;
@@ -565,6 +1136,18 @@ function CFCalendar_h(lib) {
 
     this.__CFCalendar = new ctypes.StructType("__CFCalendar");
     this.CFCalendarRef = this.__CFCalendar.ptr;
+    this.CFCalendarGetTypeID = lib.declare("CFCalendarGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFCalendarCopyCurrent = lib.declare("CFCalendarCopyCurrent", ctypes.default_abi, this.CFCalendarRef);
+    this.CFCalendarCreateWithIdentifier = lib.declare("CFCalendarCreateWithIdentifier", ctypes.default_abi, this.CFCalendarRef, this.CFAllocatorRef, this.CFStringRef);
+    this.CFCalendarGetIdentifier = lib.declare("CFCalendarGetIdentifier", ctypes.default_abi, this.CFStringRef, this.CFCalendarRef);
+    this.CFCalendarCopyLocale = lib.declare("CFCalendarCopyLocale", ctypes.default_abi, this.CFLocaleRef, this.CFCalendarRef);
+    this.CFCalendarSetLocale = lib.declare("CFCalendarSetLocale", ctypes.default_abi, ctypes.void_t, this.CFCalendarRef, this.CFLocaleRef);
+    this.CFCalendarCopyTimeZone = lib.declare("CFCalendarCopyTimeZone", ctypes.default_abi, this.CFTimeZoneRef, this.CFCalendarRef);
+    this.CFCalendarSetTimeZone = lib.declare("CFCalendarSetTimeZone", ctypes.default_abi, ctypes.void_t, this.CFCalendarRef, this.CFTimeZoneRef);
+    this.CFCalendarGetFirstWeekday = lib.declare("CFCalendarGetFirstWeekday", ctypes.default_abi, this.CFIndex, this.CFCalendarRef);
+    this.CFCalendarSetFirstWeekday = lib.declare("CFCalendarSetFirstWeekday", ctypes.default_abi, ctypes.void_t, this.CFCalendarRef, this.CFIndex);
+    this.CFCalendarGetMinimumDaysInFirstWeek = lib.declare("CFCalendarGetMinimumDaysInFirstWeek", ctypes.default_abi, this.CFIndex, this.CFCalendarRef);
+    this.CFCalendarSetMinimumDaysInFirstWeek = lib.declare("CFCalendarSetMinimumDaysInFirstWeek", ctypes.default_abi, ctypes.void_t, this.CFCalendarRef, this.CFIndex);
     this.kCFCalendarUnitEra = 2;
     this.kCFCalendarUnitYear = 4;
     this.kCFCalendarUnitMonth = 8;
@@ -577,15 +1160,26 @@ function CFCalendar_h(lib) {
     this.kCFCalendarUnitWeekdayOrdinal = 1024;
     this.kCFCalendarUnitQuarter = 2048;
     this.CFCalendarUnit = this.CFOptionFlags;
+    this.CFCalendarGetMinimumRangeOfUnit = lib.declare("CFCalendarGetMinimumRangeOfUnit", ctypes.default_abi, this.CFRange, this.CFCalendarRef, this.CFCalendarUnit);
+    this.CFCalendarGetMaximumRangeOfUnit = lib.declare("CFCalendarGetMaximumRangeOfUnit", ctypes.default_abi, this.CFRange, this.CFCalendarRef, this.CFCalendarUnit);
+    this.CFCalendarGetRangeOfUnit = lib.declare("CFCalendarGetRangeOfUnit", ctypes.default_abi, this.CFRange, this.CFCalendarRef, this.CFCalendarUnit, this.CFCalendarUnit, this.CFAbsoluteTime);
+    this.CFCalendarGetOrdinalityOfUnit = lib.declare("CFCalendarGetOrdinalityOfUnit", ctypes.default_abi, this.CFIndex, this.CFCalendarRef, this.CFCalendarUnit, this.CFCalendarUnit, this.CFAbsoluteTime);
+    this.CFCalendarGetTimeRangeOfUnit = lib.declare("CFCalendarGetTimeRangeOfUnit", ctypes.default_abi, this.Boolean, this.CFCalendarRef, this.CFCalendarUnit, this.CFAbsoluteTime, this.CFAbsoluteTime.ptr, this.CFTimeInterval.ptr);
+    this.CFCalendarComposeAbsoluteTime = lib.declare("CFCalendarComposeAbsoluteTime", ctypes.default_abi, this.Boolean, this.CFCalendarRef, this.CFAbsoluteTime.ptr, ctypes.char.ptr, "...");
+    this.CFCalendarDecomposeAbsoluteTime = lib.declare("CFCalendarDecomposeAbsoluteTime", ctypes.default_abi, this.Boolean, this.CFCalendarRef, this.CFAbsoluteTime, ctypes.char.ptr, "...");
     this.kCFCalendarComponentsWrap = 1;
+    this.CFCalendarAddComponents = lib.declare("CFCalendarAddComponents", ctypes.default_abi, this.Boolean, this.CFCalendarRef, this.CFAbsoluteTime.ptr, this.CFOptionFlags, ctypes.char.ptr, "...");
+    this.CFCalendarGetComponentDifference = lib.declare("CFCalendarGetComponentDifference", ctypes.default_abi, this.Boolean, this.CFCalendarRef, this.CFAbsoluteTime, this.CFAbsoluteTime, this.CFOptionFlags, ctypes.char.ptr, "...");
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFPlugIn.h
 function CFPlugIn_h(lib) {
-    CFBase_h.call(this, lib);
-    MacTypes_h.call(this, lib);
     CFUUID_h.call(this, lib);
     CFBundle_h.call(this, lib);
+    CFURL_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._CFPLUGIN_H)
         return;
@@ -594,15 +1188,36 @@ function CFPlugIn_h(lib) {
     this.CFPlugInDynamicRegisterFunction = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.CFPlugInRef]).ptr;
     this.CFPlugInUnloadFunction = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.CFPlugInRef]).ptr;
     this.CFPlugInFactoryFunction = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t.ptr, [this.CFAllocatorRef, this.CFUUIDRef]).ptr;
+    this.CFPlugInGetTypeID = lib.declare("CFPlugInGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFPlugInCreate = lib.declare("CFPlugInCreate", ctypes.default_abi, this.CFPlugInRef, this.CFAllocatorRef, this.CFURLRef);
+    this.CFPlugInGetBundle = lib.declare("CFPlugInGetBundle", ctypes.default_abi, this.CFBundleRef, this.CFPlugInRef);
+    this.CFPlugInSetLoadOnDemand = lib.declare("CFPlugInSetLoadOnDemand", ctypes.default_abi, ctypes.void_t, this.CFPlugInRef, this.Boolean);
+    this.CFPlugInIsLoadOnDemand = lib.declare("CFPlugInIsLoadOnDemand", ctypes.default_abi, this.Boolean, this.CFPlugInRef);
+    this.CFPlugInFindFactoriesForPlugInType = lib.declare("CFPlugInFindFactoriesForPlugInType", ctypes.default_abi, this.CFArrayRef, this.CFUUIDRef);
+    this.CFPlugInFindFactoriesForPlugInTypeInPlugIn = lib.declare("CFPlugInFindFactoriesForPlugInTypeInPlugIn", ctypes.default_abi, this.CFArrayRef, this.CFUUIDRef, this.CFPlugInRef);
+    this.CFPlugInInstanceCreate = lib.declare("CFPlugInInstanceCreate", ctypes.default_abi, ctypes.void_t.ptr, this.CFAllocatorRef, this.CFUUIDRef, this.CFUUIDRef);
+    this.CFPlugInRegisterFactoryFunction = lib.declare("CFPlugInRegisterFactoryFunction", ctypes.default_abi, this.Boolean, this.CFUUIDRef, this.CFPlugInFactoryFunction);
+    this.CFPlugInRegisterFactoryFunctionByName = lib.declare("CFPlugInRegisterFactoryFunctionByName", ctypes.default_abi, this.Boolean, this.CFUUIDRef, this.CFPlugInRef, this.CFStringRef);
+    this.CFPlugInUnregisterFactory = lib.declare("CFPlugInUnregisterFactory", ctypes.default_abi, this.Boolean, this.CFUUIDRef);
+    this.CFPlugInRegisterPlugInType = lib.declare("CFPlugInRegisterPlugInType", ctypes.default_abi, this.Boolean, this.CFUUIDRef, this.CFUUIDRef);
+    this.CFPlugInUnregisterPlugInType = lib.declare("CFPlugInUnregisterPlugInType", ctypes.default_abi, this.Boolean, this.CFUUIDRef, this.CFUUIDRef);
+    this.CFPlugInAddInstanceForFactory = lib.declare("CFPlugInAddInstanceForFactory", ctypes.default_abi, ctypes.void_t, this.CFUUIDRef);
+    this.CFPlugInRemoveInstanceForFactory = lib.declare("CFPlugInRemoveInstanceForFactory", ctypes.default_abi, ctypes.void_t, this.CFUUIDRef);
     this.__CFPlugInInstance = new ctypes.StructType("__CFPlugInInstance");
     this.CFPlugInInstanceRef = this.__CFPlugInInstance.ptr;
     this.CFPlugInInstanceGetInterfaceFunction = new ctypes.FunctionType(ctypes.default_abi, this.Boolean, [this.CFPlugInInstanceRef, this.CFStringRef, ctypes.void_t.ptr.ptr]).ptr;
     this.CFPlugInInstanceDeallocateInstanceDataFunction = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [ctypes.void_t.ptr]).ptr;
+    this.CFPlugInInstanceGetInterfaceFunctionTable = lib.declare("CFPlugInInstanceGetInterfaceFunctionTable", ctypes.default_abi, this.Boolean, this.CFPlugInInstanceRef, this.CFStringRef, ctypes.void_t.ptr.ptr);
+    this.CFPlugInInstanceGetFactoryName = lib.declare("CFPlugInInstanceGetFactoryName", ctypes.default_abi, this.CFStringRef, this.CFPlugInInstanceRef);
+    this.CFPlugInInstanceGetInstanceData = lib.declare("CFPlugInInstanceGetInstanceData", ctypes.default_abi, ctypes.void_t.ptr, this.CFPlugInInstanceRef);
+    this.CFPlugInInstanceGetTypeID = lib.declare("CFPlugInInstanceGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFPlugInInstanceCreateWithInstanceDataSize = lib.declare("CFPlugInInstanceCreateWithInstanceDataSize", ctypes.default_abi, this.CFPlugInInstanceRef, this.CFAllocatorRef, this.CFIndex, this.CFPlugInInstanceDeallocateInstanceDataFunction, this.CFStringRef, this.CFPlugInInstanceGetInterfaceFunction);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFNumber.h
 function CFNumber_h(lib) {
     CFBase_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._CFNUMBER_H)
         return;
@@ -610,6 +1225,8 @@ function CFNumber_h(lib) {
 
     this.__CFBoolean = new ctypes.StructType("__CFBoolean");
     this.CFBooleanRef = this.__CFBoolean.ptr;
+    this.CFBooleanGetTypeID = lib.declare("CFBooleanGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFBooleanGetValue = lib.declare("CFBooleanGetValue", ctypes.default_abi, this.Boolean, this.CFBooleanRef);
     this.kCFNumberSInt8Type = 1;
     this.kCFNumberSInt16Type = 2;
     this.kCFNumberSInt32Type = 3;
@@ -630,6 +1247,13 @@ function CFNumber_h(lib) {
     this.CFNumberType = this.CFIndex;
     this.__CFNumber = new ctypes.StructType("__CFNumber");
     this.CFNumberRef = this.__CFNumber.ptr;
+    this.CFNumberGetTypeID = lib.declare("CFNumberGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFNumberCreate = lib.declare("CFNumberCreate", ctypes.default_abi, this.CFNumberRef, this.CFAllocatorRef, this.CFNumberType, ctypes.void_t.ptr);
+    this.CFNumberGetType = lib.declare("CFNumberGetType", ctypes.default_abi, this.CFNumberType, this.CFNumberRef);
+    this.CFNumberGetByteSize = lib.declare("CFNumberGetByteSize", ctypes.default_abi, this.CFIndex, this.CFNumberRef);
+    this.CFNumberIsFloatType = lib.declare("CFNumberIsFloatType", ctypes.default_abi, this.Boolean, this.CFNumberRef);
+    this.CFNumberGetValue = lib.declare("CFNumberGetValue", ctypes.default_abi, this.Boolean, this.CFNumberRef, this.CFNumberType, ctypes.void_t.ptr);
+    this.CFNumberCompare = lib.declare("CFNumberCompare", ctypes.default_abi, this.CFComparisonResult, this.CFNumberRef, this.CFNumberRef, ctypes.void_t.ptr);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFArray.h
@@ -650,6 +1274,29 @@ function CFArray_h(lib) {
     this.__CFArray = new ctypes.StructType("__CFArray");
     this.CFArrayRef = this.__CFArray.ptr;
     this.CFMutableArrayRef = this.__CFArray.ptr;
+    this.CFArrayGetTypeID = lib.declare("CFArrayGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFArrayCreate = lib.declare("CFArrayCreate", ctypes.default_abi, this.CFArrayRef, this.CFAllocatorRef, ctypes.void_t.ptr.ptr, this.CFIndex, this.CFArrayCallBacks.ptr);
+    this.CFArrayCreateCopy = lib.declare("CFArrayCreateCopy", ctypes.default_abi, this.CFArrayRef, this.CFAllocatorRef, this.CFArrayRef);
+    this.CFArrayCreateMutable = lib.declare("CFArrayCreateMutable", ctypes.default_abi, this.CFMutableArrayRef, this.CFAllocatorRef, this.CFIndex, this.CFArrayCallBacks.ptr);
+    this.CFArrayCreateMutableCopy = lib.declare("CFArrayCreateMutableCopy", ctypes.default_abi, this.CFMutableArrayRef, this.CFAllocatorRef, this.CFIndex, this.CFArrayRef);
+    this.CFArrayGetCount = lib.declare("CFArrayGetCount", ctypes.default_abi, this.CFIndex, this.CFArrayRef);
+    this.CFArrayGetCountOfValue = lib.declare("CFArrayGetCountOfValue", ctypes.default_abi, this.CFIndex, this.CFArrayRef, this.CFRange, ctypes.void_t.ptr);
+    this.CFArrayContainsValue = lib.declare("CFArrayContainsValue", ctypes.default_abi, this.Boolean, this.CFArrayRef, this.CFRange, ctypes.void_t.ptr);
+    this.CFArrayGetValueAtIndex = lib.declare("CFArrayGetValueAtIndex", ctypes.default_abi, ctypes.void_t.ptr, this.CFArrayRef, this.CFIndex);
+    this.CFArrayGetValues = lib.declare("CFArrayGetValues", ctypes.default_abi, ctypes.void_t, this.CFArrayRef, this.CFRange, ctypes.void_t.ptr.ptr);
+    this.CFArrayApplyFunction = lib.declare("CFArrayApplyFunction", ctypes.default_abi, ctypes.void_t, this.CFArrayRef, this.CFRange, this.CFArrayApplierFunction, ctypes.void_t.ptr);
+    this.CFArrayGetFirstIndexOfValue = lib.declare("CFArrayGetFirstIndexOfValue", ctypes.default_abi, this.CFIndex, this.CFArrayRef, this.CFRange, ctypes.void_t.ptr);
+    this.CFArrayGetLastIndexOfValue = lib.declare("CFArrayGetLastIndexOfValue", ctypes.default_abi, this.CFIndex, this.CFArrayRef, this.CFRange, ctypes.void_t.ptr);
+    this.CFArrayBSearchValues = lib.declare("CFArrayBSearchValues", ctypes.default_abi, this.CFIndex, this.CFArrayRef, this.CFRange, ctypes.void_t.ptr, this.CFComparatorFunction, ctypes.void_t.ptr);
+    this.CFArrayAppendValue = lib.declare("CFArrayAppendValue", ctypes.default_abi, ctypes.void_t, this.CFMutableArrayRef, ctypes.void_t.ptr);
+    this.CFArrayInsertValueAtIndex = lib.declare("CFArrayInsertValueAtIndex", ctypes.default_abi, ctypes.void_t, this.CFMutableArrayRef, this.CFIndex, ctypes.void_t.ptr);
+    this.CFArraySetValueAtIndex = lib.declare("CFArraySetValueAtIndex", ctypes.default_abi, ctypes.void_t, this.CFMutableArrayRef, this.CFIndex, ctypes.void_t.ptr);
+    this.CFArrayRemoveValueAtIndex = lib.declare("CFArrayRemoveValueAtIndex", ctypes.default_abi, ctypes.void_t, this.CFMutableArrayRef, this.CFIndex);
+    this.CFArrayRemoveAllValues = lib.declare("CFArrayRemoveAllValues", ctypes.default_abi, ctypes.void_t, this.CFMutableArrayRef);
+    this.CFArrayReplaceValues = lib.declare("CFArrayReplaceValues", ctypes.default_abi, ctypes.void_t, this.CFMutableArrayRef, this.CFRange, ctypes.void_t.ptr.ptr, this.CFIndex);
+    this.CFArrayExchangeValuesAtIndices = lib.declare("CFArrayExchangeValuesAtIndices", ctypes.default_abi, ctypes.void_t, this.CFMutableArrayRef, this.CFIndex, this.CFIndex);
+    this.CFArraySortValues = lib.declare("CFArraySortValues", ctypes.default_abi, ctypes.void_t, this.CFMutableArrayRef, this.CFRange, this.CFComparatorFunction, ctypes.void_t.ptr);
+    this.CFArrayAppendArray = lib.declare("CFArrayAppendArray", ctypes.default_abi, ctypes.void_t, this.CFMutableArrayRef, this.CFArrayRef, this.CFRange);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFBag.h
@@ -671,16 +1318,57 @@ function CFBag_h(lib) {
     this.__CFBag = new ctypes.StructType("__CFBag");
     this.CFBagRef = this.__CFBag.ptr;
     this.CFMutableBagRef = this.__CFBag.ptr;
+    this.CFBagGetTypeID = lib.declare("CFBagGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFBagCreate = lib.declare("CFBagCreate", ctypes.default_abi, this.CFBagRef, this.CFAllocatorRef, ctypes.void_t.ptr.ptr, this.CFIndex, this.CFBagCallBacks.ptr);
+    this.CFBagCreateCopy = lib.declare("CFBagCreateCopy", ctypes.default_abi, this.CFBagRef, this.CFAllocatorRef, this.CFBagRef);
+    this.CFBagCreateMutable = lib.declare("CFBagCreateMutable", ctypes.default_abi, this.CFMutableBagRef, this.CFAllocatorRef, this.CFIndex, this.CFBagCallBacks.ptr);
+    this.CFBagCreateMutableCopy = lib.declare("CFBagCreateMutableCopy", ctypes.default_abi, this.CFMutableBagRef, this.CFAllocatorRef, this.CFIndex, this.CFBagRef);
+    this.CFBagGetCount = lib.declare("CFBagGetCount", ctypes.default_abi, this.CFIndex, this.CFBagRef);
+    this.CFBagGetCountOfValue = lib.declare("CFBagGetCountOfValue", ctypes.default_abi, this.CFIndex, this.CFBagRef, ctypes.void_t.ptr);
+    this.CFBagContainsValue = lib.declare("CFBagContainsValue", ctypes.default_abi, this.Boolean, this.CFBagRef, ctypes.void_t.ptr);
+    this.CFBagGetValue = lib.declare("CFBagGetValue", ctypes.default_abi, ctypes.void_t.ptr, this.CFBagRef, ctypes.void_t.ptr);
+    this.CFBagGetValueIfPresent = lib.declare("CFBagGetValueIfPresent", ctypes.default_abi, this.Boolean, this.CFBagRef, ctypes.void_t.ptr, ctypes.void_t.ptr.ptr);
+    this.CFBagGetValues = lib.declare("CFBagGetValues", ctypes.default_abi, ctypes.void_t, this.CFBagRef, ctypes.void_t.ptr.ptr);
+    this.CFBagApplyFunction = lib.declare("CFBagApplyFunction", ctypes.default_abi, ctypes.void_t, this.CFBagRef, this.CFBagApplierFunction, ctypes.void_t.ptr);
+    this.CFBagAddValue = lib.declare("CFBagAddValue", ctypes.default_abi, ctypes.void_t, this.CFMutableBagRef, ctypes.void_t.ptr);
+    this.CFBagReplaceValue = lib.declare("CFBagReplaceValue", ctypes.default_abi, ctypes.void_t, this.CFMutableBagRef, ctypes.void_t.ptr);
+    this.CFBagSetValue = lib.declare("CFBagSetValue", ctypes.default_abi, ctypes.void_t, this.CFMutableBagRef, ctypes.void_t.ptr);
+    this.CFBagRemoveValue = lib.declare("CFBagRemoveValue", ctypes.default_abi, ctypes.void_t, this.CFMutableBagRef, ctypes.void_t.ptr);
+    this.CFBagRemoveAllValues = lib.declare("CFBagRemoveAllValues", ctypes.default_abi, ctypes.void_t, this.CFMutableBagRef);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFTimeZone.h
 function CFTimeZone_h(lib) {
+    CFData_h.call(this, lib);
+    CFDate_h.call(this, lib);
+    CFLocale_h.call(this, lib);
+    CFDictionary_h.call(this, lib);
     CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._CFTIMEZONE_H)
         return;
     this._CFTIMEZONE_H = true;
 
+    this.CFTimeZoneGetTypeID = lib.declare("CFTimeZoneGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFTimeZoneCopySystem = lib.declare("CFTimeZoneCopySystem", ctypes.default_abi, this.CFTimeZoneRef);
+    this.CFTimeZoneResetSystem = lib.declare("CFTimeZoneResetSystem", ctypes.default_abi, ctypes.void_t);
+    this.CFTimeZoneCopyDefault = lib.declare("CFTimeZoneCopyDefault", ctypes.default_abi, this.CFTimeZoneRef);
+    this.CFTimeZoneSetDefault = lib.declare("CFTimeZoneSetDefault", ctypes.default_abi, ctypes.void_t, this.CFTimeZoneRef);
+    this.CFTimeZoneCopyKnownNames = lib.declare("CFTimeZoneCopyKnownNames", ctypes.default_abi, this.CFArrayRef);
+    this.CFTimeZoneCopyAbbreviationDictionary = lib.declare("CFTimeZoneCopyAbbreviationDictionary", ctypes.default_abi, this.CFDictionaryRef);
+    this.CFTimeZoneSetAbbreviationDictionary = lib.declare("CFTimeZoneSetAbbreviationDictionary", ctypes.default_abi, ctypes.void_t, this.CFDictionaryRef);
+    this.CFTimeZoneCreate = lib.declare("CFTimeZoneCreate", ctypes.default_abi, this.CFTimeZoneRef, this.CFAllocatorRef, this.CFStringRef, this.CFDataRef);
+    this.CFTimeZoneCreateWithTimeIntervalFromGMT = lib.declare("CFTimeZoneCreateWithTimeIntervalFromGMT", ctypes.default_abi, this.CFTimeZoneRef, this.CFAllocatorRef, this.CFTimeInterval);
+    this.CFTimeZoneCreateWithName = lib.declare("CFTimeZoneCreateWithName", ctypes.default_abi, this.CFTimeZoneRef, this.CFAllocatorRef, this.CFStringRef, this.Boolean);
+    this.CFTimeZoneGetName = lib.declare("CFTimeZoneGetName", ctypes.default_abi, this.CFStringRef, this.CFTimeZoneRef);
+    this.CFTimeZoneGetData = lib.declare("CFTimeZoneGetData", ctypes.default_abi, this.CFDataRef, this.CFTimeZoneRef);
+    this.CFTimeZoneGetSecondsFromGMT = lib.declare("CFTimeZoneGetSecondsFromGMT", ctypes.default_abi, this.CFTimeInterval, this.CFTimeZoneRef, this.CFAbsoluteTime);
+    this.CFTimeZoneCopyAbbreviation = lib.declare("CFTimeZoneCopyAbbreviation", ctypes.default_abi, this.CFStringRef, this.CFTimeZoneRef, this.CFAbsoluteTime);
+    this.CFTimeZoneIsDaylightSavingTime = lib.declare("CFTimeZoneIsDaylightSavingTime", ctypes.default_abi, this.Boolean, this.CFTimeZoneRef, this.CFAbsoluteTime);
+    this.CFTimeZoneGetDaylightSavingTimeOffset = lib.declare("CFTimeZoneGetDaylightSavingTimeOffset", ctypes.default_abi, this.CFTimeInterval, this.CFTimeZoneRef, this.CFAbsoluteTime);
+    this.CFTimeZoneGetNextDaylightSavingTimeTransition = lib.declare("CFTimeZoneGetNextDaylightSavingTimeTransition", ctypes.default_abi, this.CFAbsoluteTime, this.CFTimeZoneRef, this.CFAbsoluteTime);
     this.kCFTimeZoneNameStyleStandard = 0;
     this.kCFTimeZoneNameStyleShortStandard = 1;
     this.kCFTimeZoneNameStyleDaylightSaving = 2;
@@ -688,14 +1376,17 @@ function CFTimeZone_h(lib) {
     this.kCFTimeZoneNameStyleGeneric = 4;
     this.kCFTimeZoneNameStyleShortGeneric = 5;
     this.CFTimeZoneNameStyle = this.CFIndex;
+    this.CFTimeZoneCopyLocalizedName = lib.declare("CFTimeZoneCopyLocalizedName", ctypes.default_abi, this.CFStringRef, this.CFTimeZoneRef, this.CFTimeZoneNameStyle, this.CFLocaleRef);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFXMLParser.h
 function CFXMLParser_h(lib) {
     CFData_h.call(this, lib);
+    CFXMLNode_h.call(this, lib);
+    CFDictionary_h.call(this, lib);
+    CFURL_h.call(this, lib);
     CFBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
-    CFXMLNode_h.call(this, lib);
 
     if (this._CFXMLPARSER_H)
         return;
@@ -741,10 +1432,30 @@ function CFXMLParser_h(lib) {
     this.CFXMLParserReleaseCallBack = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [ctypes.void_t.ptr]).ptr;
     this.CFXMLParserCopyDescriptionCallBack = new ctypes.FunctionType(ctypes.default_abi, this.CFStringRef, [ctypes.void_t.ptr]).ptr;
     this.CFXMLParserContext = new ctypes.StructType("CFXMLParserContext", [{version: this.CFIndex}, {info: ctypes.void_t.ptr}, {retain: this.CFXMLParserRetainCallBack}, {release: this.CFXMLParserReleaseCallBack}, {copyDescription: this.CFXMLParserCopyDescriptionCallBack}]);
+    this.CFXMLParserGetTypeID = lib.declare("CFXMLParserGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFXMLParserCreate = lib.declare("CFXMLParserCreate", ctypes.default_abi, this.CFXMLParserRef, this.CFAllocatorRef, this.CFDataRef, this.CFURLRef, this.CFOptionFlags, this.CFIndex, this.CFXMLParserCallBacks.ptr, this.CFXMLParserContext.ptr);
+    this.CFXMLParserCreateWithDataFromURL = lib.declare("CFXMLParserCreateWithDataFromURL", ctypes.default_abi, this.CFXMLParserRef, this.CFAllocatorRef, this.CFURLRef, this.CFOptionFlags, this.CFIndex, this.CFXMLParserCallBacks.ptr, this.CFXMLParserContext.ptr);
+    this.CFXMLParserGetContext = lib.declare("CFXMLParserGetContext", ctypes.default_abi, ctypes.void_t, this.CFXMLParserRef, this.CFXMLParserContext.ptr);
+    this.CFXMLParserGetCallBacks = lib.declare("CFXMLParserGetCallBacks", ctypes.default_abi, ctypes.void_t, this.CFXMLParserRef, this.CFXMLParserCallBacks.ptr);
+    this.CFXMLParserGetSourceURL = lib.declare("CFXMLParserGetSourceURL", ctypes.default_abi, this.CFURLRef, this.CFXMLParserRef);
+    this.CFXMLParserGetLocation = lib.declare("CFXMLParserGetLocation", ctypes.default_abi, this.CFIndex, this.CFXMLParserRef);
+    this.CFXMLParserGetLineNumber = lib.declare("CFXMLParserGetLineNumber", ctypes.default_abi, this.CFIndex, this.CFXMLParserRef);
+    this.CFXMLParserGetDocument = lib.declare("CFXMLParserGetDocument", ctypes.default_abi, ctypes.void_t.ptr, this.CFXMLParserRef);
+    this.CFXMLParserGetStatusCode = lib.declare("CFXMLParserGetStatusCode", ctypes.default_abi, this.CFXMLParserStatusCode, this.CFXMLParserRef);
+    this.CFXMLParserCopyErrorDescription = lib.declare("CFXMLParserCopyErrorDescription", ctypes.default_abi, this.CFStringRef, this.CFXMLParserRef);
+    this.CFXMLParserAbort = lib.declare("CFXMLParserAbort", ctypes.default_abi, ctypes.void_t, this.CFXMLParserRef, this.CFXMLParserStatusCode, this.CFStringRef);
+    this.CFXMLParserParse = lib.declare("CFXMLParserParse", ctypes.default_abi, this.Boolean, this.CFXMLParserRef);
+    this.CFXMLTreeCreateFromData = lib.declare("CFXMLTreeCreateFromData", ctypes.default_abi, this.CFXMLTreeRef, this.CFAllocatorRef, this.CFDataRef, this.CFURLRef, this.CFOptionFlags, this.CFIndex);
+    this.CFXMLTreeCreateFromDataWithError = lib.declare("CFXMLTreeCreateFromDataWithError", ctypes.default_abi, this.CFXMLTreeRef, this.CFAllocatorRef, this.CFDataRef, this.CFURLRef, this.CFOptionFlags, this.CFIndex, this.CFDictionaryRef.ptr);
+    this.CFXMLTreeCreateWithDataFromURL = lib.declare("CFXMLTreeCreateWithDataFromURL", ctypes.default_abi, this.CFXMLTreeRef, this.CFAllocatorRef, this.CFURLRef, this.CFOptionFlags, this.CFIndex);
+    this.CFXMLTreeCreateXMLData = lib.declare("CFXMLTreeCreateXMLData", ctypes.default_abi, this.CFDataRef, this.CFAllocatorRef, this.CFXMLTreeRef);
+    this.CFXMLCreateStringByEscapingEntities = lib.declare("CFXMLCreateStringByEscapingEntities", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, this.CFStringRef, this.CFDictionaryRef);
+    this.CFXMLCreateStringByUnescapingEntities = lib.declare("CFXMLCreateStringByUnescapingEntities", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, this.CFStringRef, this.CFDictionaryRef);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFBase.h
 function CFBase_h(lib) {
+    MacTypes_h.call(this, lib);
 
     if (this._CFBASE_H)
         return;
@@ -767,8 +1478,10 @@ function CFBase_h(lib) {
     this.kCFNotFound = -1;
     this.CFRange = new ctypes.StructType("CFRange", [{location: this.CFIndex}, {length: this.CFIndex}]);
     // Dropping inline function 'CFRangeMake'.
+    this.__CFRangeMake = lib.declare("__CFRangeMake", ctypes.default_abi, this.CFRange, this.CFIndex, this.CFIndex);
     this.__CFNull = new ctypes.StructType("__CFNull");
     this.CFNullRef = this.__CFNull.ptr;
+    this.CFNullGetTypeID = lib.declare("CFNullGetTypeID", ctypes.default_abi, this.CFTypeID);
     this.__CFAllocator = new ctypes.StructType("__CFAllocator");
     this.CFAllocatorRef = this.__CFAllocator.ptr;
     this.CFAllocatorRetainCallBack = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t.ptr, [ctypes.void_t.ptr]).ptr;
@@ -779,6 +1492,25 @@ function CFBase_h(lib) {
     this.CFAllocatorDeallocateCallBack = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [ctypes.void_t.ptr, ctypes.void_t.ptr]).ptr;
     this.CFAllocatorPreferredSizeCallBack = new ctypes.FunctionType(ctypes.default_abi, this.CFIndex, [this.CFIndex, this.CFOptionFlags, ctypes.void_t.ptr]).ptr;
     this.CFAllocatorContext = new ctypes.StructType("CFAllocatorContext", [{version: this.CFIndex}, {info: ctypes.void_t.ptr}, {retain: this.CFAllocatorRetainCallBack}, {release: this.CFAllocatorReleaseCallBack}, {copyDescription: this.CFAllocatorCopyDescriptionCallBack}, {allocate: this.CFAllocatorAllocateCallBack}, {reallocate: this.CFAllocatorReallocateCallBack}, {deallocate: this.CFAllocatorDeallocateCallBack}, {preferredSize: this.CFAllocatorPreferredSizeCallBack}]);
+    this.CFAllocatorGetTypeID = lib.declare("CFAllocatorGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFAllocatorSetDefault = lib.declare("CFAllocatorSetDefault", ctypes.default_abi, ctypes.void_t, this.CFAllocatorRef);
+    this.CFAllocatorGetDefault = lib.declare("CFAllocatorGetDefault", ctypes.default_abi, this.CFAllocatorRef);
+    this.CFAllocatorCreate = lib.declare("CFAllocatorCreate", ctypes.default_abi, this.CFAllocatorRef, this.CFAllocatorRef, this.CFAllocatorContext.ptr);
+    this.CFAllocatorAllocate = lib.declare("CFAllocatorAllocate", ctypes.default_abi, ctypes.void_t.ptr, this.CFAllocatorRef, this.CFIndex, this.CFOptionFlags);
+    this.CFAllocatorReallocate = lib.declare("CFAllocatorReallocate", ctypes.default_abi, ctypes.void_t.ptr, this.CFAllocatorRef, ctypes.void_t.ptr, this.CFIndex, this.CFOptionFlags);
+    this.CFAllocatorDeallocate = lib.declare("CFAllocatorDeallocate", ctypes.default_abi, ctypes.void_t, this.CFAllocatorRef, ctypes.void_t.ptr);
+    this.CFAllocatorGetPreferredSizeForSize = lib.declare("CFAllocatorGetPreferredSizeForSize", ctypes.default_abi, this.CFIndex, this.CFAllocatorRef, this.CFIndex, this.CFOptionFlags);
+    this.CFAllocatorGetContext = lib.declare("CFAllocatorGetContext", ctypes.default_abi, ctypes.void_t, this.CFAllocatorRef, this.CFAllocatorContext.ptr);
+    this.CFGetTypeID = lib.declare("CFGetTypeID", ctypes.default_abi, this.CFTypeID, this.CFTypeRef);
+    this.CFCopyTypeIDDescription = lib.declare("CFCopyTypeIDDescription", ctypes.default_abi, this.CFStringRef, this.CFTypeID);
+    this.CFRetain = lib.declare("CFRetain", ctypes.default_abi, this.CFTypeRef, this.CFTypeRef);
+    this.CFRelease = lib.declare("CFRelease", ctypes.default_abi, ctypes.void_t, this.CFTypeRef);
+    this.CFGetRetainCount = lib.declare("CFGetRetainCount", ctypes.default_abi, this.CFIndex, this.CFTypeRef);
+    this.CFMakeCollectable = lib.declare("CFMakeCollectable", ctypes.default_abi, this.CFTypeRef, this.CFTypeRef);
+    this.CFEqual = lib.declare("CFEqual", ctypes.default_abi, this.Boolean, this.CFTypeRef, this.CFTypeRef);
+    this.CFHash = lib.declare("CFHash", ctypes.default_abi, this.CFHashCode, this.CFTypeRef);
+    this.CFCopyDescription = lib.declare("CFCopyDescription", ctypes.default_abi, this.CFStringRef, this.CFTypeRef);
+    this.CFGetAllocator = lib.declare("CFGetAllocator", ctypes.default_abi, this.CFAllocatorRef, this.CFTypeRef);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFTree.h
@@ -796,10 +1528,31 @@ function CFTree_h(lib) {
     this.CFTreeApplierFunction = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [ctypes.void_t.ptr, ctypes.void_t.ptr]).ptr;
     this.__CFTree = new ctypes.StructType("__CFTree");
     this.CFTreeRef = this.__CFTree.ptr;
+    this.CFTreeGetTypeID = lib.declare("CFTreeGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFTreeCreate = lib.declare("CFTreeCreate", ctypes.default_abi, this.CFTreeRef, this.CFAllocatorRef, this.CFTreeContext.ptr);
+    this.CFTreeGetParent = lib.declare("CFTreeGetParent", ctypes.default_abi, this.CFTreeRef, this.CFTreeRef);
+    this.CFTreeGetNextSibling = lib.declare("CFTreeGetNextSibling", ctypes.default_abi, this.CFTreeRef, this.CFTreeRef);
+    this.CFTreeGetFirstChild = lib.declare("CFTreeGetFirstChild", ctypes.default_abi, this.CFTreeRef, this.CFTreeRef);
+    this.CFTreeGetContext = lib.declare("CFTreeGetContext", ctypes.default_abi, ctypes.void_t, this.CFTreeRef, this.CFTreeContext.ptr);
+    this.CFTreeGetChildCount = lib.declare("CFTreeGetChildCount", ctypes.default_abi, this.CFIndex, this.CFTreeRef);
+    this.CFTreeGetChildAtIndex = lib.declare("CFTreeGetChildAtIndex", ctypes.default_abi, this.CFTreeRef, this.CFTreeRef, this.CFIndex);
+    this.CFTreeGetChildren = lib.declare("CFTreeGetChildren", ctypes.default_abi, ctypes.void_t, this.CFTreeRef, this.CFTreeRef.ptr);
+    this.CFTreeApplyFunctionToChildren = lib.declare("CFTreeApplyFunctionToChildren", ctypes.default_abi, ctypes.void_t, this.CFTreeRef, this.CFTreeApplierFunction, ctypes.void_t.ptr);
+    this.CFTreeFindRoot = lib.declare("CFTreeFindRoot", ctypes.default_abi, this.CFTreeRef, this.CFTreeRef);
+    this.CFTreeSetContext = lib.declare("CFTreeSetContext", ctypes.default_abi, ctypes.void_t, this.CFTreeRef, this.CFTreeContext.ptr);
+    this.CFTreePrependChild = lib.declare("CFTreePrependChild", ctypes.default_abi, ctypes.void_t, this.CFTreeRef, this.CFTreeRef);
+    this.CFTreeAppendChild = lib.declare("CFTreeAppendChild", ctypes.default_abi, ctypes.void_t, this.CFTreeRef, this.CFTreeRef);
+    this.CFTreeInsertSibling = lib.declare("CFTreeInsertSibling", ctypes.default_abi, ctypes.void_t, this.CFTreeRef, this.CFTreeRef);
+    this.CFTreeRemove = lib.declare("CFTreeRemove", ctypes.default_abi, ctypes.void_t, this.CFTreeRef);
+    this.CFTreeRemoveAllChildren = lib.declare("CFTreeRemoveAllChildren", ctypes.default_abi, ctypes.void_t, this.CFTreeRef);
+    this.CFTreeSortChildren = lib.declare("CFTreeSortChildren", ctypes.default_abi, ctypes.void_t, this.CFTreeRef, this.CFComparatorFunction, ctypes.void_t.ptr);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFAttributedString.h
 function CFAttributedString_h(lib) {
+    CFBase_h.call(this, lib);
+    CFDictionary_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._CFATTRIBUTEDSTRING_H)
         return;
@@ -808,11 +1561,33 @@ function CFAttributedString_h(lib) {
     this.__CFAttributedString = new ctypes.StructType("__CFAttributedString");
     this.CFAttributedStringRef = this.__CFAttributedString.ptr;
     this.CFMutableAttributedStringRef = this.__CFAttributedString.ptr;
+    this.CFAttributedStringGetTypeID = lib.declare("CFAttributedStringGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFAttributedStringCreate = lib.declare("CFAttributedStringCreate", ctypes.default_abi, this.CFAttributedStringRef, this.CFAllocatorRef, this.CFStringRef, this.CFDictionaryRef);
+    this.CFAttributedStringCreateWithSubstring = lib.declare("CFAttributedStringCreateWithSubstring", ctypes.default_abi, this.CFAttributedStringRef, this.CFAllocatorRef, this.CFAttributedStringRef, this.CFRange);
+    this.CFAttributedStringCreateCopy = lib.declare("CFAttributedStringCreateCopy", ctypes.default_abi, this.CFAttributedStringRef, this.CFAllocatorRef, this.CFAttributedStringRef);
+    this.CFAttributedStringGetString = lib.declare("CFAttributedStringGetString", ctypes.default_abi, this.CFStringRef, this.CFAttributedStringRef);
+    this.CFAttributedStringGetLength = lib.declare("CFAttributedStringGetLength", ctypes.default_abi, this.CFIndex, this.CFAttributedStringRef);
+    this.CFAttributedStringGetAttributes = lib.declare("CFAttributedStringGetAttributes", ctypes.default_abi, this.CFDictionaryRef, this.CFAttributedStringRef, this.CFIndex, this.CFRange.ptr);
+    this.CFAttributedStringGetAttribute = lib.declare("CFAttributedStringGetAttribute", ctypes.default_abi, this.CFTypeRef, this.CFAttributedStringRef, this.CFIndex, this.CFStringRef, this.CFRange.ptr);
+    this.CFAttributedStringGetAttributesAndLongestEffectiveRange = lib.declare("CFAttributedStringGetAttributesAndLongestEffectiveRange", ctypes.default_abi, this.CFDictionaryRef, this.CFAttributedStringRef, this.CFIndex, this.CFRange, this.CFRange.ptr);
+    this.CFAttributedStringGetAttributeAndLongestEffectiveRange = lib.declare("CFAttributedStringGetAttributeAndLongestEffectiveRange", ctypes.default_abi, this.CFTypeRef, this.CFAttributedStringRef, this.CFIndex, this.CFStringRef, this.CFRange, this.CFRange.ptr);
+    this.CFAttributedStringCreateMutableCopy = lib.declare("CFAttributedStringCreateMutableCopy", ctypes.default_abi, this.CFMutableAttributedStringRef, this.CFAllocatorRef, this.CFIndex, this.CFAttributedStringRef);
+    this.CFAttributedStringCreateMutable = lib.declare("CFAttributedStringCreateMutable", ctypes.default_abi, this.CFMutableAttributedStringRef, this.CFAllocatorRef, this.CFIndex);
+    this.CFAttributedStringReplaceString = lib.declare("CFAttributedStringReplaceString", ctypes.default_abi, ctypes.void_t, this.CFMutableAttributedStringRef, this.CFRange, this.CFStringRef);
+    this.CFAttributedStringGetMutableString = lib.declare("CFAttributedStringGetMutableString", ctypes.default_abi, this.CFMutableStringRef, this.CFMutableAttributedStringRef);
+    this.CFAttributedStringSetAttributes = lib.declare("CFAttributedStringSetAttributes", ctypes.default_abi, ctypes.void_t, this.CFMutableAttributedStringRef, this.CFRange, this.CFDictionaryRef, this.Boolean);
+    this.CFAttributedStringSetAttribute = lib.declare("CFAttributedStringSetAttribute", ctypes.default_abi, ctypes.void_t, this.CFMutableAttributedStringRef, this.CFRange, this.CFStringRef, this.CFTypeRef);
+    this.CFAttributedStringRemoveAttribute = lib.declare("CFAttributedStringRemoveAttribute", ctypes.default_abi, ctypes.void_t, this.CFMutableAttributedStringRef, this.CFRange, this.CFStringRef);
+    this.CFAttributedStringReplaceAttributedString = lib.declare("CFAttributedStringReplaceAttributedString", ctypes.default_abi, ctypes.void_t, this.CFMutableAttributedStringRef, this.CFRange, this.CFAttributedStringRef);
+    this.CFAttributedStringBeginEditing = lib.declare("CFAttributedStringBeginEditing", ctypes.default_abi, ctypes.void_t, this.CFMutableAttributedStringRef);
+    this.CFAttributedStringEndEditing = lib.declare("CFAttributedStringEndEditing", ctypes.default_abi, ctypes.void_t, this.CFMutableAttributedStringRef);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFMachPort.h
 function CFMachPort_h(lib) {
+    CFRunLoop_h.call(this, lib);
     CFBase_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._CFMACHPORT_H)
         return;
@@ -823,6 +1598,16 @@ function CFMachPort_h(lib) {
     this.CFMachPortContext = new ctypes.StructType("CFMachPortContext", [{version: this.CFIndex}, {info: ctypes.void_t.ptr}, {retain: new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t.ptr, [ctypes.void_t.ptr]).ptr}, {release: new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [ctypes.void_t.ptr]).ptr}, {copyDescription: new ctypes.FunctionType(ctypes.default_abi, this.CFStringRef, [ctypes.void_t.ptr]).ptr}]);
     this.CFMachPortCallBack = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.CFMachPortRef, ctypes.void_t.ptr, this.CFIndex, ctypes.void_t.ptr]).ptr;
     this.CFMachPortInvalidationCallBack = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.CFMachPortRef, ctypes.void_t.ptr]).ptr;
+    this.CFMachPortGetTypeID = lib.declare("CFMachPortGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFMachPortCreate = lib.declare("CFMachPortCreate", ctypes.default_abi, this.CFMachPortRef, this.CFAllocatorRef, this.CFMachPortCallBack, this.CFMachPortContext.ptr, this.Boolean.ptr);
+    // Dropping declaration of 'CFMachPortCreateWithPort': 'mach_port_t' defined out of scope
+    // Dropping declaration of 'CFMachPortGetPort': 'mach_port_t' defined out of scope
+    this.CFMachPortGetContext = lib.declare("CFMachPortGetContext", ctypes.default_abi, ctypes.void_t, this.CFMachPortRef, this.CFMachPortContext.ptr);
+    this.CFMachPortInvalidate = lib.declare("CFMachPortInvalidate", ctypes.default_abi, ctypes.void_t, this.CFMachPortRef);
+    this.CFMachPortIsValid = lib.declare("CFMachPortIsValid", ctypes.default_abi, this.Boolean, this.CFMachPortRef);
+    this.CFMachPortGetInvalidationCallBack = lib.declare("CFMachPortGetInvalidationCallBack", ctypes.default_abi, this.CFMachPortInvalidationCallBack, this.CFMachPortRef);
+    this.CFMachPortSetInvalidationCallBack = lib.declare("CFMachPortSetInvalidationCallBack", ctypes.default_abi, ctypes.void_t, this.CFMachPortRef, this.CFMachPortInvalidationCallBack);
+    this.CFMachPortCreateRunLoopSource = lib.declare("CFMachPortCreateRunLoopSource", ctypes.default_abi, this.CFRunLoopSourceRef, this.CFAllocatorRef, this.CFMachPortRef, this.CFIndex);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFXMLNode.h
@@ -876,10 +1661,20 @@ function CFXMLNode_h(lib) {
     this.CFXMLEntityTypeCode = this.CFIndex;
     this.CFXMLEntityInfo = new ctypes.StructType("CFXMLEntityInfo", [{entityType: this.CFXMLEntityTypeCode}, {replacementText: this.CFStringRef}, {entityID: this.CFXMLExternalID}, {notationName: this.CFStringRef}]);
     this.CFXMLEntityReferenceInfo = new ctypes.StructType("CFXMLEntityReferenceInfo", [{entityType: this.CFXMLEntityTypeCode}]);
+    this.CFXMLNodeGetTypeID = lib.declare("CFXMLNodeGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFXMLNodeCreate = lib.declare("CFXMLNodeCreate", ctypes.default_abi, this.CFXMLNodeRef, this.CFAllocatorRef, this.CFXMLNodeTypeCode, this.CFStringRef, ctypes.void_t.ptr, this.CFIndex);
+    this.CFXMLNodeCreateCopy = lib.declare("CFXMLNodeCreateCopy", ctypes.default_abi, this.CFXMLNodeRef, this.CFAllocatorRef, this.CFXMLNodeRef);
+    this.CFXMLNodeGetTypeCode = lib.declare("CFXMLNodeGetTypeCode", ctypes.default_abi, this.CFXMLNodeTypeCode, this.CFXMLNodeRef);
+    this.CFXMLNodeGetString = lib.declare("CFXMLNodeGetString", ctypes.default_abi, this.CFStringRef, this.CFXMLNodeRef);
+    this.CFXMLNodeGetInfoPtr = lib.declare("CFXMLNodeGetInfoPtr", ctypes.default_abi, ctypes.void_t.ptr, this.CFXMLNodeRef);
+    this.CFXMLNodeGetVersion = lib.declare("CFXMLNodeGetVersion", ctypes.default_abi, this.CFIndex, this.CFXMLNodeRef);
+    this.CFXMLTreeCreateWithNode = lib.declare("CFXMLTreeCreateWithNode", ctypes.default_abi, this.CFXMLTreeRef, this.CFAllocatorRef, this.CFXMLNodeRef);
+    this.CFXMLTreeGetNode = lib.declare("CFXMLTreeGetNode", ctypes.default_abi, this.CFXMLNodeRef, this.CFXMLTreeRef);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFUUID.h
 function CFUUID_h(lib) {
+    CFBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._CFUUID_H)
@@ -889,11 +1684,21 @@ function CFUUID_h(lib) {
     this.__CFUUID = new ctypes.StructType("__CFUUID");
     this.CFUUIDRef = this.__CFUUID.ptr;
     this.CFUUIDBytes = new ctypes.StructType("CFUUIDBytes", [{byte0: this.UInt8}, {byte1: this.UInt8}, {byte2: this.UInt8}, {byte3: this.UInt8}, {byte4: this.UInt8}, {byte5: this.UInt8}, {byte6: this.UInt8}, {byte7: this.UInt8}, {byte8: this.UInt8}, {byte9: this.UInt8}, {byte10: this.UInt8}, {byte11: this.UInt8}, {byte12: this.UInt8}, {byte13: this.UInt8}, {byte14: this.UInt8}, {byte15: this.UInt8}]);
+    this.CFUUIDGetTypeID = lib.declare("CFUUIDGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFUUIDCreate = lib.declare("CFUUIDCreate", ctypes.default_abi, this.CFUUIDRef, this.CFAllocatorRef);
+    this.CFUUIDCreateWithBytes = lib.declare("CFUUIDCreateWithBytes", ctypes.default_abi, this.CFUUIDRef, this.CFAllocatorRef, this.UInt8, this.UInt8, this.UInt8, this.UInt8, this.UInt8, this.UInt8, this.UInt8, this.UInt8, this.UInt8, this.UInt8, this.UInt8, this.UInt8, this.UInt8, this.UInt8, this.UInt8, this.UInt8);
+    this.CFUUIDCreateFromString = lib.declare("CFUUIDCreateFromString", ctypes.default_abi, this.CFUUIDRef, this.CFAllocatorRef, this.CFStringRef);
+    this.CFUUIDCreateString = lib.declare("CFUUIDCreateString", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, this.CFUUIDRef);
+    this.CFUUIDGetConstantUUIDWithBytes = lib.declare("CFUUIDGetConstantUUIDWithBytes", ctypes.default_abi, this.CFUUIDRef, this.CFAllocatorRef, this.UInt8, this.UInt8, this.UInt8, this.UInt8, this.UInt8, this.UInt8, this.UInt8, this.UInt8, this.UInt8, this.UInt8, this.UInt8, this.UInt8, this.UInt8, this.UInt8, this.UInt8, this.UInt8);
+    this.CFUUIDGetUUIDBytes = lib.declare("CFUUIDGetUUIDBytes", ctypes.default_abi, this.CFUUIDBytes, this.CFUUIDRef);
+    this.CFUUIDCreateFromUUIDBytes = lib.declare("CFUUIDCreateFromUUIDBytes", ctypes.default_abi, this.CFUUIDRef, this.CFAllocatorRef, this.CFUUIDBytes);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFCharacterSet.h
 function CFCharacterSet_h(lib) {
     CFBase_h.call(this, lib);
+    MacTypes_h.call(this, lib);
+    CFData_h.call(this, lib);
 
     if (this._CFCHARACTERSET_H)
         return;
@@ -918,11 +1723,35 @@ function CFCharacterSet_h(lib) {
     this.kCFCharacterSetNewline = 15;
     this.kCFCharacterSetIllegal = 12;
     this.CFCharacterSetPredefinedSet = this.CFIndex;
+    this.CFCharacterSetGetTypeID = lib.declare("CFCharacterSetGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFCharacterSetGetPredefined = lib.declare("CFCharacterSetGetPredefined", ctypes.default_abi, this.CFCharacterSetRef, this.CFCharacterSetPredefinedSet);
+    this.CFCharacterSetCreateWithCharactersInRange = lib.declare("CFCharacterSetCreateWithCharactersInRange", ctypes.default_abi, this.CFCharacterSetRef, this.CFAllocatorRef, this.CFRange);
+    this.CFCharacterSetCreateWithCharactersInString = lib.declare("CFCharacterSetCreateWithCharactersInString", ctypes.default_abi, this.CFCharacterSetRef, this.CFAllocatorRef, this.CFStringRef);
+    this.CFCharacterSetCreateWithBitmapRepresentation = lib.declare("CFCharacterSetCreateWithBitmapRepresentation", ctypes.default_abi, this.CFCharacterSetRef, this.CFAllocatorRef, this.CFDataRef);
+    this.CFCharacterSetCreateInvertedSet = lib.declare("CFCharacterSetCreateInvertedSet", ctypes.default_abi, this.CFCharacterSetRef, this.CFAllocatorRef, this.CFCharacterSetRef);
+    this.CFCharacterSetIsSupersetOfSet = lib.declare("CFCharacterSetIsSupersetOfSet", ctypes.default_abi, this.Boolean, this.CFCharacterSetRef, this.CFCharacterSetRef);
+    this.CFCharacterSetHasMemberInPlane = lib.declare("CFCharacterSetHasMemberInPlane", ctypes.default_abi, this.Boolean, this.CFCharacterSetRef, this.CFIndex);
+    this.CFCharacterSetCreateMutable = lib.declare("CFCharacterSetCreateMutable", ctypes.default_abi, this.CFMutableCharacterSetRef, this.CFAllocatorRef);
+    this.CFCharacterSetCreateCopy = lib.declare("CFCharacterSetCreateCopy", ctypes.default_abi, this.CFCharacterSetRef, this.CFAllocatorRef, this.CFCharacterSetRef);
+    this.CFCharacterSetCreateMutableCopy = lib.declare("CFCharacterSetCreateMutableCopy", ctypes.default_abi, this.CFMutableCharacterSetRef, this.CFAllocatorRef, this.CFCharacterSetRef);
+    this.CFCharacterSetIsCharacterMember = lib.declare("CFCharacterSetIsCharacterMember", ctypes.default_abi, this.Boolean, this.CFCharacterSetRef, this.UniChar);
+    this.CFCharacterSetIsLongCharacterMember = lib.declare("CFCharacterSetIsLongCharacterMember", ctypes.default_abi, this.Boolean, this.CFCharacterSetRef, this.UTF32Char);
+    this.CFCharacterSetCreateBitmapRepresentation = lib.declare("CFCharacterSetCreateBitmapRepresentation", ctypes.default_abi, this.CFDataRef, this.CFAllocatorRef, this.CFCharacterSetRef);
+    this.CFCharacterSetAddCharactersInRange = lib.declare("CFCharacterSetAddCharactersInRange", ctypes.default_abi, ctypes.void_t, this.CFMutableCharacterSetRef, this.CFRange);
+    this.CFCharacterSetRemoveCharactersInRange = lib.declare("CFCharacterSetRemoveCharactersInRange", ctypes.default_abi, ctypes.void_t, this.CFMutableCharacterSetRef, this.CFRange);
+    this.CFCharacterSetAddCharactersInString = lib.declare("CFCharacterSetAddCharactersInString", ctypes.default_abi, ctypes.void_t, this.CFMutableCharacterSetRef, this.CFStringRef);
+    this.CFCharacterSetRemoveCharactersInString = lib.declare("CFCharacterSetRemoveCharactersInString", ctypes.default_abi, ctypes.void_t, this.CFMutableCharacterSetRef, this.CFStringRef);
+    this.CFCharacterSetUnion = lib.declare("CFCharacterSetUnion", ctypes.default_abi, ctypes.void_t, this.CFMutableCharacterSetRef, this.CFCharacterSetRef);
+    this.CFCharacterSetIntersect = lib.declare("CFCharacterSetIntersect", ctypes.default_abi, ctypes.void_t, this.CFMutableCharacterSetRef, this.CFCharacterSetRef);
+    this.CFCharacterSetInvert = lib.declare("CFCharacterSetInvert", ctypes.default_abi, ctypes.void_t, this.CFMutableCharacterSetRef);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFDateFormatter.h
 function CFDateFormatter_h(lib) {
     CFBase_h.call(this, lib);
+    CFLocale_h.call(this, lib);
+    MacTypes_h.call(this, lib);
+    CFDate_h.call(this, lib);
 
     if (this._CFDATEFORMATTER_H)
         return;
@@ -930,22 +1759,45 @@ function CFDateFormatter_h(lib) {
 
     this.__CFDateFormatter = new ctypes.StructType("__CFDateFormatter");
     this.CFDateFormatterRef = this.__CFDateFormatter.ptr;
+    this.CFDateFormatterCreateDateFormatFromTemplate = lib.declare("CFDateFormatterCreateDateFormatFromTemplate", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, this.CFStringRef, this.CFOptionFlags, this.CFLocaleRef);
+    this.CFDateFormatterGetTypeID = lib.declare("CFDateFormatterGetTypeID", ctypes.default_abi, this.CFTypeID);
     this.kCFDateFormatterNoStyle = 0;
     this.kCFDateFormatterShortStyle = 1;
     this.kCFDateFormatterMediumStyle = 2;
     this.kCFDateFormatterLongStyle = 3;
     this.kCFDateFormatterFullStyle = 4;
     this.CFDateFormatterStyle = this.CFIndex;
+    this.CFDateFormatterCreate = lib.declare("CFDateFormatterCreate", ctypes.default_abi, this.CFDateFormatterRef, this.CFAllocatorRef, this.CFLocaleRef, this.CFDateFormatterStyle, this.CFDateFormatterStyle);
+    this.CFDateFormatterGetLocale = lib.declare("CFDateFormatterGetLocale", ctypes.default_abi, this.CFLocaleRef, this.CFDateFormatterRef);
+    this.CFDateFormatterGetDateStyle = lib.declare("CFDateFormatterGetDateStyle", ctypes.default_abi, this.CFDateFormatterStyle, this.CFDateFormatterRef);
+    this.CFDateFormatterGetTimeStyle = lib.declare("CFDateFormatterGetTimeStyle", ctypes.default_abi, this.CFDateFormatterStyle, this.CFDateFormatterRef);
+    this.CFDateFormatterGetFormat = lib.declare("CFDateFormatterGetFormat", ctypes.default_abi, this.CFStringRef, this.CFDateFormatterRef);
+    this.CFDateFormatterSetFormat = lib.declare("CFDateFormatterSetFormat", ctypes.default_abi, ctypes.void_t, this.CFDateFormatterRef, this.CFStringRef);
+    this.CFDateFormatterCreateStringWithDate = lib.declare("CFDateFormatterCreateStringWithDate", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, this.CFDateFormatterRef, this.CFDateRef);
+    this.CFDateFormatterCreateStringWithAbsoluteTime = lib.declare("CFDateFormatterCreateStringWithAbsoluteTime", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, this.CFDateFormatterRef, this.CFAbsoluteTime);
+    this.CFDateFormatterCreateDateFromString = lib.declare("CFDateFormatterCreateDateFromString", ctypes.default_abi, this.CFDateRef, this.CFAllocatorRef, this.CFDateFormatterRef, this.CFStringRef, this.CFRange.ptr);
+    this.CFDateFormatterGetAbsoluteTimeFromString = lib.declare("CFDateFormatterGetAbsoluteTimeFromString", ctypes.default_abi, this.Boolean, this.CFDateFormatterRef, this.CFStringRef, this.CFRange.ptr, this.CFAbsoluteTime.ptr);
+    this.CFDateFormatterSetProperty = lib.declare("CFDateFormatterSetProperty", ctypes.default_abi, ctypes.void_t, this.CFDateFormatterRef, this.CFStringRef, this.CFTypeRef);
+    this.CFDateFormatterCopyProperty = lib.declare("CFDateFormatterCopyProperty", ctypes.default_abi, this.CFTypeRef, this.CFDateFormatterRef, this.CFStringRef);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFURLAccess.h
 function CFURLAccess_h(lib) {
+    CFData_h.call(this, lib);
+    CFDictionary_h.call(this, lib);
+    CFURL_h.call(this, lib);
     CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._CFURLACCESS_H)
         return;
     this._CFURLACCESS_H = true;
 
+    this.CFURLCreateDataAndPropertiesFromResource = lib.declare("CFURLCreateDataAndPropertiesFromResource", ctypes.default_abi, this.Boolean, this.CFAllocatorRef, this.CFURLRef, this.CFDataRef.ptr, this.CFDictionaryRef.ptr, this.CFArrayRef, this.SInt32.ptr);
+    this.CFURLWriteDataAndPropertiesToResource = lib.declare("CFURLWriteDataAndPropertiesToResource", ctypes.default_abi, this.Boolean, this.CFURLRef, this.CFDataRef, this.CFDictionaryRef, this.SInt32.ptr);
+    this.CFURLDestroyResource = lib.declare("CFURLDestroyResource", ctypes.default_abi, this.Boolean, this.CFURLRef, this.SInt32.ptr);
+    this.CFURLCreatePropertyFromResource = lib.declare("CFURLCreatePropertyFromResource", ctypes.default_abi, this.CFTypeRef, this.CFAllocatorRef, this.CFURLRef, this.CFStringRef, this.SInt32.ptr);
     this.kCFURLUnknownError = -10;
     this.kCFURLUnknownSchemeError = -11;
     this.kCFURLResourceNotFoundError = -12;
@@ -962,6 +1814,7 @@ function CFURLAccess_h(lib) {
 function CFNotificationCenter_h(lib) {
     CFDictionary_h.call(this, lib);
     CFBase_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._CFNOTIFICATIONCENTER_H)
         return;
@@ -975,13 +1828,26 @@ function CFNotificationCenter_h(lib) {
     this.CFNotificationSuspensionBehaviorHold = 3;
     this.CFNotificationSuspensionBehaviorDeliverImmediately = 4;
     this.CFNotificationSuspensionBehavior = this.CFIndex;
+    this.CFNotificationCenterGetTypeID = lib.declare("CFNotificationCenterGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.CFNotificationCenterGetLocalCenter = lib.declare("CFNotificationCenterGetLocalCenter", ctypes.default_abi, this.CFNotificationCenterRef);
+    this.CFNotificationCenterGetDistributedCenter = lib.declare("CFNotificationCenterGetDistributedCenter", ctypes.default_abi, this.CFNotificationCenterRef);
+    this.CFNotificationCenterGetDarwinNotifyCenter = lib.declare("CFNotificationCenterGetDarwinNotifyCenter", ctypes.default_abi, this.CFNotificationCenterRef);
+    this.CFNotificationCenterAddObserver = lib.declare("CFNotificationCenterAddObserver", ctypes.default_abi, ctypes.void_t, this.CFNotificationCenterRef, ctypes.void_t.ptr, this.CFNotificationCallback, this.CFStringRef, ctypes.void_t.ptr, this.CFNotificationSuspensionBehavior);
+    this.CFNotificationCenterRemoveObserver = lib.declare("CFNotificationCenterRemoveObserver", ctypes.default_abi, ctypes.void_t, this.CFNotificationCenterRef, ctypes.void_t.ptr, this.CFStringRef, ctypes.void_t.ptr);
+    this.CFNotificationCenterRemoveEveryObserver = lib.declare("CFNotificationCenterRemoveEveryObserver", ctypes.default_abi, ctypes.void_t, this.CFNotificationCenterRef, ctypes.void_t.ptr);
+    this.CFNotificationCenterPostNotification = lib.declare("CFNotificationCenterPostNotification", ctypes.default_abi, ctypes.void_t, this.CFNotificationCenterRef, this.CFStringRef, ctypes.void_t.ptr, this.CFDictionaryRef, this.Boolean);
     this.kCFNotificationDeliverImmediately = 1;
     this.kCFNotificationPostToAllSessions = 2;
+    this.CFNotificationCenterPostNotificationWithOptions = lib.declare("CFNotificationCenterPostNotificationWithOptions", ctypes.default_abi, ctypes.void_t, this.CFNotificationCenterRef, this.CFStringRef, ctypes.void_t.ptr, this.CFDictionaryRef, this.CFOptionFlags);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFPropertyList.h
 function CFPropertyList_h(lib) {
+    CFData_h.call(this, lib);
+    CFError_h.call(this, lib);
+    CFStream_h.call(this, lib);
     CFBase_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._CFPROPERTYLIST_H)
         return;
@@ -991,14 +1857,24 @@ function CFPropertyList_h(lib) {
     this.kCFPropertyListMutableContainers = 1;
     this.kCFPropertyListMutableContainersAndLeaves = 2;
     this.CFPropertyListMutabilityOptions = this.CFOptionFlags;
+    this.CFPropertyListCreateFromXMLData = lib.declare("CFPropertyListCreateFromXMLData", ctypes.default_abi, this.CFPropertyListRef, this.CFAllocatorRef, this.CFDataRef, this.CFOptionFlags, this.CFStringRef.ptr);
+    this.CFPropertyListCreateXMLData = lib.declare("CFPropertyListCreateXMLData", ctypes.default_abi, this.CFDataRef, this.CFAllocatorRef, this.CFPropertyListRef);
+    this.CFPropertyListCreateDeepCopy = lib.declare("CFPropertyListCreateDeepCopy", ctypes.default_abi, this.CFPropertyListRef, this.CFAllocatorRef, this.CFPropertyListRef, this.CFOptionFlags);
     this.kCFPropertyListOpenStepFormat = 1;
     this.kCFPropertyListXMLFormat_v1_0 = 100;
     this.kCFPropertyListBinaryFormat_v1_0 = 200;
     this.CFPropertyListFormat = this.CFIndex;
+    this.CFPropertyListIsValid = lib.declare("CFPropertyListIsValid", ctypes.default_abi, this.Boolean, this.CFPropertyListRef, this.CFPropertyListFormat);
+    this.CFPropertyListWriteToStream = lib.declare("CFPropertyListWriteToStream", ctypes.default_abi, this.CFIndex, this.CFPropertyListRef, this.CFWriteStreamRef, this.CFPropertyListFormat, this.CFStringRef.ptr);
+    this.CFPropertyListCreateFromStream = lib.declare("CFPropertyListCreateFromStream", ctypes.default_abi, this.CFPropertyListRef, this.CFAllocatorRef, this.CFReadStreamRef, this.CFIndex, this.CFOptionFlags, this.CFPropertyListFormat.ptr, this.CFStringRef.ptr);
     this.kCFPropertyListReadCorruptError = 3840;
     this.kCFPropertyListReadUnknownVersionError = 3841;
     this.kCFPropertyListReadStreamError = 3842;
     this.kCFPropertyListWriteStreamError = 3851;
+    this.CFPropertyListCreateWithData = lib.declare("CFPropertyListCreateWithData", ctypes.default_abi, this.CFPropertyListRef, this.CFAllocatorRef, this.CFDataRef, this.CFOptionFlags, this.CFPropertyListFormat.ptr, this.CFErrorRef.ptr);
+    this.CFPropertyListCreateWithStream = lib.declare("CFPropertyListCreateWithStream", ctypes.default_abi, this.CFPropertyListRef, this.CFAllocatorRef, this.CFReadStreamRef, this.CFIndex, this.CFOptionFlags, this.CFPropertyListFormat.ptr, this.CFErrorRef.ptr);
+    this.CFPropertyListWrite = lib.declare("CFPropertyListWrite", ctypes.default_abi, this.CFIndex, this.CFPropertyListRef, this.CFWriteStreamRef, this.CFPropertyListFormat, this.CFOptionFlags, this.CFErrorRef.ptr);
+    this.CFPropertyListCreateData = lib.declare("CFPropertyListCreateData", ctypes.default_abi, this.CFDataRef, this.CFAllocatorRef, this.CFPropertyListRef, this.CFPropertyListFormat, this.CFOptionFlags, this.CFErrorRef.ptr);
 }
 
 // Based on /System/Library/Frameworks/CoreFoundation.framework/Headers/CFStringEncodingExt.h
@@ -1148,9 +2024,19 @@ const EXPORTED_SYMBOLS = ["CoreFoundation", "CFString_h", "CFStringTokenizer_h",
 
 function CoreFoundation() {
     let libpath = "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation";
-    let lib = ctypes.open(libpath);
+    let library = ctypes.open(libpath);
     this.close = function() {
-        lib.close();
+        library.close();
+    };
+    let lib = {
+        declare: function() {
+            try {
+                return library.declare.apply(library, arguments);
+            } catch (ex) {
+                dump("Failed to declare " + arguments[0] + "\n");
+                return null;
+            }
+        }
     };
 
     CFString_h.call(this, lib);

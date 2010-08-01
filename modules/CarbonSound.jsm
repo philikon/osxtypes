@@ -1,5 +1,6 @@
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/CarbonSound.framework/Headers/Sound.h
 function Sound_h(lib) {
+    Dialogs_h.call(this, lib);
     Components_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
@@ -454,6 +455,57 @@ function Sound_h(lib) {
     // Dropping inline function 'InvokeSICompletionUPP'.
     this.FilePlayCompletionProcPtr = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.SndChannelPtr]).ptr;
     this.FilePlayCompletionUPP = this.FilePlayCompletionProcPtr;
+    this.SysBeep = lib.declare("SysBeep", ctypes.default_abi, ctypes.void_t, ctypes.short);
+    this.SndDoCommand = lib.declare("SndDoCommand", ctypes.default_abi, this.OSErr, this.SndChannelPtr, this.SndCommand.ptr, this.Boolean);
+    this.SndDoImmediate = lib.declare("SndDoImmediate", ctypes.default_abi, this.OSErr, this.SndChannelPtr, this.SndCommand.ptr);
+    this.SndNewChannel = lib.declare("SndNewChannel", ctypes.default_abi, this.OSErr, this.SndChannelPtr.ptr, ctypes.short, ctypes.long, this.SndCallBackUPP);
+    this.SndDisposeChannel = lib.declare("SndDisposeChannel", ctypes.default_abi, this.OSErr, this.SndChannelPtr, this.Boolean);
+    this.SndPlay = lib.declare("SndPlay", ctypes.default_abi, this.OSErr, this.SndChannelPtr, this.SndListHandle, this.Boolean);
+    this.SndSoundManagerVersion = lib.declare("SndSoundManagerVersion", ctypes.default_abi, this.NumVersion);
+    this.SndChannelStatus = lib.declare("SndChannelStatus", ctypes.default_abi, this.OSErr, this.SndChannelPtr, ctypes.short, this.SCStatusPtr);
+    this.SndManagerStatus = lib.declare("SndManagerStatus", ctypes.default_abi, this.OSErr, ctypes.short, this.SMStatusPtr);
+    this.SndGetSysBeepState = lib.declare("SndGetSysBeepState", ctypes.default_abi, ctypes.void_t, ctypes.short.ptr);
+    this.SndSetSysBeepState = lib.declare("SndSetSysBeepState", ctypes.default_abi, this.OSErr, ctypes.short);
+    this.GetSysBeepVolume = lib.declare("GetSysBeepVolume", ctypes.default_abi, this.OSErr, ctypes.long.ptr);
+    this.SetSysBeepVolume = lib.declare("SetSysBeepVolume", ctypes.default_abi, this.OSErr, ctypes.long);
+    this.GetDefaultOutputVolume = lib.declare("GetDefaultOutputVolume", ctypes.default_abi, this.OSErr, ctypes.long.ptr);
+    this.SetDefaultOutputVolume = lib.declare("SetDefaultOutputVolume", ctypes.default_abi, this.OSErr, ctypes.long);
+    this.GetSoundHeaderOffset = lib.declare("GetSoundHeaderOffset", ctypes.default_abi, this.OSErr, this.SndListHandle, ctypes.long.ptr);
+    this.UnsignedFixedMulDiv = lib.declare("UnsignedFixedMulDiv", ctypes.default_abi, this.UnsignedFixed, this.UnsignedFixed, this.UnsignedFixed, this.UnsignedFixed);
+    this.GetCompressionInfo = lib.declare("GetCompressionInfo", ctypes.default_abi, this.OSErr, ctypes.short, this.OSType, ctypes.short, ctypes.short, this.CompressionInfoPtr);
+    this.SetSoundPreference = lib.declare("SetSoundPreference", ctypes.default_abi, this.OSErr, this.OSType, ctypes.unsigned_char.ptr, this.Handle);
+    this.GetSoundPreference = lib.declare("GetSoundPreference", ctypes.default_abi, this.OSErr, this.OSType, ctypes.unsigned_char.ptr, this.Handle);
+    this.OpenMixerSoundComponent = lib.declare("OpenMixerSoundComponent", ctypes.default_abi, this.OSErr, this.SoundComponentDataPtr, ctypes.long, this.ComponentInstance.ptr);
+    this.CloseMixerSoundComponent = lib.declare("CloseMixerSoundComponent", ctypes.default_abi, this.OSErr, this.ComponentInstance);
+    this.SndGetInfo = lib.declare("SndGetInfo", ctypes.default_abi, this.OSErr, this.SndChannelPtr, this.OSType, ctypes.void_t.ptr);
+    this.SndSetInfo = lib.declare("SndSetInfo", ctypes.default_abi, this.OSErr, this.SndChannelPtr, this.OSType, ctypes.void_t.ptr);
+    this.GetSoundOutputInfo = lib.declare("GetSoundOutputInfo", ctypes.default_abi, this.OSErr, this.Component, this.OSType, ctypes.void_t.ptr);
+    this.SetSoundOutputInfo = lib.declare("SetSoundOutputInfo", ctypes.default_abi, this.OSErr, this.Component, this.OSType, ctypes.void_t.ptr);
+    this.GetCompressionName = lib.declare("GetCompressionName", ctypes.default_abi, this.OSErr, this.OSType, ctypes.unsigned_char.ptr);
+    this.SoundConverterOpen = lib.declare("SoundConverterOpen", ctypes.default_abi, this.OSErr, this.SoundComponentData.ptr, this.SoundComponentData.ptr, this.SoundConverter.ptr);
+    this.SoundConverterClose = lib.declare("SoundConverterClose", ctypes.default_abi, this.OSErr, this.SoundConverter);
+    this.SoundConverterGetBufferSizes = lib.declare("SoundConverterGetBufferSizes", ctypes.default_abi, this.OSErr, this.SoundConverter, ctypes.unsigned_long, ctypes.unsigned_long.ptr, ctypes.unsigned_long.ptr, ctypes.unsigned_long.ptr);
+    this.SoundConverterBeginConversion = lib.declare("SoundConverterBeginConversion", ctypes.default_abi, this.OSErr, this.SoundConverter);
+    this.SoundConverterConvertBuffer = lib.declare("SoundConverterConvertBuffer", ctypes.default_abi, this.OSErr, this.SoundConverter, ctypes.void_t.ptr, ctypes.unsigned_long, ctypes.void_t.ptr, ctypes.unsigned_long.ptr, ctypes.unsigned_long.ptr);
+    this.SoundConverterEndConversion = lib.declare("SoundConverterEndConversion", ctypes.default_abi, this.OSErr, this.SoundConverter, ctypes.void_t.ptr, ctypes.unsigned_long.ptr, ctypes.unsigned_long.ptr);
+    this.SoundConverterGetInfo = lib.declare("SoundConverterGetInfo", ctypes.default_abi, this.OSErr, this.SoundConverter, this.OSType, ctypes.void_t.ptr);
+    this.SoundConverterSetInfo = lib.declare("SoundConverterSetInfo", ctypes.default_abi, this.OSErr, this.SoundConverter, this.OSType, ctypes.void_t.ptr);
+    this.SoundConverterFillBuffer = lib.declare("SoundConverterFillBuffer", ctypes.default_abi, this.OSErr, this.SoundConverter, this.SoundConverterFillBufferDataUPP, ctypes.void_t.ptr, ctypes.void_t.ptr, ctypes.unsigned_long, ctypes.unsigned_long.ptr, ctypes.unsigned_long.ptr, ctypes.unsigned_long.ptr);
+    this.SoundManagerGetInfo = lib.declare("SoundManagerGetInfo", ctypes.default_abi, this.OSErr, this.OSType, ctypes.void_t.ptr);
+    this.SoundManagerSetInfo = lib.declare("SoundManagerSetInfo", ctypes.default_abi, this.OSErr, this.OSType, ctypes.void_t.ptr);
+    this.SoundComponentInitOutputDevice = lib.declare("SoundComponentInitOutputDevice", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, ctypes.long);
+    this.SoundComponentSetSource = lib.declare("SoundComponentSetSource", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.SoundSource, this.ComponentInstance);
+    this.SoundComponentGetSource = lib.declare("SoundComponentGetSource", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.SoundSource, this.ComponentInstance.ptr);
+    this.SoundComponentGetSourceData = lib.declare("SoundComponentGetSourceData", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.SoundComponentDataPtr.ptr);
+    this.SoundComponentSetOutput = lib.declare("SoundComponentSetOutput", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.SoundComponentDataPtr, this.SoundComponentDataPtr.ptr);
+    this.SoundComponentAddSource = lib.declare("SoundComponentAddSource", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.SoundSource.ptr);
+    this.SoundComponentRemoveSource = lib.declare("SoundComponentRemoveSource", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.SoundSource);
+    this.SoundComponentGetInfo = lib.declare("SoundComponentGetInfo", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.SoundSource, this.OSType, ctypes.void_t.ptr);
+    this.SoundComponentSetInfo = lib.declare("SoundComponentSetInfo", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.SoundSource, this.OSType, ctypes.void_t.ptr);
+    this.SoundComponentStartSource = lib.declare("SoundComponentStartSource", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, ctypes.short, this.SoundSource.ptr);
+    this.SoundComponentStopSource = lib.declare("SoundComponentStopSource", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, ctypes.short, this.SoundSource.ptr);
+    this.SoundComponentPauseSource = lib.declare("SoundComponentPauseSource", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, ctypes.short, this.SoundSource.ptr);
+    this.SoundComponentPlaySourceBuffer = lib.declare("SoundComponentPlaySourceBuffer", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.SoundSource, this.SoundParamBlockPtr, ctypes.long);
     this.kSoundComponentInitOutputDeviceSelect = 1;
     this.kSoundComponentSetSourceSelect = 2;
     this.kSoundComponentGetSourceSelect = 3;
@@ -468,9 +520,38 @@ function Sound_h(lib) {
     this.kSoundComponentPauseSourceSelect = 263;
     this.kSoundComponentPlaySourceBufferSelect = 264;
     this.kDelegatedSoundComponentSelectors = 256;
+    this.SPBVersion = lib.declare("SPBVersion", ctypes.default_abi, this.NumVersion);
+    this.SndRecord = lib.declare("SndRecord", ctypes.default_abi, this.OSErr, this.ModalFilterUPP, this.Point, this.OSType, this.SndListHandle.ptr);
+    this.SPBSignInDevice = lib.declare("SPBSignInDevice", ctypes.default_abi, this.OSErr, ctypes.short, this.ConstStr255Param);
+    this.SPBSignOutDevice = lib.declare("SPBSignOutDevice", ctypes.default_abi, this.OSErr, ctypes.short);
+    this.SPBGetIndexedDevice = lib.declare("SPBGetIndexedDevice", ctypes.default_abi, this.OSErr, ctypes.short, ctypes.unsigned_char.ptr, this.Handle.ptr);
+    this.SPBOpenDevice = lib.declare("SPBOpenDevice", ctypes.default_abi, this.OSErr, this.ConstStr255Param, ctypes.short, ctypes.long.ptr);
+    this.SPBCloseDevice = lib.declare("SPBCloseDevice", ctypes.default_abi, this.OSErr, ctypes.long);
+    this.SPBRecord = lib.declare("SPBRecord", ctypes.default_abi, this.OSErr, this.SPBPtr, this.Boolean);
+    this.SPBPauseRecording = lib.declare("SPBPauseRecording", ctypes.default_abi, this.OSErr, ctypes.long);
+    this.SPBResumeRecording = lib.declare("SPBResumeRecording", ctypes.default_abi, this.OSErr, ctypes.long);
+    this.SPBStopRecording = lib.declare("SPBStopRecording", ctypes.default_abi, this.OSErr, ctypes.long);
+    this.SPBGetRecordingStatus = lib.declare("SPBGetRecordingStatus", ctypes.default_abi, this.OSErr, ctypes.long, ctypes.short.ptr, ctypes.short.ptr, ctypes.unsigned_long.ptr, ctypes.unsigned_long.ptr, ctypes.unsigned_long.ptr, ctypes.unsigned_long.ptr);
+    this.SPBGetDeviceInfo = lib.declare("SPBGetDeviceInfo", ctypes.default_abi, this.OSErr, ctypes.long, this.OSType, ctypes.void_t.ptr);
+    this.SPBSetDeviceInfo = lib.declare("SPBSetDeviceInfo", ctypes.default_abi, this.OSErr, ctypes.long, this.OSType, ctypes.void_t.ptr);
+    this.SPBMillisecondsToBytes = lib.declare("SPBMillisecondsToBytes", ctypes.default_abi, this.OSErr, ctypes.long, ctypes.long.ptr);
+    this.SPBBytesToMilliseconds = lib.declare("SPBBytesToMilliseconds", ctypes.default_abi, this.OSErr, ctypes.long, ctypes.long.ptr);
+    this.SetupSndHeader = lib.declare("SetupSndHeader", ctypes.default_abi, this.OSErr, this.SndListHandle, ctypes.short, this.UnsignedFixed, ctypes.short, this.OSType, ctypes.short, ctypes.unsigned_long, ctypes.short.ptr);
+    this.SetupAIFFHeader = lib.declare("SetupAIFFHeader", ctypes.default_abi, this.OSErr, ctypes.short, ctypes.short, this.UnsignedFixed, ctypes.short, this.OSType, ctypes.unsigned_long, ctypes.unsigned_long);
+    this.ParseAIFFHeader = lib.declare("ParseAIFFHeader", ctypes.default_abi, this.OSErr, ctypes.short, this.SoundComponentData.ptr, ctypes.unsigned_long.ptr, ctypes.unsigned_long.ptr);
+    this.ParseSndHeader = lib.declare("ParseSndHeader", ctypes.default_abi, this.OSErr, this.SndListHandle, this.SoundComponentData.ptr, ctypes.unsigned_long.ptr, ctypes.unsigned_long.ptr);
     this.SndInputCmpParamPtr = this.SndInputCmpParam.ptr;
     this.SICCompletionProcPtr = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.SndInputCmpParamPtr]).ptr;
     this.SndInputCmpParam = new ctypes.StructType("SndInputCmpParam", [{ioCompletion: this.SICCompletionProcPtr}, {ioInterrupt: this.SIInterruptProcPtr}, {ioResult: this.OSErr}, {pad: ctypes.short}, {ioReqCount: ctypes.unsigned_long}, {ioActCount: ctypes.unsigned_long}, {ioBuffer: this.Ptr}, {ioMisc: this.Ptr}]);
+    this.SndInputReadAsync = lib.declare("SndInputReadAsync", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.SndInputCmpParamPtr);
+    this.SndInputReadSync = lib.declare("SndInputReadSync", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.SndInputCmpParamPtr);
+    this.SndInputPauseRecording = lib.declare("SndInputPauseRecording", ctypes.default_abi, this.ComponentResult, this.ComponentInstance);
+    this.SndInputResumeRecording = lib.declare("SndInputResumeRecording", ctypes.default_abi, this.ComponentResult, this.ComponentInstance);
+    this.SndInputStopRecording = lib.declare("SndInputStopRecording", ctypes.default_abi, this.ComponentResult, this.ComponentInstance);
+    this.SndInputGetStatus = lib.declare("SndInputGetStatus", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, ctypes.short.ptr, ctypes.unsigned_long.ptr, ctypes.unsigned_long.ptr);
+    this.SndInputGetDeviceInfo = lib.declare("SndInputGetDeviceInfo", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.OSType, ctypes.void_t.ptr);
+    this.SndInputSetDeviceInfo = lib.declare("SndInputSetDeviceInfo", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.OSType, ctypes.void_t.ptr);
+    this.SndInputInitHardware = lib.declare("SndInputInitHardware", ctypes.default_abi, this.ComponentResult, this.ComponentInstance);
     this.kSndInputReadAsyncSelect = 1;
     this.kSndInputReadSyncSelect = 2;
     this.kSndInputPauseRecordingSelect = 3;
@@ -485,14 +566,25 @@ function Sound_h(lib) {
 Components.utils.import("resource://gre/modules/ctypes.jsm");
 Components.utils.import("resource://osxtypes/CarbonCore.jsm");
 Components.utils.import("resource://osxtypes/MacTypes.jsm");
+Components.utils.import("resource://osxtypes/HIToolbox.jsm");
 
 const EXPORTED_SYMBOLS = ["CarbonSound", "Sound_h"];
 
 function CarbonSound() {
     let libpath = "/System/Library/Frameworks/Carbon.framework/Frameworks/CarbonSound.framework/CarbonSound";
-    let lib = ctypes.open(libpath);
+    let library = ctypes.open(libpath);
     this.close = function() {
-        lib.close();
+        library.close();
+    };
+    let lib = {
+        declare: function() {
+            try {
+                return library.declare.apply(library, arguments);
+            } catch (ex) {
+                dump("Failed to declare " + arguments[0] + "\n");
+                return null;
+            }
+        }
     };
 
     Sound_h.call(this, lib);

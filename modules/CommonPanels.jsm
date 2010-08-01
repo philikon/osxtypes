@@ -25,12 +25,18 @@ function CMCalibrator_h(lib) {
     // Dropping inline function 'InvokeCalibrateEventUPP'.
     // Dropping inline function 'InvokeCanCalibrateUPP'.
     // Dropping inline function 'InvokeCalibrateUPP'.
+    this.CMCalibrateDisplay = lib.declare("CMCalibrateDisplay", ctypes.default_abi, this.OSErr, this.CalibratorInfo.ptr);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/CommonPanels.framework/Headers/FontPanel.h
 function FontPanel_h(lib) {
     ATSTypes_h.call(this, lib);
+    CarbonEventsCore_h.call(this, lib);
     QuickdrawTypes_h.call(this, lib);
+    CFDictionary_h.call(this, lib);
+    CGBase_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._FONTPANEL_H)
@@ -66,8 +72,19 @@ function FontPanel_h(lib) {
     this.kFontSelectionQDStyleVersionZero = 0;
     this.FontSelectionQDStyle = new ctypes.StructType("FontSelectionQDStyle", [{version: this.UInt32}, {instance: this.FMFontFamilyInstance}, {size: this.FMFontSize}, {hasColor: this.Boolean}, {reserved: this.UInt8}, {color: this.RGBColor}]);
     this.FontSelectionQDStylePtr = this.FontSelectionQDStyle.ptr;
+    this.FPIsFontPanelVisible = lib.declare("FPIsFontPanelVisible", ctypes.default_abi, this.Boolean);
+    this.FPShowHideFontPanel = lib.declare("FPShowHideFontPanel", ctypes.default_abi, this.OSStatus);
+    this.SetFontInfoForSelection = lib.declare("SetFontInfoForSelection", ctypes.default_abi, this.OSStatus, this.OSType, this.UInt32, ctypes.void_t.ptr, this.EventTargetRef);
     this.OpaqueFCFontDescriptorRef = new ctypes.StructType("OpaqueFCFontDescriptorRef");
     this.FCFontDescriptorRef = this.OpaqueFCFontDescriptorRef.ptr;
+    this.FCCopyCollectionNames = lib.declare("FCCopyCollectionNames", ctypes.default_abi, this.CFArrayRef);
+    this.FCCopyFontDescriptorsInCollection = lib.declare("FCCopyFontDescriptorsInCollection", ctypes.default_abi, this.CFArrayRef, this.CFStringRef);
+    this.FCAddCollection = lib.declare("FCAddCollection", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.OptionBits);
+    this.FCRemoveCollection = lib.declare("FCRemoveCollection", ctypes.default_abi, this.OSStatus, this.CFStringRef);
+    this.FCAddFontDescriptorToCollection = lib.declare("FCAddFontDescriptorToCollection", ctypes.default_abi, this.OSStatus, this.FCFontDescriptorRef, this.CFStringRef);
+    this.FCRemoveFontDescriptorFromCollection = lib.declare("FCRemoveFontDescriptorFromCollection", ctypes.default_abi, this.OSStatus, this.FCFontDescriptorRef, this.CFStringRef);
+    this.FCFontDescriptorCreateWithFontAttributes = lib.declare("FCFontDescriptorCreateWithFontAttributes", ctypes.default_abi, this.FCFontDescriptorRef, this.CFDictionaryRef);
+    this.FCFontDescriptorCreateWithName = lib.declare("FCFontDescriptorCreateWithName", ctypes.default_abi, this.FCFontDescriptorRef, this.CFStringRef, this.CGFloat);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/CommonPanels.framework/Headers/NSL.h
@@ -95,10 +112,15 @@ function NSL_h(lib) {
     // Dropping inline function 'DisposeNSLEventUPP'.
     // Dropping inline function 'InvokeNSLURLFilterUPP'.
     // Dropping inline function 'InvokeNSLEventUPP'.
+    this.NSLStandardGetURL = lib.declare("NSLStandardGetURL", ctypes.default_abi, this.OSStatus, this.NSLDialogOptions.ptr, this.NSLEventUPP, ctypes.void_t.ptr, this.NSLURLFilterUPP, ctypes.char.ptr, ctypes.char.ptr.ptr);
+    this.NSLGetDefaultDialogOptions = lib.declare("NSLGetDefaultDialogOptions", ctypes.default_abi, this.OSStatus, this.NSLDialogOptions.ptr);
+    this.NSLFreeURL = lib.declare("NSLFreeURL", ctypes.default_abi, ctypes.char.ptr, ctypes.char.ptr);
+    this.NSLSaveURLAliasToFolder = lib.declare("NSLSaveURLAliasToFolder", ctypes.default_abi, this.OSErr, this.OSType, ctypes.char.ptr, ctypes.char.ptr);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/CommonPanels.framework/Headers/ColorPicker.h
 function ColorPicker_h(lib) {
+    QuickdrawTypes_h.call(this, lib);
     Events_h.call(this, lib);
     MacTypes_h.call(this, lib);
     ColorSyncDeprecated_h.call(this, lib);
@@ -153,11 +175,24 @@ function ColorPicker_h(lib) {
     // Dropping inline function 'InvokeUserEventUPP'.
     this.ColorPickerInfo = new ctypes.StructType("ColorPickerInfo", [{theColor: this.PMColor}, {dstProfile: this.CMProfileHandle}, {flags: this.UInt32}, {placeWhere: this.DialogPlacementSpec}, {dialogOrigin: this.Point}, {pickerType: this.OSType}, {eventProc: this.UserEventUPP}, {colorProc: this.ColorChangedUPP}, {colorProcData: this.UInt32}, {prompt: this.Str255}, {mInfo: this.PickerMenuItemInfo}, {newColorChosen: this.Boolean}, {filler: this.SInt8}]);
     this.NColorPickerInfo = new ctypes.StructType("NColorPickerInfo", [{theColor: this.NPMColor}, {dstProfile: this.CMProfileRef}, {flags: this.UInt32}, {placeWhere: this.DialogPlacementSpec}, {dialogOrigin: this.Point}, {pickerType: this.OSType}, {eventProc: this.UserEventUPP}, {colorProc: this.NColorChangedUPP}, {colorProcData: this.URefCon}, {prompt: this.Str255}, {mInfo: this.PickerMenuItemInfo}, {newColorChosen: this.Boolean}, {reserved: this.UInt8}]);
+    this.Fix2SmallFract = lib.declare("Fix2SmallFract", ctypes.default_abi, this.SmallFract, this.Fixed);
+    this.SmallFract2Fix = lib.declare("SmallFract2Fix", ctypes.default_abi, this.Fixed, this.SmallFract);
+    this.CMY2RGB = lib.declare("CMY2RGB", ctypes.default_abi, ctypes.void_t, this.CMYColor.ptr, this.RGBColor.ptr);
+    this.RGB2CMY = lib.declare("RGB2CMY", ctypes.default_abi, ctypes.void_t, this.RGBColor.ptr, this.CMYColor.ptr);
+    this.HSL2RGB = lib.declare("HSL2RGB", ctypes.default_abi, ctypes.void_t, this.HSLColor.ptr, this.RGBColor.ptr);
+    this.RGB2HSL = lib.declare("RGB2HSL", ctypes.default_abi, ctypes.void_t, this.RGBColor.ptr, this.HSLColor.ptr);
+    this.HSV2RGB = lib.declare("HSV2RGB", ctypes.default_abi, ctypes.void_t, this.HSVColor.ptr, this.RGBColor.ptr);
+    this.RGB2HSV = lib.declare("RGB2HSV", ctypes.default_abi, ctypes.void_t, this.RGBColor.ptr, this.HSVColor.ptr);
+    this.GetColor = lib.declare("GetColor", ctypes.default_abi, this.Boolean, this.Point, this.ConstStr255Param, this.RGBColor.ptr, this.RGBColor.ptr);
+    this.PickColor = lib.declare("PickColor", ctypes.default_abi, this.OSErr, this.ColorPickerInfo.ptr);
+    this.NPickColor = lib.declare("NPickColor", ctypes.default_abi, this.OSErr, this.NColorPickerInfo.ptr);
 }
 
 Components.utils.import("resource://gre/modules/ctypes.jsm");
+Components.utils.import("resource://osxtypes/CoreFoundation.jsm");
 Components.utils.import("resource://osxtypes/ColorSync.jsm");
 Components.utils.import("resource://osxtypes/MacTypes.jsm");
+Components.utils.import("resource://osxtypes/CoreGraphics.jsm");
 Components.utils.import("resource://osxtypes/QD.jsm");
 Components.utils.import("resource://osxtypes/HIToolbox.jsm");
 Components.utils.import("resource://osxtypes/ATS.jsm");
@@ -166,9 +201,19 @@ const EXPORTED_SYMBOLS = ["CommonPanels", "CMCalibrator_h", "FontPanel_h", "NSL_
 
 function CommonPanels() {
     let libpath = "/System/Library/Frameworks/Carbon.framework/Frameworks/CommonPanels.framework/CommonPanels";
-    let lib = ctypes.open(libpath);
+    let library = ctypes.open(libpath);
     this.close = function() {
-        lib.close();
+        library.close();
+    };
+    let lib = {
+        declare: function() {
+            try {
+                return library.declare.apply(library, arguments);
+            } catch (ex) {
+                dump("Failed to declare " + arguments[0] + "\n");
+                return null;
+            }
+        }
     };
 
     CMCalibrator_h.call(this, lib);

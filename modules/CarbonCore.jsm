@@ -1,6 +1,10 @@
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/FSEvents.h
 function FSEvents_h(lib) {
+    CFDate_h.call(this, lib);
+    CFUUID_h.call(this, lib);
+    CFRunLoop_h.call(this, lib);
     CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._FSEVENTS_H)
@@ -30,10 +34,32 @@ function FSEvents_h(lib) {
     this.ConstFSEventStreamRef = this.__FSEventStream.ptr;
     this.FSEventStreamContext = new ctypes.StructType("FSEventStreamContext", [{version: this.CFIndex}, {info: ctypes.void_t.ptr}, {retain: this.CFAllocatorRetainCallBack}, {release: this.CFAllocatorReleaseCallBack}, {copyDescription: this.CFAllocatorCopyDescriptionCallBack}]);
     // Dropping declaration of 'FSEventStreamCallback': 'size_t' defined out of scope
+    this.FSEventStreamCreate = lib.declare("FSEventStreamCreate", ctypes.default_abi, this.FSEventStreamRef, this.CFAllocatorRef, this.FSEventStreamCallback, this.FSEventStreamContext.ptr, this.CFArrayRef, this.FSEventStreamEventId, this.CFTimeInterval, this.FSEventStreamCreateFlags);
+    // Dropping declaration of 'FSEventStreamCreateRelativeToDevice': 'dev_t' defined out of scope
+    this.FSEventStreamGetLatestEventId = lib.declare("FSEventStreamGetLatestEventId", ctypes.default_abi, this.FSEventStreamEventId, this.ConstFSEventStreamRef);
+    // Dropping declaration of 'FSEventStreamGetDeviceBeingWatched': 'dev_t' defined out of scope
+    this.FSEventStreamCopyPathsBeingWatched = lib.declare("FSEventStreamCopyPathsBeingWatched", ctypes.default_abi, this.CFArrayRef, this.ConstFSEventStreamRef);
+    this.FSEventsGetCurrentEventId = lib.declare("FSEventsGetCurrentEventId", ctypes.default_abi, this.FSEventStreamEventId);
+    // Dropping declaration of 'FSEventsCopyUUIDForDevice': 'dev_t' defined out of scope
+    // Dropping declaration of 'FSEventsGetLastEventIdForDeviceBeforeTime': 'dev_t' defined out of scope
+    // Dropping declaration of 'FSEventsPurgeEventsForDeviceUpToEventId': 'dev_t' defined out of scope
+    this.FSEventStreamRetain = lib.declare("FSEventStreamRetain", ctypes.default_abi, ctypes.void_t, this.FSEventStreamRef);
+    this.FSEventStreamRelease = lib.declare("FSEventStreamRelease", ctypes.default_abi, ctypes.void_t, this.FSEventStreamRef);
+    this.FSEventStreamScheduleWithRunLoop = lib.declare("FSEventStreamScheduleWithRunLoop", ctypes.default_abi, ctypes.void_t, this.FSEventStreamRef, this.CFRunLoopRef, this.CFStringRef);
+    this.FSEventStreamUnscheduleFromRunLoop = lib.declare("FSEventStreamUnscheduleFromRunLoop", ctypes.default_abi, ctypes.void_t, this.FSEventStreamRef, this.CFRunLoopRef, this.CFStringRef);
+    // Dropping declaration of 'FSEventStreamSetDispatchQueue': 'dispatch_queue_t' defined out of scope
+    this.FSEventStreamInvalidate = lib.declare("FSEventStreamInvalidate", ctypes.default_abi, ctypes.void_t, this.FSEventStreamRef);
+    this.FSEventStreamStart = lib.declare("FSEventStreamStart", ctypes.default_abi, this.Boolean, this.FSEventStreamRef);
+    this.FSEventStreamFlushAsync = lib.declare("FSEventStreamFlushAsync", ctypes.default_abi, this.FSEventStreamEventId, this.FSEventStreamRef);
+    this.FSEventStreamFlushSync = lib.declare("FSEventStreamFlushSync", ctypes.default_abi, ctypes.void_t, this.FSEventStreamRef);
+    this.FSEventStreamStop = lib.declare("FSEventStreamStop", ctypes.default_abi, ctypes.void_t, this.FSEventStreamRef);
+    this.FSEventStreamShow = lib.declare("FSEventStreamShow", ctypes.default_abi, ctypes.void_t, this.ConstFSEventStreamRef);
+    this.FSEventStreamCopyDescription = lib.declare("FSEventStreamCopyDescription", ctypes.default_abi, this.CFStringRef, this.ConstFSEventStreamRef);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/TextEncodingConverter.h
 function TextEncodingConverter_h(lib) {
+    CFBase_h.call(this, lib);
     TextCommon_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
@@ -63,6 +89,39 @@ function TextEncodingConverter_h(lib) {
     this.kTECDisableLooseMappingsBit = 17;
     this.kTECDisableFallbacksMask = 65536;
     this.kTECDisableLooseMappingsMask = 131072;
+    this.TECCountAvailableTextEncodings = lib.declare("TECCountAvailableTextEncodings", ctypes.default_abi, this.OSStatus, this.ItemCount.ptr);
+    this.TECGetAvailableTextEncodings = lib.declare("TECGetAvailableTextEncodings", ctypes.default_abi, this.OSStatus, this.TextEncoding.ptr, this.ItemCount, this.ItemCount.ptr);
+    this.TECCountDirectTextEncodingConversions = lib.declare("TECCountDirectTextEncodingConversions", ctypes.default_abi, this.OSStatus, this.ItemCount.ptr);
+    this.TECGetDirectTextEncodingConversions = lib.declare("TECGetDirectTextEncodingConversions", ctypes.default_abi, this.OSStatus, this.TECConversionInfo.ptr, this.ItemCount, this.ItemCount.ptr);
+    this.TECCountDestinationTextEncodings = lib.declare("TECCountDestinationTextEncodings", ctypes.default_abi, this.OSStatus, this.TextEncoding, this.ItemCount.ptr);
+    this.TECGetDestinationTextEncodings = lib.declare("TECGetDestinationTextEncodings", ctypes.default_abi, this.OSStatus, this.TextEncoding, this.TextEncoding.ptr, this.ItemCount, this.ItemCount.ptr);
+    this.TECGetTextEncodingInternetName = lib.declare("TECGetTextEncodingInternetName", ctypes.default_abi, this.OSStatus, this.TextEncoding, ctypes.unsigned_char.ptr);
+    this.TECGetTextEncodingFromInternetName = lib.declare("TECGetTextEncodingFromInternetName", ctypes.default_abi, this.OSStatus, this.TextEncoding.ptr, this.ConstStr255Param);
+    this.TECCreateConverter = lib.declare("TECCreateConverter", ctypes.default_abi, this.OSStatus, this.TECObjectRef.ptr, this.TextEncoding, this.TextEncoding);
+    this.TECCreateConverterFromPath = lib.declare("TECCreateConverterFromPath", ctypes.default_abi, this.OSStatus, this.TECObjectRef.ptr, this.TextEncoding.ptr, this.ItemCount);
+    this.TECDisposeConverter = lib.declare("TECDisposeConverter", ctypes.default_abi, this.OSStatus, this.TECObjectRef);
+    this.TECClearConverterContextInfo = lib.declare("TECClearConverterContextInfo", ctypes.default_abi, this.OSStatus, this.TECObjectRef);
+    this.TECConvertText = lib.declare("TECConvertText", ctypes.default_abi, this.OSStatus, this.TECObjectRef, this.ConstTextPtr, this.ByteCount, this.ByteCount.ptr, this.TextPtr, this.ByteCount, this.ByteCount.ptr);
+    this.TECFlushText = lib.declare("TECFlushText", ctypes.default_abi, this.OSStatus, this.TECObjectRef, this.TextPtr, this.ByteCount, this.ByteCount.ptr);
+    this.TECCountSubTextEncodings = lib.declare("TECCountSubTextEncodings", ctypes.default_abi, this.OSStatus, this.TextEncoding, this.ItemCount.ptr);
+    this.TECGetSubTextEncodings = lib.declare("TECGetSubTextEncodings", ctypes.default_abi, this.OSStatus, this.TextEncoding, this.TextEncoding.ptr, this.ItemCount, this.ItemCount.ptr);
+    this.TECGetEncodingList = lib.declare("TECGetEncodingList", ctypes.default_abi, this.OSStatus, this.TECObjectRef, this.ItemCount.ptr, this.Handle.ptr);
+    this.TECCreateOneToManyConverter = lib.declare("TECCreateOneToManyConverter", ctypes.default_abi, this.OSStatus, this.TECObjectRef.ptr, this.TextEncoding, this.ItemCount, this.TextEncoding.ptr);
+    this.TECConvertTextToMultipleEncodings = lib.declare("TECConvertTextToMultipleEncodings", ctypes.default_abi, this.OSStatus, this.TECObjectRef, this.ConstTextPtr, this.ByteCount, this.ByteCount.ptr, this.TextPtr, this.ByteCount, this.ByteCount.ptr, this.TextEncodingRun.ptr, this.ItemCount, this.ItemCount.ptr);
+    this.TECFlushMultipleEncodings = lib.declare("TECFlushMultipleEncodings", ctypes.default_abi, this.OSStatus, this.TECObjectRef, this.TextPtr, this.ByteCount, this.ByteCount.ptr, this.TextEncodingRun.ptr, this.ItemCount, this.ItemCount.ptr);
+    this.TECCountWebTextEncodings = lib.declare("TECCountWebTextEncodings", ctypes.default_abi, this.OSStatus, this.RegionCode, this.ItemCount.ptr);
+    this.TECGetWebTextEncodings = lib.declare("TECGetWebTextEncodings", ctypes.default_abi, this.OSStatus, this.RegionCode, this.TextEncoding.ptr, this.ItemCount, this.ItemCount.ptr);
+    this.TECCountMailTextEncodings = lib.declare("TECCountMailTextEncodings", ctypes.default_abi, this.OSStatus, this.RegionCode, this.ItemCount.ptr);
+    this.TECGetMailTextEncodings = lib.declare("TECGetMailTextEncodings", ctypes.default_abi, this.OSStatus, this.RegionCode, this.TextEncoding.ptr, this.ItemCount, this.ItemCount.ptr);
+    this.TECCountAvailableSniffers = lib.declare("TECCountAvailableSniffers", ctypes.default_abi, this.OSStatus, this.ItemCount.ptr);
+    this.TECGetAvailableSniffers = lib.declare("TECGetAvailableSniffers", ctypes.default_abi, this.OSStatus, this.TextEncoding.ptr, this.ItemCount, this.ItemCount.ptr);
+    this.TECCreateSniffer = lib.declare("TECCreateSniffer", ctypes.default_abi, this.OSStatus, this.TECSnifferObjectRef.ptr, this.TextEncoding.ptr, this.ItemCount);
+    this.TECSniffTextEncoding = lib.declare("TECSniffTextEncoding", ctypes.default_abi, this.OSStatus, this.TECSnifferObjectRef, this.ConstTextPtr, this.ByteCount, this.TextEncoding.ptr, this.ItemCount, this.ItemCount.ptr, this.ItemCount, this.ItemCount.ptr, this.ItemCount);
+    this.TECDisposeSniffer = lib.declare("TECDisposeSniffer", ctypes.default_abi, this.OSStatus, this.TECSnifferObjectRef);
+    this.TECClearSnifferContextInfo = lib.declare("TECClearSnifferContextInfo", ctypes.default_abi, this.OSStatus, this.TECSnifferObjectRef);
+    this.TECSetBasicOptions = lib.declare("TECSetBasicOptions", ctypes.default_abi, this.OSStatus, this.TECObjectRef, this.OptionBits);
+    this.TECCopyTextEncodingInternetNameAndMIB = lib.declare("TECCopyTextEncodingInternetNameAndMIB", ctypes.default_abi, this.OSStatus, this.TextEncoding, this.TECInternetNameUsageMask, this.CFStringRef.ptr, this.SInt32.ptr);
+    this.TECGetTextEncodingFromInternetNameOrMIB = lib.declare("TECGetTextEncodingFromInternetNameOrMIB", ctypes.default_abi, this.OSStatus, this.TextEncoding.ptr, this.TECInternetNameUsageMask, this.CFStringRef, this.SInt32);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/AVLTree.h
@@ -113,6 +172,15 @@ function AVLTree_h(lib) {
     // Dropping inline function 'InvokeAVLItemSizeUPP'.
     // Dropping inline function 'InvokeAVLDisposeItemUPP'.
     // Dropping inline function 'InvokeAVLWalkUPP'.
+    this.AVLInit = lib.declare("AVLInit", ctypes.default_abi, this.OSErr, this.UInt32, this.AVLCompareItemsUPP, this.AVLItemSizeUPP, this.AVLDisposeItemUPP, ctypes.void_t.ptr, this.AVLTreePtr.ptr);
+    this.AVLDispose = lib.declare("AVLDispose", ctypes.default_abi, this.OSErr, this.AVLTreePtr.ptr, this.AVLOrder);
+    this.AVLWalk = lib.declare("AVLWalk", ctypes.default_abi, this.OSErr, this.AVLTreePtr, this.AVLWalkUPP, this.AVLOrder, ctypes.void_t.ptr);
+    this.AVLCount = lib.declare("AVLCount", ctypes.default_abi, this.OSErr, this.AVLTreePtr, this.UInt32.ptr);
+    this.AVLGetIndItem = lib.declare("AVLGetIndItem", ctypes.default_abi, this.OSErr, this.AVLTreePtr, this.UInt32, ctypes.void_t.ptr, this.ByteCount.ptr);
+    this.AVLInsert = lib.declare("AVLInsert", ctypes.default_abi, this.OSErr, this.AVLTreePtr, ctypes.void_t.ptr);
+    this.AVLRemove = lib.declare("AVLRemove", ctypes.default_abi, this.OSErr, this.AVLTreePtr, ctypes.void_t.ptr, ctypes.void_t.ptr, this.ByteCount.ptr);
+    this.AVLFind = lib.declare("AVLFind", ctypes.default_abi, this.OSErr, this.AVLTreePtr, ctypes.void_t.ptr, ctypes.void_t.ptr, this.ByteCount.ptr);
+    this.AVLGetRefcon = lib.declare("AVLGetRefcon", ctypes.default_abi, this.OSErr, this.AVLTreePtr, ctypes.void_t.ptr.ptr);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/Threads.h
@@ -186,15 +254,42 @@ function Threads_h(lib) {
     this.DebuggerNewThreadTPP = this.DebuggerNewThreadUPP;
     this.DebuggerDisposeThreadTPP = this.DebuggerDisposeThreadUPP;
     this.DebuggerThreadSchedulerTPP = this.DebuggerThreadSchedulerUPP;
+    this.NewThread = lib.declare("NewThread", ctypes.default_abi, this.OSErr, this.ThreadStyle, this.ThreadEntryTPP, ctypes.void_t.ptr, this.Size, this.ThreadOptions, ctypes.void_t.ptr.ptr, this.ThreadID.ptr);
+    this.SetThreadScheduler = lib.declare("SetThreadScheduler", ctypes.default_abi, this.OSErr, this.ThreadSchedulerTPP);
+    this.SetThreadSwitcher = lib.declare("SetThreadSwitcher", ctypes.default_abi, this.OSErr, this.ThreadID, this.ThreadSwitchTPP, ctypes.void_t.ptr, this.Boolean);
+    this.SetThreadTerminator = lib.declare("SetThreadTerminator", ctypes.default_abi, this.OSErr, this.ThreadID, this.ThreadTerminationTPP, ctypes.void_t.ptr);
+    this.SetDebuggerNotificationProcs = lib.declare("SetDebuggerNotificationProcs", ctypes.default_abi, this.OSErr, this.DebuggerNewThreadTPP, this.DebuggerDisposeThreadTPP, this.DebuggerThreadSchedulerTPP);
+    this.CreateThreadPool = lib.declare("CreateThreadPool", ctypes.default_abi, this.OSErr, this.ThreadStyle, this.SInt16, this.Size);
+    this.GetDefaultThreadStackSize = lib.declare("GetDefaultThreadStackSize", ctypes.default_abi, this.OSErr, this.ThreadStyle, this.Size.ptr);
+    this.ThreadCurrentStackSpace = lib.declare("ThreadCurrentStackSpace", ctypes.default_abi, this.OSErr, this.ThreadID, this.ByteCount.ptr);
+    this.DisposeThread = lib.declare("DisposeThread", ctypes.default_abi, this.OSErr, this.ThreadID, ctypes.void_t.ptr, this.Boolean);
+    this.YieldToThread = lib.declare("YieldToThread", ctypes.default_abi, this.OSErr, this.ThreadID);
+    this.YieldToAnyThread = lib.declare("YieldToAnyThread", ctypes.default_abi, this.OSErr);
+    this.GetCurrentThread = lib.declare("GetCurrentThread", ctypes.default_abi, this.OSErr, this.ThreadID.ptr);
+    this.GetThreadState = lib.declare("GetThreadState", ctypes.default_abi, this.OSErr, this.ThreadID, this.ThreadState.ptr);
+    this.SetThreadState = lib.declare("SetThreadState", ctypes.default_abi, this.OSErr, this.ThreadID, this.ThreadState, this.ThreadID);
+    this.SetThreadStateEndCritical = lib.declare("SetThreadStateEndCritical", ctypes.default_abi, this.OSErr, this.ThreadID, this.ThreadState, this.ThreadID);
+    this.ThreadBeginCritical = lib.declare("ThreadBeginCritical", ctypes.default_abi, this.OSErr);
+    this.ThreadEndCritical = lib.declare("ThreadEndCritical", ctypes.default_abi, this.OSErr);
+    this.GetThreadCurrentTaskRef = lib.declare("GetThreadCurrentTaskRef", ctypes.default_abi, this.OSErr, this.ThreadTaskRef.ptr);
+    this.GetThreadStateGivenTaskRef = lib.declare("GetThreadStateGivenTaskRef", ctypes.default_abi, this.OSErr, this.ThreadTaskRef, this.ThreadID, this.ThreadState.ptr);
+    this.SetThreadReadyGivenTaskRef = lib.declare("SetThreadReadyGivenTaskRef", ctypes.default_abi, this.OSErr, this.ThreadTaskRef, this.ThreadID);
+    this.GetFreeThreadCount = lib.declare("GetFreeThreadCount", ctypes.default_abi, this.OSErr, this.ThreadStyle, this.SInt16.ptr);
+    this.GetSpecificFreeThreadCount = lib.declare("GetSpecificFreeThreadCount", ctypes.default_abi, this.OSErr, this.ThreadStyle, this.Size, this.SInt16.ptr);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/Files.h
 function Files_h(lib) {
+    CFRunLoop_h.call(this, lib);
+    CFDate_h.call(this, lib);
+    CFUUID_h.call(this, lib);
     UTCUtils_h.call(this, lib);
     CFBase_h.call(this, lib);
     OSUtils_h.call(this, lib);
     CFDictionary_h.call(this, lib);
     TextCommon_h.call(this, lib);
+    CFURL_h.call(this, lib);
+    DADisk_h.call(this, lib);
     Finder_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
@@ -582,16 +677,131 @@ function Files_h(lib) {
     // Dropping inline function 'NewIOCompletionUPP'.
     // Dropping inline function 'DisposeIOCompletionUPP'.
     // Dropping inline function 'InvokeIOCompletionUPP'.
+    this.FSMakeFSRefUnicode = lib.declare("FSMakeFSRefUnicode", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.UniCharCount, this.UniChar.ptr, this.TextEncoding, this.FSRef.ptr);
+    this.PBMakeFSRefUnicodeSync = lib.declare("PBMakeFSRefUnicodeSync", ctypes.default_abi, this.OSErr, this.FSRefParam.ptr);
+    this.PBMakeFSRefUnicodeAsync = lib.declare("PBMakeFSRefUnicodeAsync", ctypes.default_abi, ctypes.void_t, this.FSRefParam.ptr);
+    this.FSCompareFSRefs = lib.declare("FSCompareFSRefs", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.FSRef.ptr);
+    this.PBCompareFSRefsSync = lib.declare("PBCompareFSRefsSync", ctypes.default_abi, this.OSErr, this.FSRefParam.ptr);
+    this.PBCompareFSRefsAsync = lib.declare("PBCompareFSRefsAsync", ctypes.default_abi, ctypes.void_t, this.FSRefParam.ptr);
+    this.FSCreateFileUnicode = lib.declare("FSCreateFileUnicode", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.UniCharCount, this.UniChar.ptr, this.FSCatalogInfoBitmap, this.FSCatalogInfo.ptr, this.FSRef.ptr, this.FSSpecPtr);
+    this.PBCreateFileUnicodeSync = lib.declare("PBCreateFileUnicodeSync", ctypes.default_abi, this.OSErr, this.FSRefParam.ptr);
+    this.PBCreateFileUnicodeAsync = lib.declare("PBCreateFileUnicodeAsync", ctypes.default_abi, ctypes.void_t, this.FSRefParam.ptr);
+    this.FSCreateDirectoryUnicode = lib.declare("FSCreateDirectoryUnicode", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.UniCharCount, this.UniChar.ptr, this.FSCatalogInfoBitmap, this.FSCatalogInfo.ptr, this.FSRef.ptr, this.FSSpecPtr, this.UInt32.ptr);
+    this.PBCreateDirectoryUnicodeSync = lib.declare("PBCreateDirectoryUnicodeSync", ctypes.default_abi, this.OSErr, this.FSRefParam.ptr);
+    this.PBCreateDirectoryUnicodeAsync = lib.declare("PBCreateDirectoryUnicodeAsync", ctypes.default_abi, ctypes.void_t, this.FSRefParam.ptr);
+    this.FSDeleteObject = lib.declare("FSDeleteObject", ctypes.default_abi, this.OSErr, this.FSRef.ptr);
+    this.PBDeleteObjectSync = lib.declare("PBDeleteObjectSync", ctypes.default_abi, this.OSErr, this.FSRefParam.ptr);
+    this.PBDeleteObjectAsync = lib.declare("PBDeleteObjectAsync", ctypes.default_abi, ctypes.void_t, this.FSRefParam.ptr);
+    this.FSUnlinkObject = lib.declare("FSUnlinkObject", ctypes.default_abi, this.OSErr, this.FSRef.ptr);
+    this.PBUnlinkObjectSync = lib.declare("PBUnlinkObjectSync", ctypes.default_abi, this.OSErr, this.FSRefParam.ptr);
+    this.PBUnlinkObjectAsync = lib.declare("PBUnlinkObjectAsync", ctypes.default_abi, ctypes.void_t, this.FSRefParam.ptr);
+    this.FSMoveObject = lib.declare("FSMoveObject", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.FSRef.ptr, this.FSRef.ptr);
+    this.PBMoveObjectSync = lib.declare("PBMoveObjectSync", ctypes.default_abi, this.OSErr, this.FSRefParam.ptr);
+    this.PBMoveObjectAsync = lib.declare("PBMoveObjectAsync", ctypes.default_abi, ctypes.void_t, this.FSRefParam.ptr);
+    this.FSExchangeObjects = lib.declare("FSExchangeObjects", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.FSRef.ptr);
+    this.PBExchangeObjectsSync = lib.declare("PBExchangeObjectsSync", ctypes.default_abi, this.OSErr, this.FSRefParam.ptr);
+    this.PBExchangeObjectsAsync = lib.declare("PBExchangeObjectsAsync", ctypes.default_abi, ctypes.void_t, this.FSRefParam.ptr);
     this.kFSReplaceObjectDefaultOptions = 0;
     this.kFSReplaceObjectReplaceMetadata = 1;
     this.kFSReplaceObjectSaveOriginalAsABackup = 2;
     this.kFSReplaceObjectReplacePermissionInfo = 4;
     this.kFSReplaceObjectPreservePermissionInfo = 8;
     this.kFSReplaceObjectDoNotCheckObjectWriteAccess = 16;
+    this.FSReplaceObject = lib.declare("FSReplaceObject", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.FSRef.ptr, this.CFStringRef, this.CFStringRef, this.FSRef.ptr, this.OptionBits, this.FSRef.ptr);
+    this.FSPathReplaceObject = lib.declare("FSPathReplaceObject", ctypes.default_abi, this.OSStatus, ctypes.char.ptr, ctypes.char.ptr, this.CFStringRef, this.CFStringRef, ctypes.char.ptr, this.OptionBits);
+    this.FSGetTemporaryDirectoryForReplaceObject = lib.declare("FSGetTemporaryDirectoryForReplaceObject", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.FSRef.ptr, this.OptionBits);
+    this.FSPathGetTemporaryDirectoryForReplaceObject = lib.declare("FSPathGetTemporaryDirectoryForReplaceObject", ctypes.default_abi, this.OSStatus, ctypes.char.ptr, ctypes.char.ptr, this.UInt32, this.OptionBits);
+    this.FSRenameUnicode = lib.declare("FSRenameUnicode", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.UniCharCount, this.UniChar.ptr, this.TextEncoding, this.FSRef.ptr);
+    this.PBRenameUnicodeSync = lib.declare("PBRenameUnicodeSync", ctypes.default_abi, this.OSErr, this.FSRefParam.ptr);
+    this.PBRenameUnicodeAsync = lib.declare("PBRenameUnicodeAsync", ctypes.default_abi, ctypes.void_t, this.FSRefParam.ptr);
+    this.FSGetCatalogInfo = lib.declare("FSGetCatalogInfo", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.FSCatalogInfoBitmap, this.FSCatalogInfo.ptr, this.HFSUniStr255.ptr, this.FSSpecPtr, this.FSRef.ptr);
+    this.PBGetCatalogInfoSync = lib.declare("PBGetCatalogInfoSync", ctypes.default_abi, this.OSErr, this.FSRefParam.ptr);
+    this.PBGetCatalogInfoAsync = lib.declare("PBGetCatalogInfoAsync", ctypes.default_abi, ctypes.void_t, this.FSRefParam.ptr);
+    this.FSSetCatalogInfo = lib.declare("FSSetCatalogInfo", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.FSCatalogInfoBitmap, this.FSCatalogInfo.ptr);
+    this.PBSetCatalogInfoSync = lib.declare("PBSetCatalogInfoSync", ctypes.default_abi, this.OSErr, this.FSRefParam.ptr);
+    this.PBSetCatalogInfoAsync = lib.declare("PBSetCatalogInfoAsync", ctypes.default_abi, ctypes.void_t, this.FSRefParam.ptr);
+    this.FSOpenIterator = lib.declare("FSOpenIterator", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.FSIteratorFlags, this.FSIterator.ptr);
+    this.PBOpenIteratorSync = lib.declare("PBOpenIteratorSync", ctypes.default_abi, this.OSErr, this.FSCatalogBulkParam.ptr);
+    this.PBOpenIteratorAsync = lib.declare("PBOpenIteratorAsync", ctypes.default_abi, ctypes.void_t, this.FSCatalogBulkParam.ptr);
+    this.FSCloseIterator = lib.declare("FSCloseIterator", ctypes.default_abi, this.OSErr, this.FSIterator);
+    this.PBCloseIteratorSync = lib.declare("PBCloseIteratorSync", ctypes.default_abi, this.OSErr, this.FSCatalogBulkParam.ptr);
+    this.PBCloseIteratorAsync = lib.declare("PBCloseIteratorAsync", ctypes.default_abi, ctypes.void_t, this.FSCatalogBulkParam.ptr);
+    this.FSGetCatalogInfoBulk = lib.declare("FSGetCatalogInfoBulk", ctypes.default_abi, this.OSErr, this.FSIterator, this.ItemCount, this.ItemCount.ptr, this.Boolean.ptr, this.FSCatalogInfoBitmap, this.FSCatalogInfo.ptr, this.FSRef.ptr, this.FSSpecPtr, this.HFSUniStr255.ptr);
+    this.PBGetCatalogInfoBulkSync = lib.declare("PBGetCatalogInfoBulkSync", ctypes.default_abi, this.OSErr, this.FSCatalogBulkParam.ptr);
+    this.PBGetCatalogInfoBulkAsync = lib.declare("PBGetCatalogInfoBulkAsync", ctypes.default_abi, ctypes.void_t, this.FSCatalogBulkParam.ptr);
+    this.FSCatalogSearch = lib.declare("FSCatalogSearch", ctypes.default_abi, this.OSErr, this.FSIterator, this.FSSearchParams.ptr, this.ItemCount, this.ItemCount.ptr, this.Boolean.ptr, this.FSCatalogInfoBitmap, this.FSCatalogInfo.ptr, this.FSRef.ptr, this.FSSpecPtr, this.HFSUniStr255.ptr);
+    this.PBCatalogSearchSync = lib.declare("PBCatalogSearchSync", ctypes.default_abi, this.OSErr, this.FSCatalogBulkParam.ptr);
+    this.PBCatalogSearchAsync = lib.declare("PBCatalogSearchAsync", ctypes.default_abi, ctypes.void_t, this.FSCatalogBulkParam.ptr);
+    this.FSCreateFileAndOpenForkUnicode = lib.declare("FSCreateFileAndOpenForkUnicode", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.UniCharCount, this.UniChar.ptr, this.FSCatalogInfoBitmap, this.FSCatalogInfo.ptr, this.UniCharCount, this.UniChar.ptr, this.SInt8, this.FSIORefNum.ptr, this.FSRef.ptr);
+    this.PBCreateFileAndOpenForkUnicodeSync = lib.declare("PBCreateFileAndOpenForkUnicodeSync", ctypes.default_abi, this.OSStatus, this.FSRefForkIOParamPtr);
+    this.PBCreateFileAndOpenForkUnicodeAsync = lib.declare("PBCreateFileAndOpenForkUnicodeAsync", ctypes.default_abi, ctypes.void_t, this.FSRefForkIOParamPtr);
+    this.FSCreateFork = lib.declare("FSCreateFork", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.UniCharCount, this.UniChar.ptr);
+    this.PBCreateForkSync = lib.declare("PBCreateForkSync", ctypes.default_abi, this.OSErr, this.FSForkIOParam.ptr);
+    this.PBCreateForkAsync = lib.declare("PBCreateForkAsync", ctypes.default_abi, ctypes.void_t, this.FSForkIOParam.ptr);
+    this.FSDeleteFork = lib.declare("FSDeleteFork", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.UniCharCount, this.UniChar.ptr);
+    this.PBDeleteForkSync = lib.declare("PBDeleteForkSync", ctypes.default_abi, this.OSErr, this.FSForkIOParam.ptr);
+    this.PBDeleteForkAsync = lib.declare("PBDeleteForkAsync", ctypes.default_abi, ctypes.void_t, this.FSForkIOParam.ptr);
+    this.FSIterateForks = lib.declare("FSIterateForks", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.CatPositionRec.ptr, this.HFSUniStr255.ptr, this.SInt64.ptr, this.UInt64.ptr);
+    this.PBIterateForksSync = lib.declare("PBIterateForksSync", ctypes.default_abi, this.OSErr, this.FSForkIOParam.ptr);
+    this.PBIterateForksAsync = lib.declare("PBIterateForksAsync", ctypes.default_abi, ctypes.void_t, this.FSForkIOParam.ptr);
+    this.FSOpenFork = lib.declare("FSOpenFork", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.UniCharCount, this.UniChar.ptr, this.SInt8, this.FSIORefNum.ptr);
+    this.PBOpenForkSync = lib.declare("PBOpenForkSync", ctypes.default_abi, this.OSErr, this.FSForkIOParam.ptr);
+    this.PBOpenForkAsync = lib.declare("PBOpenForkAsync", ctypes.default_abi, ctypes.void_t, this.FSForkIOParam.ptr);
+    this.FSReadFork = lib.declare("FSReadFork", ctypes.default_abi, this.OSErr, this.FSIORefNum, this.UInt16, this.SInt64, this.ByteCount, ctypes.void_t.ptr, this.ByteCount.ptr);
+    this.PBReadForkSync = lib.declare("PBReadForkSync", ctypes.default_abi, this.OSErr, this.FSForkIOParam.ptr);
+    this.PBReadForkAsync = lib.declare("PBReadForkAsync", ctypes.default_abi, ctypes.void_t, this.FSForkIOParam.ptr);
+    this.FSWriteFork = lib.declare("FSWriteFork", ctypes.default_abi, this.OSErr, this.FSIORefNum, this.UInt16, this.SInt64, this.ByteCount, ctypes.void_t.ptr, this.ByteCount.ptr);
+    this.PBWriteForkSync = lib.declare("PBWriteForkSync", ctypes.default_abi, this.OSErr, this.FSForkIOParam.ptr);
+    this.PBWriteForkAsync = lib.declare("PBWriteForkAsync", ctypes.default_abi, ctypes.void_t, this.FSForkIOParam.ptr);
+    this.FSGetForkPosition = lib.declare("FSGetForkPosition", ctypes.default_abi, this.OSErr, this.FSIORefNum, this.SInt64.ptr);
+    this.PBGetForkPositionSync = lib.declare("PBGetForkPositionSync", ctypes.default_abi, this.OSErr, this.FSForkIOParam.ptr);
+    this.PBGetForkPositionAsync = lib.declare("PBGetForkPositionAsync", ctypes.default_abi, ctypes.void_t, this.FSForkIOParam.ptr);
+    this.FSSetForkPosition = lib.declare("FSSetForkPosition", ctypes.default_abi, this.OSErr, this.FSIORefNum, this.UInt16, this.SInt64);
+    this.PBSetForkPositionSync = lib.declare("PBSetForkPositionSync", ctypes.default_abi, this.OSErr, this.FSForkIOParam.ptr);
+    this.PBSetForkPositionAsync = lib.declare("PBSetForkPositionAsync", ctypes.default_abi, ctypes.void_t, this.FSForkIOParam.ptr);
+    this.FSGetForkSize = lib.declare("FSGetForkSize", ctypes.default_abi, this.OSErr, this.FSIORefNum, this.SInt64.ptr);
+    this.PBGetForkSizeSync = lib.declare("PBGetForkSizeSync", ctypes.default_abi, this.OSErr, this.FSForkIOParam.ptr);
+    this.PBGetForkSizeAsync = lib.declare("PBGetForkSizeAsync", ctypes.default_abi, ctypes.void_t, this.FSForkIOParam.ptr);
+    this.FSSetForkSize = lib.declare("FSSetForkSize", ctypes.default_abi, this.OSErr, this.FSIORefNum, this.UInt16, this.SInt64);
+    this.PBSetForkSizeSync = lib.declare("PBSetForkSizeSync", ctypes.default_abi, this.OSErr, this.FSForkIOParam.ptr);
+    this.PBSetForkSizeAsync = lib.declare("PBSetForkSizeAsync", ctypes.default_abi, ctypes.void_t, this.FSForkIOParam.ptr);
+    this.FSAllocateFork = lib.declare("FSAllocateFork", ctypes.default_abi, this.OSErr, this.FSIORefNum, this.FSAllocationFlags, this.UInt16, this.SInt64, this.UInt64, this.UInt64.ptr);
+    this.PBAllocateForkSync = lib.declare("PBAllocateForkSync", ctypes.default_abi, this.OSErr, this.FSForkIOParam.ptr);
+    this.PBAllocateForkAsync = lib.declare("PBAllocateForkAsync", ctypes.default_abi, ctypes.void_t, this.FSForkIOParam.ptr);
+    this.FSFlushFork = lib.declare("FSFlushFork", ctypes.default_abi, this.OSErr, this.FSIORefNum);
+    this.PBFlushForkSync = lib.declare("PBFlushForkSync", ctypes.default_abi, this.OSErr, this.FSForkIOParam.ptr);
+    this.PBFlushForkAsync = lib.declare("PBFlushForkAsync", ctypes.default_abi, ctypes.void_t, this.FSForkIOParam.ptr);
+    this.FSCloseFork = lib.declare("FSCloseFork", ctypes.default_abi, this.OSErr, this.FSIORefNum);
+    this.PBCloseForkSync = lib.declare("PBCloseForkSync", ctypes.default_abi, this.OSErr, this.FSForkIOParam.ptr);
+    this.PBCloseForkAsync = lib.declare("PBCloseForkAsync", ctypes.default_abi, ctypes.void_t, this.FSForkIOParam.ptr);
+    this.FSGetForkCBInfo = lib.declare("FSGetForkCBInfo", ctypes.default_abi, this.OSErr, this.FSIORefNum, this.FSVolumeRefNum, ctypes.short.ptr, this.FSIORefNum.ptr, this.FSForkInfo.ptr, this.FSRef.ptr, this.HFSUniStr255.ptr);
+    this.PBGetForkCBInfoSync = lib.declare("PBGetForkCBInfoSync", ctypes.default_abi, this.OSErr, this.FSForkCBInfoParam.ptr);
+    this.PBGetForkCBInfoAsync = lib.declare("PBGetForkCBInfoAsync", ctypes.default_abi, ctypes.void_t, this.FSForkCBInfoParam.ptr);
+    this.FSLockRange = lib.declare("FSLockRange", ctypes.default_abi, this.OSStatus, this.FSIORefNum, this.UInt16, this.SInt64, this.UInt64, this.UInt64.ptr);
+    this.PBXLockRangeSync = lib.declare("PBXLockRangeSync", ctypes.default_abi, this.OSStatus, this.FSRangeLockParamPtr);
+    this.PBXLockRangeAsync = lib.declare("PBXLockRangeAsync", ctypes.default_abi, this.OSStatus, this.FSRangeLockParamPtr);
+    this.FSUnlockRange = lib.declare("FSUnlockRange", ctypes.default_abi, this.OSStatus, this.FSIORefNum, this.UInt16, this.SInt64, this.UInt64, this.UInt64.ptr);
+    this.PBXUnlockRangeSync = lib.declare("PBXUnlockRangeSync", ctypes.default_abi, this.OSStatus, this.FSRangeLockParamPtr);
+    this.PBXUnlockRangeAsync = lib.declare("PBXUnlockRangeAsync", ctypes.default_abi, this.OSStatus, this.FSRangeLockParamPtr);
+    this.FSGetVolumeInfo = lib.declare("FSGetVolumeInfo", ctypes.default_abi, this.OSErr, this.FSVolumeRefNum, this.ItemCount, this.FSVolumeRefNum.ptr, this.FSVolumeInfoBitmap, this.FSVolumeInfo.ptr, this.HFSUniStr255.ptr, this.FSRef.ptr);
+    this.PBGetVolumeInfoSync = lib.declare("PBGetVolumeInfoSync", ctypes.default_abi, this.OSErr, this.FSVolumeInfoParam.ptr);
+    this.PBGetVolumeInfoAsync = lib.declare("PBGetVolumeInfoAsync", ctypes.default_abi, ctypes.void_t, this.FSVolumeInfoParam.ptr);
+    this.FSSetVolumeInfo = lib.declare("FSSetVolumeInfo", ctypes.default_abi, this.OSErr, this.FSVolumeRefNum, this.FSVolumeInfoBitmap, this.FSVolumeInfo.ptr);
+    this.PBSetVolumeInfoSync = lib.declare("PBSetVolumeInfoSync", ctypes.default_abi, this.OSErr, this.FSVolumeInfoParam.ptr);
+    this.PBSetVolumeInfoAsync = lib.declare("PBSetVolumeInfoAsync", ctypes.default_abi, ctypes.void_t, this.FSVolumeInfoParam.ptr);
+    this.FSGetDataForkName = lib.declare("FSGetDataForkName", ctypes.default_abi, this.OSErr, this.HFSUniStr255.ptr);
+    this.FSGetResourceForkName = lib.declare("FSGetResourceForkName", ctypes.default_abi, this.OSErr, this.HFSUniStr255.ptr);
+    this.FSRefMakePath = lib.declare("FSRefMakePath", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.UInt8.ptr, this.UInt32);
+    this.FSPathMakeRef = lib.declare("FSPathMakeRef", ctypes.default_abi, this.OSStatus, this.UInt8.ptr, this.FSRef.ptr, this.Boolean.ptr);
     this.kFSPathMakeRefDefaultOptions = 0;
     this.kFSPathMakeRefDoNotFollowLeafSymlink = 1;
+    this.FSPathMakeRefWithOptions = lib.declare("FSPathMakeRefWithOptions", ctypes.default_abi, this.OSStatus, this.UInt8.ptr, this.OptionBits, this.FSRef.ptr, this.Boolean.ptr);
+    this.FSIsFSRefValid = lib.declare("FSIsFSRefValid", ctypes.default_abi, this.Boolean, this.FSRef.ptr);
     this.FNMessage = this.UInt32;
     this.kFNDirectoryModifiedMessage = 1;
+    this.FNNotify = lib.declare("FNNotify", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.FNMessage, this.OptionBits);
+    this.FNNotifyByPath = lib.declare("FNNotifyByPath", ctypes.default_abi, this.OSStatus, this.UInt8.ptr, this.FNMessage, this.OptionBits);
+    this.FNNotifyAll = lib.declare("FNNotifyAll", ctypes.default_abi, this.OSStatus, this.FNMessage, this.OptionBits);
     this.OpaqueFNSubscriptionRef = new ctypes.StructType("OpaqueFNSubscriptionRef");
     this.FNSubscriptionRef = this.OpaqueFNSubscriptionRef.ptr;
     this.kFNNoImplicitAllSubscription = 1;
@@ -601,6 +811,10 @@ function Files_h(lib) {
     // Dropping inline function 'NewFNSubscriptionUPP'.
     // Dropping inline function 'DisposeFNSubscriptionUPP'.
     // Dropping inline function 'InvokeFNSubscriptionUPP'.
+    this.FNSubscribe = lib.declare("FNSubscribe", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.FNSubscriptionUPP, ctypes.void_t.ptr, this.OptionBits, this.FNSubscriptionRef.ptr);
+    this.FNSubscribeByPath = lib.declare("FNSubscribeByPath", ctypes.default_abi, this.OSStatus, this.UInt8.ptr, this.FNSubscriptionUPP, ctypes.void_t.ptr, this.OptionBits, this.FNSubscriptionRef.ptr);
+    this.FNUnsubscribe = lib.declare("FNUnsubscribe", ctypes.default_abi, this.OSStatus, this.FNSubscriptionRef);
+    this.FNGetDirectoryForSubscription = lib.declare("FNGetDirectoryForSubscription", ctypes.default_abi, this.OSStatus, this.FNSubscriptionRef, this.FSRef.ptr);
     this.kAsyncMountInProgress = 1;
     this.kAsyncMountComplete = 2;
     this.kAsyncUnmountInProgress = 3;
@@ -632,6 +846,25 @@ function Files_h(lib) {
     this.kFSMountServerMountWithoutNotification = 2;
     this.kFSEjectVolumeForceEject = 1;
     this.kFSUnmountVolumeForceUnmount = 1;
+    this.FSCreateVolumeOperation = lib.declare("FSCreateVolumeOperation", ctypes.default_abi, this.OSStatus, this.FSVolumeOperation.ptr);
+    this.FSDisposeVolumeOperation = lib.declare("FSDisposeVolumeOperation", ctypes.default_abi, this.OSStatus, this.FSVolumeOperation);
+    this.FSMountLocalVolumeSync = lib.declare("FSMountLocalVolumeSync", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.CFURLRef, this.FSVolumeRefNum.ptr, this.OptionBits);
+    this.FSMountLocalVolumeAsync = lib.declare("FSMountLocalVolumeAsync", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.CFURLRef, this.FSVolumeOperation, ctypes.void_t.ptr, this.OptionBits, this.FSVolumeMountUPP, this.CFRunLoopRef, this.CFStringRef);
+    this.FSMountServerVolumeSync = lib.declare("FSMountServerVolumeSync", ctypes.default_abi, this.OSStatus, this.CFURLRef, this.CFURLRef, this.CFStringRef, this.CFStringRef, this.FSVolumeRefNum.ptr, this.OptionBits);
+    this.FSMountServerVolumeAsync = lib.declare("FSMountServerVolumeAsync", ctypes.default_abi, this.OSStatus, this.CFURLRef, this.CFURLRef, this.CFStringRef, this.CFStringRef, this.FSVolumeOperation, ctypes.void_t.ptr, this.OptionBits, this.FSVolumeMountUPP, this.CFRunLoopRef, this.CFStringRef);
+    this.FSGetAsyncMountStatus = lib.declare("FSGetAsyncMountStatus", ctypes.default_abi, this.OSStatus, this.FSVolumeOperation, this.FSMountStatus.ptr, this.OSStatus.ptr, this.FSVolumeRefNum.ptr, ctypes.void_t.ptr.ptr);
+    // Dropping declaration of 'FSUnmountVolumeSync': 'pid_t' defined out of scope
+    this.FSUnmountVolumeAsync = lib.declare("FSUnmountVolumeAsync", ctypes.default_abi, this.OSStatus, this.FSVolumeRefNum, this.OptionBits, this.FSVolumeOperation, ctypes.void_t.ptr, this.FSVolumeUnmountUPP, this.CFRunLoopRef, this.CFStringRef);
+    // Dropping declaration of 'FSGetAsyncUnmountStatus': 'pid_t' defined out of scope
+    this.FSCancelVolumeOperation = lib.declare("FSCancelVolumeOperation", ctypes.default_abi, this.OSStatus, this.FSVolumeOperation);
+    // Dropping declaration of 'FSEjectVolumeSync': 'pid_t' defined out of scope
+    this.FSEjectVolumeAsync = lib.declare("FSEjectVolumeAsync", ctypes.default_abi, this.OSStatus, this.FSVolumeRefNum, this.OptionBits, this.FSVolumeOperation, ctypes.void_t.ptr, this.FSVolumeEjectUPP, this.CFRunLoopRef, this.CFStringRef);
+    // Dropping declaration of 'FSGetAsyncEjectStatus': 'pid_t' defined out of scope
+    this.FSCopyDiskIDForVolume = lib.declare("FSCopyDiskIDForVolume", ctypes.default_abi, this.OSStatus, this.FSVolumeRefNum, this.CFStringRef.ptr);
+    this.FSCopyURLForVolume = lib.declare("FSCopyURLForVolume", ctypes.default_abi, this.OSStatus, this.FSVolumeRefNum, this.CFURLRef.ptr);
+    this.FSGetVolumeForDiskID = lib.declare("FSGetVolumeForDiskID", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.FSVolumeRefNum.ptr);
+    this.FSCopyDADiskForVolume = lib.declare("FSCopyDADiskForVolume", ctypes.default_abi, this.OSStatus, this.FSVolumeRefNum, this.DADiskRef.ptr);
+    this.FSGetVolumeForDADisk = lib.declare("FSGetVolumeForDADisk", ctypes.default_abi, this.OSStatus, this.DADiskRef, this.FSVolumeRefNum.ptr);
     this.__FSFileOperation = new ctypes.StructType("__FSFileOperation");
     this.FSFileOperationRef = this.__FSFileOperation.ptr;
     this.FSFileOperationStage = this.UInt32;
@@ -647,6 +880,43 @@ function Files_h(lib) {
     this.kFSOperationStagePreflighting = 1;
     this.kFSOperationStageRunning = 2;
     this.kFSOperationStageComplete = 3;
+    this.FSCopyObjectSync = lib.declare("FSCopyObjectSync", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.FSRef.ptr, this.CFStringRef, this.FSRef.ptr, this.OptionBits);
+    this.FSMoveObjectSync = lib.declare("FSMoveObjectSync", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.FSRef.ptr, this.CFStringRef, this.FSRef.ptr, this.OptionBits);
+    this.FSMoveObjectToTrashSync = lib.declare("FSMoveObjectToTrashSync", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.FSRef.ptr, this.OptionBits);
+    this.FSPathCopyObjectSync = lib.declare("FSPathCopyObjectSync", ctypes.default_abi, this.OSStatus, ctypes.char.ptr, ctypes.char.ptr, this.CFStringRef, ctypes.char.ptr.ptr, this.OptionBits);
+    this.FSPathMoveObjectSync = lib.declare("FSPathMoveObjectSync", ctypes.default_abi, this.OSStatus, ctypes.char.ptr, ctypes.char.ptr, this.CFStringRef, ctypes.char.ptr.ptr, this.OptionBits);
+    this.FSPathMoveObjectToTrashSync = lib.declare("FSPathMoveObjectToTrashSync", ctypes.default_abi, this.OSStatus, ctypes.char.ptr, ctypes.char.ptr.ptr, this.OptionBits);
+    this.FSFileOperationGetTypeID = lib.declare("FSFileOperationGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.FSFileOperationCreate = lib.declare("FSFileOperationCreate", ctypes.default_abi, this.FSFileOperationRef, this.CFAllocatorRef);
+    this.FSFileOperationScheduleWithRunLoop = lib.declare("FSFileOperationScheduleWithRunLoop", ctypes.default_abi, this.OSStatus, this.FSFileOperationRef, this.CFRunLoopRef, this.CFStringRef);
+    this.FSFileOperationUnscheduleFromRunLoop = lib.declare("FSFileOperationUnscheduleFromRunLoop", ctypes.default_abi, this.OSStatus, this.FSFileOperationRef, this.CFRunLoopRef, this.CFStringRef);
+    this.FSCopyObjectAsync = lib.declare("FSCopyObjectAsync", ctypes.default_abi, this.OSStatus, this.FSFileOperationRef, this.FSRef.ptr, this.FSRef.ptr, this.CFStringRef, this.OptionBits, this.FSFileOperationStatusProcPtr, this.CFTimeInterval, this.FSFileOperationClientContext.ptr);
+    this.FSMoveObjectAsync = lib.declare("FSMoveObjectAsync", ctypes.default_abi, this.OSStatus, this.FSFileOperationRef, this.FSRef.ptr, this.FSRef.ptr, this.CFStringRef, this.OptionBits, this.FSFileOperationStatusProcPtr, this.CFTimeInterval, this.FSFileOperationClientContext.ptr);
+    this.FSMoveObjectToTrashAsync = lib.declare("FSMoveObjectToTrashAsync", ctypes.default_abi, this.OSStatus, this.FSFileOperationRef, this.FSRef.ptr, this.OptionBits, this.FSFileOperationStatusProcPtr, this.CFTimeInterval, this.FSFileOperationClientContext.ptr);
+    this.FSPathCopyObjectAsync = lib.declare("FSPathCopyObjectAsync", ctypes.default_abi, this.OSStatus, this.FSFileOperationRef, ctypes.char.ptr, ctypes.char.ptr, this.CFStringRef, this.OptionBits, this.FSPathFileOperationStatusProcPtr, this.CFTimeInterval, this.FSFileOperationClientContext.ptr);
+    this.FSPathMoveObjectAsync = lib.declare("FSPathMoveObjectAsync", ctypes.default_abi, this.OSStatus, this.FSFileOperationRef, ctypes.char.ptr, ctypes.char.ptr, this.CFStringRef, this.OptionBits, this.FSPathFileOperationStatusProcPtr, this.CFTimeInterval, this.FSFileOperationClientContext.ptr);
+    this.FSPathMoveObjectToTrashAsync = lib.declare("FSPathMoveObjectToTrashAsync", ctypes.default_abi, this.OSStatus, this.FSFileOperationRef, ctypes.char.ptr, this.OptionBits, this.FSPathFileOperationStatusProcPtr, this.CFTimeInterval, this.FSFileOperationClientContext.ptr);
+    this.FSFileOperationCancel = lib.declare("FSFileOperationCancel", ctypes.default_abi, this.OSStatus, this.FSFileOperationRef);
+    this.FSFileOperationCopyStatus = lib.declare("FSFileOperationCopyStatus", ctypes.default_abi, this.OSStatus, this.FSFileOperationRef, this.FSRef.ptr, this.FSFileOperationStage.ptr, this.OSStatus.ptr, this.CFDictionaryRef.ptr, ctypes.void_t.ptr.ptr);
+    this.FSPathFileOperationCopyStatus = lib.declare("FSPathFileOperationCopyStatus", ctypes.default_abi, this.OSStatus, this.FSFileOperationRef, ctypes.char.ptr.ptr, this.FSFileOperationStage.ptr, this.OSStatus.ptr, this.CFDictionaryRef.ptr, ctypes.void_t.ptr.ptr);
+    this.FSCreateStringFromHFSUniStr = lib.declare("FSCreateStringFromHFSUniStr", ctypes.default_abi, this.CFStringRef, this.CFAllocatorRef, this.HFSUniStr255.ptr);
+    this.FSGetHFSUniStrFromString = lib.declare("FSGetHFSUniStrFromString", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.HFSUniStr255.ptr);
+    this.FSFileSecurityGetTypeID = lib.declare("FSFileSecurityGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.FSFileSecurityCreate = lib.declare("FSFileSecurityCreate", ctypes.default_abi, this.FSFileSecurityRef, this.CFAllocatorRef);
+    this.FSFileSecurityCreateWithFSPermissionInfo = lib.declare("FSFileSecurityCreateWithFSPermissionInfo", ctypes.default_abi, this.FSFileSecurityRef, this.CFAllocatorRef, this.FSPermissionInfo.ptr);
+    this.FSFileSecurityRefCreateCopy = lib.declare("FSFileSecurityRefCreateCopy", ctypes.default_abi, this.FSFileSecurityRef, this.CFAllocatorRef, this.FSFileSecurityRef);
+    this.FSFileSecurityGetOwnerUUID = lib.declare("FSFileSecurityGetOwnerUUID", ctypes.default_abi, this.OSStatus, this.FSFileSecurityRef, this.CFUUIDBytes.ptr);
+    this.FSFileSecuritySetOwnerUUID = lib.declare("FSFileSecuritySetOwnerUUID", ctypes.default_abi, this.OSStatus, this.FSFileSecurityRef, this.CFUUIDBytes.ptr);
+    this.FSFileSecurityGetGroupUUID = lib.declare("FSFileSecurityGetGroupUUID", ctypes.default_abi, this.OSStatus, this.FSFileSecurityRef, this.CFUUIDBytes.ptr);
+    this.FSFileSecuritySetGroupUUID = lib.declare("FSFileSecuritySetGroupUUID", ctypes.default_abi, this.OSStatus, this.FSFileSecurityRef, this.CFUUIDBytes.ptr);
+    // Dropping declaration of 'FSFileSecurityCopyAccessControlList': 'acl_t' defined out of scope
+    // Dropping declaration of 'FSFileSecuritySetAccessControlList': 'acl_t' defined out of scope
+    this.FSFileSecurityGetOwner = lib.declare("FSFileSecurityGetOwner", ctypes.default_abi, this.OSStatus, this.FSFileSecurityRef, this.UInt32.ptr);
+    this.FSFileSecuritySetOwner = lib.declare("FSFileSecuritySetOwner", ctypes.default_abi, this.OSStatus, this.FSFileSecurityRef, this.UInt32);
+    this.FSFileSecurityGetGroup = lib.declare("FSFileSecurityGetGroup", ctypes.default_abi, this.OSStatus, this.FSFileSecurityRef, this.UInt32.ptr);
+    this.FSFileSecuritySetGroup = lib.declare("FSFileSecuritySetGroup", ctypes.default_abi, this.OSStatus, this.FSFileSecurityRef, this.UInt32);
+    this.FSFileSecurityGetMode = lib.declare("FSFileSecurityGetMode", ctypes.default_abi, this.OSStatus, this.FSFileSecurityRef, this.UInt16.ptr);
+    this.FSFileSecuritySetMode = lib.declare("FSFileSecuritySetMode", ctypes.default_abi, this.OSStatus, this.FSFileSecurityRef, this.UInt16);
     this.pleaseCacheBit = 4;
     this.pleaseCacheMask = 16;
     this.noCacheBit = 5;
@@ -772,6 +1042,156 @@ function Files_h(lib) {
     this.kioACAccessOwnerSearchMask = 1;
     this.kfullPrivileges = 458759;
     this.kownerPrivileges = 7;
+    this.FSGetVolumeParms = lib.declare("FSGetVolumeParms", ctypes.default_abi, this.OSStatus, this.FSVolumeRefNum, this.GetVolParmsInfoBuffer.ptr, this.ByteCount);
+    this.FSGetVolumeMountInfoSize = lib.declare("FSGetVolumeMountInfoSize", ctypes.default_abi, this.OSStatus, this.FSVolumeRefNum, this.ByteCount.ptr);
+    this.FSGetVolumeMountInfo = lib.declare("FSGetVolumeMountInfo", ctypes.default_abi, this.OSStatus, this.FSVolumeRefNum, this.BytePtr, this.ByteCount, this.ByteCount.ptr);
+    this.FSVolumeMount = lib.declare("FSVolumeMount", ctypes.default_abi, this.OSStatus, this.BytePtr, this.FSVolumeRefNum.ptr);
+    this.FSFlushVolume = lib.declare("FSFlushVolume", ctypes.default_abi, this.OSStatus, this.FSVolumeRefNum);
+    this.PBFlushVolumeSync = lib.declare("PBFlushVolumeSync", ctypes.default_abi, this.OSStatus, this.FSRefParamPtr);
+    this.PBFlushVolumeAsync = lib.declare("PBFlushVolumeAsync", ctypes.default_abi, this.OSStatus, this.FSRefParamPtr);
+    this.PBFSCopyFileSync = lib.declare("PBFSCopyFileSync", ctypes.default_abi, this.OSStatus, this.FSRefParamPtr);
+    this.PBFSCopyFileAsync = lib.declare("PBFSCopyFileAsync", ctypes.default_abi, this.OSStatus, this.FSRefParamPtr);
+    this.FSResolveNodeID = lib.declare("FSResolveNodeID", ctypes.default_abi, this.OSStatus, this.FSVolumeRefNum, this.UInt32, this.FSRefPtr);
+    this.PBFSResolveNodeIDSync = lib.declare("PBFSResolveNodeIDSync", ctypes.default_abi, this.OSStatus, this.FSRefParamPtr);
+    this.PBFSResolveNodeIDAsync = lib.declare("PBFSResolveNodeIDAsync", ctypes.default_abi, this.OSStatus, this.FSRefParamPtr);
+    this.FSpMakeFSRef = lib.declare("FSpMakeFSRef", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, this.FSRef.ptr);
+    this.PBMakeFSRefSync = lib.declare("PBMakeFSRefSync", ctypes.default_abi, this.OSErr, this.FSRefParam.ptr);
+    this.PBMakeFSRefAsync = lib.declare("PBMakeFSRefAsync", ctypes.default_abi, ctypes.void_t, this.FSRefParam.ptr);
+    this.PBCloseSync = lib.declare("PBCloseSync", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBCloseAsync = lib.declare("PBCloseAsync", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBReadSync = lib.declare("PBReadSync", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBReadAsync = lib.declare("PBReadAsync", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBWriteSync = lib.declare("PBWriteSync", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBWriteAsync = lib.declare("PBWriteAsync", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBWaitIOComplete = lib.declare("PBWaitIOComplete", ctypes.default_abi, this.OSErr, this.ParmBlkPtr, this.Duration);
+    this.PBHGetVolParmsSync = lib.declare("PBHGetVolParmsSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHGetVolParmsAsync = lib.declare("PBHGetVolParmsAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBGetVolMountInfoSize = lib.declare("PBGetVolMountInfoSize", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBGetVolMountInfo = lib.declare("PBGetVolMountInfo", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBVolumeMount = lib.declare("PBVolumeMount", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.FlushVol = lib.declare("FlushVol", ctypes.default_abi, this.OSErr, this.ConstStr63Param, this.FSVolumeRefNum);
+    this.PBFlushVolSync = lib.declare("PBFlushVolSync", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBFlushVolAsync = lib.declare("PBFlushVolAsync", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBHOpenDenySync = lib.declare("PBHOpenDenySync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHOpenDenyAsync = lib.declare("PBHOpenDenyAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHOpenRFDenySync = lib.declare("PBHOpenRFDenySync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHOpenRFDenyAsync = lib.declare("PBHOpenRFDenyAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHGetDirAccessSync = lib.declare("PBHGetDirAccessSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHGetDirAccessAsync = lib.declare("PBHGetDirAccessAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHSetDirAccessSync = lib.declare("PBHSetDirAccessSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHSetDirAccessAsync = lib.declare("PBHSetDirAccessAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHMapIDSync = lib.declare("PBHMapIDSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHMapIDAsync = lib.declare("PBHMapIDAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHMapNameSync = lib.declare("PBHMapNameSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHMapNameAsync = lib.declare("PBHMapNameAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHCopyFileSync = lib.declare("PBHCopyFileSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHCopyFileAsync = lib.declare("PBHCopyFileAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBCreateFileIDRefSync = lib.declare("PBCreateFileIDRefSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBCreateFileIDRefAsync = lib.declare("PBCreateFileIDRefAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBResolveFileIDRefSync = lib.declare("PBResolveFileIDRefSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBResolveFileIDRefAsync = lib.declare("PBResolveFileIDRefAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBDeleteFileIDRefSync = lib.declare("PBDeleteFileIDRefSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBDeleteFileIDRefAsync = lib.declare("PBDeleteFileIDRefAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBXGetVolInfoSync = lib.declare("PBXGetVolInfoSync", ctypes.default_abi, this.OSErr, this.XVolumeParamPtr);
+    this.PBXGetVolInfoAsync = lib.declare("PBXGetVolInfoAsync", ctypes.default_abi, this.OSErr, this.XVolumeParamPtr);
+    this.PBAllocateSync = lib.declare("PBAllocateSync", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBAllocateAsync = lib.declare("PBAllocateAsync", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBGetEOFSync = lib.declare("PBGetEOFSync", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBGetEOFAsync = lib.declare("PBGetEOFAsync", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBSetEOFSync = lib.declare("PBSetEOFSync", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBSetEOFAsync = lib.declare("PBSetEOFAsync", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBGetFPosSync = lib.declare("PBGetFPosSync", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBGetFPosAsync = lib.declare("PBGetFPosAsync", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBSetFPosSync = lib.declare("PBSetFPosSync", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBSetFPosAsync = lib.declare("PBSetFPosAsync", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBFlushFileSync = lib.declare("PBFlushFileSync", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBFlushFileAsync = lib.declare("PBFlushFileAsync", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBUnmountVol = lib.declare("PBUnmountVol", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBCatSearchSync = lib.declare("PBCatSearchSync", ctypes.default_abi, this.OSErr, this.CSParamPtr);
+    this.PBCatSearchAsync = lib.declare("PBCatSearchAsync", ctypes.default_abi, this.OSErr, this.CSParamPtr);
+    this.UnmountVol = lib.declare("UnmountVol", ctypes.default_abi, this.OSErr, this.ConstStr63Param, this.FSVolumeRefNum);
+    this.HSetVol = lib.declare("HSetVol", ctypes.default_abi, this.OSErr, this.ConstStr63Param, this.FSVolumeRefNum, this.SInt32);
+    this.FSClose = lib.declare("FSClose", ctypes.default_abi, this.OSErr, this.FSIORefNum);
+    this.FSRead = lib.declare("FSRead", ctypes.default_abi, this.OSErr, this.FSIORefNum, this.SInt32.ptr, ctypes.void_t.ptr);
+    this.FSWrite = lib.declare("FSWrite", ctypes.default_abi, this.OSErr, this.FSIORefNum, this.SInt32.ptr, ctypes.void_t.ptr);
+    this.Allocate = lib.declare("Allocate", ctypes.default_abi, this.OSErr, this.FSIORefNum, this.SInt32.ptr);
+    this.GetEOF = lib.declare("GetEOF", ctypes.default_abi, this.OSErr, this.FSIORefNum, this.SInt32.ptr);
+    this.SetEOF = lib.declare("SetEOF", ctypes.default_abi, this.OSErr, this.FSIORefNum, this.SInt32);
+    this.GetFPos = lib.declare("GetFPos", ctypes.default_abi, this.OSErr, this.FSIORefNum, this.SInt32.ptr);
+    this.SetFPos = lib.declare("SetFPos", ctypes.default_abi, this.OSErr, this.FSIORefNum, this.SInt16, this.SInt32);
+    this.GetVRefNum = lib.declare("GetVRefNum", ctypes.default_abi, this.OSErr, this.FSIORefNum, this.FSVolumeRefNum.ptr);
+    this.PBLockRangeSync = lib.declare("PBLockRangeSync", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBLockRangeAsync = lib.declare("PBLockRangeAsync", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBUnlockRangeSync = lib.declare("PBUnlockRangeSync", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBUnlockRangeAsync = lib.declare("PBUnlockRangeAsync", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBHSetVolSync = lib.declare("PBHSetVolSync", ctypes.default_abi, this.OSErr, this.WDPBPtr);
+    this.PBHSetVolAsync = lib.declare("PBHSetVolAsync", ctypes.default_abi, this.OSErr, this.WDPBPtr);
+    this.PBHGetVolSync = lib.declare("PBHGetVolSync", ctypes.default_abi, this.OSErr, this.WDPBPtr);
+    this.PBHGetVolAsync = lib.declare("PBHGetVolAsync", ctypes.default_abi, this.OSErr, this.WDPBPtr);
+    this.PBCatMoveSync = lib.declare("PBCatMoveSync", ctypes.default_abi, this.OSErr, this.CMovePBPtr);
+    this.PBCatMoveAsync = lib.declare("PBCatMoveAsync", ctypes.default_abi, this.OSErr, this.CMovePBPtr);
+    this.PBDirCreateSync = lib.declare("PBDirCreateSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBDirCreateAsync = lib.declare("PBDirCreateAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBGetFCBInfoSync = lib.declare("PBGetFCBInfoSync", ctypes.default_abi, this.OSErr, this.FCBPBPtr);
+    this.PBGetFCBInfoAsync = lib.declare("PBGetFCBInfoAsync", ctypes.default_abi, this.OSErr, this.FCBPBPtr);
+    this.PBGetCatInfoSync = lib.declare("PBGetCatInfoSync", ctypes.default_abi, this.OSErr, this.CInfoPBPtr);
+    this.PBGetCatInfoAsync = lib.declare("PBGetCatInfoAsync", ctypes.default_abi, this.OSErr, this.CInfoPBPtr);
+    this.PBSetCatInfoSync = lib.declare("PBSetCatInfoSync", ctypes.default_abi, this.OSErr, this.CInfoPBPtr);
+    this.PBSetCatInfoAsync = lib.declare("PBSetCatInfoAsync", ctypes.default_abi, this.OSErr, this.CInfoPBPtr);
+    this.PBAllocContigSync = lib.declare("PBAllocContigSync", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBAllocContigAsync = lib.declare("PBAllocContigAsync", ctypes.default_abi, this.OSErr, this.ParmBlkPtr);
+    this.PBSetVInfoSync = lib.declare("PBSetVInfoSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBSetVInfoAsync = lib.declare("PBSetVInfoAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHGetVInfoSync = lib.declare("PBHGetVInfoSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHGetVInfoAsync = lib.declare("PBHGetVInfoAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHOpenSync = lib.declare("PBHOpenSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHOpenAsync = lib.declare("PBHOpenAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHOpenRFSync = lib.declare("PBHOpenRFSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHOpenRFAsync = lib.declare("PBHOpenRFAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHOpenDFSync = lib.declare("PBHOpenDFSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHOpenDFAsync = lib.declare("PBHOpenDFAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHCreateSync = lib.declare("PBHCreateSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHCreateAsync = lib.declare("PBHCreateAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHDeleteSync = lib.declare("PBHDeleteSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHDeleteAsync = lib.declare("PBHDeleteAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHRenameSync = lib.declare("PBHRenameSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHRenameAsync = lib.declare("PBHRenameAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHRstFLockSync = lib.declare("PBHRstFLockSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHRstFLockAsync = lib.declare("PBHRstFLockAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHSetFLockSync = lib.declare("PBHSetFLockSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHSetFLockAsync = lib.declare("PBHSetFLockAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHGetFInfoSync = lib.declare("PBHGetFInfoSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHGetFInfoAsync = lib.declare("PBHGetFInfoAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHSetFInfoSync = lib.declare("PBHSetFInfoSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHSetFInfoAsync = lib.declare("PBHSetFInfoAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBMakeFSSpecSync = lib.declare("PBMakeFSSpecSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBMakeFSSpecAsync = lib.declare("PBMakeFSSpecAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.HGetVol = lib.declare("HGetVol", ctypes.default_abi, this.OSErr, this.StringPtr, this.FSVolumeRefNum.ptr, this.SInt32.ptr);
+    this.HOpen = lib.declare("HOpen", ctypes.default_abi, this.OSErr, this.FSVolumeRefNum, this.SInt32, this.ConstStr255Param, this.SInt8, this.FSIORefNum.ptr);
+    this.HOpenDF = lib.declare("HOpenDF", ctypes.default_abi, this.OSErr, this.FSVolumeRefNum, this.SInt32, this.ConstStr255Param, this.SInt8, this.FSIORefNum.ptr);
+    this.HOpenRF = lib.declare("HOpenRF", ctypes.default_abi, this.OSErr, this.FSVolumeRefNum, this.SInt32, this.ConstStr255Param, this.SInt8, this.FSIORefNum.ptr);
+    this.AllocContig = lib.declare("AllocContig", ctypes.default_abi, this.OSErr, this.FSVolumeRefNum, this.SInt32.ptr);
+    this.HCreate = lib.declare("HCreate", ctypes.default_abi, this.OSErr, this.FSVolumeRefNum, this.SInt32, this.ConstStr255Param, this.OSType, this.OSType);
+    this.DirCreate = lib.declare("DirCreate", ctypes.default_abi, this.OSErr, this.FSVolumeRefNum, this.SInt32, this.ConstStr255Param, this.SInt32.ptr);
+    this.HDelete = lib.declare("HDelete", ctypes.default_abi, this.OSErr, this.FSVolumeRefNum, this.SInt32, this.ConstStr255Param);
+    this.HGetFInfo = lib.declare("HGetFInfo", ctypes.default_abi, this.OSErr, this.FSVolumeRefNum, this.SInt32, this.ConstStr255Param, this.FInfo.ptr);
+    this.HSetFInfo = lib.declare("HSetFInfo", ctypes.default_abi, this.OSErr, this.FSVolumeRefNum, this.SInt32, this.ConstStr255Param, this.FInfo.ptr);
+    this.HSetFLock = lib.declare("HSetFLock", ctypes.default_abi, this.OSErr, this.FSVolumeRefNum, this.SInt32, this.ConstStr255Param);
+    this.HRstFLock = lib.declare("HRstFLock", ctypes.default_abi, this.OSErr, this.FSVolumeRefNum, this.SInt32, this.ConstStr255Param);
+    this.HRename = lib.declare("HRename", ctypes.default_abi, this.OSErr, this.FSVolumeRefNum, this.SInt32, this.ConstStr255Param, this.ConstStr255Param);
+    this.CatMove = lib.declare("CatMove", ctypes.default_abi, this.OSErr, this.FSVolumeRefNum, this.SInt32, this.ConstStr255Param, this.SInt32, this.ConstStr255Param);
+    this.PBHGetLogInInfoSync = lib.declare("PBHGetLogInInfoSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHGetLogInInfoAsync = lib.declare("PBHGetLogInInfoAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHMoveRenameSync = lib.declare("PBHMoveRenameSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBHMoveRenameAsync = lib.declare("PBHMoveRenameAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBGetXCatInfoSync = lib.declare("PBGetXCatInfoSync", ctypes.default_abi, this.OSErr, this.XCInfoPBPtr);
+    this.PBGetXCatInfoAsync = lib.declare("PBGetXCatInfoAsync", ctypes.default_abi, this.OSErr, this.XCInfoPBPtr);
+    this.PBExchangeFilesSync = lib.declare("PBExchangeFilesSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBExchangeFilesAsync = lib.declare("PBExchangeFilesAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBGetForeignPrivsSync = lib.declare("PBGetForeignPrivsSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBGetForeignPrivsAsync = lib.declare("PBGetForeignPrivsAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBSetForeignPrivsSync = lib.declare("PBSetForeignPrivsSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBSetForeignPrivsAsync = lib.declare("PBSetForeignPrivsAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
     this.kLargeIcon = 1;
     this.kLarge4BitIcon = 2;
     this.kLarge8BitIcon = 3;
@@ -779,6 +1199,54 @@ function Files_h(lib) {
     this.kSmall4BitIcon = 5;
     this.kSmall8BitIcon = 6;
     this.kicnsIconFamily = 239;
+    this.PBDTGetPath = lib.declare("PBDTGetPath", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.PBDTCloseDown = lib.declare("PBDTCloseDown", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.PBDTAddIconSync = lib.declare("PBDTAddIconSync", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.PBDTAddIconAsync = lib.declare("PBDTAddIconAsync", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.PBDTGetIconSync = lib.declare("PBDTGetIconSync", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.PBDTGetIconAsync = lib.declare("PBDTGetIconAsync", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.PBDTGetIconInfoSync = lib.declare("PBDTGetIconInfoSync", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.PBDTGetIconInfoAsync = lib.declare("PBDTGetIconInfoAsync", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.PBDTAddAPPLSync = lib.declare("PBDTAddAPPLSync", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.PBDTAddAPPLAsync = lib.declare("PBDTAddAPPLAsync", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.PBDTRemoveAPPLSync = lib.declare("PBDTRemoveAPPLSync", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.PBDTRemoveAPPLAsync = lib.declare("PBDTRemoveAPPLAsync", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.PBDTGetAPPLSync = lib.declare("PBDTGetAPPLSync", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.PBDTGetAPPLAsync = lib.declare("PBDTGetAPPLAsync", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.PBDTSetCommentSync = lib.declare("PBDTSetCommentSync", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.PBDTSetCommentAsync = lib.declare("PBDTSetCommentAsync", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.PBDTRemoveCommentSync = lib.declare("PBDTRemoveCommentSync", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.PBDTRemoveCommentAsync = lib.declare("PBDTRemoveCommentAsync", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.PBDTGetCommentSync = lib.declare("PBDTGetCommentSync", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.PBDTGetCommentAsync = lib.declare("PBDTGetCommentAsync", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.PBDTFlushSync = lib.declare("PBDTFlushSync", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.PBDTFlushAsync = lib.declare("PBDTFlushAsync", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.PBDTResetSync = lib.declare("PBDTResetSync", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.PBDTResetAsync = lib.declare("PBDTResetAsync", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.PBDTGetInfoSync = lib.declare("PBDTGetInfoSync", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.PBDTGetInfoAsync = lib.declare("PBDTGetInfoAsync", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.PBDTOpenInform = lib.declare("PBDTOpenInform", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.PBDTDeleteSync = lib.declare("PBDTDeleteSync", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.PBDTDeleteAsync = lib.declare("PBDTDeleteAsync", ctypes.default_abi, this.OSErr, this.DTPBPtr);
+    this.FSMakeFSSpec = lib.declare("FSMakeFSSpec", ctypes.default_abi, this.OSErr, this.FSVolumeRefNum, this.SInt32, this.ConstStr255Param, this.FSSpec.ptr);
+    this.FSpOpenDF = lib.declare("FSpOpenDF", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, this.SInt8, this.FSIORefNum.ptr);
+    this.FSpOpenRF = lib.declare("FSpOpenRF", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, this.SInt8, this.FSIORefNum.ptr);
+    this.FSpCreate = lib.declare("FSpCreate", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, this.OSType, this.OSType, this.ScriptCode);
+    this.FSpDirCreate = lib.declare("FSpDirCreate", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, this.ScriptCode, this.SInt32.ptr);
+    this.FSpDelete = lib.declare("FSpDelete", ctypes.default_abi, this.OSErr, this.FSSpec.ptr);
+    this.FSpGetFInfo = lib.declare("FSpGetFInfo", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, this.FInfo.ptr);
+    this.FSpSetFInfo = lib.declare("FSpSetFInfo", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, this.FInfo.ptr);
+    this.FSpSetFLock = lib.declare("FSpSetFLock", ctypes.default_abi, this.OSErr, this.FSSpec.ptr);
+    this.FSpRstFLock = lib.declare("FSpRstFLock", ctypes.default_abi, this.OSErr, this.FSSpec.ptr);
+    this.FSpRename = lib.declare("FSpRename", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, this.ConstStr255Param);
+    this.FSpCatMove = lib.declare("FSpCatMove", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, this.FSSpec.ptr);
+    this.FSpExchangeFiles = lib.declare("FSpExchangeFiles", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, this.FSSpec.ptr);
+    this.PBShareSync = lib.declare("PBShareSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBShareAsync = lib.declare("PBShareAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBUnshareSync = lib.declare("PBUnshareSync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBUnshareAsync = lib.declare("PBUnshareAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBGetUGEntrySync = lib.declare("PBGetUGEntrySync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
+    this.PBGetUGEntryAsync = lib.declare("PBGetUGEntryAsync", ctypes.default_abi, this.OSErr, this.HParmBlkPtr);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/UnicodeConverter.h
@@ -860,6 +1328,33 @@ function UnicodeConverter_h(lib) {
     // Dropping inline function 'NewUnicodeToTextFallbackUPP'.
     // Dropping inline function 'DisposeUnicodeToTextFallbackUPP'.
     // Dropping inline function 'InvokeUnicodeToTextFallbackUPP'.
+    this.CreateTextToUnicodeInfo = lib.declare("CreateTextToUnicodeInfo", ctypes.default_abi, this.OSStatus, this.ConstUnicodeMappingPtr, this.TextToUnicodeInfo.ptr);
+    this.CreateTextToUnicodeInfoByEncoding = lib.declare("CreateTextToUnicodeInfoByEncoding", ctypes.default_abi, this.OSStatus, this.TextEncoding, this.TextToUnicodeInfo.ptr);
+    this.CreateUnicodeToTextInfo = lib.declare("CreateUnicodeToTextInfo", ctypes.default_abi, this.OSStatus, this.ConstUnicodeMappingPtr, this.UnicodeToTextInfo.ptr);
+    this.CreateUnicodeToTextInfoByEncoding = lib.declare("CreateUnicodeToTextInfoByEncoding", ctypes.default_abi, this.OSStatus, this.TextEncoding, this.UnicodeToTextInfo.ptr);
+    this.CreateUnicodeToTextRunInfo = lib.declare("CreateUnicodeToTextRunInfo", ctypes.default_abi, this.OSStatus, this.ItemCount, this.UnicodeMapping.ptr, this.UnicodeToTextRunInfo.ptr);
+    this.CreateUnicodeToTextRunInfoByEncoding = lib.declare("CreateUnicodeToTextRunInfoByEncoding", ctypes.default_abi, this.OSStatus, this.ItemCount, this.TextEncoding.ptr, this.UnicodeToTextRunInfo.ptr);
+    this.CreateUnicodeToTextRunInfoByScriptCode = lib.declare("CreateUnicodeToTextRunInfoByScriptCode", ctypes.default_abi, this.OSStatus, this.ItemCount, this.ScriptCode.ptr, this.UnicodeToTextRunInfo.ptr);
+    this.ChangeTextToUnicodeInfo = lib.declare("ChangeTextToUnicodeInfo", ctypes.default_abi, this.OSStatus, this.TextToUnicodeInfo, this.ConstUnicodeMappingPtr);
+    this.ChangeUnicodeToTextInfo = lib.declare("ChangeUnicodeToTextInfo", ctypes.default_abi, this.OSStatus, this.UnicodeToTextInfo, this.ConstUnicodeMappingPtr);
+    this.DisposeTextToUnicodeInfo = lib.declare("DisposeTextToUnicodeInfo", ctypes.default_abi, this.OSStatus, this.TextToUnicodeInfo.ptr);
+    this.DisposeUnicodeToTextInfo = lib.declare("DisposeUnicodeToTextInfo", ctypes.default_abi, this.OSStatus, this.UnicodeToTextInfo.ptr);
+    this.DisposeUnicodeToTextRunInfo = lib.declare("DisposeUnicodeToTextRunInfo", ctypes.default_abi, this.OSStatus, this.UnicodeToTextRunInfo.ptr);
+    this.ConvertFromTextToUnicode = lib.declare("ConvertFromTextToUnicode", ctypes.default_abi, this.OSStatus, this.TextToUnicodeInfo, this.ByteCount, this.ConstLogicalAddress, this.OptionBits, this.ItemCount, this.ByteOffset.ptr, this.ItemCount.ptr, this.ByteOffset.ptr, this.ByteCount, this.ByteCount.ptr, this.ByteCount.ptr, ctypes.unsigned_short.ptr);
+    this.ConvertFromUnicodeToText = lib.declare("ConvertFromUnicodeToText", ctypes.default_abi, this.OSStatus, this.UnicodeToTextInfo, this.ByteCount, this.UniChar.ptr, this.OptionBits, this.ItemCount, this.ByteOffset.ptr, this.ItemCount.ptr, this.ByteOffset.ptr, this.ByteCount, this.ByteCount.ptr, this.ByteCount.ptr, this.LogicalAddress);
+    this.ConvertFromUnicodeToTextRun = lib.declare("ConvertFromUnicodeToTextRun", ctypes.default_abi, this.OSStatus, this.UnicodeToTextRunInfo, this.ByteCount, this.UniChar.ptr, this.OptionBits, this.ItemCount, this.ByteOffset.ptr, this.ItemCount.ptr, this.ByteOffset.ptr, this.ByteCount, this.ByteCount.ptr, this.ByteCount.ptr, this.LogicalAddress, this.ItemCount, this.ItemCount.ptr, this.TextEncodingRun.ptr);
+    this.ConvertFromUnicodeToScriptCodeRun = lib.declare("ConvertFromUnicodeToScriptCodeRun", ctypes.default_abi, this.OSStatus, this.UnicodeToTextRunInfo, this.ByteCount, this.UniChar.ptr, this.OptionBits, this.ItemCount, this.ByteOffset.ptr, this.ItemCount.ptr, this.ByteOffset.ptr, this.ByteCount, this.ByteCount.ptr, this.ByteCount.ptr, this.LogicalAddress, this.ItemCount, this.ItemCount.ptr, this.ScriptCodeRun.ptr);
+    this.TruncateForTextToUnicode = lib.declare("TruncateForTextToUnicode", ctypes.default_abi, this.OSStatus, this.ConstTextToUnicodeInfo, this.ByteCount, this.ConstLogicalAddress, this.ByteCount, this.ByteCount.ptr);
+    this.TruncateForUnicodeToText = lib.declare("TruncateForUnicodeToText", ctypes.default_abi, this.OSStatus, this.ConstUnicodeToTextInfo, this.ByteCount, this.UniChar.ptr, this.OptionBits, this.ByteCount, this.ByteCount.ptr);
+    this.ConvertFromPStringToUnicode = lib.declare("ConvertFromPStringToUnicode", ctypes.default_abi, this.OSStatus, this.TextToUnicodeInfo, this.ConstStr255Param, this.ByteCount, this.ByteCount.ptr, ctypes.unsigned_short.ptr);
+    this.ConvertFromUnicodeToPString = lib.declare("ConvertFromUnicodeToPString", ctypes.default_abi, this.OSStatus, this.UnicodeToTextInfo, this.ByteCount, this.UniChar.ptr, ctypes.unsigned_char.ptr);
+    this.CountUnicodeMappings = lib.declare("CountUnicodeMappings", ctypes.default_abi, this.OSStatus, this.OptionBits, this.ConstUnicodeMappingPtr, this.ItemCount.ptr);
+    this.QueryUnicodeMappings = lib.declare("QueryUnicodeMappings", ctypes.default_abi, this.OSStatus, this.OptionBits, this.ConstUnicodeMappingPtr, this.ItemCount, this.ItemCount.ptr, this.UnicodeMapping.ptr);
+    this.SetFallbackUnicodeToText = lib.declare("SetFallbackUnicodeToText", ctypes.default_abi, this.OSStatus, this.UnicodeToTextInfo, this.UnicodeToTextFallbackUPP, this.OptionBits, this.LogicalAddress);
+    this.SetFallbackUnicodeToTextRun = lib.declare("SetFallbackUnicodeToTextRun", ctypes.default_abi, this.OSStatus, this.UnicodeToTextRunInfo, this.UnicodeToTextFallbackUPP, this.OptionBits, this.LogicalAddress);
+    this.ResetTextToUnicodeInfo = lib.declare("ResetTextToUnicodeInfo", ctypes.default_abi, this.OSStatus, this.TextToUnicodeInfo);
+    this.ResetUnicodeToTextInfo = lib.declare("ResetUnicodeToTextInfo", ctypes.default_abi, this.OSStatus, this.UnicodeToTextInfo);
+    this.ResetUnicodeToTextRunInfo = lib.declare("ResetUnicodeToTextRunInfo", ctypes.default_abi, this.OSStatus, this.UnicodeToTextRunInfo);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/TextCommon.h
@@ -1236,6 +1731,19 @@ function TextCommon_h(lib) {
     this.kUCBidiCatPopDirectionalFormat = 17;
     this.kUCBidiCatNonSpacingMark = 18;
     this.kUCBidiCatBoundaryNeutral = 19;
+    this.CreateTextEncoding = lib.declare("CreateTextEncoding", ctypes.default_abi, this.TextEncoding, this.TextEncodingBase, this.TextEncodingVariant, this.TextEncodingFormat);
+    this.GetTextEncodingBase = lib.declare("GetTextEncodingBase", ctypes.default_abi, this.TextEncodingBase, this.TextEncoding);
+    this.GetTextEncodingVariant = lib.declare("GetTextEncodingVariant", ctypes.default_abi, this.TextEncodingVariant, this.TextEncoding);
+    this.GetTextEncodingFormat = lib.declare("GetTextEncodingFormat", ctypes.default_abi, this.TextEncodingFormat, this.TextEncoding);
+    this.ResolveDefaultTextEncoding = lib.declare("ResolveDefaultTextEncoding", ctypes.default_abi, this.TextEncoding, this.TextEncoding);
+    this.GetTextEncodingName = lib.declare("GetTextEncodingName", ctypes.default_abi, this.OSStatus, this.TextEncoding, this.TextEncodingNameSelector, this.RegionCode, this.TextEncoding, this.ByteCount, this.ByteCount.ptr, this.RegionCode.ptr, this.TextEncoding.ptr, this.TextPtr);
+    this.TECGetInfo = lib.declare("TECGetInfo", ctypes.default_abi, this.OSStatus, this.TECInfoHandle.ptr);
+    this.UpgradeScriptInfoToTextEncoding = lib.declare("UpgradeScriptInfoToTextEncoding", ctypes.default_abi, this.OSStatus, this.ScriptCode, this.LangCode, this.RegionCode, this.ConstStr255Param, this.TextEncoding.ptr);
+    this.RevertTextEncodingToScriptInfo = lib.declare("RevertTextEncodingToScriptInfo", ctypes.default_abi, this.OSStatus, this.TextEncoding, this.ScriptCode.ptr, this.LangCode.ptr, ctypes.unsigned_char.ptr);
+    this.GetTextEncodingFromScriptInfo = lib.declare("GetTextEncodingFromScriptInfo", ctypes.default_abi, this.OSStatus, this.ScriptCode, this.LangCode, this.RegionCode, this.TextEncoding.ptr);
+    this.GetScriptInfoFromTextEncoding = lib.declare("GetScriptInfoFromTextEncoding", ctypes.default_abi, this.OSStatus, this.TextEncoding, this.ScriptCode.ptr, this.LangCode.ptr);
+    this.NearestMacTextEncodings = lib.declare("NearestMacTextEncodings", ctypes.default_abi, this.OSStatus, this.TextEncoding, this.TextEncoding.ptr, this.TextEncoding.ptr);
+    this.UCGetCharProperty = lib.declare("UCGetCharProperty", ctypes.default_abi, this.OSStatus, this.UniChar.ptr, this.UniCharCount, this.UCCharPropertyType, this.UCCharPropertyValue.ptr);
     this.kUCHighSurrogateRangeStart = 55296;
     this.kUCHighSurrogateRangeEnd = 56319;
     this.kUCLowSurrogateRangeStart = 56320;
@@ -1248,6 +1756,7 @@ function TextCommon_h(lib) {
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/Aliases.h
 function Aliases_h(lib) {
     UTCUtils_h.call(this, lib);
+    CFBase_h.call(this, lib);
     Files_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
@@ -1291,15 +1800,143 @@ function Aliases_h(lib) {
     // Dropping inline function 'DisposeAliasFilterUPP'.
     // Dropping inline function 'InvokeAliasFilterUPP'.
     this.FSAliasFilterProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.Boolean, [this.FSRef.ptr, this.Boolean.ptr, this.Ptr]).ptr;
+    this.FSNewAlias = lib.declare("FSNewAlias", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.FSRef.ptr, this.AliasHandle.ptr);
+    this.FSNewAliasMinimal = lib.declare("FSNewAliasMinimal", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.AliasHandle.ptr);
+    this.FSIsAliasFile = lib.declare("FSIsAliasFile", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.Boolean.ptr, this.Boolean.ptr);
+    this.FSResolveAliasWithMountFlags = lib.declare("FSResolveAliasWithMountFlags", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.AliasHandle, this.FSRef.ptr, this.Boolean.ptr, ctypes.unsigned_long);
+    this.FSResolveAlias = lib.declare("FSResolveAlias", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.AliasHandle, this.FSRef.ptr, this.Boolean.ptr);
+    this.FSResolveAliasFileWithMountFlags = lib.declare("FSResolveAliasFileWithMountFlags", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.Boolean, this.Boolean.ptr, this.Boolean.ptr, ctypes.unsigned_long);
+    this.FSResolveAliasFile = lib.declare("FSResolveAliasFile", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.Boolean, this.Boolean.ptr, this.Boolean.ptr);
+    this.FSFollowFinderAlias = lib.declare("FSFollowFinderAlias", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.AliasHandle, this.Boolean, this.FSRef.ptr, this.Boolean.ptr);
+    this.FSUpdateAlias = lib.declare("FSUpdateAlias", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.FSRef.ptr, this.AliasHandle, this.Boolean.ptr);
+    this.FSNewAliasUnicode = lib.declare("FSNewAliasUnicode", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.FSRef.ptr, this.UniCharCount, this.UniChar.ptr, this.AliasHandle.ptr, this.Boolean.ptr);
+    this.FSNewAliasMinimalUnicode = lib.declare("FSNewAliasMinimalUnicode", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.UniCharCount, this.UniChar.ptr, this.AliasHandle.ptr, this.Boolean.ptr);
+    this.FSNewAliasFromPath = lib.declare("FSNewAliasFromPath", ctypes.default_abi, this.OSStatus, ctypes.char.ptr, ctypes.char.ptr, this.OptionBits, this.AliasHandle.ptr, this.Boolean.ptr);
+    this.FSMatchAliasBulk = lib.declare("FSMatchAliasBulk", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, ctypes.unsigned_long, this.AliasHandle, ctypes.short.ptr, this.FSRef.ptr, this.Boolean.ptr, this.FSAliasFilterProcPtr, ctypes.void_t.ptr);
+    this.FSCopyAliasInfo = lib.declare("FSCopyAliasInfo", ctypes.default_abi, this.OSStatus, this.AliasHandle, this.HFSUniStr255.ptr, this.HFSUniStr255.ptr, this.CFStringRef.ptr, this.FSAliasInfoBitmap.ptr, this.FSAliasInfo.ptr);
+    this.GetAliasSize = lib.declare("GetAliasSize", ctypes.default_abi, this.Size, this.AliasHandle);
+    this.GetAliasUserType = lib.declare("GetAliasUserType", ctypes.default_abi, this.OSType, this.AliasHandle);
+    this.SetAliasUserType = lib.declare("SetAliasUserType", ctypes.default_abi, ctypes.void_t, this.AliasHandle, this.OSType);
+    this.GetAliasSizeFromPtr = lib.declare("GetAliasSizeFromPtr", ctypes.default_abi, this.Size, this.AliasRecord.ptr);
+    this.GetAliasUserTypeFromPtr = lib.declare("GetAliasUserTypeFromPtr", ctypes.default_abi, this.OSType, this.AliasRecord.ptr);
+    this.SetAliasUserTypeWithPtr = lib.declare("SetAliasUserTypeWithPtr", ctypes.default_abi, ctypes.void_t, this.AliasPtr, this.OSType);
+    this.FSMatchAlias = lib.declare("FSMatchAlias", ctypes.default_abi, this.OSErr, this.FSRef.ptr, ctypes.unsigned_long, this.AliasHandle, ctypes.short.ptr, this.FSRef.ptr, this.Boolean.ptr, this.AliasFilterUPP, ctypes.void_t.ptr);
+    this.FSMatchAliasNoUI = lib.declare("FSMatchAliasNoUI", ctypes.default_abi, this.OSErr, this.FSRef.ptr, ctypes.unsigned_long, this.AliasHandle, ctypes.short.ptr, this.FSRef.ptr, this.Boolean.ptr, this.AliasFilterUPP, ctypes.void_t.ptr);
+    this.NewAlias = lib.declare("NewAlias", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, this.FSSpec.ptr, this.AliasHandle.ptr);
+    this.NewAliasMinimal = lib.declare("NewAliasMinimal", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, this.AliasHandle.ptr);
+    this.NewAliasMinimalFromFullPath = lib.declare("NewAliasMinimalFromFullPath", ctypes.default_abi, this.OSErr, ctypes.short, ctypes.void_t.ptr, this.ConstStr32Param, this.ConstStr31Param, this.AliasHandle.ptr);
+    this.ResolveAlias = lib.declare("ResolveAlias", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, this.AliasHandle, this.FSSpec.ptr, this.Boolean.ptr);
+    this.GetAliasInfo = lib.declare("GetAliasInfo", ctypes.default_abi, this.OSErr, this.AliasHandle, this.AliasInfoType, ctypes.unsigned_char.ptr);
+    this.IsAliasFile = lib.declare("IsAliasFile", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, this.Boolean.ptr, this.Boolean.ptr);
+    this.ResolveAliasWithMountFlags = lib.declare("ResolveAliasWithMountFlags", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, this.AliasHandle, this.FSSpec.ptr, this.Boolean.ptr, ctypes.unsigned_long);
+    this.ResolveAliasFile = lib.declare("ResolveAliasFile", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, this.Boolean, this.Boolean.ptr, this.Boolean.ptr);
+    this.ResolveAliasFileWithMountFlags = lib.declare("ResolveAliasFileWithMountFlags", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, this.Boolean, this.Boolean.ptr, this.Boolean.ptr, ctypes.unsigned_long);
+    this.FollowFinderAlias = lib.declare("FollowFinderAlias", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, this.AliasHandle, this.Boolean, this.FSSpec.ptr, this.Boolean.ptr);
+    this.UpdateAlias = lib.declare("UpdateAlias", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, this.FSSpec.ptr, this.AliasHandle, this.Boolean.ptr);
+    this.MatchAlias = lib.declare("MatchAlias", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, ctypes.unsigned_long, this.AliasHandle, ctypes.short.ptr, this.FSSpecArrayPtr, this.Boolean.ptr, this.AliasFilterUPP, ctypes.void_t.ptr);
+    this.ResolveAliasFileWithMountFlagsNoUI = lib.declare("ResolveAliasFileWithMountFlagsNoUI", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, this.Boolean, this.Boolean.ptr, this.Boolean.ptr, ctypes.unsigned_long);
+    this.MatchAliasNoUI = lib.declare("MatchAliasNoUI", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, ctypes.unsigned_long, this.AliasHandle, ctypes.short.ptr, this.FSSpecArrayPtr, this.Boolean.ptr, this.AliasFilterUPP, ctypes.void_t.ptr);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/LowMem.h
 function LowMem_h(lib) {
+    Files_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._LOWMEM_H)
         return;
     this._LOWMEM_H = true;
 
+    this.LMGetMemTop = lib.declare("LMGetMemTop", ctypes.default_abi, this.Ptr);
+    this.LMSetMemTop = lib.declare("LMSetMemTop", ctypes.default_abi, ctypes.void_t, this.Ptr);
+    this.LMGetBufPtr = lib.declare("LMGetBufPtr", ctypes.default_abi, this.Ptr);
+    this.LMSetBufPtr = lib.declare("LMSetBufPtr", ctypes.default_abi, ctypes.void_t, this.Ptr);
+    this.LMGetHeapEnd = lib.declare("LMGetHeapEnd", ctypes.default_abi, this.Ptr);
+    this.LMSetHeapEnd = lib.declare("LMSetHeapEnd", ctypes.default_abi, ctypes.void_t, this.Ptr);
+    this.LMGetCPUFlag = lib.declare("LMGetCPUFlag", ctypes.default_abi, this.UInt8);
+    this.LMSetCPUFlag = lib.declare("LMSetCPUFlag", ctypes.default_abi, ctypes.void_t, this.UInt8);
+    this.LMGetRndSeed = lib.declare("LMGetRndSeed", ctypes.default_abi, this.SInt32);
+    this.LMSetRndSeed = lib.declare("LMSetRndSeed", ctypes.default_abi, ctypes.void_t, this.SInt32);
+    this.LMGetSEvtEnb = lib.declare("LMGetSEvtEnb", ctypes.default_abi, this.UInt8);
+    this.LMSetSEvtEnb = lib.declare("LMSetSEvtEnb", ctypes.default_abi, ctypes.void_t, this.UInt8);
+    this.LMGetBootDrive = lib.declare("LMGetBootDrive", ctypes.default_abi, this.SInt16);
+    this.LMSetBootDrive = lib.declare("LMSetBootDrive", ctypes.default_abi, ctypes.void_t, this.SInt16);
+    this.LMGetSdVolume = lib.declare("LMGetSdVolume", ctypes.default_abi, this.UInt8);
+    this.LMSetSdVolume = lib.declare("LMSetSdVolume", ctypes.default_abi, ctypes.void_t, this.UInt8);
+    this.LMGetSoundPtr = lib.declare("LMGetSoundPtr", ctypes.default_abi, this.Ptr);
+    this.LMSetSoundPtr = lib.declare("LMSetSoundPtr", ctypes.default_abi, ctypes.void_t, this.Ptr);
+    this.LMGetSoundBase = lib.declare("LMGetSoundBase", ctypes.default_abi, this.Ptr);
+    this.LMSetSoundBase = lib.declare("LMSetSoundBase", ctypes.default_abi, ctypes.void_t, this.Ptr);
+    this.LMGetSoundLevel = lib.declare("LMGetSoundLevel", ctypes.default_abi, this.UInt8);
+    this.LMSetSoundLevel = lib.declare("LMSetSoundLevel", ctypes.default_abi, ctypes.void_t, this.UInt8);
+    this.LMGetCurPitch = lib.declare("LMGetCurPitch", ctypes.default_abi, this.SInt16);
+    this.LMSetCurPitch = lib.declare("LMSetCurPitch", ctypes.default_abi, ctypes.void_t, this.SInt16);
+    this.LMGetScrDmpEnb = lib.declare("LMGetScrDmpEnb", ctypes.default_abi, this.UInt8);
+    this.LMSetScrDmpEnb = lib.declare("LMSetScrDmpEnb", ctypes.default_abi, ctypes.void_t, this.UInt8);
+    this.LMGetBufTgFNum = lib.declare("LMGetBufTgFNum", ctypes.default_abi, this.SInt32);
+    this.LMSetBufTgFNum = lib.declare("LMSetBufTgFNum", ctypes.default_abi, ctypes.void_t, this.SInt32);
+    this.LMGetBufTgFFlg = lib.declare("LMGetBufTgFFlg", ctypes.default_abi, this.SInt16);
+    this.LMSetBufTgFFlg = lib.declare("LMSetBufTgFFlg", ctypes.default_abi, ctypes.void_t, this.SInt16);
+    this.LMGetBufTgFBkNum = lib.declare("LMGetBufTgFBkNum", ctypes.default_abi, this.SInt16);
+    this.LMSetBufTgFBkNum = lib.declare("LMSetBufTgFBkNum", ctypes.default_abi, ctypes.void_t, this.SInt16);
+    this.LMGetBufTgDate = lib.declare("LMGetBufTgDate", ctypes.default_abi, this.SInt32);
+    this.LMSetBufTgDate = lib.declare("LMSetBufTgDate", ctypes.default_abi, ctypes.void_t, this.SInt32);
+    this.LMGetMinStack = lib.declare("LMGetMinStack", ctypes.default_abi, this.SInt32);
+    this.LMSetMinStack = lib.declare("LMSetMinStack", ctypes.default_abi, ctypes.void_t, this.SInt32);
+    this.LMGetDefltStack = lib.declare("LMGetDefltStack", ctypes.default_abi, this.SInt32);
+    this.LMSetDefltStack = lib.declare("LMSetDefltStack", ctypes.default_abi, ctypes.void_t, this.SInt32);
+    this.LMGetGZRootHnd = lib.declare("LMGetGZRootHnd", ctypes.default_abi, this.Handle);
+    this.LMSetGZRootHnd = lib.declare("LMSetGZRootHnd", ctypes.default_abi, ctypes.void_t, this.Handle);
+    this.LMGetGZMoveHnd = lib.declare("LMGetGZMoveHnd", ctypes.default_abi, this.Handle);
+    this.LMSetGZMoveHnd = lib.declare("LMSetGZMoveHnd", ctypes.default_abi, ctypes.void_t, this.Handle);
+    this.LMGetToExtFS = lib.declare("LMGetToExtFS", ctypes.default_abi, this.UniversalProcPtr);
+    this.LMSetToExtFS = lib.declare("LMSetToExtFS", ctypes.default_abi, ctypes.void_t, this.UniversalProcPtr);
+    this.LMGetJStash = lib.declare("LMGetJStash", ctypes.default_abi, this.UniversalProcPtr);
+    this.LMSetJStash = lib.declare("LMSetJStash", ctypes.default_abi, ctypes.void_t, this.UniversalProcPtr);
+    this.LMGetCurApRefNum = lib.declare("LMGetCurApRefNum", ctypes.default_abi, this.FSIORefNum);
+    this.LMSetCurApRefNum = lib.declare("LMSetCurApRefNum", ctypes.default_abi, ctypes.void_t, this.FSIORefNum);
+    this.LMGetCurStackBase = lib.declare("LMGetCurStackBase", ctypes.default_abi, this.Ptr);
+    this.LMSetCurStackBase = lib.declare("LMSetCurStackBase", ctypes.default_abi, ctypes.void_t, this.Ptr);
+    this.LMGetCurPageOption = lib.declare("LMGetCurPageOption", ctypes.default_abi, this.SInt16);
+    this.LMSetCurPageOption = lib.declare("LMSetCurPageOption", ctypes.default_abi, ctypes.void_t, this.SInt16);
+    this.LMGetPrintErr = lib.declare("LMGetPrintErr", ctypes.default_abi, this.SInt16);
+    this.LMSetPrintErr = lib.declare("LMSetPrintErr", ctypes.default_abi, ctypes.void_t, this.SInt16);
+    this.LMGetApFontID = lib.declare("LMGetApFontID", ctypes.default_abi, this.SInt16);
+    this.LMSetApFontID = lib.declare("LMSetApFontID", ctypes.default_abi, ctypes.void_t, this.SInt16);
+    this.LMGetOneOne = lib.declare("LMGetOneOne", ctypes.default_abi, this.SInt32);
+    this.LMSetOneOne = lib.declare("LMSetOneOne", ctypes.default_abi, ctypes.void_t, this.SInt32);
+    this.LMGetMinusOne = lib.declare("LMGetMinusOne", ctypes.default_abi, this.SInt32);
+    this.LMSetMinusOne = lib.declare("LMSetMinusOne", ctypes.default_abi, ctypes.void_t, this.SInt32);
+    this.LMGetSysMap = lib.declare("LMGetSysMap", ctypes.default_abi, this.SInt16);
+    this.LMSetSysMap = lib.declare("LMSetSysMap", ctypes.default_abi, ctypes.void_t, this.SInt16);
+    this.LMGetResLoad = lib.declare("LMGetResLoad", ctypes.default_abi, this.UInt8);
+    this.LMSetResLoad = lib.declare("LMSetResLoad", ctypes.default_abi, ctypes.void_t, this.UInt8);
+    this.LMGetResErr = lib.declare("LMGetResErr", ctypes.default_abi, this.SInt16);
+    this.LMSetResErr = lib.declare("LMSetResErr", ctypes.default_abi, ctypes.void_t, this.SInt16);
+    this.LMGetTmpResLoad = lib.declare("LMGetTmpResLoad", ctypes.default_abi, this.UInt8);
+    this.LMSetTmpResLoad = lib.declare("LMSetTmpResLoad", ctypes.default_abi, ctypes.void_t, this.UInt8);
+    this.LMGetIntlSpec = lib.declare("LMGetIntlSpec", ctypes.default_abi, this.Ptr);
+    this.LMSetIntlSpec = lib.declare("LMSetIntlSpec", ctypes.default_abi, ctypes.void_t, this.Ptr);
+    this.LMGetSysFontFam = lib.declare("LMGetSysFontFam", ctypes.default_abi, this.SInt16);
+    this.LMSetSysFontFam = lib.declare("LMSetSysFontFam", ctypes.default_abi, ctypes.void_t, this.SInt16);
+    this.LMGetSysFontSize = lib.declare("LMGetSysFontSize", ctypes.default_abi, this.SInt16);
+    this.LMSetSysFontSize = lib.declare("LMSetSysFontSize", ctypes.default_abi, ctypes.void_t, this.SInt16);
+    this.LMGetCurApName = lib.declare("LMGetCurApName", ctypes.default_abi, this.StringPtr);
+    this.LMSetCurApName = lib.declare("LMSetCurApName", ctypes.default_abi, ctypes.void_t, this.ConstStr31Param);
+    this.LMGetSysResName = lib.declare("LMGetSysResName", ctypes.default_abi, this.StringPtr);
+    this.LMSetSysResName = lib.declare("LMSetSysResName", ctypes.default_abi, ctypes.void_t, this.ConstStr15Param);
+    this.LMGetFinderName = lib.declare("LMGetFinderName", ctypes.default_abi, this.StringPtr);
+    this.LMSetFinderName = lib.declare("LMSetFinderName", ctypes.default_abi, ctypes.void_t, this.ConstStr15Param);
+    this.LMGetToolScratch = lib.declare("LMGetToolScratch", ctypes.default_abi, this.Ptr);
+    this.LMSetToolScratch = lib.declare("LMSetToolScratch", ctypes.default_abi, ctypes.void_t, ctypes.void_t.ptr);
+    this.LMGetLvl2DT = lib.declare("LMGetLvl2DT", ctypes.default_abi, this.UniversalProcPtr, ctypes.short);
+    this.LMSetLvl2DT = lib.declare("LMSetLvl2DT", ctypes.default_abi, ctypes.void_t, this.UniversalProcPtr, ctypes.short);
+    this.LMGetHighHeapMark = lib.declare("LMGetHighHeapMark", ctypes.default_abi, this.Ptr);
+    this.LMSetHighHeapMark = lib.declare("LMSetHighHeapMark", ctypes.default_abi, ctypes.void_t, this.Ptr);
+    this.LMGetStackLowPoint = lib.declare("LMGetStackLowPoint", ctypes.default_abi, this.Ptr);
+    this.LMSetStackLowPoint = lib.declare("LMSetStackLowPoint", ctypes.default_abi, ctypes.void_t, this.Ptr);
+    this.LMGetDiskFormatingHFSDefaults = lib.declare("LMGetDiskFormatingHFSDefaults", ctypes.default_abi, this.Ptr);
+    this.LMSetDiskFormatingHFSDefaults = lib.declare("LMSetDiskFormatingHFSDefaults", ctypes.default_abi, ctypes.void_t, this.Ptr);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/Script.h
@@ -1927,6 +2564,8 @@ function Script_h(lib) {
     this.smCharPortion = 34;
     this.smDoubleByte = 36;
     this.smKeyDisableState = 42;
+    this.GetScriptManagerVariable = lib.declare("GetScriptManagerVariable", ctypes.default_abi, ctypes.long, ctypes.short);
+    this.SetScriptManagerVariable = lib.declare("SetScriptManagerVariable", ctypes.default_abi, this.OSErr, ctypes.short, ctypes.long);
     this.smRedrawChar = 0;
     this.smRedrawWord = 1;
     this.smRedrawLine = -1;
@@ -1983,15 +2622,81 @@ function Script_h(lib) {
     this.smScriptFntBase = -285;
     this.smScriptLigatures = -263;
     this.smScriptNumbers = -267;
+    this.GetScriptVariable = lib.declare("GetScriptVariable", ctypes.default_abi, ctypes.long, ctypes.short, ctypes.short);
+    this.SetScriptVariable = lib.declare("SetScriptVariable", ctypes.default_abi, this.OSErr, ctypes.short, ctypes.short, ctypes.long);
+    this.GetSysDirection = lib.declare("GetSysDirection", ctypes.default_abi, ctypes.short);
+    this.SetSysDirection = lib.declare("SetSysDirection", ctypes.default_abi, ctypes.void_t, ctypes.short);
+    this.FontScript = lib.declare("FontScript", ctypes.default_abi, ctypes.short);
+    this.IntlScript = lib.declare("IntlScript", ctypes.default_abi, ctypes.short);
+    this.FontToScript = lib.declare("FontToScript", ctypes.default_abi, ctypes.short, ctypes.short);
+    this.CharacterByteType = lib.declare("CharacterByteType", ctypes.default_abi, ctypes.short, this.Ptr, ctypes.short, this.ScriptCode);
+    this.CharacterType = lib.declare("CharacterType", ctypes.default_abi, ctypes.short, this.Ptr, ctypes.short, this.ScriptCode);
+    this.TransliterateText = lib.declare("TransliterateText", ctypes.default_abi, this.OSErr, this.Handle, this.Handle, ctypes.short, ctypes.long, this.ScriptCode);
+    this.FillParseTable = lib.declare("FillParseTable", ctypes.default_abi, this.Boolean, ctypes.char.ptr, this.ScriptCode);
+    this.GetIntlResource = lib.declare("GetIntlResource", ctypes.default_abi, this.Handle, ctypes.short);
+    this.ClearIntlResourceCache = lib.declare("ClearIntlResourceCache", ctypes.default_abi, ctypes.void_t);
+    this.GetIntlResourceTable = lib.declare("GetIntlResourceTable", ctypes.default_abi, ctypes.void_t, this.ScriptCode, ctypes.short, this.Handle.ptr, ctypes.long.ptr, ctypes.long.ptr);
+    this.IntlTokenize = lib.declare("IntlTokenize", ctypes.default_abi, this.TokenResults, this.TokenBlockPtr);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/Math64.h
 function Math64_h(lib) {
+    MacTypes_h.call(this, lib);
 
     if (this._MATH64_H)
         return;
     this._MATH64_H = true;
 
+    this.S64Max = lib.declare("S64Max", ctypes.default_abi, this.SInt64);
+    this.S64Min = lib.declare("S64Min", ctypes.default_abi, this.SInt64);
+    this.S64Add = lib.declare("S64Add", ctypes.default_abi, this.SInt64, this.SInt64, this.SInt64);
+    this.S64Subtract = lib.declare("S64Subtract", ctypes.default_abi, this.SInt64, this.SInt64, this.SInt64);
+    this.S64Negate = lib.declare("S64Negate", ctypes.default_abi, this.SInt64, this.SInt64);
+    this.S64Multiply = lib.declare("S64Multiply", ctypes.default_abi, this.SInt64, this.SInt64, this.SInt64);
+    this.S64Mod = lib.declare("S64Mod", ctypes.default_abi, this.SInt64, this.SInt64, this.SInt64);
+    this.S64Divide = lib.declare("S64Divide", ctypes.default_abi, this.SInt64, this.SInt64, this.SInt64, this.SInt64.ptr);
+    this.S64Div = lib.declare("S64Div", ctypes.default_abi, this.SInt64, this.SInt64, this.SInt64);
+    this.S64Set = lib.declare("S64Set", ctypes.default_abi, this.SInt64, this.SInt32);
+    this.S64SetU = lib.declare("S64SetU", ctypes.default_abi, this.SInt64, this.UInt32);
+    this.S32Set = lib.declare("S32Set", ctypes.default_abi, this.SInt32, this.SInt64);
+    this.S64And = lib.declare("S64And", ctypes.default_abi, this.Boolean, this.SInt64, this.SInt64);
+    this.S64Or = lib.declare("S64Or", ctypes.default_abi, this.Boolean, this.SInt64, this.SInt64);
+    this.S64Eor = lib.declare("S64Eor", ctypes.default_abi, this.Boolean, this.SInt64, this.SInt64);
+    this.S64Not = lib.declare("S64Not", ctypes.default_abi, this.Boolean, this.SInt64);
+    this.S64Compare = lib.declare("S64Compare", ctypes.default_abi, this.SInt32, this.SInt64, this.SInt64);
+    this.S64BitwiseAnd = lib.declare("S64BitwiseAnd", ctypes.default_abi, this.SInt64, this.SInt64, this.SInt64);
+    this.S64BitwiseOr = lib.declare("S64BitwiseOr", ctypes.default_abi, this.SInt64, this.SInt64, this.SInt64);
+    this.S64BitwiseEor = lib.declare("S64BitwiseEor", ctypes.default_abi, this.SInt64, this.SInt64, this.SInt64);
+    this.S64BitwiseNot = lib.declare("S64BitwiseNot", ctypes.default_abi, this.SInt64, this.SInt64);
+    this.S64ShiftRight = lib.declare("S64ShiftRight", ctypes.default_abi, this.SInt64, this.SInt64, this.UInt32);
+    this.S64ShiftLeft = lib.declare("S64ShiftLeft", ctypes.default_abi, this.SInt64, this.SInt64, this.UInt32);
+    // Dropping declaration of 'SInt64ToLongDouble': Unknown type long_double_t
+    // Dropping declaration of 'LongDoubleToSInt64': Unknown type long_double_t
+    this.U64Max = lib.declare("U64Max", ctypes.default_abi, this.UInt64);
+    this.U64Add = lib.declare("U64Add", ctypes.default_abi, this.UInt64, this.UInt64, this.UInt64);
+    this.U64Subtract = lib.declare("U64Subtract", ctypes.default_abi, this.UInt64, this.UInt64, this.UInt64);
+    this.U64Multiply = lib.declare("U64Multiply", ctypes.default_abi, this.UInt64, this.UInt64, this.UInt64);
+    this.U64Mod = lib.declare("U64Mod", ctypes.default_abi, this.UInt64, this.UInt64, this.UInt64);
+    this.U64Divide = lib.declare("U64Divide", ctypes.default_abi, this.UInt64, this.UInt64, this.UInt64, this.UInt64.ptr);
+    this.U64Div = lib.declare("U64Div", ctypes.default_abi, this.UInt64, this.UInt64, this.UInt64);
+    this.U64Set = lib.declare("U64Set", ctypes.default_abi, this.UInt64, this.SInt32);
+    this.U64SetU = lib.declare("U64SetU", ctypes.default_abi, this.UInt64, this.UInt32);
+    this.U32SetU = lib.declare("U32SetU", ctypes.default_abi, this.UInt32, this.UInt64);
+    this.U64And = lib.declare("U64And", ctypes.default_abi, this.Boolean, this.UInt64, this.UInt64);
+    this.U64Or = lib.declare("U64Or", ctypes.default_abi, this.Boolean, this.UInt64, this.UInt64);
+    this.U64Eor = lib.declare("U64Eor", ctypes.default_abi, this.Boolean, this.UInt64, this.UInt64);
+    this.U64Not = lib.declare("U64Not", ctypes.default_abi, this.Boolean, this.UInt64);
+    this.U64Compare = lib.declare("U64Compare", ctypes.default_abi, this.SInt32, this.UInt64, this.UInt64);
+    this.U64BitwiseAnd = lib.declare("U64BitwiseAnd", ctypes.default_abi, this.UInt64, this.UInt64, this.UInt64);
+    this.U64BitwiseOr = lib.declare("U64BitwiseOr", ctypes.default_abi, this.UInt64, this.UInt64, this.UInt64);
+    this.U64BitwiseEor = lib.declare("U64BitwiseEor", ctypes.default_abi, this.UInt64, this.UInt64, this.UInt64);
+    this.U64BitwiseNot = lib.declare("U64BitwiseNot", ctypes.default_abi, this.UInt64, this.UInt64);
+    this.U64ShiftRight = lib.declare("U64ShiftRight", ctypes.default_abi, this.UInt64, this.UInt64, this.UInt32);
+    this.U64ShiftLeft = lib.declare("U64ShiftLeft", ctypes.default_abi, this.UInt64, this.UInt64, this.UInt32);
+    // Dropping declaration of 'UInt64ToLongDouble': Unknown type long_double_t
+    // Dropping declaration of 'LongDoubleToUInt64': Unknown type long_double_t
+    this.UInt64ToSInt64 = lib.declare("UInt64ToSInt64", ctypes.default_abi, this.SInt64, this.UInt64);
+    this.SInt64ToUInt64 = lib.declare("SInt64ToUInt64", ctypes.default_abi, this.UInt64, this.SInt64);
     // Dropping inline function 'SInt64ToWide'.
     // Dropping inline function 'WideToSInt64'.
     // Dropping inline function 'UInt64ToUnsignedWide'.
@@ -2067,14 +2772,56 @@ function Multiprocessing_h(lib) {
     this.kDurationForever = 2147483647;
     this.kDurationMillisecond = 1;
     this.kDurationMicrosecond = -1;
+    this.MPProcessors = lib.declare("MPProcessors", ctypes.default_abi, this.ItemCount);
+    this.MPProcessorsScheduled = lib.declare("MPProcessorsScheduled", ctypes.default_abi, this.ItemCount);
     this.kMPCreateTaskSuspendedMask = 1;
     this.kMPCreateTaskTakesAllExceptionsMask = 2;
     this.kMPCreateTaskNotDebuggableMask = 4;
     this.kMPCreateTaskValidOptionsMask = 7;
     this.TaskProc = new ctypes.FunctionType(ctypes.default_abi, this.OSStatus, [ctypes.void_t.ptr]).ptr;
+    this.MPCreateTask = lib.declare("MPCreateTask", ctypes.default_abi, this.OSStatus, this.TaskProc, ctypes.void_t.ptr, this.ByteCount, this.MPQueueID, ctypes.void_t.ptr, ctypes.void_t.ptr, this.MPTaskOptions, this.MPTaskID.ptr);
+    this.MPTerminateTask = lib.declare("MPTerminateTask", ctypes.default_abi, this.OSStatus, this.MPTaskID, this.OSStatus);
+    this.MPSetTaskWeight = lib.declare("MPSetTaskWeight", ctypes.default_abi, this.OSStatus, this.MPTaskID, this.MPTaskWeight);
+    this.MPTaskIsPreemptive = lib.declare("MPTaskIsPreemptive", ctypes.default_abi, this.Boolean, this.MPTaskID);
+    this.MPExit = lib.declare("MPExit", ctypes.default_abi, ctypes.void_t, this.OSStatus);
+    this.MPYield = lib.declare("MPYield", ctypes.default_abi, ctypes.void_t);
+    this.MPCurrentTaskID = lib.declare("MPCurrentTaskID", ctypes.default_abi, this.MPTaskID);
+    this.MPSetTaskType = lib.declare("MPSetTaskType", ctypes.default_abi, this.OSStatus, this.MPTaskID, this.OSType);
+    this.MPAllocateTaskStorageIndex = lib.declare("MPAllocateTaskStorageIndex", ctypes.default_abi, this.OSStatus, this.TaskStorageIndex.ptr);
+    this.MPDeallocateTaskStorageIndex = lib.declare("MPDeallocateTaskStorageIndex", ctypes.default_abi, this.OSStatus, this.TaskStorageIndex);
+    this.MPSetTaskStorageValue = lib.declare("MPSetTaskStorageValue", ctypes.default_abi, this.OSStatus, this.TaskStorageIndex, this.TaskStorageValue);
+    this.MPGetTaskStorageValue = lib.declare("MPGetTaskStorageValue", ctypes.default_abi, this.TaskStorageValue, this.TaskStorageIndex);
+    this.MPCreateQueue = lib.declare("MPCreateQueue", ctypes.default_abi, this.OSStatus, this.MPQueueID.ptr);
+    this.MPDeleteQueue = lib.declare("MPDeleteQueue", ctypes.default_abi, this.OSStatus, this.MPQueueID);
+    this.MPNotifyQueue = lib.declare("MPNotifyQueue", ctypes.default_abi, this.OSStatus, this.MPQueueID, ctypes.void_t.ptr, ctypes.void_t.ptr, ctypes.void_t.ptr);
+    this.MPWaitOnQueue = lib.declare("MPWaitOnQueue", ctypes.default_abi, this.OSStatus, this.MPQueueID, ctypes.void_t.ptr.ptr, ctypes.void_t.ptr.ptr, ctypes.void_t.ptr.ptr, this.Duration);
+    this.MPSetQueueReserve = lib.declare("MPSetQueueReserve", ctypes.default_abi, this.OSStatus, this.MPQueueID, this.ItemCount);
+    this.MPCreateSemaphore = lib.declare("MPCreateSemaphore", ctypes.default_abi, this.OSStatus, this.MPSemaphoreCount, this.MPSemaphoreCount, this.MPSemaphoreID.ptr);
+    this.MPDeleteSemaphore = lib.declare("MPDeleteSemaphore", ctypes.default_abi, this.OSStatus, this.MPSemaphoreID);
+    this.MPSignalSemaphore = lib.declare("MPSignalSemaphore", ctypes.default_abi, this.OSStatus, this.MPSemaphoreID);
+    this.MPWaitOnSemaphore = lib.declare("MPWaitOnSemaphore", ctypes.default_abi, this.OSStatus, this.MPSemaphoreID, this.Duration);
+    this.MPCreateCriticalRegion = lib.declare("MPCreateCriticalRegion", ctypes.default_abi, this.OSStatus, this.MPCriticalRegionID.ptr);
+    this.MPDeleteCriticalRegion = lib.declare("MPDeleteCriticalRegion", ctypes.default_abi, this.OSStatus, this.MPCriticalRegionID);
+    this.MPEnterCriticalRegion = lib.declare("MPEnterCriticalRegion", ctypes.default_abi, this.OSStatus, this.MPCriticalRegionID, this.Duration);
+    this.MPExitCriticalRegion = lib.declare("MPExitCriticalRegion", ctypes.default_abi, this.OSStatus, this.MPCriticalRegionID);
+    this.MPCreateEvent = lib.declare("MPCreateEvent", ctypes.default_abi, this.OSStatus, this.MPEventID.ptr);
+    this.MPDeleteEvent = lib.declare("MPDeleteEvent", ctypes.default_abi, this.OSStatus, this.MPEventID);
+    this.MPSetEvent = lib.declare("MPSetEvent", ctypes.default_abi, this.OSStatus, this.MPEventID, this.MPEventFlags);
+    this.MPWaitForEvent = lib.declare("MPWaitForEvent", ctypes.default_abi, this.OSStatus, this.MPEventID, this.MPEventFlags.ptr, this.Duration);
+    this.MPCreateNotification = lib.declare("MPCreateNotification", ctypes.default_abi, this.OSStatus, this.MPNotificationID.ptr);
+    this.MPDeleteNotification = lib.declare("MPDeleteNotification", ctypes.default_abi, this.OSStatus, this.MPNotificationID);
+    this.MPModifyNotification = lib.declare("MPModifyNotification", ctypes.default_abi, this.OSStatus, this.MPNotificationID, this.MPOpaqueID, ctypes.void_t.ptr, ctypes.void_t.ptr, ctypes.void_t.ptr);
+    this.MPModifyNotificationParameters = lib.declare("MPModifyNotificationParameters", ctypes.default_abi, this.OSStatus, this.MPNotificationID, this.MPOpaqueIDClass, ctypes.void_t.ptr, ctypes.void_t.ptr, ctypes.void_t.ptr);
+    this.MPCauseNotification = lib.declare("MPCauseNotification", ctypes.default_abi, this.OSStatus, this.MPNotificationID);
     this.kMPPreserveTimerIDMask = 1;
     this.kMPTimeIsDeltaMask = 2;
     this.kMPTimeIsDurationMask = 4;
+    this.MPDelayUntil = lib.declare("MPDelayUntil", ctypes.default_abi, this.OSStatus, this.AbsoluteTime.ptr);
+    this.MPCreateTimer = lib.declare("MPCreateTimer", ctypes.default_abi, this.OSStatus, this.MPTimerID.ptr);
+    this.MPDeleteTimer = lib.declare("MPDeleteTimer", ctypes.default_abi, this.OSStatus, this.MPTimerID);
+    this.MPSetTimerNotify = lib.declare("MPSetTimerNotify", ctypes.default_abi, this.OSStatus, this.MPTimerID, this.MPOpaqueID, ctypes.void_t.ptr, ctypes.void_t.ptr, ctypes.void_t.ptr);
+    this.MPArmTimer = lib.declare("MPArmTimer", ctypes.default_abi, this.OSStatus, this.MPTimerID, this.AbsoluteTime.ptr, this.OptionBits);
+    this.MPCancelTimer = lib.declare("MPCancelTimer", ctypes.default_abi, this.OSStatus, this.MPTimerID, this.AbsoluteTime.ptr);
     this.kMPMaxAllocSize = 1073741824;
     this.kMPAllocateDefaultAligned = 0;
     this.kMPAllocate8ByteAligned = 3;
@@ -2092,6 +2839,13 @@ function Multiprocessing_h(lib) {
     this.kMPAllocateResidentMask = 4;
     this.kMPAllocateNoGrowthMask = 16;
     this.kMPAllocateNoCreateMask = 32;
+    this.MPAllocateAligned = lib.declare("MPAllocateAligned", ctypes.default_abi, this.LogicalAddress, this.ByteCount, this.UInt8, this.OptionBits);
+    this.MPAllocate = lib.declare("MPAllocate", ctypes.default_abi, this.LogicalAddress, this.ByteCount);
+    this.MPFree = lib.declare("MPFree", ctypes.default_abi, ctypes.void_t, this.LogicalAddress);
+    this.MPGetAllocatedBlockSize = lib.declare("MPGetAllocatedBlockSize", ctypes.default_abi, this.ByteCount, this.LogicalAddress);
+    this.MPBlockCopy = lib.declare("MPBlockCopy", ctypes.default_abi, ctypes.void_t, this.LogicalAddress, this.LogicalAddress, this.ByteCount);
+    this.MPBlockClear = lib.declare("MPBlockClear", ctypes.default_abi, ctypes.void_t, this.LogicalAddress, this.ByteCount);
+    this.MPDataToCode = lib.declare("MPDataToCode", ctypes.default_abi, ctypes.void_t, this.LogicalAddress, this.ByteCount);
     this.kMPTaskStateRegisters = 0;
     this.kMPTaskStateFPU = 1;
     this.kMPTaskStateVectors = 2;
@@ -2111,17 +2865,29 @@ function Multiprocessing_h(lib) {
     this.kMPTaskInfoVersion = 3;
     this.MPTaskInfoVersion2 = new ctypes.StructType("MPTaskInfoVersion2", [{version: this.PBVersion}, {name: this.OSType}, {queueName: this.OSType}, {runState: this.UInt16}, {lastCPU: this.UInt16}, {weight: this.UInt32}, {processID: this.MPProcessID}, {cpuTime: this.AbsoluteTime}, {schedTime: this.AbsoluteTime}, {creationTime: this.AbsoluteTime}, {codePageFaults: this.ItemCount}, {dataPageFaults: this.ItemCount}, {preemptions: this.ItemCount}, {cpuID: this.MPCpuID}]);
     this.MPTaskInfo = new ctypes.StructType("MPTaskInfo", [{version: this.PBVersion}, {name: this.OSType}, {queueName: this.OSType}, {runState: this.UInt16}, {lastCPU: this.UInt16}, {weight: this.UInt32}, {processID: this.MPProcessID}, {cpuTime: this.AbsoluteTime}, {schedTime: this.AbsoluteTime}, {creationTime: this.AbsoluteTime}, {codePageFaults: this.ItemCount}, {dataPageFaults: this.ItemCount}, {preemptions: this.ItemCount}, {cpuID: this.MPCpuID}, {blockedObject: this.MPOpaqueID}, {spaceID: this.MPAddressSpaceID}, {stackBase: this.LogicalAddress}, {stackLimit: this.LogicalAddress}, {stackCurr: this.LogicalAddress}]);
+    this.MPSetExceptionHandler = lib.declare("MPSetExceptionHandler", ctypes.default_abi, this.OSStatus, this.MPTaskID, this.MPQueueID);
+    this.MPDisposeTaskException = lib.declare("MPDisposeTaskException", ctypes.default_abi, this.OSStatus, this.MPTaskID, this.OptionBits);
+    this.MPExtractTaskState = lib.declare("MPExtractTaskState", ctypes.default_abi, this.OSStatus, this.MPTaskID, this.MPTaskStateKind, ctypes.void_t.ptr);
+    this.MPSetTaskState = lib.declare("MPSetTaskState", ctypes.default_abi, this.OSStatus, this.MPTaskID, this.MPTaskStateKind, ctypes.void_t.ptr);
+    this.MPThrowException = lib.declare("MPThrowException", ctypes.default_abi, this.OSStatus, this.MPTaskID, this.MPExceptionKind);
     this.MPDebuggerLevel = this.UInt32;
     this.kMPLowLevelDebugger = 0;
     this.kMPMidLevelDebugger = 268435456;
     this.kMPHighLevelDebugger = 536870912;
+    this.MPRegisterDebugger = lib.declare("MPRegisterDebugger", ctypes.default_abi, this.OSStatus, this.MPQueueID, this.MPDebuggerLevel);
+    this.MPUnregisterDebugger = lib.declare("MPUnregisterDebugger", ctypes.default_abi, this.OSStatus, this.MPQueueID);
     this.MPRemoteProcedure = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t.ptr, [ctypes.void_t.ptr]).ptr;
     this.MPRemoteContext = this.UInt8;
     this.kMPAnyRemoteContext = 0;
     this.kMPOwningProcessRemoteContext = 1;
     this.kMPInterruptRemoteContext = 2;
     this.kMPAsyncInterruptRemoteContext = 3;
+    this.MPRemoteCall = lib.declare("MPRemoteCall", ctypes.default_abi, ctypes.void_t.ptr, this.MPRemoteProcedure, ctypes.void_t.ptr, this.MPRemoteContext);
+    this.MPRemoteCallCFM = lib.declare("MPRemoteCallCFM", ctypes.default_abi, ctypes.void_t.ptr, this.MPRemoteProcedure, ctypes.void_t.ptr, this.MPRemoteContext);
+    this._MPIsFullyInitialized = lib.declare("_MPIsFullyInitialized", ctypes.default_abi, this.Boolean);
     this.MPIsFullyInitializedProc = new ctypes.FunctionType(ctypes.default_abi, this.Boolean, []).ptr;
+    this._MPLibraryVersion = lib.declare("_MPLibraryVersion", ctypes.default_abi, ctypes.void_t, ctypes.char.ptr.ptr, this.UInt32.ptr, this.UInt32.ptr, this.UInt32.ptr, this.UInt32.ptr);
+    this._MPLibraryIsCompatible = lib.declare("_MPLibraryIsCompatible", ctypes.default_abi, this.Boolean, ctypes.char.ptr, this.UInt32, this.UInt32, this.UInt32, this.UInt32);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/Resources.h
@@ -2166,11 +2932,70 @@ function Resources_h(lib) {
     // Dropping inline function 'DisposeResErrUPP'.
     // Dropping inline function 'InvokeResErrUPP'.
     this.ResourceEndianFilterPtr = new ctypes.FunctionType(ctypes.default_abi, this.OSErr, [this.Handle, this.Boolean]).ptr;
+    this.CloseResFile = lib.declare("CloseResFile", ctypes.default_abi, ctypes.void_t, this.ResFileRefNum);
+    this.ResError = lib.declare("ResError", ctypes.default_abi, this.OSErr);
+    this.CurResFile = lib.declare("CurResFile", ctypes.default_abi, this.ResFileRefNum);
+    this.HomeResFile = lib.declare("HomeResFile", ctypes.default_abi, this.ResFileRefNum, this.Handle);
+    this.UseResFile = lib.declare("UseResFile", ctypes.default_abi, ctypes.void_t, this.ResFileRefNum);
+    this.CountTypes = lib.declare("CountTypes", ctypes.default_abi, this.ResourceCount);
+    this.Count1Types = lib.declare("Count1Types", ctypes.default_abi, this.ResourceCount);
+    this.GetIndType = lib.declare("GetIndType", ctypes.default_abi, ctypes.void_t, this.ResType.ptr, this.ResourceIndex);
+    this.Get1IndType = lib.declare("Get1IndType", ctypes.default_abi, ctypes.void_t, this.ResType.ptr, this.ResourceIndex);
+    this.SetResLoad = lib.declare("SetResLoad", ctypes.default_abi, ctypes.void_t, this.Boolean);
+    this.CountResources = lib.declare("CountResources", ctypes.default_abi, this.ResourceCount, this.ResType);
+    this.Count1Resources = lib.declare("Count1Resources", ctypes.default_abi, this.ResourceCount, this.ResType);
+    this.GetIndResource = lib.declare("GetIndResource", ctypes.default_abi, this.Handle, this.ResType, this.ResourceIndex);
+    this.Get1IndResource = lib.declare("Get1IndResource", ctypes.default_abi, this.Handle, this.ResType, this.ResourceIndex);
+    this.GetResource = lib.declare("GetResource", ctypes.default_abi, this.Handle, this.ResType, this.ResID);
+    this.Get1Resource = lib.declare("Get1Resource", ctypes.default_abi, this.Handle, this.ResType, this.ResID);
+    this.GetNamedResource = lib.declare("GetNamedResource", ctypes.default_abi, this.Handle, this.ResType, this.ConstStr255Param);
+    this.Get1NamedResource = lib.declare("Get1NamedResource", ctypes.default_abi, this.Handle, this.ResType, this.ConstStr255Param);
+    this.LoadResource = lib.declare("LoadResource", ctypes.default_abi, ctypes.void_t, this.Handle);
+    this.ReleaseResource = lib.declare("ReleaseResource", ctypes.default_abi, ctypes.void_t, this.Handle);
+    this.DetachResource = lib.declare("DetachResource", ctypes.default_abi, ctypes.void_t, this.Handle);
+    this.UniqueID = lib.declare("UniqueID", ctypes.default_abi, this.ResID, this.ResType);
+    this.Unique1ID = lib.declare("Unique1ID", ctypes.default_abi, this.ResID, this.ResType);
+    this.GetResAttrs = lib.declare("GetResAttrs", ctypes.default_abi, this.ResAttributes, this.Handle);
+    this.GetResInfo = lib.declare("GetResInfo", ctypes.default_abi, ctypes.void_t, this.Handle, this.ResID.ptr, this.ResType.ptr, ctypes.unsigned_char.ptr);
+    this.SetResInfo = lib.declare("SetResInfo", ctypes.default_abi, ctypes.void_t, this.Handle, this.ResID, this.ConstStr255Param);
+    this.AddResource = lib.declare("AddResource", ctypes.default_abi, ctypes.void_t, this.Handle, this.ResType, this.ResID, this.ConstStr255Param);
+    this.GetResourceSizeOnDisk = lib.declare("GetResourceSizeOnDisk", ctypes.default_abi, ctypes.long, this.Handle);
+    this.GetMaxResourceSize = lib.declare("GetMaxResourceSize", ctypes.default_abi, ctypes.long, this.Handle);
+    this.SetResAttrs = lib.declare("SetResAttrs", ctypes.default_abi, ctypes.void_t, this.Handle, this.ResAttributes);
+    this.ChangedResource = lib.declare("ChangedResource", ctypes.default_abi, ctypes.void_t, this.Handle);
+    this.RemoveResource = lib.declare("RemoveResource", ctypes.default_abi, ctypes.void_t, this.Handle);
+    this.UpdateResFile = lib.declare("UpdateResFile", ctypes.default_abi, ctypes.void_t, this.ResFileRefNum);
+    this.WriteResource = lib.declare("WriteResource", ctypes.default_abi, ctypes.void_t, this.Handle);
+    this.SetResPurge = lib.declare("SetResPurge", ctypes.default_abi, ctypes.void_t, this.Boolean);
+    this.GetResFileAttrs = lib.declare("GetResFileAttrs", ctypes.default_abi, this.ResFileAttributes, this.ResFileRefNum);
+    this.SetResFileAttrs = lib.declare("SetResFileAttrs", ctypes.default_abi, ctypes.void_t, this.ResFileRefNum, this.ResFileAttributes);
+    this.ReadPartialResource = lib.declare("ReadPartialResource", ctypes.default_abi, ctypes.void_t, this.Handle, ctypes.long, ctypes.void_t.ptr, ctypes.long);
+    this.WritePartialResource = lib.declare("WritePartialResource", ctypes.default_abi, ctypes.void_t, this.Handle, ctypes.long, ctypes.void_t.ptr, ctypes.long);
+    this.SetResourceSize = lib.declare("SetResourceSize", ctypes.default_abi, ctypes.void_t, this.Handle, ctypes.long);
+    this.GetNextFOND = lib.declare("GetNextFOND", ctypes.default_abi, this.Handle, this.Handle);
     this.RsrcChainLocation = this.SInt16;
     this.kRsrcChainBelowSystemMap = 0;
     this.kRsrcChainBelowApplicationMap = 1;
     this.kRsrcChainAboveApplicationMap = 2;
     this.kRsrcChainAboveAllMaps = 4;
+    this.InsertResourceFile = lib.declare("InsertResourceFile", ctypes.default_abi, this.OSErr, this.ResFileRefNum, this.RsrcChainLocation);
+    this.DetachResourceFile = lib.declare("DetachResourceFile", ctypes.default_abi, this.OSErr, this.ResFileRefNum);
+    this.GetTopResourceFile = lib.declare("GetTopResourceFile", ctypes.default_abi, this.OSErr, this.ResFileRefNum.ptr);
+    this.GetNextResourceFile = lib.declare("GetNextResourceFile", ctypes.default_abi, this.OSErr, this.ResFileRefNum, this.ResFileRefNum.ptr);
+    this.FSOpenResFile = lib.declare("FSOpenResFile", ctypes.default_abi, this.ResFileRefNum, this.FSRef.ptr, this.SInt8);
+    this.FSCreateResFile = lib.declare("FSCreateResFile", ctypes.default_abi, ctypes.void_t, this.FSRef.ptr, this.UniCharCount, this.UniChar.ptr, this.FSCatalogInfoBitmap, this.FSCatalogInfo.ptr, this.FSRef.ptr, this.FSSpecPtr);
+    this.FSResourceFileAlreadyOpen = lib.declare("FSResourceFileAlreadyOpen", ctypes.default_abi, this.Boolean, this.FSRef.ptr, this.Boolean.ptr, this.ResFileRefNum.ptr);
+    this.FSOpenOrphanResFile = lib.declare("FSOpenOrphanResFile", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.SignedByte, this.ResFileRefNum.ptr);
+    this.FSCreateResourceFile = lib.declare("FSCreateResourceFile", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.UniCharCount, this.UniChar.ptr, this.FSCatalogInfoBitmap, this.FSCatalogInfo.ptr, this.UniCharCount, this.UniChar.ptr, this.FSRef.ptr, this.FSSpecPtr);
+    this.FSCreateResourceFork = lib.declare("FSCreateResourceFork", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.UniCharCount, this.UniChar.ptr, this.UInt32);
+    this.FSOpenResourceFile = lib.declare("FSOpenResourceFile", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.UniCharCount, this.UniChar.ptr, this.SInt8, this.ResFileRefNum.ptr);
+    this.OpenRFPerm = lib.declare("OpenRFPerm", ctypes.default_abi, this.ResFileRefNum, this.ConstStr255Param, this.FSVolumeRefNum, this.SInt8);
+    this.HOpenResFile = lib.declare("HOpenResFile", ctypes.default_abi, this.ResFileRefNum, this.FSVolumeRefNum, ctypes.long, this.ConstStr255Param, this.SInt8);
+    this.HCreateResFile = lib.declare("HCreateResFile", ctypes.default_abi, ctypes.void_t, this.FSVolumeRefNum, ctypes.long, this.ConstStr255Param);
+    this.FSpOpenResFile = lib.declare("FSpOpenResFile", ctypes.default_abi, this.ResFileRefNum, this.FSSpec.ptr, this.SignedByte);
+    this.FSpCreateResFile = lib.declare("FSpCreateResFile", ctypes.default_abi, ctypes.void_t, this.FSSpec.ptr, this.OSType, this.OSType, this.ScriptCode);
+    this.FSpResourceFileAlreadyOpen = lib.declare("FSpResourceFileAlreadyOpen", ctypes.default_abi, this.Boolean, this.FSSpec.ptr, this.Boolean.ptr, this.ResFileRefNum.ptr);
+    this.FSpOpenOrphanResFile = lib.declare("FSpOpenOrphanResFile", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, this.SignedByte, this.ResFileRefNum.ptr);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/CodeFragments.h
@@ -2247,6 +3072,13 @@ function CodeFragments_h(lib) {
     this.kTVectorCFragSymbol = 2;
     this.kTOCCFragSymbol = 3;
     this.kGlueCFragSymbol = 4;
+    this.GetSharedLibrary = lib.declare("GetSharedLibrary", ctypes.default_abi, this.OSErr, this.ConstStr63Param, this.CFragArchitecture, this.CFragLoadOptions, this.CFragConnectionID.ptr, ctypes.char.ptr.ptr, ctypes.unsigned_char.ptr);
+    this.GetDiskFragment = lib.declare("GetDiskFragment", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, this.UInt32, this.UInt32, this.ConstStr63Param, this.CFragLoadOptions, this.CFragConnectionID.ptr, ctypes.char.ptr.ptr, ctypes.unsigned_char.ptr);
+    this.GetMemFragment = lib.declare("GetMemFragment", ctypes.default_abi, this.OSErr, ctypes.void_t.ptr, this.UInt32, this.ConstStr63Param, this.CFragLoadOptions, this.CFragConnectionID.ptr, ctypes.char.ptr.ptr, ctypes.unsigned_char.ptr);
+    this.CloseConnection = lib.declare("CloseConnection", ctypes.default_abi, this.OSErr, this.CFragConnectionID.ptr);
+    this.FindSymbol = lib.declare("FindSymbol", ctypes.default_abi, this.OSErr, this.CFragConnectionID, this.ConstStr255Param, ctypes.char.ptr.ptr, this.CFragSymbolClass.ptr);
+    this.CountSymbols = lib.declare("CountSymbols", ctypes.default_abi, this.OSErr, this.CFragConnectionID, ctypes.long.ptr);
+    this.GetIndSymbol = lib.declare("GetIndSymbol", ctypes.default_abi, this.OSErr, this.CFragConnectionID, ctypes.long, ctypes.unsigned_char.ptr, ctypes.char.ptr.ptr, this.CFragSymbolClass.ptr);
     this.CFragSystem7MemoryLocator = new ctypes.StructType("CFragSystem7MemoryLocator", [{address: this.LogicalAddress}, {length: this.UInt32}, {inPlace: this.Boolean}, {reservedA: this.UInt8}, {reservedB: this.UInt16}]);
     this.CFragSystem7DiskFlatLocator = new ctypes.StructType("CFragSystem7DiskFlatLocator", [{fileSpec: this.FSSpec.ptr}, {offset: this.UInt32}, {length: this.UInt32}]);
     this.CFragSystem7SegmentedLocator = new ctypes.StructType("CFragSystem7SegmentedLocator", [{fileSpec: this.FSSpec.ptr}, {rsrcType: this.OSType}, {rsrcID: this.SInt16}, {reservedA: this.UInt16}]);
@@ -2259,11 +3091,13 @@ function CodeFragments_h(lib) {
     this.CFragInitBlockPtr = this.CFragSystem7InitBlockPtr;
     this.CFragInitFunction = new ctypes.FunctionType(ctypes.default_abi, this.OSErr, [this.CFragInitBlock.ptr]).ptr;
     this.CFragTermProcedure = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, []).ptr;
+    this.ConvertBundlePreLocator = lib.declare("ConvertBundlePreLocator", ctypes.default_abi, this.OSErr, this.CFragSystem7LocatorPtr);
     this.kLoadCFrag = 1;
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/Folders.h
 function Folders_h(lib) {
+    Files_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._FOLDERS_H)
@@ -2281,6 +3115,9 @@ function Folders_h(lib) {
     this.kLastDomainConstant = -32760;
     this.kCreateFolder = 1;
     this.kDontCreateFolder = 0;
+    this.FindFolder = lib.declare("FindFolder", ctypes.default_abi, this.OSErr, this.FSVolumeRefNum, this.OSType, this.Boolean, this.FSVolumeRefNum.ptr, this.SInt32.ptr);
+    this.ReleaseFolder = lib.declare("ReleaseFolder", ctypes.default_abi, this.OSErr, this.FSVolumeRefNum, this.OSType);
+    this.FSFindFolder = lib.declare("FSFindFolder", ctypes.default_abi, this.OSErr, this.FSVolumeRefNum, this.OSType, this.Boolean, this.FSRef.ptr);
     this.kDesktopFolderType = 1684370283;
     this.kTrashFolderType = 1953657704;
     this.kWhereToEmptyTrashFolderType = 1701671028;
@@ -2489,20 +3326,70 @@ function Folders_h(lib) {
     this.RoutingFlags = this.UInt32;
     this.FolderRouting = new ctypes.StructType("FolderRouting", [{descSize: this.Size}, {fileType: this.OSType}, {routeFromFolder: this.FolderType}, {routeToFolder: this.FolderType}, {flags: this.RoutingFlags}]);
     this.FolderRoutingPtr = this.FolderRouting.ptr;
+    this.AddFolderDescriptor = lib.declare("AddFolderDescriptor", ctypes.default_abi, this.OSErr, this.FolderType, this.FolderDescFlags, this.FolderClass, this.FolderLocation, this.OSType, this.OSType, this.ConstStrFileNameParam, this.Boolean);
+    this.GetFolderTypes = lib.declare("GetFolderTypes", ctypes.default_abi, this.OSErr, this.UInt32, this.UInt32.ptr, this.FolderType.ptr);
+    this.RemoveFolderDescriptor = lib.declare("RemoveFolderDescriptor", ctypes.default_abi, this.OSErr, this.FolderType);
+    this.GetFolderNameUnicode = lib.declare("GetFolderNameUnicode", ctypes.default_abi, this.OSStatus, this.FSVolumeRefNum, this.OSType, this.FSVolumeRefNum.ptr, this.HFSUniStr255.ptr);
+    this.InvalidateFolderDescriptorCache = lib.declare("InvalidateFolderDescriptorCache", ctypes.default_abi, this.OSErr, this.FSVolumeRefNum, this.SInt32);
+    this.IdentifyFolder = lib.declare("IdentifyFolder", ctypes.default_abi, this.OSErr, this.FSVolumeRefNum, this.SInt32, this.FolderType.ptr);
+    this.FSDetermineIfRefIsEnclosedByFolder = lib.declare("FSDetermineIfRefIsEnclosedByFolder", ctypes.default_abi, this.OSErr, this.FSVolumeRefNum, this.OSType, this.FSRef.ptr, this.Boolean.ptr);
+    this.DetermineIfPathIsEnclosedByFolder = lib.declare("DetermineIfPathIsEnclosedByFolder", ctypes.default_abi, this.OSErr, this.FSVolumeRefNum, this.OSType, this.UInt8.ptr, this.Boolean, this.Boolean.ptr);
+    this.FindFolderExtended = lib.declare("FindFolderExtended", ctypes.default_abi, this.OSErr, this.FSVolumeRefNum, this.OSType, this.Boolean, this.UInt32, ctypes.void_t.ptr, this.FSVolumeRefNum.ptr, this.SInt32.ptr);
+    this.FSFindFolderExtended = lib.declare("FSFindFolderExtended", ctypes.default_abi, this.OSErr, this.FSVolumeRefNum, this.OSType, this.Boolean, this.UInt32, ctypes.void_t.ptr, this.FSRef.ptr);
+    this.GetFolderDescriptor = lib.declare("GetFolderDescriptor", ctypes.default_abi, this.OSErr, this.FolderType, this.Size, this.FolderDesc.ptr);
+    this.GetFolderName = lib.declare("GetFolderName", ctypes.default_abi, this.OSErr, this.FSVolumeRefNum, this.OSType, this.FSVolumeRefNum.ptr, ctypes.unsigned_char.ptr);
+    this.AddFolderRouting = lib.declare("AddFolderRouting", ctypes.default_abi, this.OSErr, this.OSType, this.FolderType, this.FolderType, this.RoutingFlags, this.Boolean);
+    this.RemoveFolderRouting = lib.declare("RemoveFolderRouting", ctypes.default_abi, this.OSErr, this.OSType, this.FolderType);
+    this.FindFolderRouting = lib.declare("FindFolderRouting", ctypes.default_abi, this.OSErr, this.OSType, this.FolderType, this.FolderType.ptr, this.RoutingFlags.ptr);
+    this.GetFolderRoutings = lib.declare("GetFolderRoutings", ctypes.default_abi, this.OSErr, this.UInt32, this.UInt32.ptr, this.Size, this.FolderRouting.ptr);
+    this.FSpDetermineIfSpecIsEnclosedByFolder = lib.declare("FSpDetermineIfSpecIsEnclosedByFolder", ctypes.default_abi, this.OSErr, this.FSVolumeRefNum, this.OSType, this.FSSpec.ptr, this.Boolean.ptr);
     this.FolderManagerNotificationProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.OSStatus, [this.OSType, ctypes.void_t.ptr, ctypes.void_t.ptr]).ptr;
     this.FolderManagerNotificationUPP = this.FolderManagerNotificationProcPtr;
     // Dropping inline function 'NewFolderManagerNotificationUPP'.
     // Dropping inline function 'DisposeFolderManagerNotificationUPP'.
     // Dropping inline function 'InvokeFolderManagerNotificationUPP'.
+    this.FolderManagerRegisterNotificationProc = lib.declare("FolderManagerRegisterNotificationProc", ctypes.default_abi, this.OSErr, this.FolderManagerNotificationUPP, ctypes.void_t.ptr, this.UInt32);
+    this.FolderManagerUnregisterNotificationProc = lib.declare("FolderManagerUnregisterNotificationProc", ctypes.default_abi, this.OSErr, this.FolderManagerNotificationUPP, ctypes.void_t.ptr);
+    this.FolderManagerRegisterCallNotificationProcs = lib.declare("FolderManagerRegisterCallNotificationProcs", ctypes.default_abi, this.OSStatus, this.OSType, ctypes.void_t.ptr, this.UInt32);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/FixMath.h
 function FixMath_h(lib) {
+    MacTypes_h.call(this, lib);
 
     if (this._FIXMATH_H)
         return;
     this._FIXMATH_H = true;
 
+    this.FixRatio = lib.declare("FixRatio", ctypes.default_abi, this.Fixed, ctypes.short, ctypes.short);
+    this.FixMul = lib.declare("FixMul", ctypes.default_abi, this.Fixed, this.Fixed, this.Fixed);
+    this.FixRound = lib.declare("FixRound", ctypes.default_abi, ctypes.short, this.Fixed);
+    this.Fix2Frac = lib.declare("Fix2Frac", ctypes.default_abi, this.Fract, this.Fixed);
+    this.Fix2Long = lib.declare("Fix2Long", ctypes.default_abi, this.SInt32, this.Fixed);
+    this.Long2Fix = lib.declare("Long2Fix", ctypes.default_abi, this.Fixed, this.SInt32);
+    this.Frac2Fix = lib.declare("Frac2Fix", ctypes.default_abi, this.Fixed, this.Fract);
+    this.FracMul = lib.declare("FracMul", ctypes.default_abi, this.Fract, this.Fract, this.Fract);
+    this.FixDiv = lib.declare("FixDiv", ctypes.default_abi, this.Fixed, this.Fixed, this.Fixed);
+    this.FracDiv = lib.declare("FracDiv", ctypes.default_abi, this.Fract, this.Fract, this.Fract);
+    this.FracSqrt = lib.declare("FracSqrt", ctypes.default_abi, this.Fract, this.Fract);
+    this.FracSin = lib.declare("FracSin", ctypes.default_abi, this.Fract, this.Fixed);
+    this.FracCos = lib.declare("FracCos", ctypes.default_abi, this.Fract, this.Fixed);
+    this.FixATan2 = lib.declare("FixATan2", ctypes.default_abi, this.Fixed, this.SInt32, this.SInt32);
+    this.Frac2X = lib.declare("Frac2X", ctypes.default_abi, ctypes.double, this.Fract);
+    this.Fix2X = lib.declare("Fix2X", ctypes.default_abi, ctypes.double, this.Fixed);
+    this.X2Fix = lib.declare("X2Fix", ctypes.default_abi, this.Fixed, ctypes.double);
+    this.X2Frac = lib.declare("X2Frac", ctypes.default_abi, this.Fract, ctypes.double);
+    this.WideCompare = lib.declare("WideCompare", ctypes.default_abi, ctypes.short, this.wide.ptr, this.wide.ptr);
+    this.WideAdd = lib.declare("WideAdd", ctypes.default_abi, this.wide.ptr, this.wide.ptr, this.wide.ptr);
+    this.WideSubtract = lib.declare("WideSubtract", ctypes.default_abi, this.wide.ptr, this.wide.ptr, this.wide.ptr);
+    this.WideNegate = lib.declare("WideNegate", ctypes.default_abi, this.wide.ptr, this.wide.ptr);
+    this.WideShift = lib.declare("WideShift", ctypes.default_abi, this.wide.ptr, this.wide.ptr, this.SInt32);
+    this.WideSquareRoot = lib.declare("WideSquareRoot", ctypes.default_abi, this.UInt32, this.wide.ptr);
+    this.WideMultiply = lib.declare("WideMultiply", ctypes.default_abi, this.wide.ptr, this.SInt32, this.SInt32, this.wide.ptr);
+    this.WideDivide = lib.declare("WideDivide", ctypes.default_abi, this.SInt32, this.wide.ptr, this.SInt32, this.SInt32.ptr);
+    this.WideWideDivide = lib.declare("WideWideDivide", ctypes.default_abi, this.wide.ptr, this.wide.ptr, this.SInt32, this.SInt32.ptr);
+    this.WideBitShift = lib.declare("WideBitShift", ctypes.default_abi, this.wide.ptr, this.wide.ptr, this.SInt32);
+    this.UnsignedFixedMulDiv = lib.declare("UnsignedFixedMulDiv", ctypes.default_abi, this.UnsignedFixed, this.UnsignedFixed, this.UnsignedFixed, this.UnsignedFixed);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/Collections.h
@@ -2600,6 +3487,48 @@ function Collections_h(lib) {
     // Dropping inline function 'DisposeCollectionExceptionUPP'.
     // Dropping inline function 'InvokeCollectionFlattenUPP'.
     // Dropping inline function 'InvokeCollectionExceptionUPP'.
+    this.NewCollection = lib.declare("NewCollection", ctypes.default_abi, this.Collection);
+    this.DisposeCollection = lib.declare("DisposeCollection", ctypes.default_abi, ctypes.void_t, this.Collection);
+    this.CloneCollection = lib.declare("CloneCollection", ctypes.default_abi, this.Collection, this.Collection);
+    this.CountCollectionOwners = lib.declare("CountCollectionOwners", ctypes.default_abi, this.SInt32, this.Collection);
+    this.RetainCollection = lib.declare("RetainCollection", ctypes.default_abi, this.OSStatus, this.Collection);
+    this.ReleaseCollection = lib.declare("ReleaseCollection", ctypes.default_abi, this.OSStatus, this.Collection);
+    this.GetCollectionRetainCount = lib.declare("GetCollectionRetainCount", ctypes.default_abi, this.ItemCount, this.Collection);
+    this.CopyCollection = lib.declare("CopyCollection", ctypes.default_abi, this.Collection, this.Collection, this.Collection);
+    this.GetCollectionDefaultAttributes = lib.declare("GetCollectionDefaultAttributes", ctypes.default_abi, this.SInt32, this.Collection);
+    this.SetCollectionDefaultAttributes = lib.declare("SetCollectionDefaultAttributes", ctypes.default_abi, ctypes.void_t, this.Collection, this.SInt32, this.SInt32);
+    this.CountCollectionItems = lib.declare("CountCollectionItems", ctypes.default_abi, this.SInt32, this.Collection);
+    this.AddCollectionItem = lib.declare("AddCollectionItem", ctypes.default_abi, this.OSErr, this.Collection, this.CollectionTag, this.SInt32, this.SInt32, ctypes.void_t.ptr);
+    this.GetCollectionItem = lib.declare("GetCollectionItem", ctypes.default_abi, this.OSErr, this.Collection, this.CollectionTag, this.SInt32, this.SInt32.ptr, ctypes.void_t.ptr);
+    this.RemoveCollectionItem = lib.declare("RemoveCollectionItem", ctypes.default_abi, this.OSErr, this.Collection, this.CollectionTag, this.SInt32);
+    this.SetCollectionItemInfo = lib.declare("SetCollectionItemInfo", ctypes.default_abi, this.OSErr, this.Collection, this.CollectionTag, this.SInt32, this.SInt32, this.SInt32);
+    this.GetCollectionItemInfo = lib.declare("GetCollectionItemInfo", ctypes.default_abi, this.OSErr, this.Collection, this.CollectionTag, this.SInt32, this.SInt32.ptr, this.SInt32.ptr, this.SInt32.ptr);
+    this.ReplaceIndexedCollectionItem = lib.declare("ReplaceIndexedCollectionItem", ctypes.default_abi, this.OSErr, this.Collection, this.SInt32, this.SInt32, ctypes.void_t.ptr);
+    this.GetIndexedCollectionItem = lib.declare("GetIndexedCollectionItem", ctypes.default_abi, this.OSErr, this.Collection, this.SInt32, this.SInt32.ptr, ctypes.void_t.ptr);
+    this.RemoveIndexedCollectionItem = lib.declare("RemoveIndexedCollectionItem", ctypes.default_abi, this.OSErr, this.Collection, this.SInt32);
+    this.SetIndexedCollectionItemInfo = lib.declare("SetIndexedCollectionItemInfo", ctypes.default_abi, this.OSErr, this.Collection, this.SInt32, this.SInt32, this.SInt32);
+    this.GetIndexedCollectionItemInfo = lib.declare("GetIndexedCollectionItemInfo", ctypes.default_abi, this.OSErr, this.Collection, this.SInt32, this.CollectionTag.ptr, this.SInt32.ptr, this.SInt32.ptr, this.SInt32.ptr);
+    this.CollectionTagExists = lib.declare("CollectionTagExists", ctypes.default_abi, this.Boolean, this.Collection, this.CollectionTag);
+    this.CountCollectionTags = lib.declare("CountCollectionTags", ctypes.default_abi, this.SInt32, this.Collection);
+    this.GetIndexedCollectionTag = lib.declare("GetIndexedCollectionTag", ctypes.default_abi, this.OSErr, this.Collection, this.SInt32, this.CollectionTag.ptr);
+    this.CountTaggedCollectionItems = lib.declare("CountTaggedCollectionItems", ctypes.default_abi, this.SInt32, this.Collection, this.CollectionTag);
+    this.GetTaggedCollectionItem = lib.declare("GetTaggedCollectionItem", ctypes.default_abi, this.OSErr, this.Collection, this.CollectionTag, this.SInt32, this.SInt32.ptr, ctypes.void_t.ptr);
+    this.GetTaggedCollectionItemInfo = lib.declare("GetTaggedCollectionItemInfo", ctypes.default_abi, this.OSErr, this.Collection, this.CollectionTag, this.SInt32, this.SInt32.ptr, this.SInt32.ptr, this.SInt32.ptr, this.SInt32.ptr);
+    this.PurgeCollection = lib.declare("PurgeCollection", ctypes.default_abi, ctypes.void_t, this.Collection, this.SInt32, this.SInt32);
+    this.PurgeCollectionTag = lib.declare("PurgeCollectionTag", ctypes.default_abi, ctypes.void_t, this.Collection, this.CollectionTag);
+    this.EmptyCollection = lib.declare("EmptyCollection", ctypes.default_abi, ctypes.void_t, this.Collection);
+    this.FlattenCollection = lib.declare("FlattenCollection", ctypes.default_abi, this.OSErr, this.Collection, this.CollectionFlattenUPP, ctypes.void_t.ptr);
+    this.FlattenPartialCollection = lib.declare("FlattenPartialCollection", ctypes.default_abi, this.OSErr, this.Collection, this.CollectionFlattenUPP, ctypes.void_t.ptr, this.SInt32, this.SInt32);
+    this.UnflattenCollection = lib.declare("UnflattenCollection", ctypes.default_abi, this.OSErr, this.Collection, this.CollectionFlattenUPP, ctypes.void_t.ptr);
+    this.GetCollectionExceptionProc = lib.declare("GetCollectionExceptionProc", ctypes.default_abi, this.CollectionExceptionUPP, this.Collection);
+    this.SetCollectionExceptionProc = lib.declare("SetCollectionExceptionProc", ctypes.default_abi, ctypes.void_t, this.Collection, this.CollectionExceptionUPP);
+    this.GetNewCollection = lib.declare("GetNewCollection", ctypes.default_abi, this.Collection, this.SInt16);
+    this.AddCollectionItemHdl = lib.declare("AddCollectionItemHdl", ctypes.default_abi, this.OSErr, this.Collection, this.CollectionTag, this.SInt32, this.Handle);
+    this.GetCollectionItemHdl = lib.declare("GetCollectionItemHdl", ctypes.default_abi, this.OSErr, this.Collection, this.CollectionTag, this.SInt32, this.Handle);
+    this.ReplaceIndexedCollectionItemHdl = lib.declare("ReplaceIndexedCollectionItemHdl", ctypes.default_abi, this.OSErr, this.Collection, this.SInt32, this.Handle);
+    this.GetIndexedCollectionItemHdl = lib.declare("GetIndexedCollectionItemHdl", ctypes.default_abi, this.OSErr, this.Collection, this.SInt32, this.Handle);
+    this.FlattenCollectionToHdl = lib.declare("FlattenCollectionToHdl", ctypes.default_abi, this.OSErr, this.Collection, this.Handle);
+    this.UnflattenCollectionFromHdl = lib.declare("UnflattenCollectionFromHdl", ctypes.default_abi, this.OSErr, this.Collection, this.Handle);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/PEFBinaryFormat.h
@@ -2763,16 +3692,88 @@ function MacMemory_h(lib) {
     // Dropping inline function 'InvokeGrowZoneUPP'.
     // Dropping inline function 'InvokePurgeUPP'.
     // Dropping inline function 'InvokeUserFnUPP'.
+    this.MemError = lib.declare("MemError", ctypes.default_abi, this.OSErr);
+    this.LMGetMemErr = lib.declare("LMGetMemErr", ctypes.default_abi, this.SInt16);
+    this.LMSetMemErr = lib.declare("LMSetMemErr", ctypes.default_abi, ctypes.void_t, this.SInt16);
+    this.NewHandle = lib.declare("NewHandle", ctypes.default_abi, this.Handle, this.Size);
+    this.NewHandleClear = lib.declare("NewHandleClear", ctypes.default_abi, this.Handle, this.Size);
+    this.RecoverHandle = lib.declare("RecoverHandle", ctypes.default_abi, this.Handle, this.Ptr);
+    this.NewPtr = lib.declare("NewPtr", ctypes.default_abi, this.Ptr, this.Size);
+    this.NewPtrClear = lib.declare("NewPtrClear", ctypes.default_abi, this.Ptr, this.Size);
+    this.MaxBlock = lib.declare("MaxBlock", ctypes.default_abi, ctypes.long);
+    this.StackSpace = lib.declare("StackSpace", ctypes.default_abi, ctypes.long);
+    this.NewEmptyHandle = lib.declare("NewEmptyHandle", ctypes.default_abi, this.Handle);
+    this.HLock = lib.declare("HLock", ctypes.default_abi, ctypes.void_t, this.Handle);
+    this.HLockHi = lib.declare("HLockHi", ctypes.default_abi, ctypes.void_t, this.Handle);
+    this.HUnlock = lib.declare("HUnlock", ctypes.default_abi, ctypes.void_t, this.Handle);
+    this.HPurge = lib.declare("HPurge", ctypes.default_abi, ctypes.void_t, this.Handle);
+    this.HNoPurge = lib.declare("HNoPurge", ctypes.default_abi, ctypes.void_t, this.Handle);
+    this.TempNewHandle = lib.declare("TempNewHandle", ctypes.default_abi, this.Handle, this.Size, this.OSErr.ptr);
+    this.TempMaxMem = lib.declare("TempMaxMem", ctypes.default_abi, this.Size, this.Size.ptr);
+    this.TempFreeMem = lib.declare("TempFreeMem", ctypes.default_abi, ctypes.long);
+    this.CompactMem = lib.declare("CompactMem", ctypes.default_abi, this.Size, this.Size);
+    this.PurgeMem = lib.declare("PurgeMem", ctypes.default_abi, ctypes.void_t, this.Size);
+    this.FreeMem = lib.declare("FreeMem", ctypes.default_abi, ctypes.long);
+    this.MaxMem = lib.declare("MaxMem", ctypes.default_abi, this.Size, this.Size.ptr);
+    this.SetGrowZone = lib.declare("SetGrowZone", ctypes.default_abi, ctypes.void_t, this.GrowZoneUPP);
+    this.GetGrowZone = lib.declare("GetGrowZone", ctypes.default_abi, this.GrowZoneUPP);
+    this.MoveHHi = lib.declare("MoveHHi", ctypes.default_abi, ctypes.void_t, this.Handle);
+    this.DisposePtr = lib.declare("DisposePtr", ctypes.default_abi, ctypes.void_t, this.Ptr);
+    this.GetPtrSize = lib.declare("GetPtrSize", ctypes.default_abi, this.Size, this.Ptr);
+    this.SetPtrSize = lib.declare("SetPtrSize", ctypes.default_abi, ctypes.void_t, this.Ptr, this.Size);
+    this.DisposeHandle = lib.declare("DisposeHandle", ctypes.default_abi, ctypes.void_t, this.Handle);
+    this.SetHandleSize = lib.declare("SetHandleSize", ctypes.default_abi, ctypes.void_t, this.Handle, this.Size);
+    this.GetHandleSize = lib.declare("GetHandleSize", ctypes.default_abi, this.Size, this.Handle);
+    this.ReallocateHandle = lib.declare("ReallocateHandle", ctypes.default_abi, ctypes.void_t, this.Handle, this.Size);
+    this.EmptyHandle = lib.declare("EmptyHandle", ctypes.default_abi, ctypes.void_t, this.Handle);
+    this.HSetRBit = lib.declare("HSetRBit", ctypes.default_abi, ctypes.void_t, this.Handle);
+    this.HClrRBit = lib.declare("HClrRBit", ctypes.default_abi, ctypes.void_t, this.Handle);
+    this.HGetState = lib.declare("HGetState", ctypes.default_abi, this.SInt8, this.Handle);
+    this.HSetState = lib.declare("HSetState", ctypes.default_abi, ctypes.void_t, this.Handle, this.SInt8);
     // Dropping inline function 'BlockMove'.
     // Dropping inline function 'BlockMoveData'.
     // Dropping inline function 'BlockMoveUncached'.
     // Dropping inline function 'BlockMoveDataUncached'.
     // Dropping inline function 'BlockZero'.
     // Dropping inline function 'BlockZeroUncached'.
+    this.HandToHand = lib.declare("HandToHand", ctypes.default_abi, this.OSErr, this.Handle.ptr);
+    this.PtrToXHand = lib.declare("PtrToXHand", ctypes.default_abi, this.OSErr, ctypes.void_t.ptr, this.Handle, ctypes.long);
+    this.PtrToHand = lib.declare("PtrToHand", ctypes.default_abi, this.OSErr, ctypes.void_t.ptr, this.Handle.ptr, ctypes.long);
+    this.HandAndHand = lib.declare("HandAndHand", ctypes.default_abi, this.OSErr, this.Handle, this.Handle);
+    this.PtrAndHand = lib.declare("PtrAndHand", ctypes.default_abi, this.OSErr, ctypes.void_t.ptr, this.Handle, ctypes.long);
+    this.MoreMasters = lib.declare("MoreMasters", ctypes.default_abi, ctypes.void_t);
+    this.MoreMasterPointers = lib.declare("MoreMasterPointers", ctypes.default_abi, ctypes.void_t, this.UInt32);
+    this.TempHLock = lib.declare("TempHLock", ctypes.default_abi, ctypes.void_t, this.Handle, this.OSErr.ptr);
+    this.TempHUnlock = lib.declare("TempHUnlock", ctypes.default_abi, ctypes.void_t, this.Handle, this.OSErr.ptr);
+    this.TempDisposeHandle = lib.declare("TempDisposeHandle", ctypes.default_abi, ctypes.void_t, this.Handle, this.OSErr.ptr);
+    this.TempTopMem = lib.declare("TempTopMem", ctypes.default_abi, this.Ptr);
+    this.HoldMemory = lib.declare("HoldMemory", ctypes.default_abi, this.OSErr, ctypes.void_t.ptr, ctypes.unsigned_long);
+    this.UnholdMemory = lib.declare("UnholdMemory", ctypes.default_abi, this.OSErr, ctypes.void_t.ptr, ctypes.unsigned_long);
+    this.MakeMemoryResident = lib.declare("MakeMemoryResident", ctypes.default_abi, this.OSErr, ctypes.void_t.ptr, ctypes.unsigned_long);
+    this.ReleaseMemoryData = lib.declare("ReleaseMemoryData", ctypes.default_abi, this.OSErr, ctypes.void_t.ptr, ctypes.unsigned_long);
+    this.MakeMemoryNonResident = lib.declare("MakeMemoryNonResident", ctypes.default_abi, this.OSErr, ctypes.void_t.ptr, ctypes.unsigned_long);
+    this.FlushMemory = lib.declare("FlushMemory", ctypes.default_abi, this.OSErr, ctypes.void_t.ptr, ctypes.unsigned_long);
+    this.GZSaveHnd = lib.declare("GZSaveHnd", ctypes.default_abi, this.Handle);
+    this.TopMem = lib.declare("TopMem", ctypes.default_abi, this.Ptr);
+    this.ReserveMem = lib.declare("ReserveMem", ctypes.default_abi, ctypes.void_t, this.Size);
+    this.PurgeSpace = lib.declare("PurgeSpace", ctypes.default_abi, ctypes.void_t, ctypes.long.ptr, ctypes.long.ptr);
+    this.PurgeSpaceTotal = lib.declare("PurgeSpaceTotal", ctypes.default_abi, ctypes.long);
+    this.PurgeSpaceContiguous = lib.declare("PurgeSpaceContiguous", ctypes.default_abi, ctypes.long);
+    this.CheckAllHeaps = lib.declare("CheckAllHeaps", ctypes.default_abi, this.Boolean);
+    this.IsHeapValid = lib.declare("IsHeapValid", ctypes.default_abi, this.Boolean);
+    this.IsHandleValid = lib.declare("IsHandleValid", ctypes.default_abi, this.Boolean, this.Handle);
+    this.IsPointerValid = lib.declare("IsPointerValid", ctypes.default_abi, this.Boolean, this.Ptr);
+    this.LMGetSysZone = lib.declare("LMGetSysZone", ctypes.default_abi, this.THz);
+    this.LMSetSysZone = lib.declare("LMSetSysZone", ctypes.default_abi, ctypes.void_t, this.THz);
+    this.LMGetApplZone = lib.declare("LMGetApplZone", ctypes.default_abi, this.THz);
+    this.LMSetApplZone = lib.declare("LMSetApplZone", ctypes.default_abi, ctypes.void_t, this.THz);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/Components.h
 function Components_h(lib) {
+    MixedMode_h.call(this, lib);
+    Resources_h.call(this, lib);
+    Files_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._COMPONENTS_H)
@@ -2866,6 +3867,8 @@ function Components_h(lib) {
     this.CSComponentsThreadMode = this.UInt32;
     this.kCSAcceptAllComponentsMode = 0;
     this.kCSAcceptThreadSafeComponentsOnlyMode = 1;
+    this.CSSetComponentsThreadMode = lib.declare("CSSetComponentsThreadMode", ctypes.default_abi, ctypes.void_t, this.CSComponentsThreadMode);
+    this.CSGetComponentsThreadMode = lib.declare("CSGetComponentsThreadMode", ctypes.default_abi, this.CSComponentsThreadMode);
     this.ComponentMPWorkFunctionHeaderRecord = new ctypes.StructType("ComponentMPWorkFunctionHeaderRecord", [{headerSize: this.UInt32}, {recordSize: this.UInt32}, {workFlags: this.UInt32}, {processorCount: this.UInt16}, {unused: this.UInt8}, {isRunning: this.UInt8}]);
     this.ComponentMPWorkFunctionHeaderRecordPtr = this.ComponentMPWorkFunctionHeaderRecord.ptr;
     this.ComponentMPWorkFunctionProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.ComponentResult, [ctypes.void_t.ptr, this.ComponentMPWorkFunctionHeaderRecordPtr]).ptr;
@@ -2875,6 +3878,63 @@ function Components_h(lib) {
     this.ComponentRoutineUPP = this.ComponentRoutineProcPtr;
     this.GetMissingComponentResourceUPP = this.GetMissingComponentResourceProcPtr;
     this.ComponentFunctionUPP = this.UniversalProcPtr;
+    this.NewComponentFunctionUPP = lib.declare("NewComponentFunctionUPP", ctypes.default_abi, this.ComponentFunctionUPP, this.ProcPtr, this.ProcInfoType);
+    this.DisposeComponentFunctionUPP = lib.declare("DisposeComponentFunctionUPP", ctypes.default_abi, ctypes.void_t, this.ComponentFunctionUPP);
+    this.RegisterComponent = lib.declare("RegisterComponent", ctypes.default_abi, this.Component, this.ComponentDescription.ptr, this.ComponentRoutineUPP, this.SInt16, this.Handle, this.Handle, this.Handle);
+    this.RegisterComponentResource = lib.declare("RegisterComponentResource", ctypes.default_abi, this.Component, this.ComponentResourceHandle, this.SInt16);
+    this.UnregisterComponent = lib.declare("UnregisterComponent", ctypes.default_abi, this.OSErr, this.Component);
+    this.FindNextComponent = lib.declare("FindNextComponent", ctypes.default_abi, this.Component, this.Component, this.ComponentDescription.ptr);
+    this.CountComponents = lib.declare("CountComponents", ctypes.default_abi, ctypes.long, this.ComponentDescription.ptr);
+    this.GetComponentInfo = lib.declare("GetComponentInfo", ctypes.default_abi, this.OSErr, this.Component, this.ComponentDescription.ptr, this.Handle, this.Handle, this.Handle);
+    this.GetComponentListModSeed = lib.declare("GetComponentListModSeed", ctypes.default_abi, this.SInt32);
+    this.GetComponentTypeModSeed = lib.declare("GetComponentTypeModSeed", ctypes.default_abi, this.SInt32, this.OSType);
+    this.OpenAComponent = lib.declare("OpenAComponent", ctypes.default_abi, this.OSErr, this.Component, this.ComponentInstance.ptr);
+    this.OpenComponent = lib.declare("OpenComponent", ctypes.default_abi, this.ComponentInstance, this.Component);
+    this.CloseComponent = lib.declare("CloseComponent", ctypes.default_abi, this.OSErr, this.ComponentInstance);
+    this.GetComponentInstanceError = lib.declare("GetComponentInstanceError", ctypes.default_abi, this.OSErr, this.ComponentInstance);
+    this.ResolveComponentAlias = lib.declare("ResolveComponentAlias", ctypes.default_abi, this.Component, this.Component);
+    this.GetComponentPublicResource = lib.declare("GetComponentPublicResource", ctypes.default_abi, this.OSErr, this.Component, this.OSType, this.SInt16, this.Handle.ptr);
+    this.GetComponentPublicResourceList = lib.declare("GetComponentPublicResourceList", ctypes.default_abi, this.OSErr, this.OSType, this.SInt16, this.SInt32, this.ComponentDescription.ptr, this.GetMissingComponentResourceUPP, ctypes.void_t.ptr, ctypes.void_t.ptr);
+    this.GetComponentPublicIndString = lib.declare("GetComponentPublicIndString", ctypes.default_abi, this.OSErr, this.Component, ctypes.unsigned_char.ptr, this.SInt16, this.SInt16);
+    this.SetComponentInstanceError = lib.declare("SetComponentInstanceError", ctypes.default_abi, ctypes.void_t, this.ComponentInstance, this.OSErr);
+    this.GetComponentRefcon = lib.declare("GetComponentRefcon", ctypes.default_abi, ctypes.long, this.Component);
+    this.SetComponentRefcon = lib.declare("SetComponentRefcon", ctypes.default_abi, ctypes.void_t, this.Component, ctypes.long);
+    this.OpenComponentResFile = lib.declare("OpenComponentResFile", ctypes.default_abi, this.ResFileRefNum, this.Component);
+    this.OpenAComponentResFile = lib.declare("OpenAComponentResFile", ctypes.default_abi, this.OSErr, this.Component, this.ResFileRefNum.ptr);
+    this.CloseComponentResFile = lib.declare("CloseComponentResFile", ctypes.default_abi, this.OSErr, this.ResFileRefNum);
+    this.GetComponentResource = lib.declare("GetComponentResource", ctypes.default_abi, this.OSErr, this.Component, this.OSType, this.SInt16, this.Handle.ptr);
+    this.GetComponentIndString = lib.declare("GetComponentIndString", ctypes.default_abi, this.OSErr, this.Component, ctypes.unsigned_char.ptr, this.SInt16, this.SInt16);
+    this.GetComponentInstanceStorage = lib.declare("GetComponentInstanceStorage", ctypes.default_abi, this.Handle, this.ComponentInstance);
+    this.SetComponentInstanceStorage = lib.declare("SetComponentInstanceStorage", ctypes.default_abi, ctypes.void_t, this.ComponentInstance, this.Handle);
+    this.CountComponentInstances = lib.declare("CountComponentInstances", ctypes.default_abi, ctypes.long, this.Component);
+    this.CallComponentFunction = lib.declare("CallComponentFunction", ctypes.default_abi, this.ComponentResult, this.ComponentParameters.ptr, this.ComponentFunctionUPP);
+    this.CallComponentFunctionWithStorage = lib.declare("CallComponentFunctionWithStorage", ctypes.default_abi, this.ComponentResult, this.Handle, this.ComponentParameters.ptr, this.ComponentFunctionUPP);
+    this.CallComponentFunctionWithStorageProcInfo = lib.declare("CallComponentFunctionWithStorageProcInfo", ctypes.default_abi, this.ComponentResult, this.Handle, this.ComponentParameters.ptr, this.ProcPtr, this.ProcInfoType);
+    this.DelegateComponentCall = lib.declare("DelegateComponentCall", ctypes.default_abi, this.ComponentResult, this.ComponentParameters.ptr, this.ComponentInstance);
+    this.SetDefaultComponent = lib.declare("SetDefaultComponent", ctypes.default_abi, this.OSErr, this.Component, this.SInt16);
+    this.OpenDefaultComponent = lib.declare("OpenDefaultComponent", ctypes.default_abi, this.ComponentInstance, this.OSType, this.OSType);
+    this.OpenADefaultComponent = lib.declare("OpenADefaultComponent", ctypes.default_abi, this.OSErr, this.OSType, this.OSType, this.ComponentInstance.ptr);
+    this.CaptureComponent = lib.declare("CaptureComponent", ctypes.default_abi, this.Component, this.Component, this.Component);
+    this.UncaptureComponent = lib.declare("UncaptureComponent", ctypes.default_abi, this.OSErr, this.Component);
+    this.RegisterComponentResourceFile = lib.declare("RegisterComponentResourceFile", ctypes.default_abi, this.SInt32, this.SInt16, this.SInt16);
+    this.GetComponentIconSuite = lib.declare("GetComponentIconSuite", ctypes.default_abi, this.OSErr, this.Component, this.Handle.ptr);
+    this.RegisterComponentFile = lib.declare("RegisterComponentFile", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, ctypes.short);
+    this.RegisterComponentFileEntries = lib.declare("RegisterComponentFileEntries", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, ctypes.short, this.ComponentDescription.ptr, this.UInt32);
+    this.RegisterComponentFileRef = lib.declare("RegisterComponentFileRef", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.SInt16);
+    this.RegisterComponentFileRefEntries = lib.declare("RegisterComponentFileRefEntries", ctypes.default_abi, this.OSErr, this.FSRef.ptr, this.SInt16, this.ComponentDescription.ptr, this.UInt32);
+    this.ComponentFunctionImplemented = lib.declare("ComponentFunctionImplemented", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.SInt16);
+    this.GetComponentVersion = lib.declare("GetComponentVersion", ctypes.default_abi, this.ComponentResult, this.ComponentInstance);
+    this.ComponentSetTarget = lib.declare("ComponentSetTarget", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.ComponentInstance);
+    this.CallComponentOpen = lib.declare("CallComponentOpen", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.ComponentInstance);
+    this.CallComponentClose = lib.declare("CallComponentClose", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.ComponentInstance);
+    this.CallComponentCanDo = lib.declare("CallComponentCanDo", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.SInt16);
+    this.CallComponentVersion = lib.declare("CallComponentVersion", ctypes.default_abi, this.ComponentResult, this.ComponentInstance);
+    this.CallComponentRegister = lib.declare("CallComponentRegister", ctypes.default_abi, this.ComponentResult, this.ComponentInstance);
+    this.CallComponentTarget = lib.declare("CallComponentTarget", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.ComponentInstance);
+    this.CallComponentUnregister = lib.declare("CallComponentUnregister", ctypes.default_abi, this.ComponentResult, this.ComponentInstance);
+    this.CallComponentGetMPWorkFunction = lib.declare("CallComponentGetMPWorkFunction", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.ComponentMPWorkFunctionUPP.ptr, ctypes.void_t.ptr.ptr);
+    this.CallComponentGetPublicResource = lib.declare("CallComponentGetPublicResource", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.OSType, this.SInt16, this.Handle.ptr);
+    this.CallComponentDispatch = lib.declare("CallComponentDispatch", ctypes.default_abi, this.ComponentResult, this.ComponentParameters.ptr);
     // Dropping inline function 'NewComponentMPWorkFunctionUPP'.
     // Dropping inline function 'NewComponentRoutineUPP'.
     // Dropping inline function 'NewGetMissingComponentResourceUPP'.
@@ -2901,17 +3961,27 @@ function Components_h(lib) {
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/Timer.h
 function Timer_h(lib) {
     OSUtils_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._TIMER_H)
         return;
     this._TIMER_H = true;
 
+    this.Microseconds = lib.declare("Microseconds", ctypes.default_abi, ctypes.void_t, this.UnsignedWide.ptr);
     this.kTMTaskActive = 32768;
     this.TMTask = new ctypes.StructType("TMTask");
     this.TMTaskPtr = this.TMTask.ptr;
     this.TimerProcPtr = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.TMTaskPtr]).ptr;
     this.TimerUPP = this.TimerProcPtr;
     this.TMTask = new ctypes.StructType("TMTask", [{qLink: this.QElemPtr}, {qType: ctypes.short}, {tmAddr: this.TimerUPP}, {tmCount: ctypes.long}, {tmWakeUp: ctypes.long}, {tmReserved: ctypes.long}]);
+    this.InsTime = lib.declare("InsTime", ctypes.default_abi, ctypes.void_t, this.QElemPtr);
+    this.InsXTime = lib.declare("InsXTime", ctypes.default_abi, ctypes.void_t, this.QElemPtr);
+    this.PrimeTime = lib.declare("PrimeTime", ctypes.default_abi, ctypes.void_t, this.QElemPtr, ctypes.long);
+    this.RmvTime = lib.declare("RmvTime", ctypes.default_abi, ctypes.void_t, this.QElemPtr);
+    this.InstallTimeTask = lib.declare("InstallTimeTask", ctypes.default_abi, this.OSErr, this.QElemPtr);
+    this.InstallXTimeTask = lib.declare("InstallXTimeTask", ctypes.default_abi, this.OSErr, this.QElemPtr);
+    this.PrimeTimeTask = lib.declare("PrimeTimeTask", ctypes.default_abi, this.OSErr, this.QElemPtr, ctypes.long);
+    this.RemoveTimeTask = lib.declare("RemoveTimeTask", ctypes.default_abi, this.OSErr, this.QElemPtr);
     // Dropping inline function 'NewTimerUPP'.
     // Dropping inline function 'DisposeTimerUPP'.
     // Dropping inline function 'InvokeTimerUPP'.
@@ -2919,6 +3989,8 @@ function Timer_h(lib) {
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/DateTimeUtils.h
 function DateTimeUtils_h(lib) {
+    UTCUtils_h.call(this, lib);
+    CFDate_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._DATETIMEUTILS_H)
@@ -2997,6 +4069,30 @@ function DateTimeUtils_h(lib) {
     this.LongDateRec = new ctypes.StructType("LongDateRec", []);
     this.DateDelta = this.SInt8;
     this.TogglePB = new ctypes.StructType("TogglePB", [{togFlags: ctypes.long}, {amChars: this.ResType}, {pmChars: this.ResType}, {reserved: ctypes.long.array(4)}]);
+    this.UCConvertUTCDateTimeToCFAbsoluteTime = lib.declare("UCConvertUTCDateTimeToCFAbsoluteTime", ctypes.default_abi, this.OSStatus, this.UTCDateTime.ptr, this.CFAbsoluteTime.ptr);
+    this.UCConvertSecondsToCFAbsoluteTime = lib.declare("UCConvertSecondsToCFAbsoluteTime", ctypes.default_abi, this.OSStatus, this.UInt32, this.CFAbsoluteTime.ptr);
+    this.UCConvertLongDateTimeToCFAbsoluteTime = lib.declare("UCConvertLongDateTimeToCFAbsoluteTime", ctypes.default_abi, this.OSStatus, this.LongDateTime, this.CFAbsoluteTime.ptr);
+    this.UCConvertCFAbsoluteTimeToUTCDateTime = lib.declare("UCConvertCFAbsoluteTimeToUTCDateTime", ctypes.default_abi, this.OSStatus, this.CFAbsoluteTime, this.UTCDateTime.ptr);
+    this.UCConvertCFAbsoluteTimeToSeconds = lib.declare("UCConvertCFAbsoluteTimeToSeconds", ctypes.default_abi, this.OSStatus, this.CFAbsoluteTime, this.UInt32.ptr);
+    this.UCConvertCFAbsoluteTimeToLongDateTime = lib.declare("UCConvertCFAbsoluteTimeToLongDateTime", ctypes.default_abi, this.OSStatus, this.CFAbsoluteTime, this.LongDateTime.ptr);
+    this.DateString = lib.declare("DateString", ctypes.default_abi, ctypes.void_t, this.SInt32, this.DateForm, ctypes.unsigned_char.ptr, this.Handle);
+    this.TimeString = lib.declare("TimeString", ctypes.default_abi, ctypes.void_t, this.SInt32, this.Boolean, ctypes.unsigned_char.ptr, this.Handle);
+    this.LongDateString = lib.declare("LongDateString", ctypes.default_abi, ctypes.void_t, this.LongDateTime.ptr, this.DateForm, ctypes.unsigned_char.ptr, this.Handle);
+    this.LongTimeString = lib.declare("LongTimeString", ctypes.default_abi, ctypes.void_t, this.LongDateTime.ptr, this.Boolean, ctypes.unsigned_char.ptr, this.Handle);
+    this.InitDateCache = lib.declare("InitDateCache", ctypes.default_abi, this.OSErr, this.DateCachePtr);
+    this.StringToDate = lib.declare("StringToDate", ctypes.default_abi, this.StringToDateStatus, this.Ptr, this.SInt32, this.DateCachePtr, this.SInt32.ptr, this.LongDateRec.ptr);
+    this.StringToTime = lib.declare("StringToTime", ctypes.default_abi, this.StringToDateStatus, this.Ptr, this.SInt32, this.DateCachePtr, this.SInt32.ptr, this.LongDateRec.ptr);
+    this.LongDateToSeconds = lib.declare("LongDateToSeconds", ctypes.default_abi, ctypes.void_t, this.LongDateRec.ptr, this.LongDateTime.ptr);
+    this.LongSecondsToDate = lib.declare("LongSecondsToDate", ctypes.default_abi, ctypes.void_t, this.LongDateTime.ptr, this.LongDateRec.ptr);
+    this.ToggleDate = lib.declare("ToggleDate", ctypes.default_abi, this.ToggleResults, this.LongDateTime.ptr, this.LongDateField, this.DateDelta, ctypes.short, this.TogglePB.ptr);
+    this.ValidDate = lib.declare("ValidDate", ctypes.default_abi, ctypes.short, this.LongDateRec.ptr, ctypes.long, this.LongDateTime.ptr);
+    this.ReadDateTime = lib.declare("ReadDateTime", ctypes.default_abi, this.OSErr, ctypes.unsigned_long.ptr);
+    this.GetDateTime = lib.declare("GetDateTime", ctypes.default_abi, ctypes.void_t, ctypes.unsigned_long.ptr);
+    this.SetDateTime = lib.declare("SetDateTime", ctypes.default_abi, this.OSErr, ctypes.unsigned_long);
+    this.SetTime = lib.declare("SetTime", ctypes.default_abi, ctypes.void_t, this.DateTimeRec.ptr);
+    this.GetTime = lib.declare("GetTime", ctypes.default_abi, ctypes.void_t, this.DateTimeRec.ptr);
+    this.DateToSeconds = lib.declare("DateToSeconds", ctypes.default_abi, ctypes.void_t, this.DateTimeRec.ptr, ctypes.unsigned_long.ptr);
+    this.SecondsToDate = lib.declare("SecondsToDate", ctypes.default_abi, ctypes.void_t, ctypes.unsigned_long, this.DateTimeRec.ptr);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/IntlResources.h
@@ -3091,6 +4187,7 @@ function IntlResources_h(lib) {
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/TextUtils.h
 function TextUtils_h(lib) {
+    IntlResources_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._TEXTUTILS_H)
@@ -3102,6 +4199,27 @@ function TextUtils_h(lib) {
     this.BreakTablePtr = this.BreakTable.ptr;
     this.NBreakTable = new ctypes.StructType("NBreakTable", [{flags1: this.SInt8}, {flags2: this.SInt8}, {version: ctypes.short}, {classTableOff: ctypes.short}, {auxCTableOff: ctypes.short}, {backwdTableOff: ctypes.short}, {forwdTableOff: ctypes.short}, {doBackup: ctypes.short}, {length: ctypes.short}, {charTypes: ctypes.char.array(256)}, {tables: ctypes.short.array(1)}]);
     this.NBreakTablePtr = this.NBreakTable.ptr;
+    this.Munger = lib.declare("Munger", ctypes.default_abi, ctypes.long, this.Handle, ctypes.long, ctypes.void_t.ptr, ctypes.long, ctypes.void_t.ptr, ctypes.long);
+    this.NewString = lib.declare("NewString", ctypes.default_abi, this.StringHandle, this.ConstStr255Param);
+    this.SetString = lib.declare("SetString", ctypes.default_abi, ctypes.void_t, this.StringHandle, this.ConstStr255Param);
+    this.GetString = lib.declare("GetString", ctypes.default_abi, this.StringHandle, ctypes.short);
+    this.GetIndString = lib.declare("GetIndString", ctypes.default_abi, ctypes.void_t, ctypes.unsigned_char.ptr, ctypes.short, ctypes.short);
+    this.FindWordBreaks = lib.declare("FindWordBreaks", ctypes.default_abi, ctypes.void_t, this.Ptr, ctypes.short, ctypes.short, this.Boolean, this.BreakTablePtr, this.OffPair.ptr, this.ScriptCode);
+    this.LowercaseText = lib.declare("LowercaseText", ctypes.default_abi, ctypes.void_t, this.Ptr, ctypes.short, this.ScriptCode);
+    this.UppercaseText = lib.declare("UppercaseText", ctypes.default_abi, ctypes.void_t, this.Ptr, ctypes.short, this.ScriptCode);
+    this.StripDiacritics = lib.declare("StripDiacritics", ctypes.default_abi, ctypes.void_t, this.Ptr, ctypes.short, this.ScriptCode);
+    this.UppercaseStripDiacritics = lib.declare("UppercaseStripDiacritics", ctypes.default_abi, ctypes.void_t, this.Ptr, ctypes.short, this.ScriptCode);
+    this.FindScriptRun = lib.declare("FindScriptRun", ctypes.default_abi, this.ScriptRunStatus, this.Ptr, ctypes.long, ctypes.long.ptr);
+    this.UpperString = lib.declare("UpperString", ctypes.default_abi, ctypes.void_t, ctypes.unsigned_char.ptr, this.Boolean);
+    this.upperstring = lib.declare("upperstring", ctypes.default_abi, ctypes.void_t, ctypes.char.ptr, this.Boolean);
+    this.c2pstrcpy = lib.declare("c2pstrcpy", ctypes.default_abi, ctypes.void_t, ctypes.unsigned_char.ptr, ctypes.char.ptr);
+    this.p2cstrcpy = lib.declare("p2cstrcpy", ctypes.default_abi, ctypes.void_t, ctypes.char.ptr, this.ConstStr255Param);
+    this.CopyPascalStringToC = lib.declare("CopyPascalStringToC", ctypes.default_abi, ctypes.void_t, this.ConstStr255Param, ctypes.char.ptr);
+    this.CopyCStringToPascal = lib.declare("CopyCStringToPascal", ctypes.default_abi, ctypes.void_t, ctypes.char.ptr, ctypes.unsigned_char.ptr);
+    this.c2pstr = lib.declare("c2pstr", ctypes.default_abi, this.StringPtr, ctypes.char.ptr);
+    this.C2PStr = lib.declare("C2PStr", ctypes.default_abi, this.StringPtr, this.Ptr);
+    this.p2cstr = lib.declare("p2cstr", ctypes.default_abi, ctypes.char.ptr, this.StringPtr);
+    this.P2CStr = lib.declare("P2CStr", ctypes.default_abi, this.Ptr, this.StringPtr);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/MixedMode.h
@@ -3226,6 +4344,7 @@ function MixedMode_h(lib) {
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/StringCompare.h
 function StringCompare_h(lib) {
+    MacTypes_h.call(this, lib);
 
     if (this._STRINGCOMPARE_H)
         return;
@@ -3243,22 +4362,53 @@ function StringCompare_h(lib) {
     this.iuCurrentDefLang = -5;
     this.iuScriptCurLang = -6;
     this.iuScriptDefLang = -7;
+    this.ReplaceText = lib.declare("ReplaceText", ctypes.default_abi, ctypes.short, this.Handle, this.Handle, ctypes.unsigned_char.ptr);
+    this.ScriptOrder = lib.declare("ScriptOrder", ctypes.default_abi, ctypes.short, this.ScriptCode, this.ScriptCode);
+    this.CompareString = lib.declare("CompareString", ctypes.default_abi, ctypes.short, this.ConstStr255Param, this.ConstStr255Param, this.Handle);
+    this.IdenticalString = lib.declare("IdenticalString", ctypes.default_abi, ctypes.short, this.ConstStr255Param, this.ConstStr255Param, this.Handle);
+    this.StringOrder = lib.declare("StringOrder", ctypes.default_abi, ctypes.short, this.ConstStr255Param, this.ConstStr255Param, this.ScriptCode, this.ScriptCode, this.LangCode, this.LangCode);
+    this.CompareText = lib.declare("CompareText", ctypes.default_abi, ctypes.short, ctypes.void_t.ptr, ctypes.void_t.ptr, ctypes.short, ctypes.short, this.Handle);
+    this.IdenticalText = lib.declare("IdenticalText", ctypes.default_abi, ctypes.short, ctypes.void_t.ptr, ctypes.void_t.ptr, ctypes.short, ctypes.short, this.Handle);
+    this.TextOrder = lib.declare("TextOrder", ctypes.default_abi, ctypes.short, ctypes.void_t.ptr, ctypes.void_t.ptr, ctypes.short, ctypes.short, this.ScriptCode, this.ScriptCode, this.LangCode, this.LangCode);
+    this.LanguageOrder = lib.declare("LanguageOrder", ctypes.default_abi, ctypes.short, this.LangCode, this.LangCode);
+    this.RelString = lib.declare("RelString", ctypes.default_abi, ctypes.short, this.ConstStr255Param, this.ConstStr255Param, this.Boolean, this.Boolean);
+    this.EqualString = lib.declare("EqualString", ctypes.default_abi, this.Boolean, this.ConstStr255Param, this.ConstStr255Param, this.Boolean, this.Boolean);
+    this.relstring = lib.declare("relstring", ctypes.default_abi, ctypes.short, ctypes.char.ptr, ctypes.char.ptr, this.Boolean, this.Boolean);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/fp.h
 function fp_h(lib) {
+    MacTypes_h.call(this, lib);
 
     if (this._FP_H)
         return;
     this._FP_H = true;
 
+    this.compound = lib.declare("compound", ctypes.default_abi, ctypes.double, ctypes.double, ctypes.double);
+    this.annuity = lib.declare("annuity", ctypes.default_abi, ctypes.double, ctypes.double, ctypes.double);
+    // Dropping declaration of 'randomx': 'double_t' defined out of scope
     this.relop = ctypes.short;
     this.GREATERTHAN = 0;
     this.LESSTHAN = 1;
     this.EQUALTO = 2;
     this.UNORDERED = 3;
+    // Dropping declaration of 'relation': 'double_t' defined out of scope
     this.decimal = new ctypes.StructType("decimal", []);
     this.decform = new ctypes.StructType("decform", [{style: ctypes.char}, {unused: ctypes.char}, {digits: ctypes.short}]);
+    // Dropping declaration of 'num2dec': 'double_t' defined out of scope
+    // Dropping declaration of 'dec2num': 'double_t' defined out of scope
+    this.dec2str = lib.declare("dec2str", ctypes.default_abi, ctypes.void_t, this.decform.ptr, this.decimal.ptr, ctypes.char.ptr);
+    this.str2dec = lib.declare("str2dec", ctypes.default_abi, ctypes.void_t, ctypes.char.ptr, ctypes.short.ptr, this.decimal.ptr, ctypes.short.ptr);
+    this.dec2f = lib.declare("dec2f", ctypes.default_abi, ctypes.float, this.decimal.ptr);
+    this.dec2s = lib.declare("dec2s", ctypes.default_abi, ctypes.short, this.decimal.ptr);
+    this.dec2l = lib.declare("dec2l", ctypes.default_abi, ctypes.long, this.decimal.ptr);
+    // Dropping declaration of 'relationl': Unknown type long_double_t
+    // Dropping declaration of 'num2decl': Unknown type long_double_t
+    // Dropping declaration of 'dec2numl': Unknown type long_double_t
+    this.x80tod = lib.declare("x80tod", ctypes.default_abi, ctypes.double, this.extended80.ptr);
+    this.dtox80 = lib.declare("dtox80", ctypes.default_abi, ctypes.void_t, ctypes.double.ptr, this.extended80.ptr);
+    // Dropping declaration of 'x80told': Unknown type long_double_t
+    // Dropping declaration of 'ldtox80': Unknown type long_double_t
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/MacLocales.h
@@ -3286,11 +4436,26 @@ function MacLocales_h(lib) {
     this.kLocaleNameMask = 1;
     this.kLocaleOperationVariantNameMask = 2;
     this.kLocaleAndVariantNameMask = 3;
+    this.LocaleRefFromLangOrRegionCode = lib.declare("LocaleRefFromLangOrRegionCode", ctypes.default_abi, this.OSStatus, this.LangCode, this.RegionCode, this.LocaleRef.ptr);
+    this.LocaleRefFromLocaleString = lib.declare("LocaleRefFromLocaleString", ctypes.default_abi, this.OSStatus, ctypes.char.ptr, this.LocaleRef.ptr);
+    this.LocaleRefGetPartString = lib.declare("LocaleRefGetPartString", ctypes.default_abi, this.OSStatus, this.LocaleRef, this.LocalePartMask, this.ByteCount, ctypes.char.ptr);
+    this.LocaleStringToLangAndRegionCodes = lib.declare("LocaleStringToLangAndRegionCodes", ctypes.default_abi, this.OSStatus, ctypes.char.ptr, this.LangCode.ptr, this.RegionCode.ptr);
+    this.LocaleOperationCountLocales = lib.declare("LocaleOperationCountLocales", ctypes.default_abi, this.OSStatus, this.LocaleOperationClass, this.ItemCount.ptr);
+    this.LocaleOperationGetLocales = lib.declare("LocaleOperationGetLocales", ctypes.default_abi, this.OSStatus, this.LocaleOperationClass, this.ItemCount, this.ItemCount.ptr, this.LocaleAndVariant.ptr);
+    this.LocaleGetName = lib.declare("LocaleGetName", ctypes.default_abi, this.OSStatus, this.LocaleRef, this.LocaleOperationVariant, this.LocaleNameMask, this.LocaleRef, this.UniCharCount, this.UniCharCount.ptr, ctypes.unsigned_short.ptr);
+    this.LocaleCountNames = lib.declare("LocaleCountNames", ctypes.default_abi, this.OSStatus, this.LocaleRef, this.LocaleOperationVariant, this.LocaleNameMask, this.ItemCount.ptr);
+    this.LocaleGetIndName = lib.declare("LocaleGetIndName", ctypes.default_abi, this.OSStatus, this.LocaleRef, this.LocaleOperationVariant, this.LocaleNameMask, this.ItemCount, this.UniCharCount, this.UniCharCount.ptr, ctypes.unsigned_short.ptr, this.LocaleRef.ptr);
+    this.LocaleGetRegionLanguageName = lib.declare("LocaleGetRegionLanguageName", ctypes.default_abi, this.OSStatus, this.RegionCode, ctypes.unsigned_char.ptr);
+    this.LocaleOperationGetName = lib.declare("LocaleOperationGetName", ctypes.default_abi, this.OSStatus, this.LocaleOperationClass, this.LocaleRef, this.UniCharCount, this.UniCharCount.ptr, ctypes.unsigned_short.ptr);
+    this.LocaleOperationCountNames = lib.declare("LocaleOperationCountNames", ctypes.default_abi, this.OSStatus, this.LocaleOperationClass, this.ItemCount.ptr);
+    this.LocaleOperationGetIndName = lib.declare("LocaleOperationGetIndName", ctypes.default_abi, this.OSStatus, this.LocaleOperationClass, this.ItemCount, this.UniCharCount, this.UniCharCount.ptr, ctypes.unsigned_short.ptr, this.LocaleRef.ptr);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/UnicodeUtilities.h
 function UnicodeUtilities_h(lib) {
+    MacLocales_h.call(this, lib);
     CFBase_h.call(this, lib);
+    TextCommon_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._UNICODEUTILITIES_H)
@@ -3375,15 +4540,56 @@ function UnicodeUtilities_h(lib) {
     this.kUCTextBreakLeadingEdgeMask = 1;
     this.kUCTextBreakGoBackwardsMask = 2;
     this.kUCTextBreakIterateMask = 4;
+    this.UCKeyTranslate = lib.declare("UCKeyTranslate", ctypes.default_abi, this.OSStatus, this.UCKeyboardLayout.ptr, this.UInt16, this.UInt16, this.UInt32, this.UInt32, this.OptionBits, this.UInt32.ptr, this.UniCharCount, this.UniCharCount.ptr, ctypes.unsigned_short.ptr);
+    this.UCCreateCollator = lib.declare("UCCreateCollator", ctypes.default_abi, this.OSStatus, this.LocaleRef, this.LocaleOperationVariant, this.UCCollateOptions, this.CollatorRef.ptr);
+    this.UCGetCollationKey = lib.declare("UCGetCollationKey", ctypes.default_abi, this.OSStatus, this.CollatorRef, this.UniChar.ptr, this.UniCharCount, this.ItemCount, this.ItemCount.ptr, this.UCCollationValue.ptr);
+    this.UCCompareCollationKeys = lib.declare("UCCompareCollationKeys", ctypes.default_abi, this.OSStatus, this.UCCollationValue.ptr, this.ItemCount, this.UCCollationValue.ptr, this.ItemCount, this.Boolean.ptr, this.SInt32.ptr);
+    this.UCCompareText = lib.declare("UCCompareText", ctypes.default_abi, this.OSStatus, this.CollatorRef, this.UniChar.ptr, this.UniCharCount, this.UniChar.ptr, this.UniCharCount, this.Boolean.ptr, this.SInt32.ptr);
+    this.UCDisposeCollator = lib.declare("UCDisposeCollator", ctypes.default_abi, this.OSStatus, this.CollatorRef.ptr);
+    this.UCCompareTextDefault = lib.declare("UCCompareTextDefault", ctypes.default_abi, this.OSStatus, this.UCCollateOptions, this.UniChar.ptr, this.UniCharCount, this.UniChar.ptr, this.UniCharCount, this.Boolean.ptr, this.SInt32.ptr);
+    this.UCCompareTextNoLocale = lib.declare("UCCompareTextNoLocale", ctypes.default_abi, this.OSStatus, this.UCCollateOptions, this.UniChar.ptr, this.UniCharCount, this.UniChar.ptr, this.UniCharCount, this.Boolean.ptr, this.SInt32.ptr);
+    this.UCCreateTextBreakLocator = lib.declare("UCCreateTextBreakLocator", ctypes.default_abi, this.OSStatus, this.LocaleRef, this.LocaleOperationVariant, this.UCTextBreakType, this.TextBreakLocatorRef.ptr);
+    this.UCFindTextBreak = lib.declare("UCFindTextBreak", ctypes.default_abi, this.OSStatus, this.TextBreakLocatorRef, this.UCTextBreakType, this.UCTextBreakOptions, this.UniChar.ptr, this.UniCharCount, this.UniCharArrayOffset, this.UniCharArrayOffset.ptr);
+    this.UCDisposeTextBreakLocator = lib.declare("UCDisposeTextBreakLocator", ctypes.default_abi, this.OSStatus, this.TextBreakLocatorRef.ptr);
+    this.UCTypeSelectCreateSelector = lib.declare("UCTypeSelectCreateSelector", ctypes.default_abi, this.OSStatus, this.LocaleRef, this.LocaleOperationVariant, this.UCCollateOptions, this.UCTypeSelectRef.ptr);
+    this.UCTypeSelectFlushSelectorData = lib.declare("UCTypeSelectFlushSelectorData", ctypes.default_abi, this.OSStatus, this.UCTypeSelectRef);
+    this.UCTypeSelectReleaseSelector = lib.declare("UCTypeSelectReleaseSelector", ctypes.default_abi, this.OSStatus, this.UCTypeSelectRef.ptr);
+    this.UCTypeSelectWouldResetBuffer = lib.declare("UCTypeSelectWouldResetBuffer", ctypes.default_abi, this.Boolean, this.UCTypeSelectRef, this.CFStringRef, ctypes.double);
+    this.UCTypeSelectAddKeyToSelector = lib.declare("UCTypeSelectAddKeyToSelector", ctypes.default_abi, this.OSStatus, this.UCTypeSelectRef, this.CFStringRef, ctypes.double, this.Boolean.ptr);
+    this.UCTypeSelectCompare = lib.declare("UCTypeSelectCompare", ctypes.default_abi, this.OSStatus, this.UCTypeSelectRef, this.CFStringRef, this.UCTypeSelectCompareResult.ptr);
+    this.UCTypeSelectFindItem = lib.declare("UCTypeSelectFindItem", ctypes.default_abi, this.OSStatus, this.UCTypeSelectRef, this.UInt32, ctypes.void_t.ptr, ctypes.void_t.ptr, this.IndexToUCStringUPP, this.UInt32.ptr);
+    this.UCTypeSelectWalkList = lib.declare("UCTypeSelectWalkList", ctypes.default_abi, this.OSStatus, this.UCTypeSelectRef, this.CFStringRef, this.UCTSWalkDirection, this.UInt32, ctypes.void_t.ptr, ctypes.void_t.ptr, this.IndexToUCStringUPP, this.UInt32.ptr);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/DriverSynchronization.h
 function DriverSynchronization_h(lib) {
+    MacTypes_h.call(this, lib);
 
     if (this._DRIVERSYNCHRONIZATION_H)
         return;
     this._DRIVERSYNCHRONIZATION_H = true;
 
+    this.CompareAndSwap = lib.declare("CompareAndSwap", ctypes.default_abi, this.Boolean, this.UInt32, this.UInt32, this.UInt32.ptr);
+    this.TestAndClear = lib.declare("TestAndClear", ctypes.default_abi, this.Boolean, this.UInt32, this.UInt8.ptr);
+    this.TestAndSet = lib.declare("TestAndSet", ctypes.default_abi, this.Boolean, this.UInt32, this.UInt8.ptr);
+    this.IncrementAtomic8 = lib.declare("IncrementAtomic8", ctypes.default_abi, this.SInt8, this.SInt8.ptr);
+    this.DecrementAtomic8 = lib.declare("DecrementAtomic8", ctypes.default_abi, this.SInt8, this.SInt8.ptr);
+    this.AddAtomic8 = lib.declare("AddAtomic8", ctypes.default_abi, this.SInt8, this.SInt32, this.SInt8.ptr);
+    this.BitAndAtomic8 = lib.declare("BitAndAtomic8", ctypes.default_abi, this.UInt8, this.UInt32, this.UInt8.ptr);
+    this.BitOrAtomic8 = lib.declare("BitOrAtomic8", ctypes.default_abi, this.UInt8, this.UInt32, this.UInt8.ptr);
+    this.BitXorAtomic8 = lib.declare("BitXorAtomic8", ctypes.default_abi, this.UInt8, this.UInt32, this.UInt8.ptr);
+    this.IncrementAtomic16 = lib.declare("IncrementAtomic16", ctypes.default_abi, this.SInt16, this.SInt16.ptr);
+    this.DecrementAtomic16 = lib.declare("DecrementAtomic16", ctypes.default_abi, this.SInt16, this.SInt16.ptr);
+    this.AddAtomic16 = lib.declare("AddAtomic16", ctypes.default_abi, this.SInt16, this.SInt32, this.SInt16.ptr);
+    this.BitAndAtomic16 = lib.declare("BitAndAtomic16", ctypes.default_abi, this.UInt16, this.UInt32, this.UInt16.ptr);
+    this.BitOrAtomic16 = lib.declare("BitOrAtomic16", ctypes.default_abi, this.UInt16, this.UInt32, this.UInt16.ptr);
+    this.BitXorAtomic16 = lib.declare("BitXorAtomic16", ctypes.default_abi, this.UInt16, this.UInt32, this.UInt16.ptr);
+    this.IncrementAtomic = lib.declare("IncrementAtomic", ctypes.default_abi, this.SInt32, this.SInt32.ptr);
+    this.DecrementAtomic = lib.declare("DecrementAtomic", ctypes.default_abi, this.SInt32, this.SInt32.ptr);
+    this.AddAtomic = lib.declare("AddAtomic", ctypes.default_abi, this.SInt32, this.SInt32, this.SInt32.ptr);
+    this.BitAndAtomic = lib.declare("BitAndAtomic", ctypes.default_abi, this.UInt32, this.UInt32, this.UInt32.ptr);
+    this.BitOrAtomic = lib.declare("BitOrAtomic", ctypes.default_abi, this.UInt32, this.UInt32, this.UInt32.ptr);
+    this.BitXorAtomic = lib.declare("BitXorAtomic", ctypes.default_abi, this.UInt32, this.UInt32, this.UInt32.ptr);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/MachineExceptions.h
@@ -3448,10 +4654,12 @@ function MachineExceptions_h(lib) {
     // Dropping inline function 'InvokeExceptionHandlerUPP'.
     this.ExceptionHandlerTPP = this.ExceptionHandlerUPP;
     this.ExceptionHandler = this.ExceptionHandlerTPP;
+    this.InstallExceptionHandler = lib.declare("InstallExceptionHandler", ctypes.default_abi, this.ExceptionHandlerTPP, this.ExceptionHandlerTPP);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/OSUtils.h
 function OSUtils_h(lib) {
+    CFBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._OSUTILS_H)
@@ -3477,6 +4685,15 @@ function OSUtils_h(lib) {
     this.QHdr = new ctypes.StructType("QHdr", [{qFlags: ctypes.short}, {qHead: this.QElemPtr}, {qTail: this.QElemPtr}]);
     this.QHdrPtr = this.QHdr.ptr;
     this.MachineLocation = new ctypes.StructType("MachineLocation", []);
+    this.IsMetric = lib.declare("IsMetric", ctypes.default_abi, this.Boolean);
+    this.Delay = lib.declare("Delay", ctypes.default_abi, ctypes.void_t, ctypes.unsigned_long, ctypes.unsigned_long.ptr);
+    this.Enqueue = lib.declare("Enqueue", ctypes.default_abi, ctypes.void_t, this.QElemPtr, this.QHdrPtr);
+    this.Dequeue = lib.declare("Dequeue", ctypes.default_abi, this.OSErr, this.QElemPtr, this.QHdrPtr);
+    this.MakeDataExecutable = lib.declare("MakeDataExecutable", ctypes.default_abi, ctypes.void_t, ctypes.void_t.ptr, ctypes.unsigned_long);
+    this.ReadLocation = lib.declare("ReadLocation", ctypes.default_abi, ctypes.void_t, this.MachineLocation.ptr);
+    this.TickCount = lib.declare("TickCount", ctypes.default_abi, this.UInt32);
+    this.CSCopyUserName = lib.declare("CSCopyUserName", ctypes.default_abi, this.CFStringRef, this.Boolean);
+    this.CSCopyMachineName = lib.declare("CSCopyMachineName", ctypes.default_abi, this.CFStringRef);
     this.useFree = 0;
     this.useATalk = 1;
     this.useAsync = 2;
@@ -3485,6 +4702,7 @@ function OSUtils_h(lib) {
     this.false32b = 0;
     this.true32b = 1;
     this.SysPPtr = ctypes.void_t.ptr;
+    this.GetSysPPtr = lib.declare("GetSysPPtr", ctypes.default_abi, this.SysPPtr);
     this.DeferredTaskProcPtr = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [ctypes.long]).ptr;
     this.DeferredTaskUPP = this.DeferredTaskProcPtr;
     // Dropping inline function 'NewDeferredTaskUPP'.
@@ -3492,6 +4710,13 @@ function OSUtils_h(lib) {
     // Dropping inline function 'InvokeDeferredTaskUPP'.
     this.DeferredTask = new ctypes.StructType("DeferredTask", [{qLink: this.QElemPtr}, {qType: ctypes.short}, {dtFlags: ctypes.short}, {dtAddr: this.DeferredTaskUPP}, {dtParam: ctypes.long}, {dtReserved: ctypes.long}]);
     this.DeferredTaskPtr = this.DeferredTask.ptr;
+    this.DTInstall = lib.declare("DTInstall", ctypes.default_abi, this.OSErr, this.DeferredTaskPtr);
+    this.DTUninstall = lib.declare("DTUninstall", ctypes.default_abi, this.OSErr, this.DeferredTaskPtr);
+    this.SetCurrentA5 = lib.declare("SetCurrentA5", ctypes.default_abi, ctypes.long);
+    this.SetA5 = lib.declare("SetA5", ctypes.default_abi, ctypes.long, ctypes.long);
+    this.InitUtil = lib.declare("InitUtil", ctypes.default_abi, this.OSErr);
+    this.WriteParam = lib.declare("WriteParam", ctypes.default_abi, this.OSErr);
+    this.WriteLocation = lib.declare("WriteLocation", ctypes.default_abi, ctypes.void_t, this.MachineLocation.ptr);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/Finder.h
@@ -3589,11 +4814,25 @@ function Finder_h(lib) {
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/PLStringFuncs.h
 function PLStringFuncs_h(lib) {
+    MacTypes_h.call(this, lib);
 
     if (this._PLSTRINGFUNCS_H)
         return;
     this._PLSTRINGFUNCS_H = true;
 
+    this.PLstrcmp = lib.declare("PLstrcmp", ctypes.default_abi, ctypes.short, this.ConstStr255Param, this.ConstStr255Param);
+    this.PLstrncmp = lib.declare("PLstrncmp", ctypes.default_abi, ctypes.short, this.ConstStr255Param, this.ConstStr255Param, ctypes.short);
+    this.PLstrcpy = lib.declare("PLstrcpy", ctypes.default_abi, this.StringPtr, this.StringPtr, this.ConstStr255Param);
+    this.PLstrncpy = lib.declare("PLstrncpy", ctypes.default_abi, this.StringPtr, this.StringPtr, this.ConstStr255Param, ctypes.short);
+    this.PLstrcat = lib.declare("PLstrcat", ctypes.default_abi, this.StringPtr, this.StringPtr, this.ConstStr255Param);
+    this.PLstrncat = lib.declare("PLstrncat", ctypes.default_abi, this.StringPtr, this.StringPtr, this.ConstStr255Param, ctypes.short);
+    this.PLstrchr = lib.declare("PLstrchr", ctypes.default_abi, this.Ptr, this.ConstStr255Param, ctypes.short);
+    this.PLstrrchr = lib.declare("PLstrrchr", ctypes.default_abi, this.Ptr, this.ConstStr255Param, ctypes.short);
+    this.PLstrpbrk = lib.declare("PLstrpbrk", ctypes.default_abi, this.Ptr, this.ConstStr255Param, this.ConstStr255Param);
+    this.PLstrspn = lib.declare("PLstrspn", ctypes.default_abi, ctypes.short, this.ConstStr255Param, this.ConstStr255Param);
+    this.PLstrstr = lib.declare("PLstrstr", ctypes.default_abi, this.Ptr, this.ConstStr255Param, this.ConstStr255Param);
+    this.PLstrlen = lib.declare("PLstrlen", ctypes.default_abi, ctypes.short, this.ConstStr255Param);
+    this.PLpos = lib.declare("PLpos", ctypes.default_abi, ctypes.short, this.ConstStr255Param, this.ConstStr255Param);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/AIFF.h
@@ -3669,6 +4908,13 @@ function Gestalt_h(lib) {
 
     this.SelectorFunctionProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.OSErr, [this.OSType, this.SInt32.ptr]).ptr;
     this.SelectorFunctionUPP = this.SelectorFunctionProcPtr;
+    this.Gestalt = lib.declare("Gestalt", ctypes.default_abi, this.OSErr, this.OSType, this.SInt32.ptr);
+    this.ReplaceGestalt = lib.declare("ReplaceGestalt", ctypes.default_abi, this.OSErr, this.OSType, this.SelectorFunctionUPP, this.SelectorFunctionUPP.ptr);
+    this.NewGestalt = lib.declare("NewGestalt", ctypes.default_abi, this.OSErr, this.OSType, this.SelectorFunctionUPP);
+    this.NewGestaltValue = lib.declare("NewGestaltValue", ctypes.default_abi, this.OSErr, this.OSType, this.SInt32);
+    this.ReplaceGestaltValue = lib.declare("ReplaceGestaltValue", ctypes.default_abi, this.OSErr, this.OSType, this.SInt32);
+    this.SetGestaltValue = lib.declare("SetGestaltValue", ctypes.default_abi, this.OSErr, this.OSType, this.SInt32);
+    this.DeleteGestaltValue = lib.declare("DeleteGestaltValue", ctypes.default_abi, this.OSErr, this.OSType);
     // Dropping inline function 'NewSelectorFunctionUPP'.
     // Dropping inline function 'DisposeSelectorFunctionUPP'.
     // Dropping inline function 'InvokeSelectorFunctionUPP'.
@@ -6894,6 +8140,7 @@ function MacErrors_h(lib) {
     this.kPOSIXErrorEPROTO = 100100;
     this.kPOSIXErrorETIME = 100101;
     this.kPOSIXErrorEOPNOTSUPP = 100102;
+    this.SysError = lib.declare("SysError", ctypes.default_abi, ctypes.void_t, ctypes.short);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/Endian.h
@@ -6915,6 +8162,9 @@ function Endian_h(lib) {
     this.kCoreEndianResourceManagerDomain = 1920168547;
     this.kCoreEndianAppleEventManagerDomain = 1634039412;
     this.CoreEndianFlipProc = new ctypes.FunctionType(ctypes.default_abi, this.OSStatus, [this.OSType, this.OSType, this.SInt16, ctypes.void_t.ptr, this.ByteCount, this.Boolean, ctypes.void_t.ptr]).ptr;
+    this.CoreEndianInstallFlipper = lib.declare("CoreEndianInstallFlipper", ctypes.default_abi, this.OSStatus, this.OSType, this.OSType, this.CoreEndianFlipProc, ctypes.void_t.ptr);
+    this.CoreEndianGetFlipper = lib.declare("CoreEndianGetFlipper", ctypes.default_abi, this.OSStatus, this.OSType, this.OSType, this.CoreEndianFlipProc.ptr, ctypes.void_t.ptr.ptr);
+    this.CoreEndianFlipData = lib.declare("CoreEndianFlipData", ctypes.default_abi, this.OSStatus, this.OSType, this.OSType, this.SInt16, ctypes.void_t.ptr, this.ByteCount, this.Boolean);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/TextEncodingPlugin.h
@@ -7003,6 +8253,8 @@ function MultiprocessingInfo_h(lib) {
         return;
     this._MULTIPROCESSINGINFO_H = true;
 
+    this.MPGetNextCpuID = lib.declare("MPGetNextCpuID", ctypes.default_abi, this.OSStatus, this.MPCoherenceID, this.MPCpuID.ptr);
+    this.MPGetNextTaskID = lib.declare("MPGetNextTaskID", ctypes.default_abi, this.OSStatus, this.MPProcessID, this.MPTaskID.ptr);
     this.kMPQueueInfoVersion = 262145;
     this.kMPSemaphoreInfoVersion = 327681;
     this.kMPEventInfoVersion = 589825;
@@ -7032,6 +8284,14 @@ function UTCUtils_h(lib) {
     this.LocalDateTime = new ctypes.StructType("LocalDateTime", [{highSeconds: this.UInt16}, {lowSeconds: this.UInt32}, {fraction: this.UInt16}]);
     this.LocalDateTimePtr = this.LocalDateTime.ptr;
     this.LocalDateTimeHandle = this.LocalDateTimePtr.ptr;
+    this.ConvertLocalTimeToUTC = lib.declare("ConvertLocalTimeToUTC", ctypes.default_abi, this.OSStatus, this.UInt32, this.UInt32.ptr);
+    this.ConvertUTCToLocalTime = lib.declare("ConvertUTCToLocalTime", ctypes.default_abi, this.OSStatus, this.UInt32, this.UInt32.ptr);
+    this.ConvertUTCToLocalDateTime = lib.declare("ConvertUTCToLocalDateTime", ctypes.default_abi, this.OSStatus, this.UTCDateTime.ptr, this.LocalDateTime.ptr);
+    this.ConvertLocalToUTCDateTime = lib.declare("ConvertLocalToUTCDateTime", ctypes.default_abi, this.OSStatus, this.LocalDateTime.ptr, this.UTCDateTime.ptr);
+    this.GetUTCDateTime = lib.declare("GetUTCDateTime", ctypes.default_abi, this.OSStatus, this.UTCDateTime.ptr, this.OptionBits);
+    this.SetUTCDateTime = lib.declare("SetUTCDateTime", ctypes.default_abi, this.OSStatus, this.UTCDateTime.ptr, this.OptionBits);
+    this.GetLocalDateTime = lib.declare("GetLocalDateTime", ctypes.default_abi, this.OSStatus, this.LocalDateTime.ptr, this.OptionBits);
+    this.SetLocalDateTime = lib.declare("SetLocalDateTime", ctypes.default_abi, this.OSStatus, this.LocalDateTime.ptr, this.OptionBits);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/Debugging.h
@@ -7043,18 +8303,29 @@ function Debugging_h(lib) {
     this._DEBUGGING_H = true;
 
     this.kBlessedBusErrorBait = 1760651505;
+    this.DebugAssert = lib.declare("DebugAssert", ctypes.default_abi, ctypes.void_t, this.OSType, this.UInt32, ctypes.char.ptr, ctypes.char.ptr, ctypes.char.ptr, ctypes.char.ptr, ctypes.long, ctypes.void_t.ptr);
     this.k68kInterruptLevelMask = 7;
     this.kInVBLTaskMask = 16;
     this.kInDeferredTaskMask = 32;
     this.kInSecondaryIntHandlerMask = 64;
     this.kInNestedInterruptMask = 128;
+    this.TaskLevel = lib.declare("TaskLevel", ctypes.default_abi, this.UInt32);
     this.kComponentDebugOption = 0;
     this.kGetDebugOption = 1;
     this.kSetDebugOption = 2;
     this.DebugComponentCallbackProcPtr = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.SInt32, this.UInt32, this.Boolean.ptr]).ptr;
     this.DebugComponentCallbackUPP = this.DebugComponentCallbackProcPtr;
+    this.NewDebugComponent = lib.declare("NewDebugComponent", ctypes.default_abi, this.OSStatus, this.OSType, this.ConstStr255Param, this.DebugComponentCallbackUPP);
+    this.NewDebugOption = lib.declare("NewDebugOption", ctypes.default_abi, this.OSStatus, this.OSType, this.SInt32, this.ConstStr255Param);
+    this.DisposeDebugComponent = lib.declare("DisposeDebugComponent", ctypes.default_abi, this.OSStatus, this.OSType);
+    this.GetDebugComponentInfo = lib.declare("GetDebugComponentInfo", ctypes.default_abi, this.OSStatus, this.UInt32, this.OSType.ptr, ctypes.unsigned_char.ptr);
+    this.GetDebugOptionInfo = lib.declare("GetDebugOptionInfo", ctypes.default_abi, this.OSStatus, this.UInt32, this.OSType, this.SInt32.ptr, ctypes.unsigned_char.ptr, this.Boolean.ptr);
+    this.SetDebugOptionValue = lib.declare("SetDebugOptionValue", ctypes.default_abi, this.OSStatus, this.OSType, this.SInt32, this.Boolean);
     this.DebugAssertOutputHandlerProcPtr = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.OSType, this.UInt32, ctypes.char.ptr, ctypes.char.ptr, ctypes.char.ptr, ctypes.char.ptr, ctypes.long, ctypes.void_t.ptr, this.ConstStr255Param]).ptr;
     this.DebugAssertOutputHandlerUPP = this.DebugAssertOutputHandlerProcPtr;
+    this.InstallDebugAssertOutputHandler = lib.declare("InstallDebugAssertOutputHandler", ctypes.default_abi, ctypes.void_t, this.DebugAssertOutputHandlerUPP);
+    this.GetMacOSStatusErrorString = lib.declare("GetMacOSStatusErrorString", ctypes.default_abi, ctypes.char.ptr, this.OSStatus);
+    this.GetMacOSStatusCommentString = lib.declare("GetMacOSStatusCommentString", ctypes.default_abi, ctypes.char.ptr, this.OSStatus);
     // Dropping inline function 'NewDebugComponentCallbackUPP'.
     // Dropping inline function 'NewDebugAssertOutputHandlerUPP'.
     // Dropping inline function 'DisposeDebugComponentCallbackUPP'.
@@ -7065,6 +8336,7 @@ function Debugging_h(lib) {
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/NumberFormatting.h
 function NumberFormatting_h(lib) {
+    IntlResources_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._NUMBERFORMATTING_H)
@@ -7096,6 +8368,13 @@ function NumberFormatting_h(lib) {
     this.fEmptyFormatString = 13;
     this.FVector = new ctypes.StructType("FVector", [{start: ctypes.short}, {length: ctypes.short}]);
     this.TripleInt = this.FVector.array(3);
+    this.numtostring = lib.declare("numtostring", ctypes.default_abi, ctypes.void_t, ctypes.long, ctypes.char.ptr);
+    this.StringToNum = lib.declare("StringToNum", ctypes.default_abi, ctypes.void_t, this.ConstStr255Param, ctypes.long.ptr);
+    this.NumToString = lib.declare("NumToString", ctypes.default_abi, ctypes.void_t, ctypes.long, ctypes.unsigned_char.ptr);
+    this.ExtendedToString = lib.declare("ExtendedToString", ctypes.default_abi, this.FormatStatus, this.extended80.ptr, this.NumFormatString.ptr, this.NumberParts.ptr, ctypes.unsigned_char.ptr);
+    this.StringToExtended = lib.declare("StringToExtended", ctypes.default_abi, this.FormatStatus, this.ConstStr255Param, this.NumFormatString.ptr, this.NumberParts.ptr, this.extended80.ptr);
+    this.StringToFormatRec = lib.declare("StringToFormatRec", ctypes.default_abi, this.FormatStatus, this.ConstStr255Param, this.NumberParts.ptr, this.NumFormatString.ptr);
+    this.FormatRecToString = lib.declare("FormatRecToString", ctypes.default_abi, this.FormatStatus, this.NumFormatString.ptr, this.NumberParts.ptr, ctypes.unsigned_char.ptr, this.FVector.ptr);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/DriverServices.h
@@ -7115,6 +8394,21 @@ function DriverServices_h(lib) {
     this.durationNoWait = 0;
     this.durationForever = 2147483647;
     this.Nanoseconds = this.UnsignedWide;
+    this.UpTime = lib.declare("UpTime", ctypes.default_abi, this.AbsoluteTime);
+    this.AbsoluteToNanoseconds = lib.declare("AbsoluteToNanoseconds", ctypes.default_abi, this.Nanoseconds, this.AbsoluteTime);
+    this.AbsoluteToDuration = lib.declare("AbsoluteToDuration", ctypes.default_abi, this.Duration, this.AbsoluteTime);
+    this.NanosecondsToAbsolute = lib.declare("NanosecondsToAbsolute", ctypes.default_abi, this.AbsoluteTime, this.Nanoseconds);
+    this.DurationToAbsolute = lib.declare("DurationToAbsolute", ctypes.default_abi, this.AbsoluteTime, this.Duration);
+    this.AddAbsoluteToAbsolute = lib.declare("AddAbsoluteToAbsolute", ctypes.default_abi, this.AbsoluteTime, this.AbsoluteTime, this.AbsoluteTime);
+    this.SubAbsoluteFromAbsolute = lib.declare("SubAbsoluteFromAbsolute", ctypes.default_abi, this.AbsoluteTime, this.AbsoluteTime, this.AbsoluteTime);
+    this.AddNanosecondsToAbsolute = lib.declare("AddNanosecondsToAbsolute", ctypes.default_abi, this.AbsoluteTime, this.Nanoseconds, this.AbsoluteTime);
+    this.AddDurationToAbsolute = lib.declare("AddDurationToAbsolute", ctypes.default_abi, this.AbsoluteTime, this.Duration, this.AbsoluteTime);
+    this.SubNanosecondsFromAbsolute = lib.declare("SubNanosecondsFromAbsolute", ctypes.default_abi, this.AbsoluteTime, this.Nanoseconds, this.AbsoluteTime);
+    this.SubDurationFromAbsolute = lib.declare("SubDurationFromAbsolute", ctypes.default_abi, this.AbsoluteTime, this.Duration, this.AbsoluteTime);
+    this.AbsoluteDeltaToNanoseconds = lib.declare("AbsoluteDeltaToNanoseconds", ctypes.default_abi, this.Nanoseconds, this.AbsoluteTime, this.AbsoluteTime);
+    this.AbsoluteDeltaToDuration = lib.declare("AbsoluteDeltaToDuration", ctypes.default_abi, this.Duration, this.AbsoluteTime, this.AbsoluteTime);
+    this.DurationToNanoseconds = lib.declare("DurationToNanoseconds", ctypes.default_abi, this.Nanoseconds, this.Duration);
+    this.NanosecondsToDuration = lib.declare("NanosecondsToDuration", ctypes.default_abi, this.Duration, this.Nanoseconds);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/HFSVolumes.h
@@ -7130,33 +8424,57 @@ function HFSVolumes_h(lib) {
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/ToolUtils.h
 function ToolUtils_h(lib) {
+    MacTypes_h.call(this, lib);
 
     if (this._TOOLUTILS_H)
         return;
     this._TOOLUTILS_H = true;
 
+    this.BitTst = lib.declare("BitTst", ctypes.default_abi, this.Boolean, ctypes.void_t.ptr, ctypes.long);
+    this.BitSet = lib.declare("BitSet", ctypes.default_abi, ctypes.void_t, ctypes.void_t.ptr, ctypes.long);
+    this.BitClr = lib.declare("BitClr", ctypes.default_abi, ctypes.void_t, ctypes.void_t.ptr, ctypes.long);
+    this.BitAnd = lib.declare("BitAnd", ctypes.default_abi, ctypes.long, ctypes.long, ctypes.long);
+    this.BitOr = lib.declare("BitOr", ctypes.default_abi, ctypes.long, ctypes.long, ctypes.long);
+    this.BitXor = lib.declare("BitXor", ctypes.default_abi, ctypes.long, ctypes.long, ctypes.long);
+    this.BitNot = lib.declare("BitNot", ctypes.default_abi, ctypes.long, ctypes.long);
+    this.BitShift = lib.declare("BitShift", ctypes.default_abi, ctypes.long, ctypes.long, ctypes.short);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/BackupCore.h
 function BackupCore_h(lib) {
+    MacTypes_h.call(this, lib);
+    CFURL_h.call(this, lib);
 
     if (this._BACKUPCORE_H)
         return;
     this._BACKUPCORE_H = true;
 
+    this.CSBackupSetItemExcluded = lib.declare("CSBackupSetItemExcluded", ctypes.default_abi, this.OSStatus, this.CFURLRef, this.Boolean, this.Boolean);
+    this.CSBackupIsItemExcluded = lib.declare("CSBackupIsItemExcluded", ctypes.default_abi, this.Boolean, this.CFURLRef, this.Boolean.ptr);
 }
 
 Components.utils.import("resource://gre/modules/ctypes.jsm");
 Components.utils.import("resource://osxtypes/CoreFoundation.jsm");
 Components.utils.import("resource://osxtypes/MacTypes.jsm");
+Components.utils.import("resource://osxtypes/DiskArbitration.jsm");
 
 const EXPORTED_SYMBOLS = ["CarbonCore", "FSEvents_h", "TextEncodingConverter_h", "AVLTree_h", "Threads_h", "Files_h", "UnicodeConverter_h", "TextCommon_h", "Aliases_h", "LowMem_h", "Script_h", "Math64_h", "Multiprocessing_h", "Resources_h", "CodeFragments_h", "Folders_h", "FixMath_h", "Collections_h", "PEFBinaryFormat_h", "MacMemory_h", "Components_h", "Timer_h", "DateTimeUtils_h", "IntlResources_h", "TextUtils_h", "MixedMode_h", "StringCompare_h", "fp_h", "MacLocales_h", "UnicodeUtilities_h", "DriverSynchronization_h", "MachineExceptions_h", "OSUtils_h", "Finder_h", "PLStringFuncs_h", "AIFF_h", "Gestalt_h", "MacErrors_h", "Endian_h", "TextEncodingPlugin_h", "MultiprocessingInfo_h", "UTCUtils_h", "Debugging_h", "NumberFormatting_h", "DriverServices_h", "HFSVolumes_h", "ToolUtils_h", "BackupCore_h"];
 
 function CarbonCore() {
     let libpath = "/System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/CarbonCore";
-    let lib = ctypes.open(libpath);
+    let library = ctypes.open(libpath);
     this.close = function() {
-        lib.close();
+        library.close();
+    };
+    let lib = {
+        declare: function() {
+            try {
+                return library.declare.apply(library, arguments);
+            } catch (ex) {
+                dump("Failed to declare " + arguments[0] + "\n");
+                return null;
+            }
+        }
     };
 
     FSEvents_h.call(this, lib);

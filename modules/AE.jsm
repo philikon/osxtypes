@@ -110,6 +110,14 @@ function AEObjects_h(lib) {
     // Dropping inline function 'InvokeOSLGetErrDescUPP'.
     // Dropping inline function 'InvokeOSLMarkUPP'.
     // Dropping inline function 'InvokeOSLAdjustMarksUPP'.
+    this.AEObjectInit = lib.declare("AEObjectInit", ctypes.default_abi, this.OSErr);
+    this.AESetObjectCallbacks = lib.declare("AESetObjectCallbacks", ctypes.default_abi, this.OSErr, this.OSLCompareUPP, this.OSLCountUPP, this.OSLDisposeTokenUPP, this.OSLGetMarkTokenUPP, this.OSLMarkUPP, this.OSLAdjustMarksUPP, this.OSLGetErrDescUPP);
+    this.AEResolve = lib.declare("AEResolve", ctypes.default_abi, this.OSErr, this.AEDesc.ptr, ctypes.short, this.AEDesc.ptr);
+    this.AEInstallObjectAccessor = lib.declare("AEInstallObjectAccessor", ctypes.default_abi, this.OSErr, this.DescType, this.DescType, this.OSLAccessorUPP, this.SRefCon, this.Boolean);
+    this.AERemoveObjectAccessor = lib.declare("AERemoveObjectAccessor", ctypes.default_abi, this.OSErr, this.DescType, this.DescType, this.OSLAccessorUPP, this.Boolean);
+    this.AEGetObjectAccessor = lib.declare("AEGetObjectAccessor", ctypes.default_abi, this.OSErr, this.DescType, this.DescType, this.OSLAccessorUPP.ptr, this.SRefCon.ptr, this.Boolean);
+    this.AEDisposeToken = lib.declare("AEDisposeToken", ctypes.default_abi, this.OSErr, this.AEDesc.ptr);
+    this.AECallObjectAccessor = lib.declare("AECallObjectAccessor", ctypes.default_abi, this.OSErr, this.DescType, this.AEDesc.ptr, this.DescType, this.DescType, this.AEDesc.ptr, this.AEDesc.ptr);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/AE.framework/Headers/AERegistry.h
@@ -918,7 +926,12 @@ function AERegistry_h(lib) {
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/AE.framework/Headers/AppleEvents.h
 function AppleEvents_h(lib) {
+    CFRunLoop_h.call(this, lib);
+    CFStream_h.call(this, lib);
+    CFURL_h.call(this, lib);
+    AEDataModel_h.call(this, lib);
     CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._APPLEEVENTS_H)
@@ -953,10 +966,21 @@ function AppleEvents_h(lib) {
     this.kAESameProcess = 2;
     this.kAELocalProcess = 3;
     this.kAERemoteProcess = 4;
+    this.AEInstallEventHandler = lib.declare("AEInstallEventHandler", ctypes.default_abi, this.OSErr, this.AEEventClass, this.AEEventID, this.AEEventHandlerUPP, this.SRefCon, this.Boolean);
+    this.AERemoveEventHandler = lib.declare("AERemoveEventHandler", ctypes.default_abi, this.OSErr, this.AEEventClass, this.AEEventID, this.AEEventHandlerUPP, this.Boolean);
+    this.AEGetEventHandler = lib.declare("AEGetEventHandler", ctypes.default_abi, this.OSErr, this.AEEventClass, this.AEEventID, this.AEEventHandlerUPP.ptr, this.SRefCon.ptr, this.Boolean);
+    this.AEInstallSpecialHandler = lib.declare("AEInstallSpecialHandler", ctypes.default_abi, this.OSErr, this.AEKeyword, this.AEEventHandlerUPP, this.Boolean);
+    this.AERemoveSpecialHandler = lib.declare("AERemoveSpecialHandler", ctypes.default_abi, this.OSErr, this.AEKeyword, this.AEEventHandlerUPP, this.Boolean);
+    this.AEGetSpecialHandler = lib.declare("AEGetSpecialHandler", ctypes.default_abi, this.OSErr, this.AEKeyword, this.AEEventHandlerUPP.ptr, this.Boolean);
+    this.AEManagerInfo = lib.declare("AEManagerInfo", ctypes.default_abi, this.OSErr, this.AEKeyword, ctypes.long.ptr);
     this.AERemoteProcessResolverContext = new ctypes.StructType("AERemoteProcessResolverContext", [{version: this.CFIndex}, {info: ctypes.void_t.ptr}, {retain: this.CFAllocatorRetainCallBack}, {release: this.CFAllocatorReleaseCallBack}, {copyDescription: this.CFAllocatorCopyDescriptionCallBack}]);
     this.AERemoteProcessResolver = new ctypes.StructType("AERemoteProcessResolver");
     this.AERemoteProcessResolverRef = this.AERemoteProcessResolver.ptr;
+    this.AECreateRemoteProcessResolver = lib.declare("AECreateRemoteProcessResolver", ctypes.default_abi, this.AERemoteProcessResolverRef, this.CFAllocatorRef, this.CFURLRef);
+    this.AEDisposeRemoteProcessResolver = lib.declare("AEDisposeRemoteProcessResolver", ctypes.default_abi, ctypes.void_t, this.AERemoteProcessResolverRef);
+    this.AERemoteProcessResolverGetProcesses = lib.declare("AERemoteProcessResolverGetProcesses", ctypes.default_abi, this.CFArrayRef, this.AERemoteProcessResolverRef, this.CFStreamError.ptr);
     this.AERemoteProcessResolverCallback = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.AERemoteProcessResolverRef, ctypes.void_t.ptr]).ptr;
+    this.AERemoteProcessResolverScheduleWithRunLoop = lib.declare("AERemoteProcessResolverScheduleWithRunLoop", ctypes.default_abi, ctypes.void_t, this.AERemoteProcessResolverRef, this.CFRunLoopRef, this.CFStringRef, this.AERemoteProcessResolverCallback, this.AERemoteProcessResolverContext.ptr);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/AE.framework/Headers/AEDataModel.h
@@ -1154,9 +1178,49 @@ function AEDataModel_h(lib) {
     // Dropping inline function 'InvokeAECoerceDescUPP'.
     // Dropping inline function 'InvokeAECoercePtrUPP'.
     this.AECoercionHandlerUPP = this.AECoerceDescUPP;
+    this.AEInstallCoercionHandler = lib.declare("AEInstallCoercionHandler", ctypes.default_abi, this.OSErr, this.DescType, this.DescType, this.AECoercionHandlerUPP, this.SRefCon, this.Boolean, this.Boolean);
+    this.AERemoveCoercionHandler = lib.declare("AERemoveCoercionHandler", ctypes.default_abi, this.OSErr, this.DescType, this.DescType, this.AECoercionHandlerUPP, this.Boolean);
+    this.AEGetCoercionHandler = lib.declare("AEGetCoercionHandler", ctypes.default_abi, this.OSErr, this.DescType, this.DescType, this.AECoercionHandlerUPP.ptr, this.SRefCon.ptr, this.Boolean.ptr, this.Boolean);
+    this.AECoercePtr = lib.declare("AECoercePtr", ctypes.default_abi, this.OSErr, this.DescType, ctypes.void_t.ptr, this.Size, this.DescType, this.AEDesc.ptr);
+    this.AECoerceDesc = lib.declare("AECoerceDesc", ctypes.default_abi, this.OSErr, this.AEDesc.ptr, this.DescType, this.AEDesc.ptr);
+    this.AEInitializeDesc = lib.declare("AEInitializeDesc", ctypes.default_abi, ctypes.void_t, this.AEDesc.ptr);
     // Dropping inline function 'AEInitializeDescInline'.
+    this.AECreateDesc = lib.declare("AECreateDesc", ctypes.default_abi, this.OSErr, this.DescType, ctypes.void_t.ptr, this.Size, this.AEDesc.ptr);
+    this.AEDisposeDesc = lib.declare("AEDisposeDesc", ctypes.default_abi, this.OSErr, this.AEDesc.ptr);
+    this.AEDuplicateDesc = lib.declare("AEDuplicateDesc", ctypes.default_abi, this.OSErr, this.AEDesc.ptr, this.AEDesc.ptr);
     this.AEDisposeExternalProcPtr = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [ctypes.void_t.ptr, this.Size, this.SRefCon]).ptr;
     this.AEDisposeExternalUPP = this.AEDisposeExternalProcPtr;
+    this.AECreateDescFromExternalPtr = lib.declare("AECreateDescFromExternalPtr", ctypes.default_abi, this.OSStatus, this.OSType, ctypes.void_t.ptr, this.Size, this.AEDisposeExternalUPP, this.SRefCon, this.AEDesc.ptr);
+    this.AECreateList = lib.declare("AECreateList", ctypes.default_abi, this.OSErr, ctypes.void_t.ptr, this.Size, this.Boolean, this.AEDescList.ptr);
+    this.AECountItems = lib.declare("AECountItems", ctypes.default_abi, this.OSErr, this.AEDescList.ptr, ctypes.long.ptr);
+    this.AEPutPtr = lib.declare("AEPutPtr", ctypes.default_abi, this.OSErr, this.AEDescList.ptr, ctypes.long, this.DescType, ctypes.void_t.ptr, this.Size);
+    this.AEPutDesc = lib.declare("AEPutDesc", ctypes.default_abi, this.OSErr, this.AEDescList.ptr, ctypes.long, this.AEDesc.ptr);
+    this.AEGetNthPtr = lib.declare("AEGetNthPtr", ctypes.default_abi, this.OSErr, this.AEDescList.ptr, ctypes.long, this.DescType, this.AEKeyword.ptr, this.DescType.ptr, ctypes.void_t.ptr, this.Size, this.Size.ptr);
+    this.AEGetNthDesc = lib.declare("AEGetNthDesc", ctypes.default_abi, this.OSErr, this.AEDescList.ptr, ctypes.long, this.DescType, this.AEKeyword.ptr, this.AEDesc.ptr);
+    this.AESizeOfNthItem = lib.declare("AESizeOfNthItem", ctypes.default_abi, this.OSErr, this.AEDescList.ptr, ctypes.long, this.DescType.ptr, this.Size.ptr);
+    this.AEGetArray = lib.declare("AEGetArray", ctypes.default_abi, this.OSErr, this.AEDescList.ptr, this.AEArrayType, this.AEArrayDataPointer, this.Size, this.DescType.ptr, this.Size.ptr, ctypes.long.ptr);
+    this.AEPutArray = lib.declare("AEPutArray", ctypes.default_abi, this.OSErr, this.AEDescList.ptr, this.AEArrayType, this.AEArrayData.ptr, this.DescType, this.Size, ctypes.long);
+    this.AEDeleteItem = lib.declare("AEDeleteItem", ctypes.default_abi, this.OSErr, this.AEDescList.ptr, ctypes.long);
+    this.AECheckIsRecord = lib.declare("AECheckIsRecord", ctypes.default_abi, this.Boolean, this.AEDesc.ptr);
+    this.AECreateAppleEvent = lib.declare("AECreateAppleEvent", ctypes.default_abi, this.OSErr, this.AEEventClass, this.AEEventID, this.AEAddressDesc.ptr, this.AEReturnID, this.AETransactionID, this.AppleEvent.ptr);
+    this.AEPutParamPtr = lib.declare("AEPutParamPtr", ctypes.default_abi, this.OSErr, this.AppleEvent.ptr, this.AEKeyword, this.DescType, ctypes.void_t.ptr, this.Size);
+    this.AEPutParamDesc = lib.declare("AEPutParamDesc", ctypes.default_abi, this.OSErr, this.AppleEvent.ptr, this.AEKeyword, this.AEDesc.ptr);
+    this.AEGetParamPtr = lib.declare("AEGetParamPtr", ctypes.default_abi, this.OSErr, this.AppleEvent.ptr, this.AEKeyword, this.DescType, this.DescType.ptr, ctypes.void_t.ptr, this.Size, this.Size.ptr);
+    this.AEGetParamDesc = lib.declare("AEGetParamDesc", ctypes.default_abi, this.OSErr, this.AppleEvent.ptr, this.AEKeyword, this.DescType, this.AEDesc.ptr);
+    this.AESizeOfParam = lib.declare("AESizeOfParam", ctypes.default_abi, this.OSErr, this.AppleEvent.ptr, this.AEKeyword, this.DescType.ptr, this.Size.ptr);
+    this.AEDeleteParam = lib.declare("AEDeleteParam", ctypes.default_abi, this.OSErr, this.AppleEvent.ptr, this.AEKeyword);
+    this.AEGetAttributePtr = lib.declare("AEGetAttributePtr", ctypes.default_abi, this.OSErr, this.AppleEvent.ptr, this.AEKeyword, this.DescType, this.DescType.ptr, ctypes.void_t.ptr, this.Size, this.Size.ptr);
+    this.AEGetAttributeDesc = lib.declare("AEGetAttributeDesc", ctypes.default_abi, this.OSErr, this.AppleEvent.ptr, this.AEKeyword, this.DescType, this.AEDesc.ptr);
+    this.AESizeOfAttribute = lib.declare("AESizeOfAttribute", ctypes.default_abi, this.OSErr, this.AppleEvent.ptr, this.AEKeyword, this.DescType.ptr, this.Size.ptr);
+    this.AEPutAttributePtr = lib.declare("AEPutAttributePtr", ctypes.default_abi, this.OSErr, this.AppleEvent.ptr, this.AEKeyword, this.DescType, ctypes.void_t.ptr, this.Size);
+    this.AEPutAttributeDesc = lib.declare("AEPutAttributeDesc", ctypes.default_abi, this.OSErr, this.AppleEvent.ptr, this.AEKeyword, this.AEDesc.ptr);
+    this.AESizeOfFlattenedDesc = lib.declare("AESizeOfFlattenedDesc", ctypes.default_abi, this.Size, this.AEDesc.ptr);
+    this.AEFlattenDesc = lib.declare("AEFlattenDesc", ctypes.default_abi, this.OSStatus, this.AEDesc.ptr, this.Ptr, this.Size, this.Size.ptr);
+    this.AEUnflattenDesc = lib.declare("AEUnflattenDesc", ctypes.default_abi, this.OSStatus, ctypes.void_t.ptr, this.AEDesc.ptr);
+    this.AEGetDescData = lib.declare("AEGetDescData", ctypes.default_abi, this.OSErr, this.AEDesc.ptr, ctypes.void_t.ptr, this.Size);
+    this.AEGetDescDataSize = lib.declare("AEGetDescDataSize", ctypes.default_abi, this.Size, this.AEDesc.ptr);
+    this.AEReplaceDescData = lib.declare("AEReplaceDescData", ctypes.default_abi, this.OSErr, this.DescType, ctypes.void_t.ptr, this.Size, this.AEDesc.ptr);
+    this.AEGetDescDataRange = lib.declare("AEGetDescDataRange", ctypes.default_abi, this.OSStatus, this.AEDesc.ptr, ctypes.void_t.ptr, this.Size, this.Size);
     this.AEEventHandlerProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.OSErr, [this.AppleEvent.ptr, this.AppleEvent.ptr, this.SRefCon]).ptr;
     this.AEEventHandlerUPP = this.AEEventHandlerProcPtr;
     // Dropping inline function 'NewAEDisposeExternalUPP'.
@@ -1169,6 +1233,7 @@ function AEDataModel_h(lib) {
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/AE.framework/Headers/AEHelpers.h
 function AEHelpers_h(lib) {
+    AEDataModel_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._AEHELPERS_H)
@@ -1197,21 +1262,55 @@ function AEHelpers_h(lib) {
     this.aeBuildSyntaxCoercedList = 18;
     this.aeBuildSyntaxUncoercedDoubleAt = 19;
     this.AEBuildError = new ctypes.StructType("AEBuildError", [{fError: this.AEBuildErrorCode}, {fErrorPos: this.UInt32}]);
+    this.AEBuildDesc = lib.declare("AEBuildDesc", ctypes.default_abi, this.OSStatus, this.AEDesc.ptr, this.AEBuildError.ptr, ctypes.char.ptr, "...");
+    // Dropping declaration of 'vAEBuildDesc': 'va_list' defined out of scope
+    this.AEBuildParameters = lib.declare("AEBuildParameters", ctypes.default_abi, this.OSStatus, this.AppleEvent.ptr, this.AEBuildError.ptr, ctypes.char.ptr, "...");
+    // Dropping declaration of 'vAEBuildParameters': 'va_list' defined out of scope
+    this.AEBuildAppleEvent = lib.declare("AEBuildAppleEvent", ctypes.default_abi, this.OSStatus, this.AEEventClass, this.AEEventID, this.DescType, ctypes.void_t.ptr, this.Size, this.SInt16, this.SInt32, this.AppleEvent.ptr, this.AEBuildError.ptr, ctypes.char.ptr, "...");
+    // Dropping declaration of 'vAEBuildAppleEvent': 'va_list' defined out of scope
+    this.AEPrintDescToHandle = lib.declare("AEPrintDescToHandle", ctypes.default_abi, this.OSStatus, this.AEDesc.ptr, this.Handle.ptr);
     this.OpaqueAEStreamRef = new ctypes.StructType("OpaqueAEStreamRef");
     this.AEStreamRef = this.OpaqueAEStreamRef.ptr;
+    this.AEStreamOpen = lib.declare("AEStreamOpen", ctypes.default_abi, this.AEStreamRef);
+    this.AEStreamClose = lib.declare("AEStreamClose", ctypes.default_abi, this.OSStatus, this.AEStreamRef, this.AEDesc.ptr);
+    this.AEStreamOpenDesc = lib.declare("AEStreamOpenDesc", ctypes.default_abi, this.OSStatus, this.AEStreamRef, this.DescType);
+    this.AEStreamWriteData = lib.declare("AEStreamWriteData", ctypes.default_abi, this.OSStatus, this.AEStreamRef, ctypes.void_t.ptr, this.Size);
+    this.AEStreamCloseDesc = lib.declare("AEStreamCloseDesc", ctypes.default_abi, this.OSStatus, this.AEStreamRef);
+    this.AEStreamWriteDesc = lib.declare("AEStreamWriteDesc", ctypes.default_abi, this.OSStatus, this.AEStreamRef, this.DescType, ctypes.void_t.ptr, this.Size);
+    this.AEStreamWriteAEDesc = lib.declare("AEStreamWriteAEDesc", ctypes.default_abi, this.OSStatus, this.AEStreamRef, this.AEDesc.ptr);
+    this.AEStreamOpenList = lib.declare("AEStreamOpenList", ctypes.default_abi, this.OSStatus, this.AEStreamRef);
+    this.AEStreamCloseList = lib.declare("AEStreamCloseList", ctypes.default_abi, this.OSStatus, this.AEStreamRef);
+    this.AEStreamOpenRecord = lib.declare("AEStreamOpenRecord", ctypes.default_abi, this.OSStatus, this.AEStreamRef, this.DescType);
+    this.AEStreamSetRecordType = lib.declare("AEStreamSetRecordType", ctypes.default_abi, this.OSStatus, this.AEStreamRef, this.DescType);
+    this.AEStreamCloseRecord = lib.declare("AEStreamCloseRecord", ctypes.default_abi, this.OSStatus, this.AEStreamRef);
+    this.AEStreamWriteKeyDesc = lib.declare("AEStreamWriteKeyDesc", ctypes.default_abi, this.OSStatus, this.AEStreamRef, this.AEKeyword, this.DescType, ctypes.void_t.ptr, this.Size);
+    this.AEStreamOpenKeyDesc = lib.declare("AEStreamOpenKeyDesc", ctypes.default_abi, this.OSStatus, this.AEStreamRef, this.AEKeyword, this.DescType);
+    this.AEStreamWriteKey = lib.declare("AEStreamWriteKey", ctypes.default_abi, this.OSStatus, this.AEStreamRef, this.AEKeyword);
+    this.AEStreamCreateEvent = lib.declare("AEStreamCreateEvent", ctypes.default_abi, this.AEStreamRef, this.AEEventClass, this.AEEventID, this.DescType, ctypes.void_t.ptr, this.Size, this.SInt16, this.SInt32);
+    this.AEStreamOpenEvent = lib.declare("AEStreamOpenEvent", ctypes.default_abi, this.AEStreamRef, this.AppleEvent.ptr);
+    this.AEStreamOptionalParam = lib.declare("AEStreamOptionalParam", ctypes.default_abi, this.OSStatus, this.AEStreamRef, this.AEKeyword);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/AE.framework/Headers/AEPackObject.h
 function AEPackObject_h(lib) {
+    AEDataModel_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._AEPACKOBJECT_H)
         return;
     this._AEPACKOBJECT_H = true;
 
+    this.CreateOffsetDescriptor = lib.declare("CreateOffsetDescriptor", ctypes.default_abi, this.OSErr, ctypes.long, this.AEDesc.ptr);
+    this.CreateCompDescriptor = lib.declare("CreateCompDescriptor", ctypes.default_abi, this.OSErr, this.DescType, this.AEDesc.ptr, this.AEDesc.ptr, this.Boolean, this.AEDesc.ptr);
+    this.CreateLogicalDescriptor = lib.declare("CreateLogicalDescriptor", ctypes.default_abi, this.OSErr, this.AEDescList.ptr, this.DescType, this.Boolean, this.AEDesc.ptr);
+    this.CreateObjSpecifier = lib.declare("CreateObjSpecifier", ctypes.default_abi, this.OSErr, this.DescType, this.AEDesc.ptr, this.DescType, this.AEDesc.ptr, this.Boolean, this.AEDesc.ptr);
+    this.CreateRangeDescriptor = lib.declare("CreateRangeDescriptor", ctypes.default_abi, this.OSErr, this.AEDesc.ptr, this.AEDesc.ptr, this.Boolean, this.AEDesc.ptr);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/AE.framework/Headers/AEMach.h
 function AEMach_h(lib) {
+    AEDataModel_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._AEMACH_H)
         return;
@@ -1219,6 +1318,10 @@ function AEMach_h(lib) {
 
     this.keyReplyPortAttr = 1919250544;
     this.typeReplyPortAttr = 1919250544;
+    // Dropping declaration of 'AEGetRegisteredMachPort': 'mach_port_t' defined out of scope
+    // Dropping declaration of 'AEDecodeMessage': 'mach_msg_header_t' defined out of scope
+    // Dropping declaration of 'AEProcessMessage': 'mach_msg_header_t' defined out of scope
+    this.AESendMessage = lib.declare("AESendMessage", ctypes.default_abi, this.OSStatus, this.AppleEvent.ptr, this.AppleEvent.ptr, this.AESendMode, ctypes.long);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/AE.framework/Headers/AEUserTermTypes.h
@@ -1271,9 +1374,19 @@ const EXPORTED_SYMBOLS = ["AE", "AEObjects_h", "AERegistry_h", "AppleEvents_h", 
 
 function AE() {
     let libpath = "/System/Library/Frameworks/CoreServices.framework/Frameworks/AE.framework/AE";
-    let lib = ctypes.open(libpath);
+    let library = ctypes.open(libpath);
     this.close = function() {
-        lib.close();
+        library.close();
+    };
+    let lib = {
+        declare: function() {
+            try {
+                return library.declare.apply(library, arguments);
+            } catch (ex) {
+                dump("Failed to declare " + arguments[0] + "\n");
+                return null;
+            }
+        }
     };
 
     AEObjects_h.call(this, lib);

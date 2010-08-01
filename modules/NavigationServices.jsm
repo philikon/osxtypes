@@ -165,10 +165,51 @@ function Navigation_h(lib) {
     this.NavTypeListHandle = this.NavTypeListPtr.ptr;
     this.kNavReplyRecordVersion = 2;
     this.NavReplyRecord = new ctypes.StructType("NavReplyRecord", [{version: this.UInt16}, {validRecord: this.Boolean}, {replacing: this.Boolean}, {isStationery: this.Boolean}, {translationNeeded: this.Boolean}, {selection: this.AEDescList}, {keyScript: this.ScriptCode}, {fileTranslation: this.FileTranslationSpecArrayHandle}, {reserved1: this.UInt32}, {saveFileName: this.CFStringRef}, {saveFileExtensionHidden: this.Boolean}, {reserved2: this.UInt8}, {reserved: ctypes.char.array(225)}]);
+    this.NavCompleteSave = lib.declare("NavCompleteSave", ctypes.default_abi, this.OSErr, this.NavReplyRecord.ptr, this.NavTranslationOptions);
+    this.NavCustomControl = lib.declare("NavCustomControl", ctypes.default_abi, this.OSErr, this.NavDialogRef, this.NavCustomControlMessage, ctypes.void_t.ptr);
+    this.NavCreatePreview = lib.declare("NavCreatePreview", ctypes.default_abi, this.OSErr, this.AEDesc.ptr, this.OSType, ctypes.void_t.ptr, this.Size);
+    this.NavDisposeReply = lib.declare("NavDisposeReply", ctypes.default_abi, this.OSErr, this.NavReplyRecord.ptr);
     this.kNavDialogCreationOptionsVersion = 0;
     this.NavDialogCreationOptions = new ctypes.StructType("NavDialogCreationOptions", [{version: this.UInt16}, {optionFlags: this.NavDialogOptionFlags}, {location: this.Point}, {clientName: this.CFStringRef}, {windowTitle: this.CFStringRef}, {actionButtonLabel: this.CFStringRef}, {cancelButtonLabel: this.CFStringRef}, {saveFileName: this.CFStringRef}, {message: this.CFStringRef}, {preferenceKey: this.UInt32}, {popupExtension: this.CFArrayRef}, {modality: this.WindowModality}, {parentWindow: this.WindowRef}, {reserved: ctypes.char.array(16)}]);
+    this.NavGetDefaultDialogCreationOptions = lib.declare("NavGetDefaultDialogCreationOptions", ctypes.default_abi, this.OSStatus, this.NavDialogCreationOptions.ptr);
+    this.NavCreateGetFileDialog = lib.declare("NavCreateGetFileDialog", ctypes.default_abi, this.OSStatus, this.NavDialogCreationOptions.ptr, this.NavTypeListHandle, this.NavEventUPP, this.NavPreviewUPP, this.NavObjectFilterUPP, ctypes.void_t.ptr, this.NavDialogRef.ptr);
+    this.NavCreatePutFileDialog = lib.declare("NavCreatePutFileDialog", ctypes.default_abi, this.OSStatus, this.NavDialogCreationOptions.ptr, this.OSType, this.OSType, this.NavEventUPP, ctypes.void_t.ptr, this.NavDialogRef.ptr);
+    this.NavCreateAskReviewDocumentsDialog = lib.declare("NavCreateAskReviewDocumentsDialog", ctypes.default_abi, this.OSStatus, this.NavDialogCreationOptions.ptr, this.ItemCount, this.NavEventUPP, ctypes.void_t.ptr, this.NavDialogRef.ptr);
+    this.NavCreateAskSaveChangesDialog = lib.declare("NavCreateAskSaveChangesDialog", ctypes.default_abi, this.OSStatus, this.NavDialogCreationOptions.ptr, this.NavAskSaveChangesAction, this.NavEventUPP, ctypes.void_t.ptr, this.NavDialogRef.ptr);
+    this.NavCreateAskDiscardChangesDialog = lib.declare("NavCreateAskDiscardChangesDialog", ctypes.default_abi, this.OSStatus, this.NavDialogCreationOptions.ptr, this.NavEventUPP, ctypes.void_t.ptr, this.NavDialogRef.ptr);
+    this.NavCreateChooseFileDialog = lib.declare("NavCreateChooseFileDialog", ctypes.default_abi, this.OSStatus, this.NavDialogCreationOptions.ptr, this.NavTypeListHandle, this.NavEventUPP, this.NavPreviewUPP, this.NavObjectFilterUPP, ctypes.void_t.ptr, this.NavDialogRef.ptr);
+    this.NavCreateChooseFolderDialog = lib.declare("NavCreateChooseFolderDialog", ctypes.default_abi, this.OSStatus, this.NavDialogCreationOptions.ptr, this.NavEventUPP, this.NavObjectFilterUPP, ctypes.void_t.ptr, this.NavDialogRef.ptr);
+    this.NavCreateChooseVolumeDialog = lib.declare("NavCreateChooseVolumeDialog", ctypes.default_abi, this.OSStatus, this.NavDialogCreationOptions.ptr, this.NavEventUPP, this.NavObjectFilterUPP, ctypes.void_t.ptr, this.NavDialogRef.ptr);
+    this.NavCreateChooseObjectDialog = lib.declare("NavCreateChooseObjectDialog", ctypes.default_abi, this.OSStatus, this.NavDialogCreationOptions.ptr, this.NavEventUPP, this.NavPreviewUPP, this.NavObjectFilterUPP, ctypes.void_t.ptr, this.NavDialogRef.ptr);
+    this.NavCreateNewFolderDialog = lib.declare("NavCreateNewFolderDialog", ctypes.default_abi, this.OSStatus, this.NavDialogCreationOptions.ptr, this.NavEventUPP, ctypes.void_t.ptr, this.NavDialogRef.ptr);
+    this.NavDialogRun = lib.declare("NavDialogRun", ctypes.default_abi, this.OSStatus, this.NavDialogRef);
+    this.NavDialogDispose = lib.declare("NavDialogDispose", ctypes.default_abi, ctypes.void_t, this.NavDialogRef);
+    this.NavDialogGetWindow = lib.declare("NavDialogGetWindow", ctypes.default_abi, this.WindowRef, this.NavDialogRef);
+    this.NavDialogGetUserAction = lib.declare("NavDialogGetUserAction", ctypes.default_abi, this.NavUserAction, this.NavDialogRef);
+    this.NavDialogGetReply = lib.declare("NavDialogGetReply", ctypes.default_abi, this.OSStatus, this.NavDialogRef, this.NavReplyRecord.ptr);
+    this.NavDialogGetSaveFileName = lib.declare("NavDialogGetSaveFileName", ctypes.default_abi, this.CFStringRef, this.NavDialogRef);
+    this.NavDialogSetSaveFileName = lib.declare("NavDialogSetSaveFileName", ctypes.default_abi, this.OSStatus, this.NavDialogRef, this.CFStringRef);
+    this.NavDialogGetSaveFileExtensionHidden = lib.declare("NavDialogGetSaveFileExtensionHidden", ctypes.default_abi, this.Boolean, this.NavDialogRef);
+    this.NavDialogSetSaveFileExtensionHidden = lib.declare("NavDialogSetSaveFileExtensionHidden", ctypes.default_abi, this.OSStatus, this.NavDialogRef, this.Boolean);
+    this.NavDialogSetFilterTypeIdentifiers = lib.declare("NavDialogSetFilterTypeIdentifiers", ctypes.default_abi, this.OSStatus, this.NavDialogRef, this.CFArrayRef);
     this.kNavDialogOptionsVersion = 0;
     this.NavDialogOptions = new ctypes.StructType("NavDialogOptions", [{version: this.UInt16}, {dialogOptionFlags: this.NavDialogOptionFlags}, {location: this.Point}, {clientName: this.Str255}, {windowTitle: this.Str255}, {actionButtonLabel: this.Str255}, {cancelButtonLabel: this.Str255}, {savedFileName: this.Str255}, {message: this.Str255}, {preferenceKey: this.UInt32}, {popupExtension: this.NavMenuItemSpecArrayHandle}, {reserved: ctypes.char.array(494)}]);
+    this.NavLoad = lib.declare("NavLoad", ctypes.default_abi, this.OSErr);
+    this.NavUnload = lib.declare("NavUnload", ctypes.default_abi, this.OSErr);
+    this.NavLibraryVersion = lib.declare("NavLibraryVersion", ctypes.default_abi, this.UInt32);
+    this.NavGetDefaultDialogOptions = lib.declare("NavGetDefaultDialogOptions", ctypes.default_abi, this.OSErr, this.NavDialogOptions.ptr);
+    this.NavGetFile = lib.declare("NavGetFile", ctypes.default_abi, this.OSErr, this.AEDesc.ptr, this.NavReplyRecord.ptr, this.NavDialogOptions.ptr, this.NavEventUPP, this.NavPreviewUPP, this.NavObjectFilterUPP, this.NavTypeListHandle, ctypes.void_t.ptr);
+    this.NavPutFile = lib.declare("NavPutFile", ctypes.default_abi, this.OSErr, this.AEDesc.ptr, this.NavReplyRecord.ptr, this.NavDialogOptions.ptr, this.NavEventUPP, this.OSType, this.OSType, ctypes.void_t.ptr);
+    this.NavAskSaveChanges = lib.declare("NavAskSaveChanges", ctypes.default_abi, this.OSErr, this.NavDialogOptions.ptr, this.NavAskSaveChangesAction, this.NavAskSaveChangesResult.ptr, this.NavEventUPP, ctypes.void_t.ptr);
+    this.NavCustomAskSaveChanges = lib.declare("NavCustomAskSaveChanges", ctypes.default_abi, this.OSErr, this.NavDialogOptions.ptr, this.NavAskSaveChangesResult.ptr, this.NavEventUPP, ctypes.void_t.ptr);
+    this.NavAskDiscardChanges = lib.declare("NavAskDiscardChanges", ctypes.default_abi, this.OSErr, this.NavDialogOptions.ptr, this.NavAskDiscardChangesResult.ptr, this.NavEventUPP, ctypes.void_t.ptr);
+    this.NavChooseFile = lib.declare("NavChooseFile", ctypes.default_abi, this.OSErr, this.AEDesc.ptr, this.NavReplyRecord.ptr, this.NavDialogOptions.ptr, this.NavEventUPP, this.NavPreviewUPP, this.NavObjectFilterUPP, this.NavTypeListHandle, ctypes.void_t.ptr);
+    this.NavChooseFolder = lib.declare("NavChooseFolder", ctypes.default_abi, this.OSErr, this.AEDesc.ptr, this.NavReplyRecord.ptr, this.NavDialogOptions.ptr, this.NavEventUPP, this.NavObjectFilterUPP, ctypes.void_t.ptr);
+    this.NavChooseVolume = lib.declare("NavChooseVolume", ctypes.default_abi, this.OSErr, this.AEDesc.ptr, this.NavReplyRecord.ptr, this.NavDialogOptions.ptr, this.NavEventUPP, this.NavObjectFilterUPP, ctypes.void_t.ptr);
+    this.NavChooseObject = lib.declare("NavChooseObject", ctypes.default_abi, this.OSErr, this.AEDesc.ptr, this.NavReplyRecord.ptr, this.NavDialogOptions.ptr, this.NavEventUPP, this.NavObjectFilterUPP, ctypes.void_t.ptr);
+    this.NavNewFolder = lib.declare("NavNewFolder", ctypes.default_abi, this.OSErr, this.AEDesc.ptr, this.NavReplyRecord.ptr, this.NavDialogOptions.ptr, this.NavEventUPP, ctypes.void_t.ptr);
+    this.NavTranslateFile = lib.declare("NavTranslateFile", ctypes.default_abi, this.OSErr, this.NavReplyRecord.ptr, this.NavTranslationOptions);
+    this.NavServicesCanRun = lib.declare("NavServicesCanRun", ctypes.default_abi, this.Boolean);
     // Dropping inline function 'NavServicesAvailable'.
 }
 
@@ -183,9 +224,19 @@ const EXPORTED_SYMBOLS = ["NavigationServices", "Navigation_h"];
 
 function NavigationServices() {
     let libpath = "/System/Library/Frameworks/Carbon.framework/Frameworks/NavigationServices.framework/NavigationServices";
-    let lib = ctypes.open(libpath);
+    let library = ctypes.open(libpath);
     this.close = function() {
-        lib.close();
+        library.close();
+    };
+    let lib = {
+        declare: function() {
+            try {
+                return library.declare.apply(library, arguments);
+            } catch (ex) {
+                dump("Failed to declare " + arguments[0] + "\n");
+                return null;
+            }
+        }
     };
 
     Navigation_h.call(this, lib);

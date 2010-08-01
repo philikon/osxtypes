@@ -1,10 +1,140 @@
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/PrintCore.framework/Headers/PMCore.h
 function PMCore_h(lib) {
+    CFData_h.call(this, lib);
+    CGDataProvider_h.call(this, lib);
+    CGImage_h.call(this, lib);
+    PMDefinitions_h.call(this, lib);
+    CGContext_h.call(this, lib);
+    CFDictionary_h.call(this, lib);
+    CFURL_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._PMCORE_H)
         return;
     this._PMCORE_H = true;
 
+    this.PMRetain = lib.declare("PMRetain", ctypes.default_abi, this.OSStatus, this.PMObject);
+    this.PMRelease = lib.declare("PMRelease", ctypes.default_abi, this.OSStatus, this.PMObject);
+    this.PMCreateSession = lib.declare("PMCreateSession", ctypes.default_abi, this.OSStatus, this.PMPrintSession.ptr);
+    this.PMSessionError = lib.declare("PMSessionError", ctypes.default_abi, this.OSStatus, this.PMPrintSession);
+    this.PMSessionSetError = lib.declare("PMSessionSetError", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.OSStatus);
+    this.PMSessionBeginCGDocumentNoDialog = lib.declare("PMSessionBeginCGDocumentNoDialog", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.PMPrintSettings, this.PMPageFormat);
+    this.PMSessionEndDocumentNoDialog = lib.declare("PMSessionEndDocumentNoDialog", ctypes.default_abi, this.OSStatus, this.PMPrintSession);
+    this.PMSessionBeginPageNoDialog = lib.declare("PMSessionBeginPageNoDialog", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.PMPageFormat, this.PMRect.ptr);
+    this.PMSessionEndPageNoDialog = lib.declare("PMSessionEndPageNoDialog", ctypes.default_abi, this.OSStatus, this.PMPrintSession);
+    this.PMSessionGetCGGraphicsContext = lib.declare("PMSessionGetCGGraphicsContext", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.CGContextRef.ptr);
+    this.PMSessionGetDestinationType = lib.declare("PMSessionGetDestinationType", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.PMPrintSettings, this.PMDestinationType.ptr);
+    this.PMSessionCopyDestinationFormat = lib.declare("PMSessionCopyDestinationFormat", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.PMPrintSettings, this.CFStringRef.ptr);
+    this.PMSessionCopyDestinationLocation = lib.declare("PMSessionCopyDestinationLocation", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.PMPrintSettings, this.CFURLRef.ptr);
+    this.PMSessionSetDestination = lib.declare("PMSessionSetDestination", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.PMPrintSettings, this.PMDestinationType, this.CFStringRef, this.CFURLRef);
+    this.PMSessionCopyOutputFormatList = lib.declare("PMSessionCopyOutputFormatList", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.PMDestinationType, this.CFArrayRef.ptr);
+    this.PMSessionCreatePageFormatList = lib.declare("PMSessionCreatePageFormatList", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.PMPrinter, this.CFArrayRef.ptr);
+    this.PMSessionCreatePrinterList = lib.declare("PMSessionCreatePrinterList", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.CFArrayRef.ptr, this.CFIndex.ptr, this.PMPrinter.ptr);
+    this.PMSessionGetCurrentPrinter = lib.declare("PMSessionGetCurrentPrinter", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.PMPrinter.ptr);
+    this.PMSessionSetCurrentPMPrinter = lib.declare("PMSessionSetCurrentPMPrinter", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.PMPrinter);
+    this.PMSessionGetDataFromSession = lib.declare("PMSessionGetDataFromSession", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.CFStringRef, this.CFTypeRef.ptr);
+    this.PMSessionSetDataInSession = lib.declare("PMSessionSetDataInSession", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.CFStringRef, this.CFTypeRef);
+    this.PMCreatePageFormat = lib.declare("PMCreatePageFormat", ctypes.default_abi, this.OSStatus, this.PMPageFormat.ptr);
+    this.PMSessionDefaultPageFormat = lib.declare("PMSessionDefaultPageFormat", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.PMPageFormat);
+    this.PMSessionValidatePageFormat = lib.declare("PMSessionValidatePageFormat", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.PMPageFormat, this.Boolean.ptr);
+    this.PMCopyPageFormat = lib.declare("PMCopyPageFormat", ctypes.default_abi, this.OSStatus, this.PMPageFormat, this.PMPageFormat);
+    this.PMCreatePageFormatWithPMPaper = lib.declare("PMCreatePageFormatWithPMPaper", ctypes.default_abi, this.OSStatus, this.PMPageFormat.ptr, this.PMPaper);
+    this.PMPageFormatCreateDataRepresentation = lib.declare("PMPageFormatCreateDataRepresentation", ctypes.default_abi, this.OSStatus, this.PMPageFormat, this.CFDataRef.ptr, this.PMDataFormat);
+    this.PMPageFormatCreateWithDataRepresentation = lib.declare("PMPageFormatCreateWithDataRepresentation", ctypes.default_abi, this.OSStatus, this.CFDataRef, this.PMPageFormat.ptr);
+    this.PMGetAdjustedPageRect = lib.declare("PMGetAdjustedPageRect", ctypes.default_abi, this.OSStatus, this.PMPageFormat, this.PMRect.ptr);
+    this.PMGetAdjustedPaperRect = lib.declare("PMGetAdjustedPaperRect", ctypes.default_abi, this.OSStatus, this.PMPageFormat, this.PMRect.ptr);
+    this.PMGetOrientation = lib.declare("PMGetOrientation", ctypes.default_abi, this.OSStatus, this.PMPageFormat, this.PMOrientation.ptr);
+    this.PMGetPageFormatExtendedData = lib.declare("PMGetPageFormatExtendedData", ctypes.default_abi, this.OSStatus, this.PMPageFormat, this.OSType, this.UInt32.ptr, ctypes.void_t.ptr);
+    this.PMPageFormatGetPrinterID = lib.declare("PMPageFormatGetPrinterID", ctypes.default_abi, this.OSStatus, this.PMPageFormat, this.CFStringRef.ptr);
+    this.PMGetScale = lib.declare("PMGetScale", ctypes.default_abi, this.OSStatus, this.PMPageFormat, ctypes.double.ptr);
+    this.PMGetUnadjustedPageRect = lib.declare("PMGetUnadjustedPageRect", ctypes.default_abi, this.OSStatus, this.PMPageFormat, this.PMRect.ptr);
+    this.PMGetUnadjustedPaperRect = lib.declare("PMGetUnadjustedPaperRect", ctypes.default_abi, this.OSStatus, this.PMPageFormat, this.PMRect.ptr);
+    this.PMSetOrientation = lib.declare("PMSetOrientation", ctypes.default_abi, this.OSStatus, this.PMPageFormat, this.PMOrientation, this.Boolean);
+    this.PMSetPageFormatExtendedData = lib.declare("PMSetPageFormatExtendedData", ctypes.default_abi, this.OSStatus, this.PMPageFormat, this.OSType, this.UInt32, ctypes.void_t.ptr);
+    this.PMSetScale = lib.declare("PMSetScale", ctypes.default_abi, this.OSStatus, this.PMPageFormat, ctypes.double);
+    this.PMCreatePrintSettings = lib.declare("PMCreatePrintSettings", ctypes.default_abi, this.OSStatus, this.PMPrintSettings.ptr);
+    this.PMSessionDefaultPrintSettings = lib.declare("PMSessionDefaultPrintSettings", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.PMPrintSettings);
+    this.PMSessionValidatePrintSettings = lib.declare("PMSessionValidatePrintSettings", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.PMPrintSettings, this.Boolean.ptr);
+    this.PMCopyPrintSettings = lib.declare("PMCopyPrintSettings", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.PMPrintSettings);
+    this.PMPrintSettingsCreateDataRepresentation = lib.declare("PMPrintSettingsCreateDataRepresentation", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.CFDataRef.ptr, this.PMDataFormat);
+    this.PMPrintSettingsCreateWithDataRepresentation = lib.declare("PMPrintSettingsCreateWithDataRepresentation", ctypes.default_abi, this.OSStatus, this.CFDataRef, this.PMPrintSettings.ptr);
+    this.PMGetCollate = lib.declare("PMGetCollate", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.Boolean.ptr);
+    this.PMGetCopies = lib.declare("PMGetCopies", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.UInt32.ptr);
+    this.PMGetDuplex = lib.declare("PMGetDuplex", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.PMDuplexMode.ptr);
+    this.PMGetFirstPage = lib.declare("PMGetFirstPage", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.UInt32.ptr);
+    this.PMGetLastPage = lib.declare("PMGetLastPage", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.UInt32.ptr);
+    this.PMGetPageRange = lib.declare("PMGetPageRange", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.UInt32.ptr, this.UInt32.ptr);
+    this.PMPrintSettingsGetJobName = lib.declare("PMPrintSettingsGetJobName", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.CFStringRef.ptr);
+    this.PMPrintSettingsGetValue = lib.declare("PMPrintSettingsGetValue", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.CFStringRef, this.CFTypeRef.ptr);
+    this.PMSetCollate = lib.declare("PMSetCollate", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.Boolean);
+    this.PMSetCopies = lib.declare("PMSetCopies", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.UInt32, this.Boolean);
+    this.PMSetDuplex = lib.declare("PMSetDuplex", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.PMDuplexMode);
+    this.PMSetFirstPage = lib.declare("PMSetFirstPage", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.UInt32, this.Boolean);
+    this.PMSetLastPage = lib.declare("PMSetLastPage", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.UInt32, this.Boolean);
+    this.PMSetPageRange = lib.declare("PMSetPageRange", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.UInt32, this.UInt32);
+    this.PMPrintSettingsSetJobName = lib.declare("PMPrintSettingsSetJobName", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.CFStringRef);
+    this.PMPrintSettingsSetValue = lib.declare("PMPrintSettingsSetValue", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.CFStringRef, this.CFTypeRef, this.Boolean);
+    this.PMPrintSettingsCopyAsDictionary = lib.declare("PMPrintSettingsCopyAsDictionary", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.CFDictionaryRef.ptr);
+    this.PMPrintSettingsCopyKeys = lib.declare("PMPrintSettingsCopyKeys", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.CFArrayRef.ptr);
+    this.PMCreateGenericPrinter = lib.declare("PMCreateGenericPrinter", ctypes.default_abi, this.OSStatus, this.PMPrinter.ptr);
+    this.PMServerCreatePrinterList = lib.declare("PMServerCreatePrinterList", ctypes.default_abi, this.OSStatus, this.PMServer, this.CFArrayRef.ptr);
+    this.PMServerLaunchPrinterBrowser = lib.declare("PMServerLaunchPrinterBrowser", ctypes.default_abi, this.OSStatus, this.PMServer, this.CFDictionaryRef);
+    this.PMPrinterCreateFromPrinterID = lib.declare("PMPrinterCreateFromPrinterID", ctypes.default_abi, this.PMPrinter, this.CFStringRef);
+    this.PMPrinterCopyDescriptionURL = lib.declare("PMPrinterCopyDescriptionURL", ctypes.default_abi, this.OSStatus, this.PMPrinter, this.CFStringRef, this.CFURLRef.ptr);
+    this.PMPrinterCopyDeviceURI = lib.declare("PMPrinterCopyDeviceURI", ctypes.default_abi, this.OSStatus, this.PMPrinter, this.CFURLRef.ptr);
+    this.PMPrinterCopyHostName = lib.declare("PMPrinterCopyHostName", ctypes.default_abi, this.OSStatus, this.PMPrinter, this.CFStringRef.ptr);
+    this.PMPrinterCopyPresets = lib.declare("PMPrinterCopyPresets", ctypes.default_abi, this.OSStatus, this.PMPrinter, this.CFArrayRef.ptr);
+    this.PMPrinterGetCommInfo = lib.declare("PMPrinterGetCommInfo", ctypes.default_abi, this.OSStatus, this.PMPrinter, this.Boolean.ptr, this.Boolean.ptr);
+    this.PMPrinterGetID = lib.declare("PMPrinterGetID", ctypes.default_abi, this.CFStringRef, this.PMPrinter);
+    this.PMPrinterGetLocation = lib.declare("PMPrinterGetLocation", ctypes.default_abi, this.CFStringRef, this.PMPrinter);
+    this.PMPrinterGetDriverCreator = lib.declare("PMPrinterGetDriverCreator", ctypes.default_abi, this.OSStatus, this.PMPrinter, this.OSType.ptr);
+    this.PMPrinterGetDriverReleaseInfo = lib.declare("PMPrinterGetDriverReleaseInfo", ctypes.default_abi, this.OSStatus, this.PMPrinter, this.VersRec.ptr);
+    this.PMPrinterGetPrinterResolutionCount = lib.declare("PMPrinterGetPrinterResolutionCount", ctypes.default_abi, this.OSStatus, this.PMPrinter, this.UInt32.ptr);
+    this.PMPrinterGetIndexedPrinterResolution = lib.declare("PMPrinterGetIndexedPrinterResolution", ctypes.default_abi, this.OSStatus, this.PMPrinter, this.UInt32, this.PMResolution.ptr);
+    this.PMPrinterGetOutputResolution = lib.declare("PMPrinterGetOutputResolution", ctypes.default_abi, this.OSStatus, this.PMPrinter, this.PMPrintSettings, this.PMResolution.ptr);
+    this.PMPrinterSetOutputResolution = lib.declare("PMPrinterSetOutputResolution", ctypes.default_abi, this.OSStatus, this.PMPrinter, this.PMPrintSettings, this.PMResolution.ptr);
+    this.PMPrinterGetLanguageInfo = lib.declare("PMPrinterGetLanguageInfo", ctypes.default_abi, this.OSStatus, this.PMPrinter, this.PMLanguageInfo.ptr);
+    this.PMPrinterGetMakeAndModelName = lib.declare("PMPrinterGetMakeAndModelName", ctypes.default_abi, this.OSStatus, this.PMPrinter, this.CFStringRef.ptr);
+    this.PMPrinterGetMimeTypes = lib.declare("PMPrinterGetMimeTypes", ctypes.default_abi, this.OSStatus, this.PMPrinter, this.PMPrintSettings, this.CFArrayRef.ptr);
+    this.PMPrinterGetName = lib.declare("PMPrinterGetName", ctypes.default_abi, this.CFStringRef, this.PMPrinter);
+    this.PMPrinterGetPaperList = lib.declare("PMPrinterGetPaperList", ctypes.default_abi, this.OSStatus, this.PMPrinter, this.CFArrayRef.ptr);
+    this.PMPrinterGetState = lib.declare("PMPrinterGetState", ctypes.default_abi, this.OSStatus, this.PMPrinter, this.PMPrinterState.ptr);
+    this.PMPrinterIsDefault = lib.declare("PMPrinterIsDefault", ctypes.default_abi, this.Boolean, this.PMPrinter);
+    this.PMPrinterIsFavorite = lib.declare("PMPrinterIsFavorite", ctypes.default_abi, this.Boolean, this.PMPrinter);
+    this.PMPrinterIsPostScriptCapable = lib.declare("PMPrinterIsPostScriptCapable", ctypes.default_abi, this.Boolean, this.PMPrinter);
+    this.PMPrinterIsPostScriptPrinter = lib.declare("PMPrinterIsPostScriptPrinter", ctypes.default_abi, this.OSStatus, this.PMPrinter, this.Boolean.ptr);
+    this.PMPrinterIsRemote = lib.declare("PMPrinterIsRemote", ctypes.default_abi, this.OSStatus, this.PMPrinter, this.Boolean.ptr);
+    this.PMPrinterSetDefault = lib.declare("PMPrinterSetDefault", ctypes.default_abi, this.OSStatus, this.PMPrinter);
+    this.PMPresetCopyName = lib.declare("PMPresetCopyName", ctypes.default_abi, this.OSStatus, this.PMPreset, this.CFStringRef.ptr);
+    this.PMPresetCreatePrintSettings = lib.declare("PMPresetCreatePrintSettings", ctypes.default_abi, this.OSStatus, this.PMPreset, this.PMPrintSession, this.PMPrintSettings.ptr);
+    this.PMPresetGetAttributes = lib.declare("PMPresetGetAttributes", ctypes.default_abi, this.OSStatus, this.PMPreset, this.CFDictionaryRef.ptr);
+    this.PMGetPageFormatPaper = lib.declare("PMGetPageFormatPaper", ctypes.default_abi, this.OSStatus, this.PMPageFormat, this.PMPaper.ptr);
+    this.PMPaperCreateCustom = lib.declare("PMPaperCreateCustom", ctypes.default_abi, this.OSStatus, this.PMPrinter, this.CFStringRef, this.CFStringRef, ctypes.double, ctypes.double, this.PMPaperMargins.ptr, this.PMPaper.ptr);
+    this.PMPaperGetWidth = lib.declare("PMPaperGetWidth", ctypes.default_abi, this.OSStatus, this.PMPaper, ctypes.double.ptr);
+    this.PMPaperGetHeight = lib.declare("PMPaperGetHeight", ctypes.default_abi, this.OSStatus, this.PMPaper, ctypes.double.ptr);
+    this.PMPaperGetMargins = lib.declare("PMPaperGetMargins", ctypes.default_abi, this.OSStatus, this.PMPaper, this.PMPaperMargins.ptr);
+    this.PMPaperGetID = lib.declare("PMPaperGetID", ctypes.default_abi, this.OSStatus, this.PMPaper, this.CFStringRef.ptr);
+    this.PMPaperGetName = lib.declare("PMPaperGetName", ctypes.default_abi, this.OSStatus, this.PMPaper, this.CFStringRef.ptr);
+    this.PMPaperGetPPDPaperName = lib.declare("PMPaperGetPPDPaperName", ctypes.default_abi, this.OSStatus, this.PMPaper, this.CFStringRef.ptr);
+    this.PMPaperCreateLocalizedName = lib.declare("PMPaperCreateLocalizedName", ctypes.default_abi, this.OSStatus, this.PMPaper, this.PMPrinter, this.CFStringRef.ptr);
+    this.PMPaperGetPrinterID = lib.declare("PMPaperGetPrinterID", ctypes.default_abi, this.OSStatus, this.PMPaper, this.CFStringRef.ptr);
+    this.PMPaperIsCustom = lib.declare("PMPaperIsCustom", ctypes.default_abi, this.Boolean, this.PMPaper);
+    this.PMWorkflowCopyItems = lib.declare("PMWorkflowCopyItems", ctypes.default_abi, this.OSStatus, this.CFArrayRef.ptr);
+    this.PMWorkflowSubmitPDFWithOptions = lib.declare("PMWorkflowSubmitPDFWithOptions", ctypes.default_abi, this.OSStatus, this.CFURLRef, this.CFStringRef, ctypes.char.ptr, this.CFURLRef);
+    this.PMWorkflowSubmitPDFWithSettings = lib.declare("PMWorkflowSubmitPDFWithSettings", ctypes.default_abi, this.OSStatus, this.CFURLRef, this.PMPrintSettings, this.CFURLRef);
+    this.PMPrinterPrintWithProvider = lib.declare("PMPrinterPrintWithProvider", ctypes.default_abi, this.OSStatus, this.PMPrinter, this.PMPrintSettings, this.PMPageFormat, this.CFStringRef, this.CGDataProviderRef);
+    this.PMPrinterPrintWithFile = lib.declare("PMPrinterPrintWithFile", ctypes.default_abi, this.OSStatus, this.PMPrinter, this.PMPrintSettings, this.PMPageFormat, this.CFStringRef, this.CFURLRef);
+    this.PMPrinterWritePostScriptToURL = lib.declare("PMPrinterWritePostScriptToURL", ctypes.default_abi, this.OSStatus, this.PMPrinter, this.PMPrintSettings, this.PMPageFormat, this.CFStringRef, this.CFURLRef, this.CFURLRef);
+    this.PMPrintSettingsToOptions = lib.declare("PMPrintSettingsToOptions", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, ctypes.char.ptr.ptr);
+    this.PMPrintSettingsToOptionsWithPrinterAndPageFormat = lib.declare("PMPrintSettingsToOptionsWithPrinterAndPageFormat", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.PMPrinter, this.PMPageFormat, ctypes.char.ptr.ptr);
+    this.PMPrinterSendCommand = lib.declare("PMPrinterSendCommand", ctypes.default_abi, this.OSStatus, this.PMPrinter, this.CFStringRef, this.CFStringRef, this.CFDictionaryRef);
+    this.PMPrinterCopyState = lib.declare("PMPrinterCopyState", ctypes.default_abi, this.OSStatus, this.PMPrinter, this.CFDictionaryRef.ptr);
+    this.PMCopyAvailablePPDs = lib.declare("PMCopyAvailablePPDs", ctypes.default_abi, this.OSStatus, this.PMPPDDomain, this.CFArrayRef.ptr);
+    this.PMCopyLocalizedPPD = lib.declare("PMCopyLocalizedPPD", ctypes.default_abi, this.OSStatus, this.CFURLRef, this.CFURLRef.ptr);
+    this.PMCopyPPDData = lib.declare("PMCopyPPDData", ctypes.default_abi, this.OSStatus, this.CFURLRef, this.CFDataRef.ptr);
+    this.PMCGImageCreateWithEPSDataProvider = lib.declare("PMCGImageCreateWithEPSDataProvider", ctypes.default_abi, this.CGImageRef, this.CGDataProviderRef, this.CGImageRef);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/PrintCore.framework/Headers/PMDefinitions.h
@@ -140,13 +270,74 @@ function PMDefinitions_h(lib) {
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/PrintCore.framework/Headers/PMCoreDeprecated.h
 function PMCoreDeprecated_h(lib) {
+    PMDefinitionsDeprecated_h.call(this, lib);
+    CFData_h.call(this, lib);
+    ColorSyncDeprecated_h.call(this, lib);
+    Files_h.call(this, lib);
+    PMDefinitions_h.call(this, lib);
+    CFURL_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._PMCOREDEPRECATED_H)
         return;
     this._PMCOREDEPRECATED_H = true;
 
+    this.PMFlattenPageFormatToCFData = lib.declare("PMFlattenPageFormatToCFData", ctypes.default_abi, this.OSStatus, this.PMPageFormat, this.CFDataRef.ptr);
+    this.PMFlattenPageFormatToURL = lib.declare("PMFlattenPageFormatToURL", ctypes.default_abi, this.OSStatus, this.PMPageFormat, this.CFURLRef);
+    this.PMUnflattenPageFormatWithCFData = lib.declare("PMUnflattenPageFormatWithCFData", ctypes.default_abi, this.OSStatus, this.CFDataRef, this.PMPageFormat.ptr);
+    this.PMUnflattenPageFormatWithURL = lib.declare("PMUnflattenPageFormatWithURL", ctypes.default_abi, this.OSStatus, this.CFURLRef, this.PMPageFormat.ptr);
+    this.PMFlattenPrintSettingsToCFData = lib.declare("PMFlattenPrintSettingsToCFData", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.CFDataRef.ptr);
+    this.PMFlattenPrintSettingsToURL = lib.declare("PMFlattenPrintSettingsToURL", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.CFURLRef);
+    this.PMUnflattenPrintSettingsWithCFData = lib.declare("PMUnflattenPrintSettingsWithCFData", ctypes.default_abi, this.OSStatus, this.CFDataRef, this.PMPrintSettings.ptr);
+    this.PMUnflattenPrintSettingsWithURL = lib.declare("PMUnflattenPrintSettingsWithURL", ctypes.default_abi, this.OSStatus, this.CFURLRef, this.PMPrintSettings.ptr);
+    this.PMGetPrintSettingsExtendedData = lib.declare("PMGetPrintSettingsExtendedData", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.OSType, this.UInt32.ptr, ctypes.void_t.ptr);
+    this.PMSetPrintSettingsExtendedData = lib.declare("PMSetPrintSettingsExtendedData", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.OSType, this.UInt32, ctypes.void_t.ptr);
+    this.PMSetProfile = lib.declare("PMSetProfile", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.PMTag, this.CMProfileLocation.ptr);
     this.PMIdleProcPtr = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, []).ptr;
     this.PMIdleUPP = this.PMIdleProcPtr;
+    this.PMSessionBeginDocumentNoDialog = lib.declare("PMSessionBeginDocumentNoDialog", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.PMPrintSettings, this.PMPageFormat);
+    this.PMSessionGetGraphicsContext = lib.declare("PMSessionGetGraphicsContext", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.CFStringRef, ctypes.void_t.ptr.ptr);
+    this.PMSessionEnableColorSync = lib.declare("PMSessionEnableColorSync", ctypes.default_abi, this.OSStatus, this.PMPrintSession);
+    this.PMSessionDisableColorSync = lib.declare("PMSessionDisableColorSync", ctypes.default_abi, this.OSStatus, this.PMPrintSession);
+    this.PMSessionSetIdleProc = lib.declare("PMSessionSetIdleProc", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.PMIdleUPP);
+    this.PMSessionGeneral = lib.declare("PMSessionGeneral", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.Ptr);
+    this.PMSessionConvertOldPrintRecord = lib.declare("PMSessionConvertOldPrintRecord", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.Handle, this.PMPrintSettings.ptr, this.PMPageFormat.ptr);
+    this.PMSessionMakeOldPrintRecord = lib.declare("PMSessionMakeOldPrintRecord", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.PMPrintSettings, this.PMPageFormat, this.Handle.ptr);
+    this.PMSessionSetCurrentPrinter = lib.declare("PMSessionSetCurrentPrinter", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.CFStringRef);
+    this.PMSessionPostScriptBegin = lib.declare("PMSessionPostScriptBegin", ctypes.default_abi, this.OSStatus, this.PMPrintSession);
+    this.PMSessionPostScriptEnd = lib.declare("PMSessionPostScriptEnd", ctypes.default_abi, this.OSStatus, this.PMPrintSession);
+    this.PMSessionPostScriptHandle = lib.declare("PMSessionPostScriptHandle", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.Handle);
+    this.PMSessionPostScriptData = lib.declare("PMSessionPostScriptData", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.Ptr, this.Size);
+    this.PMSessionPostScriptFile = lib.declare("PMSessionPostScriptFile", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.FSSpec.ptr);
+    this.PMSessionSetPSInjectionData = lib.declare("PMSessionSetPSInjectionData", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.PMPrintSettings, this.CFArrayRef);
+    this.PMSessionGetDocumentFormatSupported = lib.declare("PMSessionGetDocumentFormatSupported", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.CFArrayRef.ptr, this.UInt32);
+    this.PMSessionGetDocumentFormatGeneration = lib.declare("PMSessionGetDocumentFormatGeneration", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.CFArrayRef.ptr);
+    this.PMSessionSetDocumentFormatGeneration = lib.declare("PMSessionSetDocumentFormatGeneration", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.CFStringRef, this.CFArrayRef, this.CFTypeRef);
+    this.PMSessionIsDocumentFormatSupported = lib.declare("PMSessionIsDocumentFormatSupported", ctypes.default_abi, this.OSStatus, this.PMPrintSession, this.CFStringRef, this.Boolean.ptr);
+    this.PMGetJobName = lib.declare("PMGetJobName", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.StringPtr);
+    this.PMSetJobName = lib.declare("PMSetJobName", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.StringPtr);
+    this.PMGetPhysicalPaperSize = lib.declare("PMGetPhysicalPaperSize", ctypes.default_abi, this.OSStatus, this.PMPageFormat, this.PMRect.ptr);
+    this.PMSetAdjustedPageRect = lib.declare("PMSetAdjustedPageRect", ctypes.default_abi, this.OSStatus, this.PMPageFormat, this.PMRect.ptr);
+    this.PMSetPhysicalPaperSize = lib.declare("PMSetPhysicalPaperSize", ctypes.default_abi, this.OSStatus, this.PMPageFormat, this.PMRect.ptr);
+    this.PMSetUnadjustedPaperRect = lib.declare("PMSetUnadjustedPaperRect", ctypes.default_abi, this.OSStatus, this.PMPageFormat, this.PMRect.ptr);
+    this.PMGetPhysicalPageSize = lib.declare("PMGetPhysicalPageSize", ctypes.default_abi, this.OSStatus, this.PMPageFormat, this.PMRect.ptr);
+    this.PMGetColorMode = lib.declare("PMGetColorMode", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.PMColorMode.ptr);
+    this.PMSetColorMode = lib.declare("PMSetColorMode", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.PMColorMode);
+    this.PMGetDestination = lib.declare("PMGetDestination", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.PMDestinationType.ptr, this.CFURLRef.ptr);
+    this.PMPrinterGetDescriptionURL = lib.declare("PMPrinterGetDescriptionURL", ctypes.default_abi, this.OSStatus, this.PMPrinter, this.CFStringRef, this.CFURLRef.ptr);
+    this.PMPrinterGetDeviceURI = lib.declare("PMPrinterGetDeviceURI", ctypes.default_abi, this.OSStatus, this.PMPrinter, this.CFURLRef.ptr);
+    this.PMGetResolution = lib.declare("PMGetResolution", ctypes.default_abi, this.OSStatus, this.PMPageFormat, this.PMResolution.ptr);
+    this.PMSetResolution = lib.declare("PMSetResolution", ctypes.default_abi, this.OSStatus, this.PMPageFormat, this.PMResolution.ptr);
+    this.PMFlattenPageFormat = lib.declare("PMFlattenPageFormat", ctypes.default_abi, this.OSStatus, this.PMPageFormat, this.Handle.ptr);
+    this.PMUnflattenPageFormat = lib.declare("PMUnflattenPageFormat", ctypes.default_abi, this.OSStatus, this.Handle, this.PMPageFormat.ptr);
+    this.PMFlattenPrintSettings = lib.declare("PMFlattenPrintSettings", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.Handle.ptr);
+    this.PMUnflattenPrintSettings = lib.declare("PMUnflattenPrintSettings", ctypes.default_abi, this.OSStatus, this.Handle, this.PMPrintSettings.ptr);
+    this.PMGetJobNameCFString = lib.declare("PMGetJobNameCFString", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.CFStringRef.ptr);
+    this.PMSetJobNameCFString = lib.declare("PMSetJobNameCFString", ctypes.default_abi, this.OSStatus, this.PMPrintSettings, this.CFStringRef);
+    this.PMPrinterGetPrinterResolution = lib.declare("PMPrinterGetPrinterResolution", ctypes.default_abi, this.OSStatus, this.PMPrinter, this.PMTag, this.PMResolution.ptr);
+    this.PMPaperCreate = lib.declare("PMPaperCreate", ctypes.default_abi, this.OSStatus, this.PMPrinter, this.CFStringRef, this.CFStringRef, ctypes.double, ctypes.double, this.PMPaperMargins.ptr, this.PMPaper.ptr);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/PrintCore.framework/Headers/PMDefinitionsDeprecated.h
@@ -351,15 +542,29 @@ function PMErrors_h(lib) {
 }
 
 Components.utils.import("resource://gre/modules/ctypes.jsm");
+Components.utils.import("resource://osxtypes/CoreFoundation.jsm");
+Components.utils.import("resource://osxtypes/CarbonCore.jsm");
+Components.utils.import("resource://osxtypes/ColorSync.jsm");
 Components.utils.import("resource://osxtypes/MacTypes.jsm");
+Components.utils.import("resource://osxtypes/CoreGraphics.jsm");
 
 const EXPORTED_SYMBOLS = ["PrintCore", "PMCore_h", "PMDefinitions_h", "PMCoreDeprecated_h", "PMDefinitionsDeprecated_h", "PMPrintSettingsKeys_h", "PMErrors_h"];
 
 function PrintCore() {
     let libpath = "/System/Library/Frameworks/ApplicationServices.framework/Frameworks/PrintCore.framework/PrintCore";
-    let lib = ctypes.open(libpath);
+    let library = ctypes.open(libpath);
     this.close = function() {
-        lib.close();
+        library.close();
+    };
+    let lib = {
+        declare: function() {
+            try {
+                return library.declare.apply(library, arguments);
+            } catch (ex) {
+                dump("Failed to declare " + arguments[0] + "\n");
+                return null;
+            }
+        }
     };
 
     PMCore_h.call(this, lib);

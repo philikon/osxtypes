@@ -87,6 +87,10 @@ function ATSLayoutTypes_h(lib) {
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/ATS.framework/Headers/ATSFont.h
 function ATSFont_h(lib) {
     ATSTypes_h.call(this, lib);
+    CFRunLoop_h.call(this, lib);
+    Files_h.call(this, lib);
+    TextCommon_h.call(this, lib);
+    CFURL_h.call(this, lib);
     CFBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
@@ -143,14 +147,60 @@ function ATSFont_h(lib) {
     this.kATSFontNotifyActionFontsChanged = 1;
     this.kATSFontNotifyActionDirectoriesChanged = 2;
     this.ATSNotificationCallback = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.ATSFontNotificationInfoRef, ctypes.void_t.ptr]).ptr;
+    this.ATSGetGeneration = lib.declare("ATSGetGeneration", ctypes.default_abi, this.ATSGeneration);
+    this.ATSFontActivateFromFileSpecification = lib.declare("ATSFontActivateFromFileSpecification", ctypes.default_abi, this.OSStatus, this.FSSpec.ptr, this.ATSFontContext, this.ATSFontFormat, ctypes.void_t.ptr, this.ATSOptionFlags, this.ATSFontContainerRef.ptr);
+    this.ATSFontActivateFromFileReference = lib.declare("ATSFontActivateFromFileReference", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.ATSFontContext, this.ATSFontFormat, ctypes.void_t.ptr, this.ATSOptionFlags, this.ATSFontContainerRef.ptr);
+    this.ATSFontActivateFromMemory = lib.declare("ATSFontActivateFromMemory", ctypes.default_abi, this.OSStatus, this.LogicalAddress, this.ByteCount, this.ATSFontContext, this.ATSFontFormat, ctypes.void_t.ptr, this.ATSOptionFlags, this.ATSFontContainerRef.ptr);
+    this.ATSFontDeactivate = lib.declare("ATSFontDeactivate", ctypes.default_abi, this.OSStatus, this.ATSFontContainerRef, ctypes.void_t.ptr, this.ATSOptionFlags);
+    this.ATSFontGetContainerFromFileReference = lib.declare("ATSFontGetContainerFromFileReference", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.ATSFontContext, this.ATSOptionFlags, this.ATSFontContainerRef.ptr);
+    this.ATSFontGetContainer = lib.declare("ATSFontGetContainer", ctypes.default_abi, this.OSStatus, this.ATSFontRef, this.ATSOptionFlags, this.ATSFontContainerRef.ptr);
+    this.ATSFontSetEnabled = lib.declare("ATSFontSetEnabled", ctypes.default_abi, this.OSStatus, this.ATSFontRef, this.ATSOptionFlags, this.Boolean);
+    this.ATSFontIsEnabled = lib.declare("ATSFontIsEnabled", ctypes.default_abi, this.Boolean, this.ATSFontRef);
+    this.ATSFontFamilyApplyFunction = lib.declare("ATSFontFamilyApplyFunction", ctypes.default_abi, this.OSStatus, this.ATSFontFamilyApplierFunction, ctypes.void_t.ptr);
+    this.ATSFontFamilyIteratorCreate = lib.declare("ATSFontFamilyIteratorCreate", ctypes.default_abi, this.OSStatus, this.ATSFontContext, this.ATSFontFilter.ptr, ctypes.void_t.ptr, this.ATSOptionFlags, this.ATSFontFamilyIterator.ptr);
+    this.ATSFontFamilyIteratorRelease = lib.declare("ATSFontFamilyIteratorRelease", ctypes.default_abi, this.OSStatus, this.ATSFontFamilyIterator.ptr);
+    this.ATSFontFamilyIteratorReset = lib.declare("ATSFontFamilyIteratorReset", ctypes.default_abi, this.OSStatus, this.ATSFontContext, this.ATSFontFilter.ptr, ctypes.void_t.ptr, this.ATSOptionFlags, this.ATSFontFamilyIterator.ptr);
+    this.ATSFontFamilyIteratorNext = lib.declare("ATSFontFamilyIteratorNext", ctypes.default_abi, this.OSStatus, this.ATSFontFamilyIterator, this.ATSFontFamilyRef.ptr);
+    this.ATSFontFamilyFindFromName = lib.declare("ATSFontFamilyFindFromName", ctypes.default_abi, this.ATSFontFamilyRef, this.CFStringRef, this.ATSOptionFlags);
+    this.ATSFontFamilyGetGeneration = lib.declare("ATSFontFamilyGetGeneration", ctypes.default_abi, this.ATSGeneration, this.ATSFontFamilyRef);
+    this.ATSFontFamilyGetName = lib.declare("ATSFontFamilyGetName", ctypes.default_abi, this.OSStatus, this.ATSFontFamilyRef, this.ATSOptionFlags, this.CFStringRef.ptr);
+    this.ATSFontFamilyGetEncoding = lib.declare("ATSFontFamilyGetEncoding", ctypes.default_abi, this.TextEncoding, this.ATSFontFamilyRef);
+    this.ATSFontApplyFunction = lib.declare("ATSFontApplyFunction", ctypes.default_abi, this.OSStatus, this.ATSFontApplierFunction, ctypes.void_t.ptr);
+    this.ATSFontIteratorCreate = lib.declare("ATSFontIteratorCreate", ctypes.default_abi, this.OSStatus, this.ATSFontContext, this.ATSFontFilter.ptr, ctypes.void_t.ptr, this.ATSOptionFlags, this.ATSFontIterator.ptr);
+    this.ATSFontIteratorRelease = lib.declare("ATSFontIteratorRelease", ctypes.default_abi, this.OSStatus, this.ATSFontIterator.ptr);
+    this.ATSFontIteratorReset = lib.declare("ATSFontIteratorReset", ctypes.default_abi, this.OSStatus, this.ATSFontContext, this.ATSFontFilter.ptr, ctypes.void_t.ptr, this.ATSOptionFlags, this.ATSFontIterator.ptr);
+    this.ATSFontIteratorNext = lib.declare("ATSFontIteratorNext", ctypes.default_abi, this.OSStatus, this.ATSFontIterator, this.ATSFontRef.ptr);
+    this.ATSFontFindFromName = lib.declare("ATSFontFindFromName", ctypes.default_abi, this.ATSFontRef, this.CFStringRef, this.ATSOptionFlags);
+    this.ATSFontFindFromPostScriptName = lib.declare("ATSFontFindFromPostScriptName", ctypes.default_abi, this.ATSFontRef, this.CFStringRef, this.ATSOptionFlags);
+    this.ATSFontFindFromContainer = lib.declare("ATSFontFindFromContainer", ctypes.default_abi, this.OSStatus, this.ATSFontContainerRef, this.ATSOptionFlags, this.ItemCount, this.ATSFontRef.ptr, this.ItemCount.ptr);
+    this.ATSFontGetGeneration = lib.declare("ATSFontGetGeneration", ctypes.default_abi, this.ATSGeneration, this.ATSFontRef);
+    this.ATSFontGetName = lib.declare("ATSFontGetName", ctypes.default_abi, this.OSStatus, this.ATSFontRef, this.ATSOptionFlags, this.CFStringRef.ptr);
+    this.ATSFontGetPostScriptName = lib.declare("ATSFontGetPostScriptName", ctypes.default_abi, this.OSStatus, this.ATSFontRef, this.ATSOptionFlags, this.CFStringRef.ptr);
+    this.ATSFontGetTableDirectory = lib.declare("ATSFontGetTableDirectory", ctypes.default_abi, this.OSStatus, this.ATSFontRef, this.ByteCount, ctypes.void_t.ptr, this.ByteCount.ptr);
+    this.ATSFontGetTable = lib.declare("ATSFontGetTable", ctypes.default_abi, this.OSStatus, this.ATSFontRef, this.FourCharCode, this.ByteOffset, this.ByteCount, ctypes.void_t.ptr, this.ByteCount.ptr);
+    this.ATSFontGetHorizontalMetrics = lib.declare("ATSFontGetHorizontalMetrics", ctypes.default_abi, this.OSStatus, this.ATSFontRef, this.ATSOptionFlags, this.ATSFontMetrics.ptr);
+    this.ATSFontGetVerticalMetrics = lib.declare("ATSFontGetVerticalMetrics", ctypes.default_abi, this.OSStatus, this.ATSFontRef, this.ATSOptionFlags, this.ATSFontMetrics.ptr);
+    this.ATSFontFamilyFindFromQuickDrawName = lib.declare("ATSFontFamilyFindFromQuickDrawName", ctypes.default_abi, this.ATSFontFamilyRef, this.ConstStr255Param);
+    this.ATSFontFamilyGetQuickDrawName = lib.declare("ATSFontFamilyGetQuickDrawName", ctypes.default_abi, this.OSStatus, this.ATSFontFamilyRef, ctypes.unsigned_char.ptr);
+    this.ATSFontGetFileSpecification = lib.declare("ATSFontGetFileSpecification", ctypes.default_abi, this.OSStatus, this.ATSFontRef, this.ATSFSSpec.ptr);
+    this.ATSFontGetFileReference = lib.declare("ATSFontGetFileReference", ctypes.default_abi, this.OSStatus, this.ATSFontRef, this.FSRef.ptr);
+    this.ATSFontGetFontFamilyResource = lib.declare("ATSFontGetFontFamilyResource", ctypes.default_abi, this.OSStatus, this.ATSFontRef, this.ByteCount, ctypes.void_t.ptr, this.ByteCount.ptr);
+    this.ATSFontNotify = lib.declare("ATSFontNotify", ctypes.default_abi, this.OSStatus, this.ATSFontNotifyAction, ctypes.void_t.ptr);
+    this.ATSFontNotificationSubscribe = lib.declare("ATSFontNotificationSubscribe", ctypes.default_abi, this.OSStatus, this.ATSNotificationCallback, this.ATSFontNotifyOption, ctypes.void_t.ptr, this.ATSFontNotificationRef.ptr);
+    this.ATSFontNotificationUnsubscribe = lib.declare("ATSFontNotificationUnsubscribe", ctypes.default_abi, this.OSStatus, this.ATSFontNotificationRef);
     this.ATSFontQuerySourceContext = new ctypes.StructType("ATSFontQuerySourceContext", [{version: this.UInt32}, {refCon: ctypes.void_t.ptr}, {retain: this.CFAllocatorRetainCallBack}, {release: this.CFAllocatorReleaseCallBack}]);
     this.kATSQueryActivateFontMessage = 1635021665;
     this.ATSFontQueryCallback = new ctypes.FunctionType(ctypes.default_abi, this.CFPropertyListRef, [this.ATSFontQueryMessageID, this.CFPropertyListRef, ctypes.void_t.ptr]).ptr;
+    this.ATSCreateFontQueryRunLoopSource = lib.declare("ATSCreateFontQueryRunLoopSource", ctypes.default_abi, this.CFRunLoopSourceRef, this.CFIndex, this.CFIndex, this.ATSFontQueryCallback, this.ATSFontQuerySourceContext.ptr);
     this.kATSFontAutoActivationDefault = 0;
     this.kATSFontAutoActivationDisabled = 1;
     this.kATSFontAutoActivationEnabled = 2;
     this.kATSFontAutoActivationAsk = 4;
     this.ATSFontAutoActivationSetting = this.UInt32;
+    this.ATSFontSetGlobalAutoActivationSetting = lib.declare("ATSFontSetGlobalAutoActivationSetting", ctypes.default_abi, this.OSStatus, this.ATSFontAutoActivationSetting);
+    this.ATSFontGetGlobalAutoActivationSetting = lib.declare("ATSFontGetGlobalAutoActivationSetting", ctypes.default_abi, this.ATSFontAutoActivationSetting);
+    this.ATSFontSetAutoActivationSettingForApplication = lib.declare("ATSFontSetAutoActivationSettingForApplication", ctypes.default_abi, this.OSStatus, this.ATSFontAutoActivationSetting, this.CFURLRef);
+    this.ATSFontGetAutoActivationSettingForApplication = lib.declare("ATSFontGetAutoActivationSettingForApplication", ctypes.default_abi, this.ATSFontAutoActivationSetting, this.CFURLRef);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/ATS.framework/Headers/SFNTLayoutTypes.h
@@ -1013,16 +1063,26 @@ function ScalerStreamTypes_h(lib) {
 Components.utils.import("resource://gre/modules/ctypes.jsm");
 Components.utils.import("resource://osxtypes/MacTypes.jsm");
 Components.utils.import("resource://osxtypes/CoreFoundation.jsm");
-Components.utils.import("resource://osxtypes/CoreGraphics.jsm");
 Components.utils.import("resource://osxtypes/CarbonCore.jsm");
+Components.utils.import("resource://osxtypes/CoreGraphics.jsm");
 
 const EXPORTED_SYMBOLS = ["ATS", "ATSLayoutTypes_h", "ATSFont_h", "SFNTLayoutTypes_h", "ATSTypes_h", "SFNTTypes_h", "ScalerStreamTypes_h"];
 
 function ATS() {
     let libpath = "/System/Library/Frameworks/ApplicationServices.framework/Frameworks/ATS.framework/ATS";
-    let lib = ctypes.open(libpath);
+    let library = ctypes.open(libpath);
     this.close = function() {
-        lib.close();
+        library.close();
+    };
+    let lib = {
+        declare: function() {
+            try {
+                return library.declare.apply(library, arguments);
+            } catch (ex) {
+                dump("Failed to declare " + arguments[0] + "\n");
+                return null;
+            }
+        }
     };
 
     ATSLayoutTypes_h.call(this, lib);

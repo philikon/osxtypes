@@ -308,6 +308,7 @@ function CoreAudioTypes_h(lib) {
 
 // Based on /System/Library/Frameworks/CoreAudio.framework/Headers/AudioHardware.h
 function AudioHardware_h(lib) {
+    CFRunLoop_h.call(this, lib);
     CoreAudioTypes_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
@@ -356,6 +357,14 @@ function AudioHardware_h(lib) {
     this.kAudioObjectPropertyOwnedObjects = 1870098020;
     this.kAudioObjectPropertyListenerAdded = 1818850145;
     this.kAudioObjectPropertyListenerRemoved = 1818850162;
+    this.AudioObjectShow = lib.declare("AudioObjectShow", ctypes.default_abi, ctypes.void_t, this.AudioObjectID);
+    this.AudioObjectHasProperty = lib.declare("AudioObjectHasProperty", ctypes.default_abi, this.Boolean, this.AudioObjectID, this.AudioObjectPropertyAddress.ptr);
+    this.AudioObjectIsPropertySettable = lib.declare("AudioObjectIsPropertySettable", ctypes.default_abi, this.OSStatus, this.AudioObjectID, this.AudioObjectPropertyAddress.ptr, this.Boolean.ptr);
+    this.AudioObjectGetPropertyDataSize = lib.declare("AudioObjectGetPropertyDataSize", ctypes.default_abi, this.OSStatus, this.AudioObjectID, this.AudioObjectPropertyAddress.ptr, this.UInt32, ctypes.void_t.ptr, this.UInt32.ptr);
+    this.AudioObjectGetPropertyData = lib.declare("AudioObjectGetPropertyData", ctypes.default_abi, this.OSStatus, this.AudioObjectID, this.AudioObjectPropertyAddress.ptr, this.UInt32, ctypes.void_t.ptr, this.UInt32.ptr, ctypes.void_t.ptr);
+    this.AudioObjectSetPropertyData = lib.declare("AudioObjectSetPropertyData", ctypes.default_abi, this.OSStatus, this.AudioObjectID, this.AudioObjectPropertyAddress.ptr, this.UInt32, ctypes.void_t.ptr, this.UInt32, ctypes.void_t.ptr);
+    this.AudioObjectAddPropertyListener = lib.declare("AudioObjectAddPropertyListener", ctypes.default_abi, this.OSStatus, this.AudioObjectID, this.AudioObjectPropertyAddress.ptr, this.AudioObjectPropertyListenerProc, ctypes.void_t.ptr);
+    this.AudioObjectRemovePropertyListener = lib.declare("AudioObjectRemovePropertyListener", ctypes.default_abi, this.OSStatus, this.AudioObjectID, this.AudioObjectPropertyAddress.ptr, this.AudioObjectPropertyListenerProc, ctypes.void_t.ptr);
     this.kAudioControlClassID = 1633907820;
     this.kAudioLevelControlClassID = 1818588780;
     this.kAudioBooleanControlClassID = 1953458028;
@@ -432,6 +441,14 @@ function AudioHardware_h(lib) {
     this.kAudioHardwarePropertyBootChimeVolumeScalarToDecibels = 1651913316;
     this.kAudioHardwarePropertyBootChimeVolumeDecibelsToScalar = 1650733686;
     this.kAudioHardwarePropertyBootChimeVolumeDecibelsToScalarTransferFunction = 1651930214;
+    this.AudioHardwareAddRunLoopSource = lib.declare("AudioHardwareAddRunLoopSource", ctypes.default_abi, this.OSStatus, this.CFRunLoopSourceRef);
+    this.AudioHardwareRemoveRunLoopSource = lib.declare("AudioHardwareRemoveRunLoopSource", ctypes.default_abi, this.OSStatus, this.CFRunLoopSourceRef);
+    this.AudioHardwareUnload = lib.declare("AudioHardwareUnload", ctypes.default_abi, this.OSStatus);
+    this.AudioHardwareGetPropertyInfo = lib.declare("AudioHardwareGetPropertyInfo", ctypes.default_abi, this.OSStatus, this.AudioHardwarePropertyID, this.UInt32.ptr, this.Boolean.ptr);
+    this.AudioHardwareGetProperty = lib.declare("AudioHardwareGetProperty", ctypes.default_abi, this.OSStatus, this.AudioHardwarePropertyID, this.UInt32.ptr, ctypes.void_t.ptr);
+    this.AudioHardwareSetProperty = lib.declare("AudioHardwareSetProperty", ctypes.default_abi, this.OSStatus, this.AudioHardwarePropertyID, this.UInt32, ctypes.void_t.ptr);
+    this.AudioHardwareAddPropertyListener = lib.declare("AudioHardwareAddPropertyListener", ctypes.default_abi, this.OSStatus, this.AudioHardwarePropertyID, this.AudioHardwarePropertyListenerProc, ctypes.void_t.ptr);
+    this.AudioHardwareRemovePropertyListener = lib.declare("AudioHardwareRemovePropertyListener", ctypes.default_abi, this.OSStatus, this.AudioHardwarePropertyID, this.AudioHardwarePropertyListenerProc);
     this.kAudioPlugInClassID = 1634757735;
     this.kAudioPlugInPropertyBundleID = 1885956452;
     this.kAudioPlugInCreateAggregateDevice = 1667327847;
@@ -554,6 +571,22 @@ function AudioHardware_h(lib) {
     this.kAudioDevicePropertyClockSourceNameForID = 1668506478;
     this.kAudioDevicePropertyPlayThruDestinationNameForID = 1835295854;
     this.kAudioDevicePropertyChannelNominalLineLevelNameForID = 1668181110;
+    this.AudioDeviceCreateIOProcID = lib.declare("AudioDeviceCreateIOProcID", ctypes.default_abi, this.OSStatus, this.AudioDeviceID, this.AudioDeviceIOProc, ctypes.void_t.ptr, this.AudioDeviceIOProcID.ptr);
+    this.AudioDeviceDestroyIOProcID = lib.declare("AudioDeviceDestroyIOProcID", ctypes.default_abi, this.OSStatus, this.AudioDeviceID, this.AudioDeviceIOProcID);
+    this.AudioDeviceAddIOProc = lib.declare("AudioDeviceAddIOProc", ctypes.default_abi, this.OSStatus, this.AudioDeviceID, this.AudioDeviceIOProc, ctypes.void_t.ptr);
+    this.AudioDeviceRemoveIOProc = lib.declare("AudioDeviceRemoveIOProc", ctypes.default_abi, this.OSStatus, this.AudioDeviceID, this.AudioDeviceIOProc);
+    this.AudioDeviceStart = lib.declare("AudioDeviceStart", ctypes.default_abi, this.OSStatus, this.AudioDeviceID, this.AudioDeviceIOProcID);
+    this.AudioDeviceStartAtTime = lib.declare("AudioDeviceStartAtTime", ctypes.default_abi, this.OSStatus, this.AudioDeviceID, this.AudioDeviceIOProcID, this.AudioTimeStamp.ptr, this.UInt32);
+    this.AudioDeviceStop = lib.declare("AudioDeviceStop", ctypes.default_abi, this.OSStatus, this.AudioDeviceID, this.AudioDeviceIOProcID);
+    this.AudioDeviceRead = lib.declare("AudioDeviceRead", ctypes.default_abi, this.OSStatus, this.AudioDeviceID, this.AudioTimeStamp.ptr, this.AudioBufferList.ptr);
+    this.AudioDeviceGetCurrentTime = lib.declare("AudioDeviceGetCurrentTime", ctypes.default_abi, this.OSStatus, this.AudioDeviceID, this.AudioTimeStamp.ptr);
+    this.AudioDeviceTranslateTime = lib.declare("AudioDeviceTranslateTime", ctypes.default_abi, this.OSStatus, this.AudioDeviceID, this.AudioTimeStamp.ptr, this.AudioTimeStamp.ptr);
+    this.AudioDeviceGetNearestStartTime = lib.declare("AudioDeviceGetNearestStartTime", ctypes.default_abi, this.OSStatus, this.AudioDeviceID, this.AudioTimeStamp.ptr, this.UInt32);
+    this.AudioDeviceGetPropertyInfo = lib.declare("AudioDeviceGetPropertyInfo", ctypes.default_abi, this.OSStatus, this.AudioDeviceID, this.UInt32, this.Boolean, this.AudioDevicePropertyID, this.UInt32.ptr, this.Boolean.ptr);
+    this.AudioDeviceGetProperty = lib.declare("AudioDeviceGetProperty", ctypes.default_abi, this.OSStatus, this.AudioDeviceID, this.UInt32, this.Boolean, this.AudioDevicePropertyID, this.UInt32.ptr, ctypes.void_t.ptr);
+    this.AudioDeviceSetProperty = lib.declare("AudioDeviceSetProperty", ctypes.default_abi, this.OSStatus, this.AudioDeviceID, this.AudioTimeStamp.ptr, this.UInt32, this.Boolean, this.AudioDevicePropertyID, this.UInt32, ctypes.void_t.ptr);
+    this.AudioDeviceAddPropertyListener = lib.declare("AudioDeviceAddPropertyListener", ctypes.default_abi, this.OSStatus, this.AudioDeviceID, this.UInt32, this.Boolean, this.AudioDevicePropertyID, this.AudioDevicePropertyListenerProc, ctypes.void_t.ptr);
+    this.AudioDeviceRemovePropertyListener = lib.declare("AudioDeviceRemovePropertyListener", ctypes.default_abi, this.OSStatus, this.AudioDeviceID, this.UInt32, this.Boolean, this.AudioDevicePropertyID, this.AudioDevicePropertyListenerProc);
     this.AudioStreamID = this.AudioObjectID;
     this.AudioStreamRangedDescription = new ctypes.StructType("AudioStreamRangedDescription", [{mFormat: this.AudioStreamBasicDescription}, {mSampleRateRange: this.AudioValueRange}]);
     this.AudioStreamPropertyListenerProc = new ctypes.FunctionType(ctypes.default_abi, this.OSStatus, [this.AudioStreamID, this.UInt32, this.AudioDevicePropertyID, ctypes.void_t.ptr]).ptr;
@@ -582,6 +615,11 @@ function AudioHardware_h(lib) {
     this.kAudioStreamPropertyPhysicalFormats = 1885762595;
     this.kAudioStreamPropertyPhysicalFormatSupported = 1885762623;
     this.kAudioStreamPropertyPhysicalFormatMatch = 1885762669;
+    this.AudioStreamGetPropertyInfo = lib.declare("AudioStreamGetPropertyInfo", ctypes.default_abi, this.OSStatus, this.AudioStreamID, this.UInt32, this.AudioDevicePropertyID, this.UInt32.ptr, this.Boolean.ptr);
+    this.AudioStreamGetProperty = lib.declare("AudioStreamGetProperty", ctypes.default_abi, this.OSStatus, this.AudioStreamID, this.UInt32, this.AudioDevicePropertyID, this.UInt32.ptr, ctypes.void_t.ptr);
+    this.AudioStreamSetProperty = lib.declare("AudioStreamSetProperty", ctypes.default_abi, this.OSStatus, this.AudioStreamID, this.AudioTimeStamp.ptr, this.UInt32, this.AudioDevicePropertyID, this.UInt32, ctypes.void_t.ptr);
+    this.AudioStreamAddPropertyListener = lib.declare("AudioStreamAddPropertyListener", ctypes.default_abi, this.OSStatus, this.AudioStreamID, this.UInt32, this.AudioDevicePropertyID, this.AudioStreamPropertyListenerProc, ctypes.void_t.ptr);
+    this.AudioStreamRemovePropertyListener = lib.declare("AudioStreamRemovePropertyListener", ctypes.default_abi, this.OSStatus, this.AudioStreamID, this.UInt32, this.AudioDevicePropertyID, this.AudioStreamPropertyListenerProc);
     this.kAudioAggregateDeviceClassID = 1633773415;
     this.kAudioAggregateDevicePropertyFullSubDeviceList = 1735554416;
     this.kAudioAggregateDevicePropertyActiveSubDeviceList = 1634169456;
@@ -600,23 +638,40 @@ function AudioHardware_h(lib) {
 
 // Based on /System/Library/Frameworks/CoreAudio.framework/Headers/HostTime.h
 function HostTime_h(lib) {
+    MacTypes_h.call(this, lib);
 
     if (this._HOSTTIME_H)
         return;
     this._HOSTTIME_H = true;
 
+    this.AudioGetCurrentHostTime = lib.declare("AudioGetCurrentHostTime", ctypes.default_abi, this.UInt64);
+    this.AudioGetHostClockFrequency = lib.declare("AudioGetHostClockFrequency", ctypes.default_abi, this.Float64);
+    this.AudioGetHostClockMinimumTimeDelta = lib.declare("AudioGetHostClockMinimumTimeDelta", ctypes.default_abi, this.UInt32);
+    this.AudioConvertHostTimeToNanos = lib.declare("AudioConvertHostTimeToNanos", ctypes.default_abi, this.UInt64, this.UInt64);
+    this.AudioConvertNanosToHostTime = lib.declare("AudioConvertNanosToHostTime", ctypes.default_abi, this.UInt64, this.UInt64);
 }
 
 Components.utils.import("resource://gre/modules/ctypes.jsm");
 Components.utils.import("resource://osxtypes/MacTypes.jsm");
+Components.utils.import("resource://osxtypes/CoreFoundation.jsm");
 
 const EXPORTED_SYMBOLS = ["CoreAudio", "CoreAudioTypes_h", "AudioHardware_h", "HostTime_h"];
 
 function CoreAudio() {
     let libpath = "/System/Library/Frameworks/CoreAudio.framework/CoreAudio";
-    let lib = ctypes.open(libpath);
+    let library = ctypes.open(libpath);
     this.close = function() {
-        lib.close();
+        library.close();
+    };
+    let lib = {
+        declare: function() {
+            try {
+                return library.declare.apply(library, arguments);
+            } catch (ex) {
+                dump("Failed to declare " + arguments[0] + "\n");
+                return null;
+            }
+        }
     };
 
     CoreAudioTypes_h.call(this, lib);

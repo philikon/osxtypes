@@ -2,8 +2,15 @@
 function Menus_h(lib) {
     Collections_h.call(this, lib);
     CFUUID_h.call(this, lib);
+    Events_h.call(this, lib);
+    ATSTypes_h.call(this, lib);
+    CarbonEventsCore_h.call(this, lib);
     QuickdrawTypes_h.call(this, lib);
     CFAttributedString_h.call(this, lib);
+    HIObject_h.call(this, lib);
+    CFArray_h.call(this, lib);
+    Appearance_h.call(this, lib);
+    CGContext_h.call(this, lib);
     TextCommon_h.call(this, lib);
     AEDataModel_h.call(this, lib);
     CFBase_h.call(this, lib);
@@ -183,6 +190,48 @@ function Menus_h(lib) {
     // Dropping inline function 'InvokeMenuDefUPP'.
     this.MenuDefSpec = new ctypes.StructType("MenuDefSpec", []);
     this.MenuDefSpecPtr = this.MenuDefSpec.ptr;
+    this.GetMenu = lib.declare("GetMenu", ctypes.default_abi, this.MenuRef, ctypes.short);
+    this.DisposeMenu = lib.declare("DisposeMenu", ctypes.default_abi, ctypes.void_t, this.MenuRef);
+    this.GetMenuID = lib.declare("GetMenuID", ctypes.default_abi, this.MenuID, this.MenuRef);
+    this.GetMenuWidth = lib.declare("GetMenuWidth", ctypes.default_abi, this.SInt16, this.MenuRef);
+    this.GetMenuHeight = lib.declare("GetMenuHeight", ctypes.default_abi, this.SInt16, this.MenuRef);
+    this.GetMenuDefinition = lib.declare("GetMenuDefinition", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuDefSpecPtr);
+    this.SetMenuID = lib.declare("SetMenuID", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.MenuID);
+    this.SetMenuWidth = lib.declare("SetMenuWidth", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.SInt16);
+    this.SetMenuHeight = lib.declare("SetMenuHeight", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.SInt16);
+    this.SetMenuDefinition = lib.declare("SetMenuDefinition", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuDefSpec.ptr);
+    this.CalcMenuSize = lib.declare("CalcMenuSize", ctypes.default_abi, ctypes.void_t, this.MenuRef);
+    this.CountMenuItems = lib.declare("CountMenuItems", ctypes.default_abi, this.UInt16, this.MenuRef);
+    this.GetMenuFont = lib.declare("GetMenuFont", ctypes.default_abi, this.OSStatus, this.MenuRef, this.SInt16.ptr, this.UInt16.ptr);
+    this.SetMenuFont = lib.declare("SetMenuFont", ctypes.default_abi, this.OSStatus, this.MenuRef, this.SInt16, this.UInt16);
+    this.GetMenuExcludesMarkColumn = lib.declare("GetMenuExcludesMarkColumn", ctypes.default_abi, this.Boolean, this.MenuRef);
+    this.SetMenuExcludesMarkColumn = lib.declare("SetMenuExcludesMarkColumn", ctypes.default_abi, this.OSStatus, this.MenuRef, this.Boolean);
+    this.RegisterMenuDefinition = lib.declare("RegisterMenuDefinition", ctypes.default_abi, this.OSStatus, this.SInt16, this.MenuDefSpecPtr);
+    this.CreateNewMenu = lib.declare("CreateNewMenu", ctypes.default_abi, this.OSStatus, this.MenuID, this.MenuAttributes, this.MenuRef.ptr);
+    this.CreateCustomMenu = lib.declare("CreateCustomMenu", ctypes.default_abi, this.OSStatus, this.MenuDefSpec.ptr, this.MenuID, this.MenuAttributes, this.MenuRef.ptr);
+    this.IsValidMenu = lib.declare("IsValidMenu", ctypes.default_abi, this.Boolean, this.MenuRef);
+    this.DuplicateMenu = lib.declare("DuplicateMenu", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuRef.ptr);
+    this.CopyMenuTitleAsCFString = lib.declare("CopyMenuTitleAsCFString", ctypes.default_abi, this.OSStatus, this.MenuRef, this.CFStringRef.ptr);
+    this.SetMenuTitleWithCFString = lib.declare("SetMenuTitleWithCFString", ctypes.default_abi, this.OSStatus, this.MenuRef, this.CFStringRef);
+    this.SetMenuTitleIcon = lib.declare("SetMenuTitleIcon", ctypes.default_abi, this.OSStatus, this.MenuRef, this.UInt32, ctypes.void_t.ptr);
+    this.GetMenuTitleIcon = lib.declare("GetMenuTitleIcon", ctypes.default_abi, this.OSStatus, this.MenuRef, this.UInt32.ptr, ctypes.void_t.ptr.ptr);
+    this.InvalidateMenuSize = lib.declare("InvalidateMenuSize", ctypes.default_abi, this.OSStatus, this.MenuRef);
+    this.IsMenuSizeInvalid = lib.declare("IsMenuSizeInvalid", ctypes.default_abi, this.Boolean, this.MenuRef);
+    this.HIMenuGetContentView = lib.declare("HIMenuGetContentView", ctypes.default_abi, this.OSStatus, this.MenuRef, this.ThemeMenuType, this.HIViewRef.ptr);
+    this.HIMenuSetFont = lib.declare("HIMenuSetFont", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.CTFontRef);
+    this.HIMenuCopyFont = lib.declare("HIMenuCopyFont", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.CTFontRef.ptr);
+    this.DeleteMenuItem = lib.declare("DeleteMenuItem", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.MenuItemIndex);
+    this.CopyMenuItems = lib.declare("CopyMenuItems", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.ItemCount, this.MenuRef, this.MenuItemIndex);
+    this.DeleteMenuItems = lib.declare("DeleteMenuItems", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.ItemCount);
+    this.AppendMenuItemTextWithCFString = lib.declare("AppendMenuItemTextWithCFString", ctypes.default_abi, this.OSStatus, this.MenuRef, this.CFStringRef, this.MenuItemAttributes, this.MenuCommand, this.MenuItemIndex.ptr);
+    this.InsertMenuItemTextWithCFString = lib.declare("InsertMenuItemTextWithCFString", ctypes.default_abi, this.OSStatus, this.MenuRef, this.CFStringRef, this.MenuItemIndex, this.MenuItemAttributes, this.MenuCommand);
+    this.HIMenuSetSelection = lib.declare("HIMenuSetSelection", ctypes.default_abi, this.OSStatus, this.MenuRef, this.ThemeMenuType, this.MenuItemIndex);
+    this.MenuSelect = lib.declare("MenuSelect", ctypes.default_abi, this.SInt32, this.Point);
+    this.PopUpMenuSelect = lib.declare("PopUpMenuSelect", ctypes.default_abi, this.SInt32, this.MenuRef, ctypes.short, ctypes.short, this.MenuItemIndex);
+    this.MenuChoice = lib.declare("MenuChoice", ctypes.default_abi, this.SInt32);
+    this.MenuEvent = lib.declare("MenuEvent", ctypes.default_abi, this.UInt32, this.EventRecord.ptr);
+    this.IsMenuKeyEvent = lib.declare("IsMenuKeyEvent", ctypes.default_abi, this.Boolean, this.MenuRef, this.EventRef, this.MenuEventOptions, this.MenuRef.ptr, this.MenuItemIndex.ptr);
+    this.InvalidateMenuEnabling = lib.declare("InvalidateMenuEnabling", ctypes.default_abi, this.OSStatus, this.MenuRef);
     this.kHIMenuDismissedBySelection = 1;
     this.kHIMenuDismissedByUserCancel = 2;
     this.kHIMenuDismissedByMouseDown = 3;
@@ -193,8 +242,104 @@ function Menus_h(lib) {
     this.kHIMenuDismissedByCancelMenuTracking = 8;
     this.kHIMenuDismissedByActivationChange = 9;
     this.kHIMenuDismissedByFocusChange = 10;
+    this.CancelMenuTracking = lib.declare("CancelMenuTracking", ctypes.default_abi, this.OSStatus, this.MenuRef, this.Boolean, this.UInt32);
+    this.GetMBarHeight = lib.declare("GetMBarHeight", ctypes.default_abi, ctypes.short);
+    this.DrawMenuBar = lib.declare("DrawMenuBar", ctypes.default_abi, ctypes.void_t);
+    this.InvalMenuBar = lib.declare("InvalMenuBar", ctypes.default_abi, ctypes.void_t);
+    this.IsMenuBarInvalid = lib.declare("IsMenuBarInvalid", ctypes.default_abi, this.Boolean, this.MenuRef);
+    this.HiliteMenu = lib.declare("HiliteMenu", ctypes.default_abi, ctypes.void_t, this.MenuID);
+    this.GetNewMBar = lib.declare("GetNewMBar", ctypes.default_abi, this.MenuBarHandle, ctypes.short);
+    this.GetMenuBar = lib.declare("GetMenuBar", ctypes.default_abi, this.MenuBarHandle);
+    this.SetMenuBar = lib.declare("SetMenuBar", ctypes.default_abi, ctypes.void_t, this.MenuBarHandle);
+    this.DuplicateMenuBar = lib.declare("DuplicateMenuBar", ctypes.default_abi, this.OSStatus, this.MenuBarHandle, this.MenuBarHandle.ptr);
+    this.DisposeMenuBar = lib.declare("DisposeMenuBar", ctypes.default_abi, this.OSStatus, this.MenuBarHandle);
+    this.GetMenuHandle = lib.declare("GetMenuHandle", ctypes.default_abi, this.MenuRef, this.MenuID);
+    this.InsertMenu = lib.declare("InsertMenu", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.MenuID);
+    this.DeleteMenu = lib.declare("DeleteMenu", ctypes.default_abi, ctypes.void_t, this.MenuID);
+    this.ClearMenuBar = lib.declare("ClearMenuBar", ctypes.default_abi, ctypes.void_t);
+    this.FlashMenuBar = lib.declare("FlashMenuBar", ctypes.default_abi, ctypes.void_t, this.MenuID);
+    this.IsMenuBarVisible = lib.declare("IsMenuBarVisible", ctypes.default_abi, this.Boolean);
+    this.ShowMenuBar = lib.declare("ShowMenuBar", ctypes.default_abi, ctypes.void_t);
+    this.HideMenuBar = lib.declare("HideMenuBar", ctypes.default_abi, ctypes.void_t);
+    this.AcquireRootMenu = lib.declare("AcquireRootMenu", ctypes.default_abi, this.MenuRef);
+    this.SetRootMenu = lib.declare("SetRootMenu", ctypes.default_abi, this.OSStatus, this.MenuRef);
+    this.CheckMenuItem = lib.declare("CheckMenuItem", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.MenuItemIndex, this.Boolean);
+    this.SetItemMark = lib.declare("SetItemMark", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.MenuItemIndex, this.CharParameter);
+    this.GetItemMark = lib.declare("GetItemMark", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.MenuItemIndex, this.CharParameter.ptr);
+    this.SetItemCmd = lib.declare("SetItemCmd", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.MenuItemIndex, this.CharParameter);
+    this.GetItemCmd = lib.declare("GetItemCmd", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.MenuItemIndex, this.CharParameter.ptr);
+    this.SetItemStyle = lib.declare("SetItemStyle", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.MenuItemIndex, this.StyleParameter);
+    this.GetItemStyle = lib.declare("GetItemStyle", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.MenuItemIndex, this.Style.ptr);
+    this.SetMenuItemCommandID = lib.declare("SetMenuItemCommandID", ctypes.default_abi, this.OSErr, this.MenuRef, this.MenuItemIndex, this.MenuCommand);
+    this.GetMenuItemCommandID = lib.declare("GetMenuItemCommandID", ctypes.default_abi, this.OSErr, this.MenuRef, this.MenuItemIndex, this.MenuCommand.ptr);
+    this.SetMenuItemModifiers = lib.declare("SetMenuItemModifiers", ctypes.default_abi, this.OSErr, this.MenuRef, this.MenuItemIndex, this.UInt8);
+    this.GetMenuItemModifiers = lib.declare("GetMenuItemModifiers", ctypes.default_abi, this.OSErr, this.MenuRef, this.MenuItemIndex, this.UInt8.ptr);
+    this.SetMenuItemIconHandle = lib.declare("SetMenuItemIconHandle", ctypes.default_abi, this.OSErr, this.MenuRef, this.MenuItemIndex, this.UInt8, this.Handle);
+    this.GetMenuItemIconHandle = lib.declare("GetMenuItemIconHandle", ctypes.default_abi, this.OSErr, this.MenuRef, this.MenuItemIndex, this.UInt8.ptr, this.Handle.ptr);
+    this.SetMenuItemFontID = lib.declare("SetMenuItemFontID", ctypes.default_abi, this.OSErr, this.MenuRef, this.MenuItemIndex, this.SInt16);
+    this.GetMenuItemFontID = lib.declare("GetMenuItemFontID", ctypes.default_abi, this.OSErr, this.MenuRef, this.MenuItemIndex, this.SInt16.ptr);
+    this.SetMenuItemRefCon = lib.declare("SetMenuItemRefCon", ctypes.default_abi, this.OSErr, this.MenuRef, this.MenuItemIndex, this.URefCon);
+    this.GetMenuItemRefCon = lib.declare("GetMenuItemRefCon", ctypes.default_abi, this.OSErr, this.MenuRef, this.MenuItemIndex, this.URefCon.ptr);
+    this.SetMenuItemKeyGlyph = lib.declare("SetMenuItemKeyGlyph", ctypes.default_abi, this.OSErr, this.MenuRef, this.MenuItemIndex, this.SInt16);
+    this.GetMenuItemKeyGlyph = lib.declare("GetMenuItemKeyGlyph", ctypes.default_abi, this.OSErr, this.MenuRef, this.MenuItemIndex, this.SInt16.ptr);
+    this.EnableMenuItem = lib.declare("EnableMenuItem", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.MenuItemIndex);
+    this.DisableMenuItem = lib.declare("DisableMenuItem", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.MenuItemIndex);
+    this.IsMenuItemEnabled = lib.declare("IsMenuItemEnabled", ctypes.default_abi, this.Boolean, this.MenuRef, this.MenuItemIndex);
+    this.EnableMenuItemIcon = lib.declare("EnableMenuItemIcon", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.MenuItemIndex);
+    this.DisableMenuItemIcon = lib.declare("DisableMenuItemIcon", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.MenuItemIndex);
+    this.IsMenuItemIconEnabled = lib.declare("IsMenuItemIconEnabled", ctypes.default_abi, this.Boolean, this.MenuRef, this.MenuItemIndex);
+    this.SetMenuItemHierarchicalMenu = lib.declare("SetMenuItemHierarchicalMenu", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.MenuRef);
+    this.GetMenuItemHierarchicalMenu = lib.declare("GetMenuItemHierarchicalMenu", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.MenuRef.ptr);
+    this.HIMenuCopyParents = lib.declare("HIMenuCopyParents", ctypes.default_abi, this.OSStatus, this.MenuRef, this.CFArrayRef.ptr);
+    this.CopyMenuItemTextAsCFString = lib.declare("CopyMenuItemTextAsCFString", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.CFStringRef.ptr);
+    this.SetMenuItemTextWithCFString = lib.declare("SetMenuItemTextWithCFString", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.CFStringRef);
+    this.HIMenuSetAttributedItemText = lib.declare("HIMenuSetAttributedItemText", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.CFAttributedStringRef);
+    this.HIMenuCopyAttributedItemText = lib.declare("HIMenuCopyAttributedItemText", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.CFAttributedStringRef.ptr);
+    this.GetMenuItemIndent = lib.declare("GetMenuItemIndent", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.UInt32.ptr);
+    this.SetMenuItemIndent = lib.declare("SetMenuItemIndent", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.UInt32);
+    this.GetMenuItemCommandKey = lib.declare("GetMenuItemCommandKey", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.Boolean, this.UInt16.ptr);
+    this.SetMenuItemCommandKey = lib.declare("SetMenuItemCommandKey", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.Boolean, this.UInt16);
+    this.HIMenuSetItemViewClass = lib.declare("HIMenuSetItemViewClass", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.CFStringRef, this.EventRef);
+    this.HIMenuCopyItemViewClass = lib.declare("HIMenuCopyItemViewClass", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.CFStringRef.ptr, this.EventRef.ptr);
+    this.HIMenuGetItemView = lib.declare("HIMenuGetItemView", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.ThemeMenuType, this.HIViewRef.ptr);
+    this.HIMenuItemViewGetEnclosingMenuItem = lib.declare("HIMenuItemViewGetEnclosingMenuItem", ctypes.default_abi, this.Boolean, this.HIViewRef, this.MenuRef.ptr, this.MenuItemIndex.ptr);
+    this.HIMenuItemViewCancelMenuTracking = lib.declare("HIMenuItemViewCancelMenuTracking", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.Boolean, this.UInt32);
     this.kMenuPropertyPersistent = 1;
+    this.GetMenuItemProperty = lib.declare("GetMenuItemProperty", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.OSType, this.OSType, this.ByteCount, this.ByteCount.ptr, ctypes.void_t.ptr);
+    this.GetMenuItemPropertySize = lib.declare("GetMenuItemPropertySize", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.OSType, this.OSType, this.ByteCount.ptr);
+    this.SetMenuItemProperty = lib.declare("SetMenuItemProperty", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.OSType, this.OSType, this.ByteCount, ctypes.void_t.ptr);
+    this.RemoveMenuItemProperty = lib.declare("RemoveMenuItemProperty", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.OSType, this.OSType);
+    this.GetMenuItemPropertyAttributes = lib.declare("GetMenuItemPropertyAttributes", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.OSType, this.OSType, this.OptionBits.ptr);
+    this.ChangeMenuItemPropertyAttributes = lib.declare("ChangeMenuItemPropertyAttributes", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.OSType, this.OSType, this.OptionBits, this.OptionBits);
+    this.GetMenuAttributes = lib.declare("GetMenuAttributes", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuAttributes.ptr);
+    this.ChangeMenuAttributes = lib.declare("ChangeMenuAttributes", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuAttributes, this.MenuAttributes);
+    this.GetMenuItemAttributes = lib.declare("GetMenuItemAttributes", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.MenuItemAttributes.ptr);
+    this.ChangeMenuItemAttributes = lib.declare("ChangeMenuItemAttributes", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.MenuItemAttributes, this.MenuItemAttributes);
+    this.DisableAllMenuItems = lib.declare("DisableAllMenuItems", ctypes.default_abi, ctypes.void_t, this.MenuRef);
+    this.EnableAllMenuItems = lib.declare("EnableAllMenuItems", ctypes.default_abi, ctypes.void_t, this.MenuRef);
+    this.MenuHasEnabledItems = lib.declare("MenuHasEnabledItems", ctypes.default_abi, this.Boolean, this.MenuRef);
+    this.GetMenuTrackingData = lib.declare("GetMenuTrackingData", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuTrackingData.ptr);
+    this.GetMenuType = lib.declare("GetMenuType", ctypes.default_abi, this.OSStatus, this.MenuRef, this.UInt16.ptr);
+    this.CountMenuItemsWithCommandID = lib.declare("CountMenuItemsWithCommandID", ctypes.default_abi, this.ItemCount, this.MenuRef, this.MenuCommand);
+    this.GetIndMenuItemWithCommandID = lib.declare("GetIndMenuItemWithCommandID", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuCommand, this.UInt32, this.MenuRef.ptr, this.MenuItemIndex.ptr);
+    this.EnableMenuCommand = lib.declare("EnableMenuCommand", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.MenuCommand);
+    this.DisableMenuCommand = lib.declare("DisableMenuCommand", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.MenuCommand);
+    this.IsMenuCommandEnabled = lib.declare("IsMenuCommandEnabled", ctypes.default_abi, this.Boolean, this.MenuRef, this.MenuCommand);
+    this.SetMenuCommandMark = lib.declare("SetMenuCommandMark", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuCommand, this.UniChar);
+    this.GetMenuCommandMark = lib.declare("GetMenuCommandMark", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuCommand, ctypes.unsigned_short.ptr);
+    this.GetMenuCommandProperty = lib.declare("GetMenuCommandProperty", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuCommand, this.OSType, this.OSType, this.ByteCount, this.ByteCount.ptr, ctypes.void_t.ptr);
+    this.GetMenuCommandPropertySize = lib.declare("GetMenuCommandPropertySize", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuCommand, this.OSType, this.OSType, this.ByteCount.ptr);
+    this.SetMenuCommandProperty = lib.declare("SetMenuCommandProperty", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuCommand, this.OSType, this.OSType, this.ByteCount, ctypes.void_t.ptr);
+    this.RemoveMenuCommandProperty = lib.declare("RemoveMenuCommandProperty", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuCommand, this.OSType, this.OSType);
+    this.CopyMenuItemData = lib.declare("CopyMenuItemData", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemID, this.Boolean, this.MenuItemDataPtr);
+    this.SetMenuItemData = lib.declare("SetMenuItemData", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemID, this.Boolean, this.MenuItemDataRec.ptr);
+    this.IsMenuItemInvalid = lib.declare("IsMenuItemInvalid", ctypes.default_abi, this.Boolean, this.MenuRef, this.MenuItemIndex);
+    this.InvalidateMenuItems = lib.declare("InvalidateMenuItems", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.ItemCount);
+    this.UpdateInvalidMenuItems = lib.declare("UpdateInvalidMenuItems", ctypes.default_abi, this.OSStatus, this.MenuRef);
     this.kHierarchicalFontMenuOption = 1;
+    this.CreateStandardFontMenu = lib.declare("CreateStandardFontMenu", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.MenuID, this.OptionBits, this.ItemCount.ptr);
+    this.UpdateStandardFontMenu = lib.declare("UpdateStandardFontMenu", ctypes.default_abi, this.OSStatus, this.MenuRef, this.ItemCount.ptr);
+    this.GetFontFamilyFromMenuSelection = lib.declare("GetFontFamilyFromMenuSelection", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.FMFontFamily.ptr, this.FMFontStyle.ptr);
     this.gestaltContextualMenuAttr = 1668116085;
     this.gestaltContextualMenuUnusedBit = 0;
     this.gestaltContextualMenuTrapAvailable = 1;
@@ -212,7 +357,14 @@ function Menus_h(lib) {
     this.keyContextualMenuSubmenu = 1668117346;
     this.keyContextualMenuAttributes = 1668112756;
     this.keyContextualMenuModifiers = 1668115812;
+    this.IsShowContextualMenuClick = lib.declare("IsShowContextualMenuClick", ctypes.default_abi, this.Boolean, this.EventRecord.ptr);
+    this.IsShowContextualMenuEvent = lib.declare("IsShowContextualMenuEvent", ctypes.default_abi, this.Boolean, this.EventRef);
+    this.ContextualMenuSelect = lib.declare("ContextualMenuSelect", ctypes.default_abi, this.OSStatus, this.MenuRef, this.Point, this.Boolean, this.UInt32, this.ConstStr255Param, this.AEDesc.ptr, this.UInt32.ptr, this.MenuID.ptr, this.MenuItemIndex.ptr);
     this.ContextualMenuInterfaceStruct = new ctypes.StructType("ContextualMenuInterfaceStruct", [{_reserved: ctypes.void_t.ptr}, {QueryInterface: new ctypes.FunctionType(ctypes.default_abi, this.SInt32, [ctypes.void_t.ptr, this.CFUUIDBytes, ctypes.void_t.ptr.ptr]).ptr}, {AddRef: new ctypes.FunctionType(ctypes.default_abi, this.UInt32, [ctypes.void_t.ptr]).ptr}, {Release: new ctypes.FunctionType(ctypes.default_abi, this.UInt32, [ctypes.void_t.ptr]).ptr}, {ExamineContext: new ctypes.FunctionType(ctypes.default_abi, this.OSStatus, [ctypes.void_t.ptr, this.AEDesc.ptr, this.AEDescList.ptr]).ptr}, {HandleSelection: new ctypes.FunctionType(ctypes.default_abi, this.OSStatus, [ctypes.void_t.ptr, this.AEDesc.ptr, this.SInt32]).ptr}, {PostMenuCleanup: new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [ctypes.void_t.ptr]).ptr}]);
+    this.CMPluginExamineContext = lib.declare("CMPluginExamineContext", ctypes.default_abi, this.OSStatus, ctypes.void_t.ptr, this.AEDesc.ptr, this.AEDescList.ptr);
+    this.CMPluginHandleSelection = lib.declare("CMPluginHandleSelection", ctypes.default_abi, this.OSStatus, ctypes.void_t.ptr, this.AEDesc.ptr, this.SInt32);
+    this.CMPluginPostMenuCleanup = lib.declare("CMPluginPostMenuCleanup", ctypes.default_abi, ctypes.void_t, ctypes.void_t.ptr);
+    this.LMGetTheMenu = lib.declare("LMGetTheMenu", ctypes.default_abi, this.MenuID);
     this.kMenuDrawMsg = 0;
     this.kMenuSizeMsg = 2;
     this.kMenuPopUpMsg = 3;
@@ -251,6 +403,40 @@ function Menus_h(lib) {
     this.hMenuCmd = 27;
     this.kInsertHierarchicalMenu = -1;
     this.hierMenu = -1;
+    this.NewMenu = lib.declare("NewMenu", ctypes.default_abi, this.MenuRef, this.MenuID, this.ConstStr255Param);
+    this.GetMenuTitle = lib.declare("GetMenuTitle", ctypes.default_abi, this.StringPtr, this.MenuRef, ctypes.unsigned_char.ptr);
+    this.SetMenuTitle = lib.declare("SetMenuTitle", ctypes.default_abi, this.OSStatus, this.MenuRef, this.ConstStr255Param);
+    this.AppendMenu = lib.declare("AppendMenu", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.ConstStr255Param);
+    this.InsertMenuItem = lib.declare("InsertMenuItem", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.ConstStr255Param, this.MenuItemIndex);
+    this.AppendMenuItemText = lib.declare("AppendMenuItemText", ctypes.default_abi, this.OSStatus, this.MenuRef, this.ConstStr255Param);
+    this.InsertMenuItemText = lib.declare("InsertMenuItemText", ctypes.default_abi, this.OSStatus, this.MenuRef, this.ConstStr255Param, this.MenuItemIndex);
+    this.SetMenuItemText = lib.declare("SetMenuItemText", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.MenuItemIndex, this.ConstStr255Param);
+    this.GetMenuItemText = lib.declare("GetMenuItemText", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.MenuItemIndex, ctypes.unsigned_char.ptr);
+    this.SetMenuItemTextEncoding = lib.declare("SetMenuItemTextEncoding", ctypes.default_abi, this.OSErr, this.MenuRef, this.MenuItemIndex, this.TextEncoding);
+    this.GetMenuItemTextEncoding = lib.declare("GetMenuItemTextEncoding", ctypes.default_abi, this.OSErr, this.MenuRef, this.MenuItemIndex, this.TextEncoding.ptr);
+    this.SetItemIcon = lib.declare("SetItemIcon", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.MenuItemIndex, ctypes.short);
+    this.GetItemIcon = lib.declare("GetItemIcon", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.MenuItemIndex, ctypes.short.ptr);
+    this.SetMenuItemHierarchicalID = lib.declare("SetMenuItemHierarchicalID", ctypes.default_abi, this.OSErr, this.MenuRef, this.MenuItemIndex, this.MenuID);
+    this.GetMenuItemHierarchicalID = lib.declare("GetMenuItemHierarchicalID", ctypes.default_abi, this.OSErr, this.MenuRef, this.MenuItemIndex, this.MenuID.ptr);
+    this.GetMenuRetainCount = lib.declare("GetMenuRetainCount", ctypes.default_abi, this.ItemCount, this.MenuRef);
+    this.RetainMenu = lib.declare("RetainMenu", ctypes.default_abi, this.OSStatus, this.MenuRef);
+    this.ReleaseMenu = lib.declare("ReleaseMenu", ctypes.default_abi, this.OSStatus, this.MenuRef);
+    this.InsertResMenu = lib.declare("InsertResMenu", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.ResType, this.MenuItemIndex);
+    this.AppendResMenu = lib.declare("AppendResMenu", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.ResType);
+    this.InsertFontResMenu = lib.declare("InsertFontResMenu", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.MenuItemIndex, ctypes.short);
+    this.InsertIntlResMenu = lib.declare("InsertIntlResMenu", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.ResType, this.MenuItemIndex, ctypes.short);
+    this.MenuKey = lib.declare("MenuKey", ctypes.default_abi, this.SInt32, this.CharParameter);
+    this.SetMenuFlashCount = lib.declare("SetMenuFlashCount", ctypes.default_abi, ctypes.void_t, ctypes.short);
+    this.InitContextualMenus = lib.declare("InitContextualMenus", ctypes.default_abi, this.OSStatus);
+    this.ProcessIsContextualMenuClient = lib.declare("ProcessIsContextualMenuClient", ctypes.default_abi, this.Boolean, this.ProcessSerialNumber.ptr);
+    this.DeleteMCEntries = lib.declare("DeleteMCEntries", ctypes.default_abi, ctypes.void_t, this.MenuID, ctypes.short);
+    this.GetMCInfo = lib.declare("GetMCInfo", ctypes.default_abi, this.MCTableHandle);
+    this.SetMCInfo = lib.declare("SetMCInfo", ctypes.default_abi, ctypes.void_t, this.MCTableHandle);
+    this.DisposeMCInfo = lib.declare("DisposeMCInfo", ctypes.default_abi, ctypes.void_t, this.MCTableHandle);
+    this.GetMCEntry = lib.declare("GetMCEntry", ctypes.default_abi, this.MCEntryPtr, this.MenuID, ctypes.short);
+    this.SetMCEntries = lib.declare("SetMCEntries", ctypes.default_abi, ctypes.void_t, ctypes.short, this.MCTablePtr);
+    this.EraseMenuBackground = lib.declare("EraseMenuBackground", ctypes.default_abi, this.OSStatus, this.MenuRef, this.Rect.ptr, this.CGContextRef);
+    this.ScrollMenuImage = lib.declare("ScrollMenuImage", ctypes.default_abi, this.OSStatus, this.MenuRef, this.Rect.ptr, ctypes.int, ctypes.int, this.CGContextRef);
     this.MenuBarDefProcPtr = new ctypes.FunctionType(ctypes.default_abi, ctypes.long, [ctypes.short, ctypes.short, ctypes.short, ctypes.long]).ptr;
     this.MenuHookProcPtr = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, []).ptr;
     this.MBarHookProcPtr = new ctypes.FunctionType(ctypes.default_abi, ctypes.short, [this.Rect.ptr]).ptr;
@@ -261,12 +447,30 @@ function Menus_h(lib) {
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/MacWindows.h
 function MacWindows_h(lib) {
+    CGColorSpace_h.call(this, lib);
+    HIToolbar_h.call(this, lib);
+    IconsCore_h.call(this, lib);
+    HIShape_h.call(this, lib);
+    CGWindow_h.call(this, lib);
+    Menus_h.call(this, lib);
+    HIGeometry_h.call(this, lib);
     Events_h.call(this, lib);
     CarbonEventsCore_h.call(this, lib);
-    QuickdrawTypes_h.call(this, lib);
-    QDOffscreen_h.call(this, lib);
     CGBase_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
     MacTypes_h.call(this, lib);
+    Aliases_h.call(this, lib);
+    Collections_h.call(this, lib);
+    HIObject_h.call(this, lib);
+    Files_h.call(this, lib);
+    Drag_h.call(this, lib);
+    QDOffscreen_h.call(this, lib);
+    QuickdrawTypes_h.call(this, lib);
+    Appearance_h.call(this, lib);
+    CGContext_h.call(this, lib);
+    CGWindowLevel_h.call(this, lib);
+    CGDirectDisplay_h.call(this, lib);
 
     if (this._MACWINDOWS_H)
         return;
@@ -529,19 +733,48 @@ function MacWindows_h(lib) {
     this.WindowDefType = this.UInt32;
     this.WindowDefSpec = new ctypes.StructType("WindowDefSpec", []);
     this.WindowDefSpecPtr = this.WindowDefSpec.ptr;
+    this.HIWindowCreate = lib.declare("HIWindowCreate", ctypes.default_abi, this.OSStatus, this.WindowClass, ctypes.int.ptr, this.WindowDefSpec.ptr, this.HICoordinateSpace, this.HIRect.ptr, this.WindowRef.ptr);
+    this.CreateNewWindow = lib.declare("CreateNewWindow", ctypes.default_abi, this.OSStatus, this.WindowClass, this.WindowAttributes, this.Rect.ptr, this.WindowRef.ptr);
+    this.DisposeWindow = lib.declare("DisposeWindow", ctypes.default_abi, ctypes.void_t, this.WindowRef);
+    this.CreateCustomWindow = lib.declare("CreateCustomWindow", ctypes.default_abi, this.OSStatus, this.WindowDefSpec.ptr, this.WindowClass, this.WindowAttributes, this.Rect.ptr, this.WindowRef.ptr);
+    this.ReshapeCustomWindow = lib.declare("ReshapeCustomWindow", ctypes.default_abi, this.OSStatus, this.WindowRef);
+    this.RegisterWindowDefinition = lib.declare("RegisterWindowDefinition", ctypes.default_abi, this.OSStatus, this.SInt16, this.WindowDefSpec.ptr);
+    this.GetWindowWidgetHilite = lib.declare("GetWindowWidgetHilite", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowDefPartCode.ptr);
+    this.IsValidWindowClass = lib.declare("IsValidWindowClass", ctypes.default_abi, this.Boolean, this.WindowClass);
+    this.HIWindowTestAttribute = lib.declare("HIWindowTestAttribute", ctypes.default_abi, this.Boolean, this.WindowRef, ctypes.int);
+    this.HIWindowChangeAttributes = lib.declare("HIWindowChangeAttributes", ctypes.default_abi, this.OSStatus, this.WindowRef, ctypes.int.ptr, ctypes.int.ptr);
+    this.HIWindowIsAttributeAvailable = lib.declare("HIWindowIsAttributeAvailable", ctypes.default_abi, this.Boolean, this.WindowClass, ctypes.int);
+    this.GetAvailableWindowAttributes = lib.declare("GetAvailableWindowAttributes", ctypes.default_abi, this.WindowAttributes, this.WindowClass);
+    this.GetWindowClass = lib.declare("GetWindowClass", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowClass.ptr);
+    this.GetWindowAttributes = lib.declare("GetWindowAttributes", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowAttributes.ptr);
+    this.ChangeWindowAttributes = lib.declare("ChangeWindowAttributes", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowAttributes, this.WindowAttributes);
+    this.HIWindowChangeClass = lib.declare("HIWindowChangeClass", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowClass);
+    this.HIWindowGetCGWindowID = lib.declare("HIWindowGetCGWindowID", ctypes.default_abi, this.CGWindowID, this.WindowRef);
+    this.HIWindowFromCGWindowID = lib.declare("HIWindowFromCGWindowID", ctypes.default_abi, this.WindowRef, this.CGWindowID);
+    this.HIWindowFlush = lib.declare("HIWindowFlush", ctypes.default_abi, this.OSStatus, this.WindowRef);
     this.kHIWindowBackingLocationDefault = 0;
     this.kHIWindowBackingLocationVideoMemory = 1;
     this.kHIWindowBackingLocationMainMemory = 2;
     this.HIWindowBackingLocation = this.UInt32;
+    this.HIWindowSetBackingLocation = lib.declare("HIWindowSetBackingLocation", ctypes.default_abi, this.OSStatus, this.WindowRef, this.HIWindowBackingLocation);
+    this.HIWindowGetBackingLocation = lib.declare("HIWindowGetBackingLocation", ctypes.default_abi, this.HIWindowBackingLocation, this.WindowRef, this.HIWindowBackingLocation.ptr);
     this.kHIWindowSharingNone = 0;
     this.kHIWindowSharingReadOnly = 1;
     this.kHIWindowSharingReadWrite = 2;
     this.HIWindowSharingType = this.UInt32;
+    this.HIWindowSetSharingType = lib.declare("HIWindowSetSharingType", ctypes.default_abi, this.OSStatus, this.WindowRef, this.HIWindowSharingType);
+    this.HIWindowGetSharingType = lib.declare("HIWindowGetSharingType", ctypes.default_abi, this.HIWindowSharingType, this.WindowRef);
     this.WindowModality = this.UInt32;
     this.kWindowModalityNone = 0;
     this.kWindowModalitySystemModal = 1;
     this.kWindowModalityAppModal = 2;
     this.kWindowModalityWindowModal = 3;
+    this.SetWindowModality = lib.declare("SetWindowModality", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowModality, this.WindowRef);
+    this.GetWindowModality = lib.declare("GetWindowModality", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowModality.ptr, this.WindowRef.ptr);
+    this.HIWindowIsDocumentModalTarget = lib.declare("HIWindowIsDocumentModalTarget", ctypes.default_abi, this.Boolean, this.WindowRef, this.WindowRef.ptr);
+    this.ShowFloatingWindows = lib.declare("ShowFloatingWindows", ctypes.default_abi, this.OSStatus);
+    this.HideFloatingWindows = lib.declare("HideFloatingWindows", ctypes.default_abi, this.OSStatus);
+    this.AreFloatingWindowsVisible = lib.declare("AreFloatingWindowsVisible", ctypes.default_abi, this.Boolean);
     this.OpaqueWindowGroupRef = new ctypes.StructType("OpaqueWindowGroupRef");
     this.WindowGroupRef = this.OpaqueWindowGroupRef.ptr;
     this.WindowGroupAttributes = this.UInt32;
@@ -561,22 +794,120 @@ function MacWindows_h(lib) {
     this.kWindowGroupContentsReturnWindows = 1;
     this.kWindowGroupContentsRecurse = 2;
     this.kWindowGroupContentsVisible = 4;
+    this.CreateWindowGroup = lib.declare("CreateWindowGroup", ctypes.default_abi, this.OSStatus, this.WindowGroupAttributes, this.WindowGroupRef.ptr);
+    this.RetainWindowGroup = lib.declare("RetainWindowGroup", ctypes.default_abi, this.OSStatus, this.WindowGroupRef);
+    this.ReleaseWindowGroup = lib.declare("ReleaseWindowGroup", ctypes.default_abi, this.OSStatus, this.WindowGroupRef);
+    this.GetWindowGroupRetainCount = lib.declare("GetWindowGroupRetainCount", ctypes.default_abi, this.ItemCount, this.WindowGroupRef);
+    this.GetWindowGroupOfClass = lib.declare("GetWindowGroupOfClass", ctypes.default_abi, this.WindowGroupRef, this.WindowClass);
+    this.SetWindowGroupName = lib.declare("SetWindowGroupName", ctypes.default_abi, this.OSStatus, this.WindowGroupRef, this.CFStringRef);
+    this.CopyWindowGroupName = lib.declare("CopyWindowGroupName", ctypes.default_abi, this.OSStatus, this.WindowGroupRef, this.CFStringRef.ptr);
+    this.GetWindowGroupAttributes = lib.declare("GetWindowGroupAttributes", ctypes.default_abi, this.OSStatus, this.WindowGroupRef, this.WindowGroupAttributes.ptr);
+    this.ChangeWindowGroupAttributes = lib.declare("ChangeWindowGroupAttributes", ctypes.default_abi, this.OSStatus, this.WindowGroupRef, this.WindowGroupAttributes, this.WindowGroupAttributes);
+    this.SetWindowGroupLevel = lib.declare("SetWindowGroupLevel", ctypes.default_abi, this.OSStatus, this.WindowGroupRef, this.SInt32);
+    this.GetWindowGroupLevel = lib.declare("GetWindowGroupLevel", ctypes.default_abi, this.OSStatus, this.WindowGroupRef, this.SInt32.ptr);
     this.kWindowGroupLevelActive = 1;
     this.kWindowGroupLevelInactive = 2;
     this.kWindowGroupLevelPromoted = 3;
+    this.SetWindowGroupLevelOfType = lib.declare("SetWindowGroupLevelOfType", ctypes.default_abi, this.OSStatus, this.WindowGroupRef, this.UInt32, this.CGWindowLevel);
+    this.GetWindowGroupLevelOfType = lib.declare("GetWindowGroupLevelOfType", ctypes.default_abi, this.OSStatus, this.WindowGroupRef, this.UInt32, this.CGWindowLevel.ptr);
+    this.SendWindowGroupBehind = lib.declare("SendWindowGroupBehind", ctypes.default_abi, this.OSStatus, this.WindowGroupRef, this.WindowGroupRef);
+    this.GetWindowGroup = lib.declare("GetWindowGroup", ctypes.default_abi, this.WindowGroupRef, this.WindowRef);
+    this.SetWindowGroup = lib.declare("SetWindowGroup", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowGroupRef);
+    this.IsWindowContainedInGroup = lib.declare("IsWindowContainedInGroup", ctypes.default_abi, this.Boolean, this.WindowRef, this.WindowGroupRef);
+    this.GetWindowGroupParent = lib.declare("GetWindowGroupParent", ctypes.default_abi, this.WindowGroupRef, this.WindowGroupRef);
+    this.SetWindowGroupParent = lib.declare("SetWindowGroupParent", ctypes.default_abi, this.OSStatus, this.WindowGroupRef, this.WindowGroupRef);
+    this.GetWindowGroupSibling = lib.declare("GetWindowGroupSibling", ctypes.default_abi, this.WindowGroupRef, this.WindowGroupRef, this.Boolean);
+    this.GetWindowGroupOwner = lib.declare("GetWindowGroupOwner", ctypes.default_abi, this.WindowRef, this.WindowGroupRef);
+    this.SetWindowGroupOwner = lib.declare("SetWindowGroupOwner", ctypes.default_abi, this.OSStatus, this.WindowGroupRef, this.WindowRef);
+    this.CountWindowGroupContents = lib.declare("CountWindowGroupContents", ctypes.default_abi, this.ItemCount, this.WindowGroupRef, this.WindowGroupContentOptions);
+    this.GetWindowGroupContents = lib.declare("GetWindowGroupContents", ctypes.default_abi, this.OSStatus, this.WindowGroupRef, this.WindowGroupContentOptions, this.ItemCount, this.ItemCount.ptr, ctypes.void_t.ptr.ptr);
+    this.GetIndexedWindow = lib.declare("GetIndexedWindow", ctypes.default_abi, this.OSStatus, this.WindowGroupRef, this.ItemCount, this.WindowGroupContentOptions, this.WindowRef.ptr);
+    this.GetWindowIndex = lib.declare("GetWindowIndex", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowGroupRef, this.WindowGroupContentOptions, this.ItemCount.ptr);
+    this.ActiveNonFloatingWindow = lib.declare("ActiveNonFloatingWindow", ctypes.default_abi, this.WindowRef);
+    this.IsWindowActive = lib.declare("IsWindowActive", ctypes.default_abi, this.Boolean, this.WindowRef);
+    this.ActivateWindow = lib.declare("ActivateWindow", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Boolean);
+    this.GetWindowActivationScope = lib.declare("GetWindowActivationScope", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowActivationScope.ptr);
+    this.SetWindowActivationScope = lib.declare("SetWindowActivationScope", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowActivationScope);
+    this.SetUserFocusWindow = lib.declare("SetUserFocusWindow", ctypes.default_abi, this.OSStatus, this.WindowRef);
+    this.GetUserFocusWindow = lib.declare("GetUserFocusWindow", ctypes.default_abi, this.WindowRef);
+    this.HIWindowShowsFocus = lib.declare("HIWindowShowsFocus", ctypes.default_abi, this.Boolean, this.WindowRef);
+    this.SetWindowDefaultButton = lib.declare("SetWindowDefaultButton", ctypes.default_abi, this.OSStatus, this.WindowRef, this.ControlRef);
+    this.SetWindowCancelButton = lib.declare("SetWindowCancelButton", ctypes.default_abi, this.OSStatus, this.WindowRef, this.ControlRef);
+    this.GetWindowDefaultButton = lib.declare("GetWindowDefaultButton", ctypes.default_abi, this.OSStatus, this.WindowRef, this.ControlRef.ptr);
+    this.GetWindowCancelButton = lib.declare("GetWindowCancelButton", ctypes.default_abi, this.OSStatus, this.WindowRef, this.ControlRef.ptr);
+    this.SetThemeWindowBackground = lib.declare("SetThemeWindowBackground", ctypes.default_abi, this.OSStatus, this.WindowRef, this.ThemeBrush, this.Boolean);
+    this.HIWindowGetThemeBackground = lib.declare("HIWindowGetThemeBackground", ctypes.default_abi, this.OSStatus, this.WindowRef, this.ThemeBrush.ptr);
+    this.SetThemeTextColorForWindow = lib.declare("SetThemeTextColorForWindow", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Boolean, this.SInt16, this.Boolean);
+    this.SetWindowContentColor = lib.declare("SetWindowContentColor", ctypes.default_abi, this.OSStatus, this.WindowRef, this.RGBColor.ptr);
+    this.GetWindowContentColor = lib.declare("GetWindowContentColor", ctypes.default_abi, this.OSStatus, this.WindowRef, this.RGBColor.ptr);
+    this.GetWindowContentPattern = lib.declare("GetWindowContentPattern", ctypes.default_abi, this.OSStatus, this.WindowRef, this.PixPatHandle);
+    this.SetWindowContentPattern = lib.declare("SetWindowContentPattern", ctypes.default_abi, this.OSStatus, this.WindowRef, this.PixPatHandle);
+    this.HIWindowSetColorSpace = lib.declare("HIWindowSetColorSpace", ctypes.default_abi, this.OSStatus, this.WindowRef, this.CGColorSpaceRef);
+    this.HIWindowCopyColorSpace = lib.declare("HIWindowCopyColorSpace", ctypes.default_abi, this.CGColorSpaceRef, this.WindowRef);
     this.kHIWindowDepthInvalid = 0;
     this.kHIWindowDepth32Bit = 1;
     this.kHIWindowDepth64Bit = 2;
     this.kHIWindowDepthFloat = 3;
     this.HIWindowDepth = this.UInt32;
+    this.HIWindowSetDepth = lib.declare("HIWindowSetDepth", ctypes.default_abi, this.OSStatus, this.WindowRef, this.HIWindowDepth);
+    this.HIWindowGetDepth = lib.declare("HIWindowGetDepth", ctypes.default_abi, this.HIWindowDepth, this.WindowRef);
     this.ScrollWindowOptions = this.UInt32;
     this.kScrollWindowNoOptions = 0;
     this.kScrollWindowInvalidate = 1;
     this.kScrollWindowEraseToPortBackground = 2;
+    this.ScrollWindowRect = lib.declare("ScrollWindowRect", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.SInt16, this.SInt16, this.ScrollWindowOptions, this.RgnHandle);
+    this.ScrollWindowRegion = lib.declare("ScrollWindowRegion", ctypes.default_abi, this.OSStatus, this.WindowRef, this.RgnHandle, this.SInt16, this.SInt16, this.ScrollWindowOptions, this.RgnHandle);
     this.kHIWindowIgnoreObscuringWindows = 1;
+    this.HIWindowFindAtLocation = lib.declare("HIWindowFindAtLocation", ctypes.default_abi, this.OSStatus, this.HIPoint.ptr, this.HICoordinateSpace, this.WindowRef, this.OptionBits, this.WindowRef.ptr, this.WindowPartCode.ptr, this.HIPoint.ptr);
+    this.FindWindow = lib.declare("FindWindow", ctypes.default_abi, this.WindowPartCode, this.Point, this.WindowRef.ptr);
+    this.BringToFront = lib.declare("BringToFront", ctypes.default_abi, ctypes.void_t, this.WindowRef);
+    this.SendBehind = lib.declare("SendBehind", ctypes.default_abi, ctypes.void_t, this.WindowRef, this.WindowRef);
+    this.SelectWindow = lib.declare("SelectWindow", ctypes.default_abi, ctypes.void_t, this.WindowRef);
+    this.FrontNonFloatingWindow = lib.declare("FrontNonFloatingWindow", ctypes.default_abi, this.WindowRef);
+    this.GetNextWindowOfClass = lib.declare("GetNextWindowOfClass", ctypes.default_abi, this.WindowRef, this.WindowRef, this.WindowClass, this.Boolean);
+    this.GetFrontWindowOfClass = lib.declare("GetFrontWindowOfClass", ctypes.default_abi, this.WindowRef, this.WindowClass, this.Boolean);
+    this.FindWindowOfClass = lib.declare("FindWindowOfClass", ctypes.default_abi, this.OSStatus, this.Point.ptr, this.WindowClass, this.WindowRef.ptr, this.WindowPartCode.ptr);
     this.kWindowMenuIncludeRotate = 1;
     this.kHIWindowMenuCreator = 2003398244;
     this.kHIWindowMenuWindowTag = 2003398244;
+    this.CreateStandardWindowMenu = lib.declare("CreateStandardWindowMenu", ctypes.default_abi, this.OSStatus, this.OptionBits, this.MenuRef.ptr);
+    this.SetWindowAlternateTitle = lib.declare("SetWindowAlternateTitle", ctypes.default_abi, this.OSStatus, this.WindowRef, this.CFStringRef);
+    this.CopyWindowAlternateTitle = lib.declare("CopyWindowAlternateTitle", ctypes.default_abi, this.OSStatus, this.WindowRef, this.CFStringRef.ptr);
+    this.IsValidWindowPtr = lib.declare("IsValidWindowPtr", ctypes.default_abi, this.Boolean, this.WindowRef);
+    this.HiliteWindow = lib.declare("HiliteWindow", ctypes.default_abi, ctypes.void_t, this.WindowRef, this.Boolean);
+    this.SetWRefCon = lib.declare("SetWRefCon", ctypes.default_abi, ctypes.void_t, this.WindowRef, this.SRefCon);
+    this.GetWRefCon = lib.declare("GetWRefCon", ctypes.default_abi, this.SRefCon, this.WindowRef);
+    this.GetWindowFeatures = lib.declare("GetWindowFeatures", ctypes.default_abi, this.OSStatus, this.WindowRef, this.UInt32.ptr);
+    this.HIWindowCopyShape = lib.declare("HIWindowCopyShape", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowRegionCode, this.HICoordinateSpace, this.HIShapeRef.ptr);
+    this.GetWindowRegion = lib.declare("GetWindowRegion", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowRegionCode, this.RgnHandle);
+    this.GetWindowStructureWidths = lib.declare("GetWindowStructureWidths", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr);
+    this.HIWindowChangeFeatures = lib.declare("HIWindowChangeFeatures", ctypes.default_abi, this.OSStatus, this.WindowRef, this.UInt64, this.UInt64);
+    this.BeginUpdate = lib.declare("BeginUpdate", ctypes.default_abi, ctypes.void_t, this.WindowRef);
+    this.EndUpdate = lib.declare("EndUpdate", ctypes.default_abi, ctypes.void_t, this.WindowRef);
+    this.InvalWindowRgn = lib.declare("InvalWindowRgn", ctypes.default_abi, this.OSStatus, this.WindowRef, this.RgnHandle);
+    this.InvalWindowRect = lib.declare("InvalWindowRect", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr);
+    this.ValidWindowRgn = lib.declare("ValidWindowRgn", ctypes.default_abi, this.OSStatus, this.WindowRef, this.RgnHandle);
+    this.ValidWindowRect = lib.declare("ValidWindowRect", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr);
+    this.SetWindowTitleWithCFString = lib.declare("SetWindowTitleWithCFString", ctypes.default_abi, this.OSStatus, this.WindowRef, this.CFStringRef);
+    this.CopyWindowTitleAsCFString = lib.declare("CopyWindowTitleAsCFString", ctypes.default_abi, this.OSStatus, this.WindowRef, this.CFStringRef.ptr);
+    this.HIWindowSetProxyFSRef = lib.declare("HIWindowSetProxyFSRef", ctypes.default_abi, this.OSStatus, this.WindowRef, this.FSRef.ptr);
+    this.HIWindowGetProxyFSRef = lib.declare("HIWindowGetProxyFSRef", ctypes.default_abi, this.OSStatus, this.WindowRef, this.FSRef.ptr);
+    this.SetWindowProxyAlias = lib.declare("SetWindowProxyAlias", ctypes.default_abi, this.OSStatus, this.WindowRef, this.AliasHandle);
+    this.GetWindowProxyAlias = lib.declare("GetWindowProxyAlias", ctypes.default_abi, this.OSStatus, this.WindowRef, this.AliasHandle.ptr);
+    this.SetWindowProxyCreatorAndType = lib.declare("SetWindowProxyCreatorAndType", ctypes.default_abi, this.OSStatus, this.WindowRef, this.OSType, this.OSType, this.SInt16);
+    this.GetWindowProxyIcon = lib.declare("GetWindowProxyIcon", ctypes.default_abi, this.OSStatus, this.WindowRef, this.IconRef.ptr);
+    this.SetWindowProxyIcon = lib.declare("SetWindowProxyIcon", ctypes.default_abi, this.OSStatus, this.WindowRef, this.IconRef);
+    this.RemoveWindowProxy = lib.declare("RemoveWindowProxy", ctypes.default_abi, this.OSStatus, this.WindowRef);
+    this.BeginWindowProxyDrag = lib.declare("BeginWindowProxyDrag", ctypes.default_abi, this.OSStatus, this.WindowRef, this.DragRef.ptr, this.RgnHandle);
+    this.EndWindowProxyDrag = lib.declare("EndWindowProxyDrag", ctypes.default_abi, this.OSStatus, this.WindowRef, this.DragRef);
+    this.HIWindowTrackProxyDrag = lib.declare("HIWindowTrackProxyDrag", ctypes.default_abi, this.OSStatus, this.WindowRef, this.EventRef, this.DragRef);
+    this.TrackWindowProxyFromExistingDrag = lib.declare("TrackWindowProxyFromExistingDrag", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Point, this.DragRef, this.RgnHandle);
+    this.TrackWindowProxyDrag = lib.declare("TrackWindowProxyDrag", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Point);
+    this.IsWindowModified = lib.declare("IsWindowModified", ctypes.default_abi, this.Boolean, this.WindowRef);
+    this.SetWindowModified = lib.declare("SetWindowModified", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Boolean);
+    this.IsWindowPathSelectEvent = lib.declare("IsWindowPathSelectEvent", ctypes.default_abi, this.Boolean, this.WindowRef, this.EventRef);
+    this.WindowPathSelect = lib.declare("WindowPathSelect", ctypes.default_abi, this.OSStatus, this.WindowRef, this.MenuRef, this.SInt32.ptr);
+    this.HiliteWindowFrameForDrag = lib.declare("HiliteWindowFrameForDrag", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Boolean);
     this.WindowTransitionEffect = this.UInt32;
     this.kWindowZoomTransitionEffect = 1;
     this.kWindowSheetTransitionEffect = 2;
@@ -588,7 +919,43 @@ function MacWindows_h(lib) {
     this.kWindowHideTransitionAction = 2;
     this.kWindowMoveTransitionAction = 3;
     this.kWindowResizeTransitionAction = 4;
+    this.TransitionWindow = lib.declare("TransitionWindow", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowTransitionEffect, this.WindowTransitionAction, this.Rect.ptr);
+    this.TransitionWindowAndParent = lib.declare("TransitionWindowAndParent", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowRef, this.WindowTransitionEffect, this.WindowTransitionAction, this.Rect.ptr);
     this.TransitionWindowOptions = new ctypes.StructType("TransitionWindowOptions", [{version: this.UInt32}, {duration: this.EventTime}, {window: this.WindowRef}, {userData: ctypes.void_t.ptr}]);
+    this.TransitionWindowWithOptions = lib.declare("TransitionWindowWithOptions", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowTransitionEffect, this.WindowTransitionAction, this.HIRect.ptr, this.Boolean, this.TransitionWindowOptions.ptr);
+    this.MoveWindow = lib.declare("MoveWindow", ctypes.default_abi, ctypes.void_t, this.WindowRef, ctypes.short, ctypes.short, this.Boolean);
+    this.SizeWindow = lib.declare("SizeWindow", ctypes.default_abi, ctypes.void_t, this.WindowRef, ctypes.short, ctypes.short, this.Boolean);
+    this.ResizeWindow = lib.declare("ResizeWindow", ctypes.default_abi, this.Boolean, this.WindowRef, this.Point, this.Rect.ptr, this.Rect.ptr);
+    this.DragWindow = lib.declare("DragWindow", ctypes.default_abi, ctypes.void_t, this.WindowRef, this.Point, this.Rect.ptr);
+    this.ZoomWindow = lib.declare("ZoomWindow", ctypes.default_abi, ctypes.void_t, this.WindowRef, this.WindowPartCode, this.Boolean);
+    this.IsWindowCollapsable = lib.declare("IsWindowCollapsable", ctypes.default_abi, this.Boolean, this.WindowRef);
+    this.IsWindowCollapsed = lib.declare("IsWindowCollapsed", ctypes.default_abi, this.Boolean, this.WindowRef);
+    this.CollapseWindow = lib.declare("CollapseWindow", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Boolean);
+    this.CollapseAllWindows = lib.declare("CollapseAllWindows", ctypes.default_abi, this.OSStatus, this.Boolean);
+    this.HIWindowCreateCollapsedDockTileContext = lib.declare("HIWindowCreateCollapsedDockTileContext", ctypes.default_abi, this.OSStatus, this.WindowRef, this.CGContextRef.ptr, this.HISize.ptr);
+    this.HIWindowReleaseCollapsedDockTileContext = lib.declare("HIWindowReleaseCollapsedDockTileContext", ctypes.default_abi, this.OSStatus, this.WindowRef, this.CGContextRef);
+    this.CreateQDContextForCollapsedWindowDockTile = lib.declare("CreateQDContextForCollapsedWindowDockTile", ctypes.default_abi, this.OSStatus, this.WindowRef, this.CGrafPtr.ptr);
+    this.ReleaseQDContextForCollapsedWindowDockTile = lib.declare("ReleaseQDContextForCollapsedWindowDockTile", ctypes.default_abi, this.OSStatus, this.WindowRef, this.CGrafPtr);
+    this.UpdateCollapsedWindowDockTile = lib.declare("UpdateCollapsedWindowDockTile", ctypes.default_abi, this.OSStatus, this.WindowRef);
+    this.SetWindowDockTileMenu = lib.declare("SetWindowDockTileMenu", ctypes.default_abi, this.OSStatus, this.WindowRef, this.MenuRef);
+    this.GetWindowDockTileMenu = lib.declare("GetWindowDockTileMenu", ctypes.default_abi, this.MenuRef, this.WindowRef);
+    this.HIWindowGetBounds = lib.declare("HIWindowGetBounds", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowRegionCode, this.HICoordinateSpace, this.HIRect.ptr);
+    this.HIWindowSetBounds = lib.declare("HIWindowSetBounds", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowRegionCode, this.HICoordinateSpace, this.HIRect.ptr);
+    this.GetWindowBounds = lib.declare("GetWindowBounds", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowRegionCode, this.Rect.ptr);
+    this.SetWindowResizeLimits = lib.declare("SetWindowResizeLimits", ctypes.default_abi, this.OSStatus, this.WindowRef, this.HISize.ptr, this.HISize.ptr);
+    this.GetWindowResizeLimits = lib.declare("GetWindowResizeLimits", ctypes.default_abi, this.OSStatus, this.WindowRef, this.HISize.ptr, this.HISize.ptr);
+    this.SetWindowBounds = lib.declare("SetWindowBounds", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowRegionCode, this.Rect.ptr);
+    this.RepositionWindow = lib.declare("RepositionWindow", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowRef, this.WindowPositionMethod);
+    this.MoveWindowStructure = lib.declare("MoveWindowStructure", ctypes.default_abi, this.OSStatus, this.WindowRef, ctypes.short, ctypes.short);
+    this.HIWindowIsInStandardState = lib.declare("HIWindowIsInStandardState", ctypes.default_abi, this.Boolean, this.WindowRef, this.HISize.ptr, this.HICoordinateSpace, this.HIRect.ptr);
+    this.IsWindowInStandardState = lib.declare("IsWindowInStandardState", ctypes.default_abi, this.Boolean, this.WindowRef, this.Point.ptr, this.Rect.ptr);
+    this.ZoomWindowIdeal = lib.declare("ZoomWindowIdeal", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowPartCode, this.Point.ptr);
+    this.HIWindowGetIdealUserState = lib.declare("HIWindowGetIdealUserState", ctypes.default_abi, this.OSStatus, this.WindowRef, this.HICoordinateSpace, this.HIRect.ptr);
+    this.HIWindowSetIdealUserState = lib.declare("HIWindowSetIdealUserState", ctypes.default_abi, this.OSStatus, this.WindowRef, this.HICoordinateSpace, this.HIRect.ptr);
+    this.GetWindowIdealUserState = lib.declare("GetWindowIdealUserState", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr);
+    this.SetWindowIdealUserState = lib.declare("SetWindowIdealUserState", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr);
+    this.GetWindowGreatestAreaDevice = lib.declare("GetWindowGreatestAreaDevice", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowRegionCode, this.GDHandle.ptr, this.Rect.ptr);
+    this.HIWindowGetGreatestAreaDisplay = lib.declare("HIWindowGetGreatestAreaDisplay", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowRegionCode, this.HICoordinateSpace, this.CGDirectDisplayID.ptr, this.HIRect.ptr);
     this.WindowConstrainOptions = this.UInt32;
     this.kWindowConstrainMayResize = 1;
     this.kWindowConstrainMoveRegardlessOfFit = 2;
@@ -598,6 +965,17 @@ function MacWindows_h(lib) {
     this.kWindowConstrainMoveMinimum = 64;
     this.kWindowConstrainUseSpecifiedBounds = 256;
     this.kWindowConstrainStandardOptions = 2;
+    this.HIWindowConstrain = lib.declare("HIWindowConstrain", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowRegionCode, this.WindowConstrainOptions, this.HICoordinateSpace, this.HIRect.ptr, this.HISize.ptr, this.HIRect.ptr);
+    this.ConstrainWindowToScreen = lib.declare("ConstrainWindowToScreen", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowRegionCode, this.WindowConstrainOptions, this.Rect.ptr, this.Rect.ptr);
+    this.GetAvailableWindowPositioningBounds = lib.declare("GetAvailableWindowPositioningBounds", ctypes.default_abi, this.OSStatus, this.GDHandle, this.Rect.ptr);
+    this.GetAvailableWindowPositioningRegion = lib.declare("GetAvailableWindowPositioningRegion", ctypes.default_abi, this.OSStatus, this.GDHandle, this.RgnHandle);
+    this.HIWindowGetAvailablePositioningBounds = lib.declare("HIWindowGetAvailablePositioningBounds", ctypes.default_abi, this.OSStatus, this.CGDirectDisplayID, this.HICoordinateSpace, this.HIRect.ptr);
+    this.HIWindowCopyAvailablePositioningShape = lib.declare("HIWindowCopyAvailablePositioningShape", ctypes.default_abi, this.OSStatus, this.CGDirectDisplayID, this.HICoordinateSpace, this.HIShapeRef.ptr);
+    this.HideWindow = lib.declare("HideWindow", ctypes.default_abi, ctypes.void_t, this.WindowRef);
+    this.ShowWindow = lib.declare("ShowWindow", ctypes.default_abi, ctypes.void_t, this.WindowRef);
+    this.ShowHide = lib.declare("ShowHide", ctypes.default_abi, ctypes.void_t, this.WindowRef, this.Boolean);
+    this.IsWindowVisible = lib.declare("IsWindowVisible", ctypes.default_abi, this.Boolean, this.WindowRef);
+    this.HIWindowIsOnActiveSpace = lib.declare("HIWindowIsOnActiveSpace", ctypes.default_abi, this.Boolean, this.WindowRef);
     this.WindowLatentVisibility = this.UInt32;
     this.kWindowLatentVisibleFloater = 1;
     this.kWindowLatentVisibleSuspend = 2;
@@ -605,6 +983,7 @@ function MacWindows_h(lib) {
     this.kWindowLatentVisibleAppHidden = 8;
     this.kWindowLatentVisibleCollapsedOwner = 16;
     this.kWindowLatentVisibleCollapsedGroup = 32;
+    this.IsWindowLatentVisible = lib.declare("IsWindowLatentVisible", ctypes.default_abi, this.Boolean, this.WindowRef, this.WindowLatentVisibility.ptr);
     this.kHIWindowBehaviorTransient = 1;
     this.kHIWindowBehaviorStationary = 2;
     this.kHIWindowCanJoinAllSpaces = 256;
@@ -612,6 +991,12 @@ function MacWindows_h(lib) {
     this.kHIWindowExposeHidden = 1;
     this.kHIWindowVisibleInAllSpaces = 256;
     this.HIWindowAvailability = this.OptionBits;
+    this.HIWindowGetAvailability = lib.declare("HIWindowGetAvailability", ctypes.default_abi, this.OSStatus, this.WindowRef, this.HIWindowAvailability.ptr);
+    this.HIWindowChangeAvailability = lib.declare("HIWindowChangeAvailability", ctypes.default_abi, this.OSStatus, this.WindowRef, this.HIWindowAvailability, this.HIWindowAvailability);
+    this.ShowSheetWindow = lib.declare("ShowSheetWindow", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowRef);
+    this.HideSheetWindow = lib.declare("HideSheetWindow", ctypes.default_abi, this.OSStatus, this.WindowRef);
+    this.DetachSheetWindow = lib.declare("DetachSheetWindow", ctypes.default_abi, this.OSStatus, this.WindowRef);
+    this.GetSheetWindowParent = lib.declare("GetSheetWindowParent", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowRef.ptr);
     this.kWindowEdgeDefault = 0;
     this.kWindowEdgeTop = 1;
     this.kWindowEdgeLeft = 2;
@@ -622,13 +1007,63 @@ function MacWindows_h(lib) {
     this.kWindowDrawerClosing = 3;
     this.kWindowDrawerClosed = 4;
     this.WindowDrawerState = this.UInt32;
+    this.GetDrawerPreferredEdge = lib.declare("GetDrawerPreferredEdge", ctypes.default_abi, this.OptionBits, this.WindowRef);
+    this.SetDrawerPreferredEdge = lib.declare("SetDrawerPreferredEdge", ctypes.default_abi, this.OSStatus, this.WindowRef, this.OptionBits);
+    this.GetDrawerCurrentEdge = lib.declare("GetDrawerCurrentEdge", ctypes.default_abi, this.OptionBits, this.WindowRef);
+    this.GetDrawerState = lib.declare("GetDrawerState", ctypes.default_abi, this.WindowDrawerState, this.WindowRef);
+    this.GetDrawerParent = lib.declare("GetDrawerParent", ctypes.default_abi, this.WindowRef, this.WindowRef);
+    this.SetDrawerParent = lib.declare("SetDrawerParent", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowRef);
+    this.SetDrawerOffsets = lib.declare("SetDrawerOffsets", ctypes.default_abi, this.OSStatus, this.WindowRef, this.CGFloat, this.CGFloat);
+    this.GetDrawerOffsets = lib.declare("GetDrawerOffsets", ctypes.default_abi, this.OSStatus, this.WindowRef, this.CGFloat.ptr, this.CGFloat.ptr);
+    this.ToggleDrawer = lib.declare("ToggleDrawer", ctypes.default_abi, this.OSStatus, this.WindowRef);
+    this.OpenDrawer = lib.declare("OpenDrawer", ctypes.default_abi, this.OSStatus, this.WindowRef, this.OptionBits, this.Boolean);
+    this.CloseDrawer = lib.declare("CloseDrawer", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Boolean);
+    this.HIWindowCopyDrawers = lib.declare("HIWindowCopyDrawers", ctypes.default_abi, this.OSStatus, this.WindowRef, this.CFArrayRef.ptr);
+    this.DisableScreenUpdates = lib.declare("DisableScreenUpdates", ctypes.default_abi, this.OSStatus);
+    this.EnableScreenUpdates = lib.declare("EnableScreenUpdates", ctypes.default_abi, this.OSStatus);
+    this.SetWindowToolbar = lib.declare("SetWindowToolbar", ctypes.default_abi, this.OSStatus, this.WindowRef, this.HIToolbarRef);
+    this.GetWindowToolbar = lib.declare("GetWindowToolbar", ctypes.default_abi, this.OSStatus, this.WindowRef, this.HIToolbarRef.ptr);
+    this.ShowHideWindowToolbar = lib.declare("ShowHideWindowToolbar", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Boolean, this.Boolean);
+    this.IsWindowToolbarVisible = lib.declare("IsWindowToolbarVisible", ctypes.default_abi, this.Boolean, this.WindowRef);
     this.kHIToolbarViewDrawBackgroundTag = 1650549611;
+    this.HIWindowSetToolbarView = lib.declare("HIWindowSetToolbarView", ctypes.default_abi, this.OSStatus, this.WindowRef, this.HIViewRef);
+    this.SetWindowAlpha = lib.declare("SetWindowAlpha", ctypes.default_abi, this.OSStatus, this.WindowRef, this.CGFloat);
+    this.GetWindowAlpha = lib.declare("GetWindowAlpha", ctypes.default_abi, this.OSStatus, this.WindowRef, this.CGFloat.ptr);
+    this.HIWindowInvalidateShadow = lib.declare("HIWindowInvalidateShadow", ctypes.default_abi, this.OSStatus, this.WindowRef);
     this.HIWindowScaleMode = this.UInt32;
     this.kHIWindowScaleModeUnscaled = 0;
     this.kHIWindowScaleModeMagnified = 1;
     this.kHIWindowScaleModeFrameworkScaled = 2;
+    this.HIWindowGetScaleMode = lib.declare("HIWindowGetScaleMode", ctypes.default_abi, this.OSStatus, this.WindowRef, this.HIWindowScaleMode.ptr, this.CGFloat.ptr);
     this.HIContentBorderMetrics = new ctypes.StructType("HIContentBorderMetrics", [{top: this.CGFloat}, {left: this.CGFloat}, {bottom: this.CGFloat}, {right: this.CGFloat}]);
+    this.HIWindowSetContentBorderThickness = lib.declare("HIWindowSetContentBorderThickness", ctypes.default_abi, this.OSStatus, this.HIWindowRef, this.HIContentBorderMetrics.ptr);
+    this.HIWindowGetContentBorderThickness = lib.declare("HIWindowGetContentBorderThickness", ctypes.default_abi, this.HIContentBorderMetrics, this.HIWindowRef);
+    this.GetWindowProperty = lib.declare("GetWindowProperty", ctypes.default_abi, this.OSStatus, this.WindowRef, this.PropertyCreator, this.PropertyTag, this.ByteCount, this.ByteCount.ptr, ctypes.void_t.ptr);
+    this.GetWindowPropertySize = lib.declare("GetWindowPropertySize", ctypes.default_abi, this.OSStatus, this.WindowRef, this.PropertyCreator, this.PropertyTag, this.ByteCount.ptr);
+    this.SetWindowProperty = lib.declare("SetWindowProperty", ctypes.default_abi, this.OSStatus, this.WindowRef, this.PropertyCreator, this.PropertyTag, this.ByteCount, ctypes.void_t.ptr);
+    this.RemoveWindowProperty = lib.declare("RemoveWindowProperty", ctypes.default_abi, this.OSStatus, this.WindowRef, this.PropertyCreator, this.PropertyTag);
     this.kWindowPropertyPersistent = 1;
+    this.GetWindowPropertyAttributes = lib.declare("GetWindowPropertyAttributes", ctypes.default_abi, this.OSStatus, this.WindowRef, this.OSType, this.OSType, this.OptionBits.ptr);
+    this.ChangeWindowPropertyAttributes = lib.declare("ChangeWindowPropertyAttributes", ctypes.default_abi, this.OSStatus, this.WindowRef, this.OSType, this.OSType, this.OptionBits, this.OptionBits);
+    this.PinRect = lib.declare("PinRect", ctypes.default_abi, ctypes.long, this.Rect.ptr, this.Point);
+    this.TrackBox = lib.declare("TrackBox", ctypes.default_abi, this.Boolean, this.WindowRef, this.Point, this.WindowPartCode);
+    this.TrackGoAway = lib.declare("TrackGoAway", ctypes.default_abi, this.Boolean, this.WindowRef, this.Point);
+    this.GetWindowList = lib.declare("GetWindowList", ctypes.default_abi, this.WindowRef);
+    this.GetWindowPort = lib.declare("GetWindowPort", ctypes.default_abi, this.CGrafPtr, this.WindowRef);
+    this.GetWindowStructurePort = lib.declare("GetWindowStructurePort", ctypes.default_abi, this.CGrafPtr, this.WindowRef);
+    this.GetWindowKind = lib.declare("GetWindowKind", ctypes.default_abi, ctypes.short, this.WindowRef);
+    this.IsWindowHilited = lib.declare("IsWindowHilited", ctypes.default_abi, this.Boolean, this.WindowRef);
+    this.IsWindowUpdatePending = lib.declare("IsWindowUpdatePending", ctypes.default_abi, this.Boolean, this.WindowRef);
+    this.GetNextWindow = lib.declare("GetNextWindow", ctypes.default_abi, this.WindowRef, this.WindowRef);
+    this.GetPreviousWindow = lib.declare("GetPreviousWindow", ctypes.default_abi, this.WindowRef, this.WindowRef);
+    this.GetWindowStandardState = lib.declare("GetWindowStandardState", ctypes.default_abi, this.Rect.ptr, this.WindowRef, this.Rect.ptr);
+    this.GetWindowUserState = lib.declare("GetWindowUserState", ctypes.default_abi, this.Rect.ptr, this.WindowRef, this.Rect.ptr);
+    this.SetWindowKind = lib.declare("SetWindowKind", ctypes.default_abi, ctypes.void_t, this.WindowRef, ctypes.short);
+    this.SetWindowStandardState = lib.declare("SetWindowStandardState", ctypes.default_abi, ctypes.void_t, this.WindowRef, this.Rect.ptr);
+    this.SetWindowUserState = lib.declare("SetWindowUserState", ctypes.default_abi, ctypes.void_t, this.WindowRef, this.Rect.ptr);
+    this.SetPortWindowPort = lib.declare("SetPortWindowPort", ctypes.default_abi, ctypes.void_t, this.WindowRef);
+    this.GetWindowPortBounds = lib.declare("GetWindowPortBounds", ctypes.default_abi, this.Rect.ptr, this.WindowRef, this.Rect.ptr);
+    this.GetWindowFromPort = lib.declare("GetWindowFromPort", ctypes.default_abi, this.WindowRef, this.CGrafPtr);
     this.kWindowMsgDraw = 0;
     this.kWindowMsgHitTest = 1;
     this.kWindowMsgCalculateShape = 2;
@@ -684,8 +1119,42 @@ function MacWindows_h(lib) {
     // Dropping inline function 'NewWindowPaintUPP'.
     // Dropping inline function 'DisposeWindowPaintUPP'.
     // Dropping inline function 'InvokeWindowPaintUPP'.
+    this.NewWindow = lib.declare("NewWindow", ctypes.default_abi, this.WindowRef, ctypes.void_t.ptr, this.Rect.ptr, this.ConstStr255Param, this.Boolean, ctypes.short, this.WindowRef, this.Boolean, this.SRefCon);
+    this.NewCWindow = lib.declare("NewCWindow", ctypes.default_abi, this.WindowRef, ctypes.void_t.ptr, this.Rect.ptr, this.ConstStr255Param, this.Boolean, ctypes.short, this.WindowRef, this.Boolean, this.SRefCon);
+    this.GetNewCWindow = lib.declare("GetNewCWindow", ctypes.default_abi, this.WindowRef, ctypes.short, ctypes.void_t.ptr, this.WindowRef);
+    this.GetNewWindow = lib.declare("GetNewWindow", ctypes.default_abi, this.WindowRef, ctypes.short, ctypes.void_t.ptr, this.WindowRef);
+    this.CreateWindowFromResource = lib.declare("CreateWindowFromResource", ctypes.default_abi, this.OSStatus, this.SInt16, this.WindowRef.ptr);
+    this.StoreWindowIntoCollection = lib.declare("StoreWindowIntoCollection", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Collection);
+    this.CreateWindowFromCollection = lib.declare("CreateWindowFromCollection", ctypes.default_abi, this.OSStatus, this.Collection, this.WindowRef.ptr);
+    this.GetWindowOwnerCount = lib.declare("GetWindowOwnerCount", ctypes.default_abi, this.OSStatus, this.WindowRef, this.ItemCount.ptr);
+    this.CloneWindow = lib.declare("CloneWindow", ctypes.default_abi, this.OSStatus, this.WindowRef);
+    this.GetWindowRetainCount = lib.declare("GetWindowRetainCount", ctypes.default_abi, this.ItemCount, this.WindowRef);
+    this.RetainWindow = lib.declare("RetainWindow", ctypes.default_abi, this.OSStatus, this.WindowRef);
+    this.ReleaseWindow = lib.declare("ReleaseWindow", ctypes.default_abi, this.OSStatus, this.WindowRef);
+    this.GetWVariant = lib.declare("GetWVariant", ctypes.default_abi, ctypes.short, this.WindowRef);
+    this.SetWindowClass = lib.declare("SetWindowClass", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowClass);
     this.kWindowPaintProcOptionsNone = 0;
     this.WindowPaintProcOptions = this.OptionBits;
+    this.InstallWindowContentPaintProc = lib.declare("InstallWindowContentPaintProc", ctypes.default_abi, this.OSStatus, this.WindowRef, this.WindowPaintUPP, this.WindowPaintProcOptions, ctypes.void_t.ptr);
+    this.ClipAbove = lib.declare("ClipAbove", ctypes.default_abi, ctypes.void_t, this.WindowRef);
+    this.PaintOne = lib.declare("PaintOne", ctypes.default_abi, ctypes.void_t, this.WindowRef, this.RgnHandle);
+    this.PaintBehind = lib.declare("PaintBehind", ctypes.default_abi, ctypes.void_t, this.WindowRef, this.RgnHandle);
+    this.CalcVis = lib.declare("CalcVis", ctypes.default_abi, ctypes.void_t, this.WindowRef);
+    this.CalcVisBehind = lib.declare("CalcVisBehind", ctypes.default_abi, ctypes.void_t, this.WindowRef, this.RgnHandle);
+    this.CheckUpdate = lib.declare("CheckUpdate", ctypes.default_abi, this.Boolean, this.EventRecord.ptr);
+    this.FrontWindow = lib.declare("FrontWindow", ctypes.default_abi, this.WindowRef);
+    this.SetWindowPic = lib.declare("SetWindowPic", ctypes.default_abi, ctypes.void_t, this.WindowRef, this.PicHandle);
+    this.GetWindowPic = lib.declare("GetWindowPic", ctypes.default_abi, this.PicHandle, this.WindowRef);
+    this.SetWindowProxyFSSpec = lib.declare("SetWindowProxyFSSpec", ctypes.default_abi, this.OSStatus, this.WindowRef, this.FSSpec.ptr);
+    this.GetWindowProxyFSSpec = lib.declare("GetWindowProxyFSSpec", ctypes.default_abi, this.OSStatus, this.WindowRef, this.FSSpec.ptr);
+    this.IsWindowPathSelectClick = lib.declare("IsWindowPathSelectClick", ctypes.default_abi, this.Boolean, this.WindowRef, this.EventRecord.ptr);
+    this.SetWTitle = lib.declare("SetWTitle", ctypes.default_abi, ctypes.void_t, this.WindowRef, this.ConstStr255Param);
+    this.GetWTitle = lib.declare("GetWTitle", ctypes.default_abi, ctypes.void_t, this.WindowRef, ctypes.unsigned_char.ptr);
+    this.DrawGrowIcon = lib.declare("DrawGrowIcon", ctypes.default_abi, ctypes.void_t, this.WindowRef);
+    this.GrowWindow = lib.declare("GrowWindow", ctypes.default_abi, ctypes.long, this.WindowRef, this.Point, this.Rect.ptr);
+    this.GetGrayRgn = lib.declare("GetGrayRgn", ctypes.default_abi, this.RgnHandle);
+    this.DragGrayRgn = lib.declare("DragGrayRgn", ctypes.default_abi, ctypes.long, this.RgnHandle, this.Point, this.Rect.ptr, this.Rect.ptr, ctypes.short, this.DragGrayRgnUPP);
+    this.DragTheRgn = lib.declare("DragTheRgn", ctypes.default_abi, ctypes.long, this.RgnHandle, this.Point, this.Rect.ptr, this.Rect.ptr, ctypes.short, this.DragGrayRgnUPP);
     this.kWindowGroupAttrSelectable = 1;
     this.kWindowGroupAttrPositionFixed = 2;
     this.kWindowGroupAttrZOrderFixed = 4;
@@ -693,14 +1162,22 @@ function MacWindows_h(lib) {
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/MacTextEditor.h
 function MacTextEditor_h(lib) {
+    CFData_h.call(this, lib);
+    Events_h.call(this, lib);
+    HIGeometry_h.call(this, lib);
     QuickdrawTypes_h.call(this, lib);
+    HIObject_h.call(this, lib);
+    Files_h.call(this, lib);
+    QDOffscreen_h.call(this, lib);
     ATSUnicodeTypes_h.call(this, lib);
     CFDictionary_h.call(this, lib);
     TextCommon_h.call(this, lib);
     CFURL_h.call(this, lib);
     Menus_h.call(this, lib);
     CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
     MacTypes_h.call(this, lib);
+    Drag_h.call(this, lib);
 
     if (this._MACTEXTEDITOR_H)
         return;
@@ -959,6 +1436,82 @@ function MacTextEditor_h(lib) {
     // Dropping inline function 'InvokeTXNActionNameMapperUPP'.
     // Dropping inline function 'InvokeTXNContextualMenuSetupUPP'.
     // Dropping inline function 'InvokeTXNScrollInfoUPP'.
+    this.TXNCreateObject = lib.declare("TXNCreateObject", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.TXNFrameOptions, this.TXNObject.ptr);
+    this.TXNDeleteObject = lib.declare("TXNDeleteObject", ctypes.default_abi, ctypes.void_t, this.TXNObject);
+    this.TXNInitTextension = lib.declare("TXNInitTextension", ctypes.default_abi, this.OSStatus, this.TXNMacOSPreferredFontDescription.ptr, this.ItemCount, this.TXNInitOptions);
+    this.TXNVersionInformation = lib.declare("TXNVersionInformation", ctypes.default_abi, this.TXNVersionValue, this.TXNFeatureBits.ptr);
+    this.TXNAttachObjectToWindowRef = lib.declare("TXNAttachObjectToWindowRef", ctypes.default_abi, this.OSStatus, this.TXNObject, this.WindowRef);
+    this.TXNGetWindowRef = lib.declare("TXNGetWindowRef", ctypes.default_abi, this.WindowRef, this.TXNObject);
+    this.TXNKeyDown = lib.declare("TXNKeyDown", ctypes.default_abi, ctypes.void_t, this.TXNObject, this.EventRecord.ptr);
+    this.TXNAdjustCursor = lib.declare("TXNAdjustCursor", ctypes.default_abi, ctypes.void_t, this.TXNObject, this.RgnHandle);
+    this.TXNClick = lib.declare("TXNClick", ctypes.default_abi, ctypes.void_t, this.TXNObject, this.EventRecord.ptr);
+    this.TXNSelectAll = lib.declare("TXNSelectAll", ctypes.default_abi, ctypes.void_t, this.TXNObject);
+    this.TXNFocus = lib.declare("TXNFocus", ctypes.default_abi, ctypes.void_t, this.TXNObject, this.Boolean);
+    this.TXNUpdate = lib.declare("TXNUpdate", ctypes.default_abi, ctypes.void_t, this.TXNObject);
+    this.TXNDrawObject = lib.declare("TXNDrawObject", ctypes.default_abi, this.OSStatus, this.TXNObject, this.HIRect.ptr, this.TXNDrawItems);
+    this.TXNForceUpdate = lib.declare("TXNForceUpdate", ctypes.default_abi, ctypes.void_t, this.TXNObject);
+    this.TXNGetSleepTicks = lib.declare("TXNGetSleepTicks", ctypes.default_abi, this.UInt32, this.TXNObject);
+    this.TXNIdle = lib.declare("TXNIdle", ctypes.default_abi, ctypes.void_t, this.TXNObject);
+    this.TXNGrowWindow = lib.declare("TXNGrowWindow", ctypes.default_abi, ctypes.void_t, this.TXNObject, this.EventRecord.ptr);
+    this.TXNZoomWindow = lib.declare("TXNZoomWindow", ctypes.default_abi, ctypes.void_t, this.TXNObject, this.SInt16);
+    this.TXNBeginActionGroup = lib.declare("TXNBeginActionGroup", ctypes.default_abi, this.OSStatus, this.TXNObject, this.CFStringRef);
+    this.TXNEndActionGroup = lib.declare("TXNEndActionGroup", ctypes.default_abi, this.OSStatus, this.TXNObject);
+    this.TXNCanUndoAction = lib.declare("TXNCanUndoAction", ctypes.default_abi, this.Boolean, this.TXNObject, this.CFStringRef.ptr);
+    this.TXNCanRedoAction = lib.declare("TXNCanRedoAction", ctypes.default_abi, this.Boolean, this.TXNObject, this.CFStringRef.ptr);
+    this.TXNSetActionNameMapper = lib.declare("TXNSetActionNameMapper", ctypes.default_abi, this.OSStatus, this.TXNObject, this.TXNActionNameMapperUPP, ctypes.void_t.ptr);
+    this.TXNUndo = lib.declare("TXNUndo", ctypes.default_abi, ctypes.void_t, this.TXNObject);
+    this.TXNRedo = lib.declare("TXNRedo", ctypes.default_abi, ctypes.void_t, this.TXNObject);
+    this.TXNClearUndo = lib.declare("TXNClearUndo", ctypes.default_abi, this.OSStatus, this.TXNObject);
+    this.TXNCut = lib.declare("TXNCut", ctypes.default_abi, this.OSStatus, this.TXNObject);
+    this.TXNCopy = lib.declare("TXNCopy", ctypes.default_abi, this.OSStatus, this.TXNObject);
+    this.TXNPaste = lib.declare("TXNPaste", ctypes.default_abi, this.OSStatus, this.TXNObject);
+    this.TXNClear = lib.declare("TXNClear", ctypes.default_abi, this.OSStatus, this.TXNObject);
+    this.TXNIsScrapPastable = lib.declare("TXNIsScrapPastable", ctypes.default_abi, this.Boolean);
+    this.TXNGetSelection = lib.declare("TXNGetSelection", ctypes.default_abi, ctypes.void_t, this.TXNObject, this.TXNOffset.ptr, this.TXNOffset.ptr);
+    this.TXNShowSelection = lib.declare("TXNShowSelection", ctypes.default_abi, ctypes.void_t, this.TXNObject, this.Boolean);
+    this.TXNShowOffset = lib.declare("TXNShowOffset", ctypes.default_abi, ctypes.void_t, this.TXNObject, this.TXNOffset);
+    this.TXNIsSelectionEmpty = lib.declare("TXNIsSelectionEmpty", ctypes.default_abi, this.Boolean, this.TXNObject);
+    this.TXNSetSelection = lib.declare("TXNSetSelection", ctypes.default_abi, this.OSStatus, this.TXNObject, this.TXNOffset, this.TXNOffset);
+    this.TXNGetContinuousTypeAttributes = lib.declare("TXNGetContinuousTypeAttributes", ctypes.default_abi, this.OSStatus, this.TXNObject, this.TXNContinuousFlags.ptr, this.ItemCount, this.TXNTypeAttributes.ptr);
+    this.TXNSetTypeAttributes = lib.declare("TXNSetTypeAttributes", ctypes.default_abi, this.OSStatus, this.TXNObject, this.ItemCount, this.TXNTypeAttributes.ptr, this.TXNOffset, this.TXNOffset);
+    this.TXNSetTXNObjectControls = lib.declare("TXNSetTXNObjectControls", ctypes.default_abi, this.OSStatus, this.TXNObject, this.Boolean, this.ItemCount, this.TXNControlTag.ptr, this.TXNControlData.ptr);
+    this.TXNGetTXNObjectControls = lib.declare("TXNGetTXNObjectControls", ctypes.default_abi, this.OSStatus, this.TXNObject, this.ItemCount, this.TXNControlTag.ptr, this.TXNControlData.ptr);
+    this.TXNSetBackground = lib.declare("TXNSetBackground", ctypes.default_abi, this.OSStatus, this.TXNObject, this.TXNBackground.ptr);
+    this.TXNEchoMode = lib.declare("TXNEchoMode", ctypes.default_abi, this.OSStatus, this.TXNObject, this.UniChar, this.TextEncoding, this.Boolean);
+    this.TXNCountRunsInRange = lib.declare("TXNCountRunsInRange", ctypes.default_abi, this.OSStatus, this.TXNObject, this.TXNOffset, this.TXNOffset, this.ItemCount.ptr);
+    this.TXNGetIndexedRunInfoFromRange = lib.declare("TXNGetIndexedRunInfoFromRange", ctypes.default_abi, this.OSStatus, this.TXNObject, this.ItemCount, this.TXNOffset, this.TXNOffset, this.TXNOffset.ptr, this.TXNOffset.ptr, this.TXNDataType.ptr, this.ItemCount, this.TXNTypeAttributes.ptr);
+    this.TXNDataSize = lib.declare("TXNDataSize", ctypes.default_abi, this.ByteCount, this.TXNObject);
+    this.TXNWriteRangeToCFURL = lib.declare("TXNWriteRangeToCFURL", ctypes.default_abi, this.OSStatus, this.TXNObject, this.TXNOffset, this.TXNOffset, this.CFDictionaryRef, this.CFDictionaryRef, this.CFURLRef);
+    this.TXNReadFromCFURL = lib.declare("TXNReadFromCFURL", ctypes.default_abi, this.OSStatus, this.TXNObject, this.TXNOffset, this.TXNOffset, this.CFDictionaryRef, this.CFURLRef, this.CFDictionaryRef.ptr);
+    this.TXNCopyTypeIdentifiersForRange = lib.declare("TXNCopyTypeIdentifiersForRange", ctypes.default_abi, this.OSStatus, this.TXNObject, this.TXNOffset, this.TXNOffset, this.CFArrayRef.ptr);
+    this.TXNGetData = lib.declare("TXNGetData", ctypes.default_abi, this.OSStatus, this.TXNObject, this.TXNOffset, this.TXNOffset, this.Handle.ptr);
+    this.TXNGetDataEncoded = lib.declare("TXNGetDataEncoded", ctypes.default_abi, this.OSStatus, this.TXNObject, this.TXNOffset, this.TXNOffset, this.Handle.ptr, this.TXNDataType);
+    this.TXNSetData = lib.declare("TXNSetData", ctypes.default_abi, this.OSStatus, this.TXNObject, this.TXNDataType, ctypes.void_t.ptr, this.ByteCount, this.TXNOffset, this.TXNOffset);
+    this.TXNFlattenObjectToCFDataRef = lib.declare("TXNFlattenObjectToCFDataRef", ctypes.default_abi, this.OSStatus, this.TXNObject, this.TXNDataType, this.CFDataRef.ptr);
+    this.TXNRevert = lib.declare("TXNRevert", ctypes.default_abi, this.OSStatus, this.TXNObject);
+    this.TXNPageSetup = lib.declare("TXNPageSetup", ctypes.default_abi, this.OSStatus, this.TXNObject);
+    this.TXNPrint = lib.declare("TXNPrint", ctypes.default_abi, this.OSStatus, this.TXNObject);
+    this.TXNFind = lib.declare("TXNFind", ctypes.default_abi, this.OSStatus, this.TXNObject, this.TXNMatchTextRecord.ptr, this.TXNDataType, this.TXNMatchOptions, this.TXNOffset, this.TXNOffset, this.TXNFindUPP, this.SRefCon, this.TXNOffset.ptr, this.TXNOffset.ptr);
+    this.TXNDrawUnicodeTextBox = lib.declare("TXNDrawUnicodeTextBox", ctypes.default_abi, this.OSStatus, this.UniChar.ptr, this.UniCharCount, this.Rect.ptr, this.ATSUStyle, this.TXNTextBoxOptionsData.ptr);
+    this.TXNDrawCFStringTextBox = lib.declare("TXNDrawCFStringTextBox", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.Rect.ptr, this.ATSUStyle, this.TXNTextBoxOptionsData.ptr);
+    this.TXNGetLineCount = lib.declare("TXNGetLineCount", ctypes.default_abi, this.OSStatus, this.TXNObject, this.ItemCount.ptr);
+    this.TXNGetLineMetrics = lib.declare("TXNGetLineMetrics", ctypes.default_abi, this.OSStatus, this.TXNObject, ctypes.unsigned_long, this.Fixed.ptr, this.Fixed.ptr);
+    this.TXNGetChangeCount = lib.declare("TXNGetChangeCount", ctypes.default_abi, this.ItemCount, this.TXNObject);
+    this.TXNGetCountForActionType = lib.declare("TXNGetCountForActionType", ctypes.default_abi, this.OSStatus, this.TXNObject, this.CFStringRef, this.ItemCount.ptr);
+    this.TXNClearCountForActionType = lib.declare("TXNClearCountForActionType", ctypes.default_abi, this.OSStatus, this.TXNObject, this.CFStringRef);
+    this.TXNSetHIRectBounds = lib.declare("TXNSetHIRectBounds", ctypes.default_abi, ctypes.void_t, this.TXNObject, this.HIRect.ptr, this.HIRect.ptr, this.Boolean);
+    this.TXNGetHIRect = lib.declare("TXNGetHIRect", ctypes.default_abi, this.OSStatus, this.TXNObject, this.TXNRectKey, this.HIRect.ptr);
+    this.TXNResizeFrame = lib.declare("TXNResizeFrame", ctypes.default_abi, ctypes.void_t, this.TXNObject, this.UInt32, this.UInt32, this.TXNFrameID);
+    this.TXNSetFrameBounds = lib.declare("TXNSetFrameBounds", ctypes.default_abi, ctypes.void_t, this.TXNObject, this.SInt32, this.SInt32, this.SInt32, this.SInt32, this.TXNFrameID);
+    this.TXNGetViewRect = lib.declare("TXNGetViewRect", ctypes.default_abi, ctypes.void_t, this.TXNObject, this.Rect.ptr);
+    this.TXNRecalcTextLayout = lib.declare("TXNRecalcTextLayout", ctypes.default_abi, ctypes.void_t, this.TXNObject);
+    this.TXNScroll = lib.declare("TXNScroll", ctypes.default_abi, this.OSStatus, this.TXNObject, this.TXNScrollUnit, this.TXNScrollUnit, ctypes.long.ptr, ctypes.long.ptr);
+    this.TXNRegisterScrollInfoProc = lib.declare("TXNRegisterScrollInfoProc", ctypes.default_abi, ctypes.void_t, this.TXNObject, this.TXNScrollInfoUPP, this.SRefCon);
+    this.TXNSetScrollbarState = lib.declare("TXNSetScrollbarState", ctypes.default_abi, this.OSStatus, this.TXNObject, this.TXNScrollBarState);
+    this.TXNHIPointToOffset = lib.declare("TXNHIPointToOffset", ctypes.default_abi, this.OSStatus, this.TXNObject, this.HIPoint.ptr, this.TXNOffset.ptr);
+    this.TXNOffsetToHIPoint = lib.declare("TXNOffsetToHIPoint", ctypes.default_abi, this.OSStatus, this.TXNObject, this.TXNOffset, this.HIPoint.ptr);
+    this.TXNDragTracker = lib.declare("TXNDragTracker", ctypes.default_abi, this.OSErr, this.TXNObject, this.TXNFrameID, this.DragTrackingMessage, this.WindowRef, this.DragReference, this.Boolean);
+    this.TXNDragReceiver = lib.declare("TXNDragReceiver", ctypes.default_abi, this.OSErr, this.TXNObject, this.TXNFrameID, this.WindowRef, this.DragReference, this.Boolean);
     this.TXNCommandEventSupportOptions = this.OptionBits;
     this.kTXNSupportEditCommandProcessing = 1;
     this.kTXNSupportEditCommandUpdating = 2;
@@ -966,6 +1519,14 @@ function MacTextEditor_h(lib) {
     this.kTXNSupportSpellCheckCommandUpdating = 8;
     this.kTXNSupportFontCommandProcessing = 16;
     this.kTXNSupportFontCommandUpdating = 32;
+    this.TXNSetCommandEventSupport = lib.declare("TXNSetCommandEventSupport", ctypes.default_abi, this.OSStatus, this.TXNObject, this.TXNCommandEventSupportOptions);
+    this.TXNGetCommandEventSupport = lib.declare("TXNGetCommandEventSupport", ctypes.default_abi, this.OSStatus, this.TXNObject, this.TXNCommandEventSupportOptions.ptr);
+    this.TXNSetSpellCheckAsYouType = lib.declare("TXNSetSpellCheckAsYouType", ctypes.default_abi, this.OSStatus, this.TXNObject, this.Boolean);
+    this.TXNGetSpellCheckAsYouType = lib.declare("TXNGetSpellCheckAsYouType", ctypes.default_abi, this.Boolean, this.TXNObject);
+    this.TXNSetEventTarget = lib.declare("TXNSetEventTarget", ctypes.default_abi, this.OSStatus, this.TXNObject, this.HIObjectRef);
+    this.TXNGetEventTarget = lib.declare("TXNGetEventTarget", ctypes.default_abi, this.OSStatus, this.TXNObject, this.HIObjectRef.ptr);
+    this.TXNSetContextualMenuSetup = lib.declare("TXNSetContextualMenuSetup", ctypes.default_abi, this.OSStatus, this.TXNObject, this.TXNContextualMenuSetupUPP, ctypes.void_t.ptr);
+    this.TXNGetAccessibilityHIObject = lib.declare("TXNGetAccessibilityHIObject", ctypes.default_abi, this.OSStatus, this.TXNObject, this.HIObjectRef.ptr);
     this.OpaqueTXNFontMenuObject = new ctypes.StructType("OpaqueTXNFontMenuObject");
     this.TXNFontMenuObject = this.OpaqueTXNFontMenuObject.ptr;
     this.kTXNKeyboardSyncStateTag = 1801614201;
@@ -1035,10 +1596,41 @@ function MacTextEditor_h(lib) {
     this.kTXNTextInputCountMask = 1;
     this.kTXNRunCountMask = 2;
     this.kTXNAllCountMask = 3;
+    this.TXNSetViewRect = lib.declare("TXNSetViewRect", ctypes.default_abi, ctypes.void_t, this.TXNObject, this.Rect.ptr);
+    this.TXNNewObject = lib.declare("TXNNewObject", ctypes.default_abi, this.OSStatus, this.FSSpec.ptr, this.WindowRef, this.Rect.ptr, this.TXNFrameOptions, this.TXNFrameType, this.TXNFileType, this.TXNPermanentTextEncodingType, this.TXNObject.ptr, this.TXNFrameID.ptr, this.TXNObjectRefcon);
+    this.TXNTerminateTextension = lib.declare("TXNTerminateTextension", ctypes.default_abi, ctypes.void_t);
+    this.TXNSetDataFromFile = lib.declare("TXNSetDataFromFile", ctypes.default_abi, this.OSStatus, this.TXNObject, this.SInt16, this.OSType, this.ByteCount, this.TXNOffset, this.TXNOffset);
+    this.TXNConvertToPublicScrap = lib.declare("TXNConvertToPublicScrap", ctypes.default_abi, this.OSStatus);
+    this.TXNConvertFromPublicScrap = lib.declare("TXNConvertFromPublicScrap", ctypes.default_abi, this.OSStatus);
+    this.TXNDraw = lib.declare("TXNDraw", ctypes.default_abi, ctypes.void_t, this.TXNObject, this.GWorldPtr);
+    this.TXNAttachObjectToWindow = lib.declare("TXNAttachObjectToWindow", ctypes.default_abi, this.OSStatus, this.TXNObject, this.GWorldPtr, this.Boolean);
+    this.TXNIsObjectAttachedToWindow = lib.declare("TXNIsObjectAttachedToWindow", ctypes.default_abi, this.Boolean, this.TXNObject);
+    this.TXNIsObjectAttachedToSpecificWindow = lib.declare("TXNIsObjectAttachedToSpecificWindow", ctypes.default_abi, this.OSStatus, this.TXNObject, this.WindowRef, this.Boolean.ptr);
+    this.TXNSetRectBounds = lib.declare("TXNSetRectBounds", ctypes.default_abi, ctypes.void_t, this.TXNObject, this.Rect.ptr, this.TXNLongRect.ptr, this.Boolean);
+    this.TXNGetRectBounds = lib.declare("TXNGetRectBounds", ctypes.default_abi, this.OSStatus, this.TXNObject, this.Rect.ptr, this.TXNLongRect.ptr, this.TXNLongRect.ptr);
+    this.TXNActivate = lib.declare("TXNActivate", ctypes.default_abi, this.OSStatus, this.TXNObject, this.TXNFrameID, this.TXNScrollBarState);
+    this.TXNPointToOffset = lib.declare("TXNPointToOffset", ctypes.default_abi, this.OSStatus, this.TXNObject, this.Point, this.TXNOffset.ptr);
+    this.TXNOffsetToPoint = lib.declare("TXNOffsetToPoint", ctypes.default_abi, this.OSStatus, this.TXNObject, this.TXNOffset, this.Point.ptr);
+    this.TXNCanUndo = lib.declare("TXNCanUndo", ctypes.default_abi, this.Boolean, this.TXNObject, this.TXNActionKey.ptr);
+    this.TXNCanRedo = lib.declare("TXNCanRedo", ctypes.default_abi, this.Boolean, this.TXNObject, this.TXNActionKey.ptr);
+    this.TXNGetActionChangeCount = lib.declare("TXNGetActionChangeCount", ctypes.default_abi, this.OSStatus, this.TXNObject, this.TXNCountOptions, this.ItemCount.ptr);
+    this.TXNClearActionChangeCount = lib.declare("TXNClearActionChangeCount", ctypes.default_abi, this.OSStatus, this.TXNObject, this.TXNCountOptions);
+    this.TXNSetDataFromCFURLRef = lib.declare("TXNSetDataFromCFURLRef", ctypes.default_abi, this.OSStatus, this.TXNObject, this.CFURLRef, this.TXNOffset, this.TXNOffset);
+    this.TXNSave = lib.declare("TXNSave", ctypes.default_abi, this.OSStatus, this.TXNObject, this.TXNFileType, this.OSType, this.TXNPermanentTextEncodingType, this.FSSpec.ptr, this.SInt16, this.SInt16);
+    this.TXNNewFontMenuObject = lib.declare("TXNNewFontMenuObject", ctypes.default_abi, this.OSStatus, this.MenuRef, this.SInt16, this.SInt16, this.TXNFontMenuObject.ptr);
+    this.TXNGetFontMenuHandle = lib.declare("TXNGetFontMenuHandle", ctypes.default_abi, this.OSStatus, this.TXNFontMenuObject, this.MenuRef.ptr);
+    this.TXNDisposeFontMenuObject = lib.declare("TXNDisposeFontMenuObject", ctypes.default_abi, this.OSStatus, this.TXNFontMenuObject);
+    this.TXNDoFontMenuSelection = lib.declare("TXNDoFontMenuSelection", ctypes.default_abi, this.OSStatus, this.TXNObject, this.TXNFontMenuObject, this.SInt16, this.SInt16);
+    this.TXNPrepareFontMenu = lib.declare("TXNPrepareFontMenu", ctypes.default_abi, this.OSStatus, this.TXNObject, this.TXNFontMenuObject);
+    this.TXNSetFontDefaults = lib.declare("TXNSetFontDefaults", ctypes.default_abi, this.OSStatus, this.TXNObject, this.ItemCount, this.TXNMacOSPreferredFontDescription.ptr);
+    this.TXNGetFontDefaults = lib.declare("TXNGetFontDefaults", ctypes.default_abi, this.OSStatus, this.TXNObject, this.ItemCount.ptr, this.TXNMacOSPreferredFontDescription.ptr);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/CarbonEventsCore.h
 function CarbonEventsCore_h(lib) {
+    HIGeometry_h.call(this, lib);
+    CGEventTypes_h.call(this, lib);
+    CFBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._CARBONEVENTSCORE_H)
@@ -1084,18 +1676,58 @@ function CarbonEventsCore_h(lib) {
     this.EventParamType = this.OSType;
     this.OpaqueEventLoopRef = new ctypes.StructType("OpaqueEventLoopRef");
     this.EventLoopRef = this.OpaqueEventLoopRef.ptr;
+    this.GetCurrentEventLoop = lib.declare("GetCurrentEventLoop", ctypes.default_abi, this.EventLoopRef);
+    this.GetMainEventLoop = lib.declare("GetMainEventLoop", ctypes.default_abi, this.EventLoopRef);
+    this.RunCurrentEventLoop = lib.declare("RunCurrentEventLoop", ctypes.default_abi, this.OSStatus, this.EventTimeout);
+    this.QuitEventLoop = lib.declare("QuitEventLoop", ctypes.default_abi, this.OSStatus, this.EventLoopRef);
+    this.GetCFRunLoopFromEventLoop = lib.declare("GetCFRunLoopFromEventLoop", ctypes.default_abi, this.CFTypeRef, this.EventLoopRef);
+    this.ReceiveNextEvent = lib.declare("ReceiveNextEvent", ctypes.default_abi, this.OSStatus, this.ItemCount, this.EventTypeSpec.ptr, this.EventTimeout, this.Boolean, this.EventRef.ptr);
     this.EventAttributes = this.UInt32;
     this.kEventAttributeNone = 0;
     this.kEventAttributeUserEvent = 1;
     this.kEventAttributeMonitored = 8;
+    this.CreateEvent = lib.declare("CreateEvent", ctypes.default_abi, this.OSStatus, this.CFAllocatorRef, this.OSType, this.UInt32, this.EventTime, this.EventAttributes, this.EventRef.ptr);
+    this.CopyEvent = lib.declare("CopyEvent", ctypes.default_abi, this.EventRef, this.EventRef);
+    this.CopyEventAs = lib.declare("CopyEventAs", ctypes.default_abi, this.EventRef, this.CFAllocatorRef, this.EventRef, this.OSType, this.UInt32);
+    this.RetainEvent = lib.declare("RetainEvent", ctypes.default_abi, this.EventRef, this.EventRef);
+    this.GetEventRetainCount = lib.declare("GetEventRetainCount", ctypes.default_abi, this.ItemCount, this.EventRef);
+    this.ReleaseEvent = lib.declare("ReleaseEvent", ctypes.default_abi, ctypes.void_t, this.EventRef);
+    this.SetEventParameter = lib.declare("SetEventParameter", ctypes.default_abi, this.OSStatus, this.EventRef, this.EventParamName, this.EventParamType, this.ByteCount, ctypes.void_t.ptr);
+    this.GetEventParameter = lib.declare("GetEventParameter", ctypes.default_abi, this.OSStatus, this.EventRef, this.EventParamName, this.EventParamType, this.EventParamType.ptr, this.ByteCount, this.ByteCount.ptr, ctypes.void_t.ptr);
+    this.RemoveEventParameter = lib.declare("RemoveEventParameter", ctypes.default_abi, this.OSStatus, this.EventRef, this.EventParamName);
+    this.GetEventClass = lib.declare("GetEventClass", ctypes.default_abi, this.OSType, this.EventRef);
+    this.GetEventKind = lib.declare("GetEventKind", ctypes.default_abi, this.UInt32, this.EventRef);
+    this.GetEventTime = lib.declare("GetEventTime", ctypes.default_abi, this.EventTime, this.EventRef);
+    this.SetEventTime = lib.declare("SetEventTime", ctypes.default_abi, this.OSStatus, this.EventRef, this.EventTime);
+    this.CreateEventWithCGEvent = lib.declare("CreateEventWithCGEvent", ctypes.default_abi, this.OSStatus, this.CFAllocatorRef, this.CGEventRef, this.EventAttributes, this.EventRef.ptr);
+    this.CopyEventCGEvent = lib.declare("CopyEventCGEvent", ctypes.default_abi, this.CGEventRef, this.EventRef);
     this.OpaqueEventQueueRef = new ctypes.StructType("OpaqueEventQueueRef");
     this.EventQueueRef = this.OpaqueEventQueueRef.ptr;
+    this.GetCurrentEventQueue = lib.declare("GetCurrentEventQueue", ctypes.default_abi, this.EventQueueRef);
+    this.GetMainEventQueue = lib.declare("GetMainEventQueue", ctypes.default_abi, this.EventQueueRef);
     this.EventComparatorProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.Boolean, [this.EventRef, ctypes.void_t.ptr]).ptr;
     this.EventComparatorUPP = this.EventComparatorProcPtr;
     // Dropping inline function 'NewEventComparatorUPP'.
     // Dropping inline function 'DisposeEventComparatorUPP'.
     // Dropping inline function 'InvokeEventComparatorUPP'.
+    this.PostEventToQueue = lib.declare("PostEventToQueue", ctypes.default_abi, this.OSStatus, this.EventQueueRef, this.EventRef, this.EventPriority);
+    this.FlushEventsMatchingListFromQueue = lib.declare("FlushEventsMatchingListFromQueue", ctypes.default_abi, this.OSStatus, this.EventQueueRef, this.ItemCount, this.EventTypeSpec.ptr);
+    this.FlushSpecificEventsFromQueue = lib.declare("FlushSpecificEventsFromQueue", ctypes.default_abi, this.OSStatus, this.EventQueueRef, this.EventComparatorUPP, ctypes.void_t.ptr);
+    this.FlushEventQueue = lib.declare("FlushEventQueue", ctypes.default_abi, this.OSStatus, this.EventQueueRef);
+    this.FindSpecificEventInQueue = lib.declare("FindSpecificEventInQueue", ctypes.default_abi, this.EventRef, this.EventQueueRef, this.EventComparatorUPP, ctypes.void_t.ptr);
+    this.GetNumEventsInQueue = lib.declare("GetNumEventsInQueue", ctypes.default_abi, this.ItemCount, this.EventQueueRef);
+    this.RemoveEventFromQueue = lib.declare("RemoveEventFromQueue", ctypes.default_abi, this.OSStatus, this.EventQueueRef, this.EventRef);
+    this.IsEventInQueue = lib.declare("IsEventInQueue", ctypes.default_abi, this.Boolean, this.EventQueueRef, this.EventRef);
     this.kEventQueueOptionsNone = 0;
+    this.AcquireFirstMatchingEventInQueue = lib.declare("AcquireFirstMatchingEventInQueue", ctypes.default_abi, this.EventRef, this.EventQueueRef, this.ItemCount, this.EventTypeSpec.ptr, this.OptionBits);
+    this.GetCurrentEvent = lib.declare("GetCurrentEvent", ctypes.default_abi, this.EventRef);
+    this.GetCurrentEventButtonState = lib.declare("GetCurrentEventButtonState", ctypes.default_abi, this.UInt32);
+    this.GetCurrentEventKeyModifiers = lib.declare("GetCurrentEventKeyModifiers", ctypes.default_abi, this.UInt32);
+    this.HIGetMousePosition = lib.declare("HIGetMousePosition", ctypes.default_abi, this.HIPoint.ptr, this.HICoordinateSpace, ctypes.void_t.ptr, this.HIPoint.ptr);
+    this.GetGlobalMouse = lib.declare("GetGlobalMouse", ctypes.default_abi, ctypes.void_t, this.Point.ptr);
+    this.GetCurrentButtonState = lib.declare("GetCurrentButtonState", ctypes.default_abi, this.UInt32);
+    this.GetCurrentKeyModifiers = lib.declare("GetCurrentKeyModifiers", ctypes.default_abi, this.UInt32);
+    this.GetCurrentEventTime = lib.declare("GetCurrentEventTime", ctypes.default_abi, this.EventTime);
     this.__EventLoopTimer = new ctypes.StructType("__EventLoopTimer");
     this.EventLoopTimerRef = this.__EventLoopTimer.ptr;
     this.EventLoopTimerProcPtr = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.EventLoopTimerRef, ctypes.void_t.ptr]).ptr;
@@ -1112,6 +1744,10 @@ function CarbonEventsCore_h(lib) {
     // Dropping inline function 'DisposeEventLoopIdleTimerUPP'.
     // Dropping inline function 'InvokeEventLoopTimerUPP'.
     // Dropping inline function 'InvokeEventLoopIdleTimerUPP'.
+    this.InstallEventLoopTimer = lib.declare("InstallEventLoopTimer", ctypes.default_abi, this.OSStatus, this.EventLoopRef, this.EventTimerInterval, this.EventTimerInterval, this.EventLoopTimerUPP, ctypes.void_t.ptr, this.EventLoopTimerRef.ptr);
+    this.InstallEventLoopIdleTimer = lib.declare("InstallEventLoopIdleTimer", ctypes.default_abi, this.OSStatus, this.EventLoopRef, this.EventTimerInterval, this.EventTimerInterval, this.EventLoopIdleTimerUPP, ctypes.void_t.ptr, this.EventLoopTimerRef.ptr);
+    this.RemoveEventLoopTimer = lib.declare("RemoveEventLoopTimer", ctypes.default_abi, this.OSStatus, this.EventLoopTimerRef);
+    this.SetEventLoopTimerNextFireTime = lib.declare("SetEventLoopTimerNextFireTime", ctypes.default_abi, this.OSStatus, this.EventLoopTimerRef, this.EventTimerInterval);
     this.OpaqueEventHandlerRef = new ctypes.StructType("OpaqueEventHandlerRef");
     this.EventHandlerRef = this.OpaqueEventHandlerRef.ptr;
     this.OpaqueEventHandlerCallRef = new ctypes.StructType("OpaqueEventHandlerCallRef");
@@ -1123,14 +1759,32 @@ function CarbonEventsCore_h(lib) {
     // Dropping inline function 'InvokeEventHandlerUPP'.
     this.OpaqueEventTargetRef = new ctypes.StructType("OpaqueEventTargetRef");
     this.EventTargetRef = this.OpaqueEventTargetRef.ptr;
+    this.InstallEventHandler = lib.declare("InstallEventHandler", ctypes.default_abi, this.OSStatus, this.EventTargetRef, this.EventHandlerUPP, this.ItemCount, this.EventTypeSpec.ptr, ctypes.void_t.ptr, this.EventHandlerRef.ptr);
+    this.RemoveEventHandler = lib.declare("RemoveEventHandler", ctypes.default_abi, this.OSStatus, this.EventHandlerRef);
+    this.InstallStandardEventHandler = lib.declare("InstallStandardEventHandler", ctypes.default_abi, this.OSStatus, this.EventTargetRef);
+    this.RemoveStandardEventHandler = lib.declare("RemoveStandardEventHandler", ctypes.default_abi, this.OSStatus, this.EventTargetRef);
+    this.AddEventTypesToHandler = lib.declare("AddEventTypesToHandler", ctypes.default_abi, this.OSStatus, this.EventHandlerRef, this.ItemCount, this.EventTypeSpec.ptr);
+    this.RemoveEventTypesFromHandler = lib.declare("RemoveEventTypesFromHandler", ctypes.default_abi, this.OSStatus, this.EventHandlerRef, this.ItemCount, this.EventTypeSpec.ptr);
+    this.CallNextEventHandler = lib.declare("CallNextEventHandler", ctypes.default_abi, this.OSStatus, this.EventHandlerCallRef, this.EventRef);
     this.kEventTargetDontPropagate = 1;
     this.kEventTargetSendToAllHandlers = 2;
+    this.SendEventToEventTarget = lib.declare("SendEventToEventTarget", ctypes.default_abi, this.OSStatus, this.EventRef, this.EventTargetRef);
+    this.SendEventToEventTargetWithOptions = lib.declare("SendEventToEventTargetWithOptions", ctypes.default_abi, this.OSStatus, this.EventRef, this.EventTargetRef, this.OptionBits);
+    this.EnableSecureEventInput = lib.declare("EnableSecureEventInput", ctypes.default_abi, this.OSStatus);
+    this.DisableSecureEventInput = lib.declare("DisableSecureEventInput", ctypes.default_abi, this.OSStatus);
+    this.IsSecureEventInputEnabled = lib.declare("IsSecureEventInputEnabled", ctypes.default_abi, this.Boolean);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HITheme.h
 function HITheme_h(lib) {
+    CGColor_h.call(this, lib);
+    Controls_h.call(this, lib);
     CFDate_h.call(this, lib);
+    CFBase_h.call(this, lib);
     Appearance_h.call(this, lib);
+    CGContext_h.call(this, lib);
+    HIShape_h.call(this, lib);
+    MacWindows_h.call(this, lib);
     CGBase_h.call(this, lib);
     CTFont_h.call(this, lib);
     HIGeometry_h.call(this, lib);
@@ -1237,6 +1891,18 @@ function HITheme_h(lib) {
     this.HIThemeGrowBoxDrawInfoPtr = this.HIThemeGrowBoxDrawInfo.ptr;
     this.HIThemeBackgroundDrawInfo = new ctypes.StructType("HIThemeBackgroundDrawInfo", [{version: this.UInt32}, {state: this.ThemeDrawState}, {kind: this.ThemeBackgroundKind}]);
     this.HIThemeBackgroundDrawInfoPtr = this.HIThemeBackgroundDrawInfo.ptr;
+    this.HIThemeDrawButton = lib.declare("HIThemeDrawButton", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemeButtonDrawInfo.ptr, this.CGContextRef, this.HIThemeOrientation, this.HIRect.ptr);
+    this.HIThemeGetButtonShape = lib.declare("HIThemeGetButtonShape", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemeButtonDrawInfo.ptr, this.HIShapeRef.ptr);
+    this.HIThemeGetButtonContentBounds = lib.declare("HIThemeGetButtonContentBounds", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemeButtonDrawInfo.ptr, this.HIRect.ptr);
+    this.HIThemeGetButtonBackgroundBounds = lib.declare("HIThemeGetButtonBackgroundBounds", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemeButtonDrawInfo.ptr, this.HIRect.ptr);
+    this.HIThemeDrawChasingArrows = lib.declare("HIThemeDrawChasingArrows", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemeChasingArrowsDrawInfo.ptr, this.CGContextRef, this.HIThemeOrientation);
+    this.HIThemeDrawPopupArrow = lib.declare("HIThemeDrawPopupArrow", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemePopupArrowDrawInfo.ptr, this.CGContextRef, this.HIThemeOrientation);
+    this.HIThemeDrawMenuBarBackground = lib.declare("HIThemeDrawMenuBarBackground", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemeMenuBarDrawInfo.ptr, this.CGContextRef, this.HIThemeOrientation);
+    this.HIThemeDrawMenuTitle = lib.declare("HIThemeDrawMenuTitle", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIRect.ptr, this.HIThemeMenuTitleDrawInfo.ptr, this.CGContextRef, this.HIThemeOrientation, this.HIRect.ptr);
+    this.HIThemeDrawMenuBackground = lib.declare("HIThemeDrawMenuBackground", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemeMenuDrawInfo.ptr, this.CGContextRef, this.HIThemeOrientation);
+    this.HIThemeDrawMenuItem = lib.declare("HIThemeDrawMenuItem", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIRect.ptr, this.HIThemeMenuItemDrawInfo.ptr, this.CGContextRef, this.HIThemeOrientation, this.HIRect.ptr);
+    this.HIThemeDrawMenuSeparator = lib.declare("HIThemeDrawMenuSeparator", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIRect.ptr, this.HIThemeMenuItemDrawInfo.ptr, this.CGContextRef, this.HIThemeOrientation);
+    this.HIThemeGetMenuBackgroundShape = lib.declare("HIThemeGetMenuBackgroundShape", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemeMenuDrawInfo.ptr, this.HIShapeRef.ptr);
     this.kHIThemeSegmentPositionFirst = 0;
     this.kHIThemeSegmentPositionMiddle = 1;
     this.kHIThemeSegmentPositionLast = 2;
@@ -1257,6 +1923,13 @@ function HITheme_h(lib) {
     this.HIThemeSegmentAdornment = this.UInt32;
     this.HIThemeSegmentDrawInfo = new ctypes.StructType("HIThemeSegmentDrawInfo", [{version: this.UInt32}, {state: this.ThemeDrawState}, {value: this.ThemeButtonValue}, {size: this.HIThemeSegmentSize}, {kind: this.HIThemeSegmentKind}, {position: this.HIThemeSegmentPosition}, {adornment: this.HIThemeSegmentAdornment}]);
     this.HIThemeSegmentDrawInfoPtr = this.HIThemeSegmentDrawInfo.ptr;
+    this.HIThemeDrawSegment = lib.declare("HIThemeDrawSegment", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemeSegmentDrawInfo.ptr, this.CGContextRef, this.HIThemeOrientation);
+    this.HIThemeDrawTabPane = lib.declare("HIThemeDrawTabPane", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemeTabPaneDrawInfo.ptr, this.CGContextRef, this.HIThemeOrientation);
+    this.HIThemeDrawTab = lib.declare("HIThemeDrawTab", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemeTabDrawInfo.ptr, this.CGContextRef, this.HIThemeOrientation, this.HIRect.ptr);
+    this.HIThemeGetTabPaneDrawShape = lib.declare("HIThemeGetTabPaneDrawShape", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.ThemeTabDirection, this.HIThemeTabSize, this.HIShapeRef.ptr);
+    this.HIThemeGetTabPaneContentShape = lib.declare("HIThemeGetTabPaneContentShape", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.ThemeTabDirection, this.HIThemeTabSize, this.HIShapeRef.ptr);
+    this.HIThemeGetTabDrawShape = lib.declare("HIThemeGetTabDrawShape", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemeTabDrawInfo.ptr, this.HIShapeRef.ptr);
+    this.HIThemeGetTabShape = lib.declare("HIThemeGetTabShape", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemeTabDrawInfo.ptr, this.HIShapeRef.ptr);
     this.kHIThemeTextTruncationNone = 0;
     this.kHIThemeTextTruncationMiddle = 1;
     this.kHIThemeTextTruncationEnd = 2;
@@ -1280,10 +1953,55 @@ function HITheme_h(lib) {
     this.kHIThemeTextInfoVersionZero = 0;
     this.kHIThemeTextInfoVersionOne = 1;
     this.HIThemeTextInfo = new ctypes.StructType("HIThemeTextInfo", [{version: this.UInt32}, {state: this.ThemeDrawState}, {fontID: this.ThemeFontID}, {horizontalFlushness: this.HIThemeTextHorizontalFlush}, {verticalFlushness: this.HIThemeTextVerticalFlush}, {options: this.HIThemeTextBoxOptions}, {truncationPosition: this.HIThemeTextTruncation}, {truncationMaxLines: this.UInt32}, {truncationHappened: this.Boolean}, {filler1: this.UInt8}, {font: this.CTFontRef}]);
+    this.HIThemeGetTextDimensions = lib.declare("HIThemeGetTextDimensions", ctypes.default_abi, this.OSStatus, this.CFTypeRef, this.CGFloat, this.HIThemeTextInfo.ptr, this.CGFloat.ptr, this.CGFloat.ptr, this.CGFloat.ptr);
+    this.HIThemeDrawTextBox = lib.declare("HIThemeDrawTextBox", ctypes.default_abi, this.OSStatus, this.CFTypeRef, this.HIRect.ptr, this.HIThemeTextInfo.ptr, this.CGContextRef, this.HIThemeOrientation);
+    this.HIThemeGetUIFontType = lib.declare("HIThemeGetUIFontType", ctypes.default_abi, this.CTFontUIFontType, this.ThemeFontID);
+    this.HIThemeDrawTrack = lib.declare("HIThemeDrawTrack", ctypes.default_abi, this.OSStatus, this.HIThemeTrackDrawInfo.ptr, this.HIRect.ptr, this.CGContextRef, this.HIThemeOrientation);
+    this.HIThemeDrawTrackTickMarks = lib.declare("HIThemeDrawTrackTickMarks", ctypes.default_abi, this.OSStatus, this.HIThemeTrackDrawInfo.ptr, this.ItemCount, this.CGContextRef, this.HIThemeOrientation);
+    this.HIThemeDrawTickMark = lib.declare("HIThemeDrawTickMark", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemeTickMarkDrawInfo.ptr, this.CGContextRef, this.HIThemeOrientation);
+    this.HIThemeGetTrackThumbShape = lib.declare("HIThemeGetTrackThumbShape", ctypes.default_abi, this.OSStatus, this.HIThemeTrackDrawInfo.ptr, this.HIShapeRef.ptr);
+    this.HIThemeHitTestTrack = lib.declare("HIThemeHitTestTrack", ctypes.default_abi, this.Boolean, this.HIThemeTrackDrawInfo.ptr, this.HIPoint.ptr, this.ControlPartCode.ptr);
+    this.HIThemeGetTrackBounds = lib.declare("HIThemeGetTrackBounds", ctypes.default_abi, this.OSStatus, this.HIThemeTrackDrawInfo.ptr, this.HIRect.ptr);
+    this.HIThemeGetTrackPartBounds = lib.declare("HIThemeGetTrackPartBounds", ctypes.default_abi, this.OSStatus, this.HIThemeTrackDrawInfo.ptr, this.ControlPartCode, this.HIRect.ptr);
+    this.HIThemeGetTrackParts = lib.declare("HIThemeGetTrackParts", ctypes.default_abi, this.OSStatus, this.HIThemeTrackDrawInfo.ptr, this.UInt32.ptr, this.UInt32, this.ControlPartCode.ptr);
+    this.HIThemeGetTrackDragRect = lib.declare("HIThemeGetTrackDragRect", ctypes.default_abi, this.OSStatus, this.HIThemeTrackDrawInfo.ptr, this.HIRect.ptr);
+    this.HIThemeGetTrackThumbPositionFromOffset = lib.declare("HIThemeGetTrackThumbPositionFromOffset", ctypes.default_abi, this.OSStatus, this.HIThemeTrackDrawInfo.ptr, this.HIPoint.ptr, this.CGFloat.ptr);
+    this.HIThemeGetTrackThumbPositionFromBounds = lib.declare("HIThemeGetTrackThumbPositionFromBounds", ctypes.default_abi, this.OSStatus, this.HIThemeTrackDrawInfo.ptr, this.HIRect.ptr, this.CGFloat.ptr);
+    this.HIThemeGetTrackLiveValue = lib.declare("HIThemeGetTrackLiveValue", ctypes.default_abi, this.OSStatus, this.HIThemeTrackDrawInfo.ptr, this.CGFloat, this.SInt32.ptr);
+    this.HIThemeGetScrollBarTrackRect = lib.declare("HIThemeGetScrollBarTrackRect", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIScrollBarTrackInfo.ptr, this.Boolean, this.HIRect.ptr);
+    this.HIThemeHitTestScrollBarArrows = lib.declare("HIThemeHitTestScrollBarArrows", ctypes.default_abi, this.Boolean, this.HIRect.ptr, this.HIScrollBarTrackInfo.ptr, this.Boolean, this.HIPoint.ptr, this.HIRect.ptr, this.ControlPartCode.ptr);
+    this.HIThemeDrawScrollBarDelimiters = lib.declare("HIThemeDrawScrollBarDelimiters", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemeScrollBarDelimitersDrawInfo.ptr, this.CGContextRef, this.HIThemeOrientation);
+    this.HIThemeDrawWindowFrame = lib.declare("HIThemeDrawWindowFrame", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemeWindowDrawInfo.ptr, this.CGContextRef, this.HIThemeOrientation, this.HIRect.ptr);
+    this.HIThemeDrawTitleBarWidget = lib.declare("HIThemeDrawTitleBarWidget", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemeWindowWidgetDrawInfo.ptr, this.CGContextRef, this.HIThemeOrientation);
+    this.HIThemeDrawGrowBox = lib.declare("HIThemeDrawGrowBox", ctypes.default_abi, this.OSStatus, this.HIPoint.ptr, this.HIThemeGrowBoxDrawInfo.ptr, this.CGContextRef, this.HIThemeOrientation);
+    this.HIThemeGetGrowBoxBounds = lib.declare("HIThemeGetGrowBoxBounds", ctypes.default_abi, this.OSStatus, this.HIPoint.ptr, this.HIThemeGrowBoxDrawInfo.ptr, this.HIRect.ptr);
+    this.HIThemeGetWindowShape = lib.declare("HIThemeGetWindowShape", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemeWindowDrawInfo.ptr, this.WindowRegionCode, this.HIShapeRef.ptr);
+    this.HIThemeGetWindowRegionHit = lib.declare("HIThemeGetWindowRegionHit", ctypes.default_abi, this.Boolean, this.HIRect.ptr, this.HIThemeWindowDrawInfo.ptr, this.HIPoint.ptr, this.WindowRegionCode.ptr);
+    this.HIThemeDrawFrame = lib.declare("HIThemeDrawFrame", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemeFrameDrawInfo.ptr, this.CGContextRef, this.HIThemeOrientation);
+    this.HIThemeDrawGroupBox = lib.declare("HIThemeDrawGroupBox", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemeGroupBoxDrawInfo.ptr, this.CGContextRef, this.HIThemeOrientation);
+    this.HIThemeDrawGenericWell = lib.declare("HIThemeDrawGenericWell", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemeButtonDrawInfo.ptr, this.CGContextRef, this.HIThemeOrientation);
+    this.HIThemeDrawPaneSplitter = lib.declare("HIThemeDrawPaneSplitter", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemeSplitterDrawInfo.ptr, this.CGContextRef, this.HIThemeOrientation);
+    this.HIThemeDrawGrabber = lib.declare("HIThemeDrawGrabber", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemeGrabberDrawInfo.ptr, this.CGContextRef, this.HIThemeOrientation);
+    this.HIThemeDrawPlacard = lib.declare("HIThemeDrawPlacard", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemePlacardDrawInfo.ptr, this.CGContextRef, this.HIThemeOrientation);
+    this.HIThemeDrawHeader = lib.declare("HIThemeDrawHeader", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemeHeaderDrawInfo.ptr, this.CGContextRef, this.HIThemeOrientation);
+    this.HIThemeDrawFocusRect = lib.declare("HIThemeDrawFocusRect", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.Boolean, this.CGContextRef, this.HIThemeOrientation);
     this.kHIThemeFocusRingOnly = 0;
     this.kHIThemeFocusRingAbove = 1;
     this.kHIThemeFocusRingBelow = 2;
     this.HIThemeFocusRing = this.UInt32;
+    this.HIThemeBeginFocus = lib.declare("HIThemeBeginFocus", ctypes.default_abi, this.OSStatus, this.CGContextRef, this.HIThemeFocusRing, ctypes.void_t.ptr);
+    this.HIThemeEndFocus = lib.declare("HIThemeEndFocus", ctypes.default_abi, this.OSStatus, this.CGContextRef);
+    this.HIThemeDrawSeparator = lib.declare("HIThemeDrawSeparator", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemeSeparatorDrawInfo.ptr, this.CGContextRef, this.HIThemeOrientation);
+    this.HIThemeSetFill = lib.declare("HIThemeSetFill", ctypes.default_abi, this.OSStatus, this.ThemeBrush, ctypes.void_t.ptr, this.CGContextRef, this.HIThemeOrientation);
+    this.HIThemeSetStroke = lib.declare("HIThemeSetStroke", ctypes.default_abi, this.OSStatus, this.ThemeBrush, ctypes.void_t.ptr, this.CGContextRef, this.HIThemeOrientation);
+    this.HIThemeSetTextFill = lib.declare("HIThemeSetTextFill", ctypes.default_abi, this.OSStatus, this.ThemeTextColor, ctypes.void_t.ptr, this.CGContextRef, this.HIThemeOrientation);
+    this.HIThemeApplyBackground = lib.declare("HIThemeApplyBackground", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemeBackgroundDrawInfo.ptr, this.CGContextRef, this.HIThemeOrientation);
+    this.HIThemeDrawBackground = lib.declare("HIThemeDrawBackground", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIThemeBackgroundDrawInfo.ptr, this.CGContextRef, this.HIThemeOrientation);
+    this.HIThemeBrushCreateCGColor = lib.declare("HIThemeBrushCreateCGColor", ctypes.default_abi, this.OSStatus, this.ThemeBrush, this.CGColorRef.ptr);
+    this.HIThemeGetTextColorForThemeBrush = lib.declare("HIThemeGetTextColorForThemeBrush", ctypes.default_abi, this.OSStatus, this.ThemeBrush, this.Boolean, this.ThemeTextColor.ptr);
+    this.GetThemeMenuSeparatorHeight = lib.declare("GetThemeMenuSeparatorHeight", ctypes.default_abi, this.OSStatus, this.SInt16.ptr);
+    this.GetThemeMenuItemExtra = lib.declare("GetThemeMenuItemExtra", ctypes.default_abi, this.OSStatus, this.ThemeMenuItemType, this.SInt16.ptr, this.SInt16.ptr);
+    this.GetThemeMenuTitleExtra = lib.declare("GetThemeMenuTitleExtra", ctypes.default_abi, this.OSStatus, this.SInt16.ptr, this.Boolean);
     this.kThemeMetricScrollBarWidth = 0;
     this.kThemeMetricSmallScrollBarWidth = 1;
     this.kThemeMetricCheckBoxHeight = 2;
@@ -1426,6 +2144,8 @@ function HITheme_h(lib) {
     this.kThemeMetricTexturedPushButtonHeight = 139;
     this.kThemeMetricTexturedSmallPushButtonHeight = 140;
     this.ThemeMetric = this.UInt32;
+    this.GetThemeMetric = lib.declare("GetThemeMetric", ctypes.default_abi, this.OSStatus, this.ThemeMetric, this.SInt32.ptr);
+    this.CopyThemeIdentifier = lib.declare("CopyThemeIdentifier", ctypes.default_abi, this.OSStatus, this.CFStringRef.ptr);
     this.kThemeMetricCheckBoxGlyphHeight = 2;
     this.kThemeMetricRadioButtonGlyphHeight = 3;
     this.kThemeMetricDisclosureButtonSize = 17;
@@ -1436,8 +2156,13 @@ function HITheme_h(lib) {
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/Drag.h
 function Drag_h(lib) {
+    Events_h.call(this, lib);
+    Pasteboard_h.call(this, lib);
     QuickdrawTypes_h.call(this, lib);
+    CGImage_h.call(this, lib);
     Files_h.call(this, lib);
+    AEDataModel_h.call(this, lib);
+    HIGeometry_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._DRAG_H)
@@ -1488,6 +2213,26 @@ function Drag_h(lib) {
     // Dropping inline function 'NewDragInputUPP'.
     // Dropping inline function 'DisposeDragInputUPP'.
     // Dropping inline function 'InvokeDragInputUPP'.
+    this.SetDragInputProc = lib.declare("SetDragInputProc", ctypes.default_abi, this.OSErr, this.DragRef, this.DragInputUPP, ctypes.void_t.ptr);
+    this.NewDrag = lib.declare("NewDrag", ctypes.default_abi, this.OSErr, this.DragRef.ptr);
+    this.DisposeDrag = lib.declare("DisposeDrag", ctypes.default_abi, this.OSErr, this.DragRef);
+    this.NewDragWithPasteboard = lib.declare("NewDragWithPasteboard", ctypes.default_abi, this.OSStatus, this.PasteboardRef, this.DragRef.ptr);
+    this.GetDragPasteboard = lib.declare("GetDragPasteboard", ctypes.default_abi, this.OSStatus, this.DragRef, this.PasteboardRef.ptr);
+    this.SetDragImageWithCGImage = lib.declare("SetDragImageWithCGImage", ctypes.default_abi, this.OSStatus, this.DragRef, this.CGImageRef, this.HIPoint.ptr, this.DragImageFlags);
+    this.ChangeDragBehaviors = lib.declare("ChangeDragBehaviors", ctypes.default_abi, this.OSErr, this.DragRef, this.DragBehaviors, this.DragBehaviors);
+    this.TrackDrag = lib.declare("TrackDrag", ctypes.default_abi, this.OSErr, this.DragRef, this.EventRecord.ptr, this.RgnHandle);
+    this.GetDragAttributes = lib.declare("GetDragAttributes", ctypes.default_abi, this.OSErr, this.DragRef, this.DragAttributes.ptr);
+    this.GetDragMouse = lib.declare("GetDragMouse", ctypes.default_abi, this.OSErr, this.DragRef, this.Point.ptr, this.Point.ptr);
+    this.SetDragMouse = lib.declare("SetDragMouse", ctypes.default_abi, this.OSErr, this.DragRef, this.Point);
+    this.GetDragOrigin = lib.declare("GetDragOrigin", ctypes.default_abi, this.OSErr, this.DragRef, this.Point.ptr);
+    this.GetDragModifiers = lib.declare("GetDragModifiers", ctypes.default_abi, this.OSErr, this.DragRef, this.SInt16.ptr, this.SInt16.ptr, this.SInt16.ptr);
+    this.GetDragItemBounds = lib.declare("GetDragItemBounds", ctypes.default_abi, this.OSErr, this.DragRef, this.DragItemRef, this.Rect.ptr);
+    this.SetDragItemBounds = lib.declare("SetDragItemBounds", ctypes.default_abi, this.OSErr, this.DragRef, this.DragItemRef, this.Rect.ptr);
+    this.GetDragAllowableActions = lib.declare("GetDragAllowableActions", ctypes.default_abi, this.OSStatus, this.DragRef, this.DragActions.ptr);
+    this.SetDragAllowableActions = lib.declare("SetDragAllowableActions", ctypes.default_abi, this.OSStatus, this.DragRef, this.DragActions, this.Boolean);
+    this.GetDragDropAction = lib.declare("GetDragDropAction", ctypes.default_abi, this.OSStatus, this.DragRef, this.DragActions.ptr);
+    this.SetDragDropAction = lib.declare("SetDragDropAction", ctypes.default_abi, this.OSStatus, this.DragRef, this.DragActions);
+    this.WaitMouseMoved = lib.declare("WaitMouseMoved", ctypes.default_abi, this.Boolean, this.Point);
     this.kDragFlavorTypeHFS = 1751544608;
     this.kDragFlavorTypePromiseHFS = 1885890163;
     this.flavorTypeHFS = 1751544608;
@@ -1538,6 +2283,34 @@ function Drag_h(lib) {
     // Dropping inline function 'InvokeDragTrackingHandlerUPP'.
     // Dropping inline function 'InvokeDragReceiveHandlerUPP'.
     // Dropping inline function 'InvokeDragDrawingUPP'.
+    this.GetStandardDropLocation = lib.declare("GetStandardDropLocation", ctypes.default_abi, this.OSStatus, this.DragRef, this.StandardDropLocation.ptr);
+    this.SetStandardDropLocation = lib.declare("SetStandardDropLocation", ctypes.default_abi, this.OSStatus, this.DragRef, this.StandardDropLocation);
+    this.ZoomRects = lib.declare("ZoomRects", ctypes.default_abi, this.OSErr, this.Rect.ptr, this.Rect.ptr, this.SInt16, this.ZoomAcceleration);
+    this.ZoomRegion = lib.declare("ZoomRegion", ctypes.default_abi, this.OSErr, this.RgnHandle, this.Point, this.SInt16, this.ZoomAcceleration);
+    this.SetDragImage = lib.declare("SetDragImage", ctypes.default_abi, this.OSErr, this.DragRef, this.PixMapHandle, this.RgnHandle, this.Point, this.DragImageFlags);
+    this.AddDragItemFlavor = lib.declare("AddDragItemFlavor", ctypes.default_abi, this.OSErr, this.DragRef, this.DragItemRef, this.FlavorType, ctypes.void_t.ptr, this.Size, this.FlavorFlags);
+    this.SetDragItemFlavorData = lib.declare("SetDragItemFlavorData", ctypes.default_abi, this.OSErr, this.DragRef, this.DragItemRef, this.FlavorType, ctypes.void_t.ptr, this.Size, this.UInt32);
+    this.InstallTrackingHandler = lib.declare("InstallTrackingHandler", ctypes.default_abi, this.OSErr, this.DragTrackingHandlerUPP, this.WindowRef, ctypes.void_t.ptr);
+    this.InstallReceiveHandler = lib.declare("InstallReceiveHandler", ctypes.default_abi, this.OSErr, this.DragReceiveHandlerUPP, this.WindowRef, ctypes.void_t.ptr);
+    this.RemoveTrackingHandler = lib.declare("RemoveTrackingHandler", ctypes.default_abi, this.OSErr, this.DragTrackingHandlerUPP, this.WindowRef);
+    this.RemoveReceiveHandler = lib.declare("RemoveReceiveHandler", ctypes.default_abi, this.OSErr, this.DragReceiveHandlerUPP, this.WindowRef);
+    this.SetDragSendProc = lib.declare("SetDragSendProc", ctypes.default_abi, this.OSErr, this.DragRef, this.DragSendDataUPP, ctypes.void_t.ptr);
+    this.SetDragDrawingProc = lib.declare("SetDragDrawingProc", ctypes.default_abi, this.OSErr, this.DragRef, this.DragDrawingUPP, ctypes.void_t.ptr);
+    this.CountDragItems = lib.declare("CountDragItems", ctypes.default_abi, this.OSErr, this.DragRef, this.UInt16.ptr);
+    this.GetDragItemReferenceNumber = lib.declare("GetDragItemReferenceNumber", ctypes.default_abi, this.OSErr, this.DragRef, this.UInt16, this.DragItemRef.ptr);
+    this.CountDragItemFlavors = lib.declare("CountDragItemFlavors", ctypes.default_abi, this.OSErr, this.DragRef, this.DragItemRef, this.UInt16.ptr);
+    this.GetFlavorType = lib.declare("GetFlavorType", ctypes.default_abi, this.OSErr, this.DragRef, this.DragItemRef, this.UInt16, this.FlavorType.ptr);
+    this.GetFlavorFlags = lib.declare("GetFlavorFlags", ctypes.default_abi, this.OSErr, this.DragRef, this.DragItemRef, this.FlavorType, this.FlavorFlags.ptr);
+    this.GetFlavorDataSize = lib.declare("GetFlavorDataSize", ctypes.default_abi, this.OSErr, this.DragRef, this.DragItemRef, this.FlavorType, this.Size.ptr);
+    this.GetFlavorData = lib.declare("GetFlavorData", ctypes.default_abi, this.OSErr, this.DragRef, this.DragItemRef, this.FlavorType, ctypes.void_t.ptr, this.Size.ptr, this.UInt32);
+    this.GetDropLocation = lib.declare("GetDropLocation", ctypes.default_abi, this.OSErr, this.DragRef, this.AEDesc.ptr);
+    this.SetDropLocation = lib.declare("SetDropLocation", ctypes.default_abi, this.OSErr, this.DragRef, this.AEDesc.ptr);
+    this.ShowDragHilite = lib.declare("ShowDragHilite", ctypes.default_abi, this.OSErr, this.DragRef, this.RgnHandle, this.Boolean);
+    this.HideDragHilite = lib.declare("HideDragHilite", ctypes.default_abi, this.OSErr, this.DragRef);
+    this.DragPreScroll = lib.declare("DragPreScroll", ctypes.default_abi, this.OSErr, this.DragRef, this.SInt16, this.SInt16);
+    this.DragPostScroll = lib.declare("DragPostScroll", ctypes.default_abi, this.OSErr, this.DragRef);
+    this.UpdateDragHilite = lib.declare("UpdateDragHilite", ctypes.default_abi, this.OSErr, this.DragRef, this.RgnHandle);
+    this.GetDragHiliteColor = lib.declare("GetDragHiliteColor", ctypes.default_abi, this.OSErr, this.WindowRef, this.RGBColor.ptr);
     this.DragReference = this.DragRef;
     this.ItemReference = this.DragItemRef;
 }
@@ -1545,6 +2318,7 @@ function Drag_h(lib) {
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/Events.h
 function Events_h(lib) {
     OSUtils_h.call(this, lib);
+    QuickdrawTypes_h.call(this, lib);
     MacTypes_h.call(this, lib);
     Endian_h.call(this, lib);
 
@@ -1764,8 +2538,15 @@ function Events_h(lib) {
     this.EventRecord = new ctypes.StructType("EventRecord", [{what: this.EventKind}, {message: ctypes.unsigned_long}, {when: this.UInt32}, {where: this.Point}, {modifiers: this.EventModifiers}]);
     this.FKEYProcPtr = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, []).ptr;
     this.FKEYUPP = this.FKEYProcPtr;
+    this.GetMouse = lib.declare("GetMouse", ctypes.default_abi, ctypes.void_t, this.Point.ptr);
+    this.Button = lib.declare("Button", ctypes.default_abi, this.Boolean);
+    this.StillDown = lib.declare("StillDown", ctypes.default_abi, this.Boolean);
+    this.WaitMouseUp = lib.declare("WaitMouseUp", ctypes.default_abi, this.Boolean);
+    this.KeyTranslate = lib.declare("KeyTranslate", ctypes.default_abi, this.UInt32, ctypes.void_t.ptr, this.UInt16, this.UInt32.ptr);
+    this.GetCaretTime = lib.declare("GetCaretTime", ctypes.default_abi, this.UInt32);
     this.KeyMap = this.BigEndianUInt32.array(4);
     this.KeyMapByteArray = this.UInt8.array(16);
+    this.GetKeys = lib.declare("GetKeys", ctypes.default_abi, ctypes.void_t, this.BigEndianUInt32.ptr);
     this.networkEvt = 10;
     this.driverEvt = 11;
     this.app1Evt = 12;
@@ -1783,10 +2564,28 @@ function Events_h(lib) {
     this.GetNextEventFilterProcPtr = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.EventRecord.ptr, this.Boolean.ptr]).ptr;
     this.GetNextEventFilterUPP = this.GetNextEventFilterProcPtr;
     this.GNEFilterUPP = this.GetNextEventFilterUPP;
+    this.GetDblTime = lib.declare("GetDblTime", ctypes.default_abi, this.UInt32);
+    this.SetEventMask = lib.declare("SetEventMask", ctypes.default_abi, ctypes.void_t, this.EventMask);
+    this.GetNextEvent = lib.declare("GetNextEvent", ctypes.default_abi, this.Boolean, this.EventMask, this.EventRecord.ptr);
+    this.WaitNextEvent = lib.declare("WaitNextEvent", ctypes.default_abi, this.Boolean, this.EventMask, this.EventRecord.ptr, this.UInt32, this.RgnHandle);
+    this.EventAvail = lib.declare("EventAvail", ctypes.default_abi, this.Boolean, this.EventMask, this.EventRecord.ptr);
+    this.PostEvent = lib.declare("PostEvent", ctypes.default_abi, this.OSErr, this.EventKind, this.UInt32);
+    this.FlushEvents = lib.declare("FlushEvents", ctypes.default_abi, ctypes.void_t, this.EventMask, this.EventMask);
+    this.KeyScript = lib.declare("KeyScript", ctypes.default_abi, ctypes.void_t, ctypes.short);
+    this.IsCmdChar = lib.declare("IsCmdChar", ctypes.default_abi, this.Boolean, this.EventRecord.ptr, ctypes.short);
+    this.LMGetKeyThresh = lib.declare("LMGetKeyThresh", ctypes.default_abi, this.SInt16);
+    this.LMSetKeyThresh = lib.declare("LMSetKeyThresh", ctypes.default_abi, ctypes.void_t, this.SInt16);
+    this.LMGetKeyRepThresh = lib.declare("LMGetKeyRepThresh", ctypes.default_abi, this.SInt16);
+    this.LMSetKeyRepThresh = lib.declare("LMSetKeyRepThresh", ctypes.default_abi, ctypes.void_t, this.SInt16);
+    this.LMGetKbdLast = lib.declare("LMGetKbdLast", ctypes.default_abi, this.UInt8);
+    this.LMSetKbdLast = lib.declare("LMSetKbdLast", ctypes.default_abi, ctypes.void_t, this.UInt8);
+    this.LMGetKbdType = lib.declare("LMGetKbdType", ctypes.default_abi, this.UInt8);
+    this.LMSetKbdType = lib.declare("LMSetKbdType", ctypes.default_abi, ctypes.void_t, this.UInt8);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/TranslationExtensions.h
 function TranslationExtensions_h(lib) {
+    QuickdrawTypes_h.call(this, lib);
     Components_h.call(this, lib);
     Files_h.call(this, lib);
     MacTypes_h.call(this, lib);
@@ -1812,6 +2611,8 @@ function TranslationExtensions_h(lib) {
     this.ScrapTranslationListPtr = this.ScrapTranslationList.ptr;
     this.ScrapTranslationListHandle = this.ScrapTranslationListPtr.ptr;
     this.TranslationRefNum = ctypes.long;
+    this.SetTranslationAdvertisement = lib.declare("SetTranslationAdvertisement", ctypes.default_abi, this.OSErr, this.TranslationRefNum, this.PicHandle);
+    this.UpdateTranslationProgress = lib.declare("UpdateTranslationProgress", ctypes.default_abi, this.OSErr, this.TranslationRefNum, ctypes.short, this.Boolean.ptr);
     this.kTranslateGetFileTranslationList = 0;
     this.kTranslateIdentifyFile = 1;
     this.kTranslateTranslateFile = 2;
@@ -1835,7 +2636,10 @@ function Controls_h(lib) {
     Events_h.call(this, lib);
     QuickdrawTypes_h.call(this, lib);
     HIObject_h.call(this, lib);
+    Menus_h.call(this, lib);
+    CFBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
+    Drag_h.call(this, lib);
 
     if (this._CONTROLS_H)
         return;
@@ -2060,30 +2864,152 @@ function Controls_h(lib) {
     this.kControlDefObjectClass = 1;
     this.ControlDefType = this.UInt32;
     this.ControlDefSpec = new ctypes.StructType("ControlDefSpec", []);
+    this.CreateCustomControl = lib.declare("CreateCustomControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.ControlDefSpec.ptr, this.Collection, this.ControlRef.ptr);
+    this.NewControl = lib.declare("NewControl", ctypes.default_abi, this.ControlRef, this.WindowRef, this.Rect.ptr, this.ConstStr255Param, this.Boolean, this.SInt16, this.SInt16, this.SInt16, this.SInt16, this.SRefCon);
+    this.GetNewControl = lib.declare("GetNewControl", ctypes.default_abi, this.ControlRef, this.SInt16, this.WindowRef);
+    this.DisposeControl = lib.declare("DisposeControl", ctypes.default_abi, ctypes.void_t, this.ControlRef);
+    this.KillControls = lib.declare("KillControls", ctypes.default_abi, ctypes.void_t, this.WindowRef);
     this.ControlCNTLToCollectionProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.OSStatus, [this.Rect.ptr, this.SInt16, this.Boolean, this.SInt16, this.SInt16, this.SInt16, this.SRefCon, this.ConstStr255Param, this.Collection]).ptr;
     this.ControlCNTLToCollectionUPP = this.ControlCNTLToCollectionProcPtr;
     // Dropping inline function 'NewControlCNTLToCollectionUPP'.
     // Dropping inline function 'DisposeControlCNTLToCollectionUPP'.
     // Dropping inline function 'InvokeControlCNTLToCollectionUPP'.
+    this.RegisterControlDefinition = lib.declare("RegisterControlDefinition", ctypes.default_abi, this.OSStatus, this.SInt16, this.ControlDefSpec.ptr, this.ControlCNTLToCollectionUPP);
+    this.HiliteControl = lib.declare("HiliteControl", ctypes.default_abi, ctypes.void_t, this.ControlRef, this.ControlPartCode);
+    this.ShowControl = lib.declare("ShowControl", ctypes.default_abi, ctypes.void_t, this.ControlRef);
+    this.HideControl = lib.declare("HideControl", ctypes.default_abi, ctypes.void_t, this.ControlRef);
+    this.IsControlActive = lib.declare("IsControlActive", ctypes.default_abi, this.Boolean, this.ControlRef);
+    this.IsControlVisible = lib.declare("IsControlVisible", ctypes.default_abi, this.Boolean, this.ControlRef);
+    this.ActivateControl = lib.declare("ActivateControl", ctypes.default_abi, this.OSErr, this.ControlRef);
+    this.DeactivateControl = lib.declare("DeactivateControl", ctypes.default_abi, this.OSErr, this.ControlRef);
+    this.SetControlVisibility = lib.declare("SetControlVisibility", ctypes.default_abi, this.OSErr, this.ControlRef, this.Boolean, this.Boolean);
+    this.IsControlEnabled = lib.declare("IsControlEnabled", ctypes.default_abi, this.Boolean, this.ControlRef);
+    this.EnableControl = lib.declare("EnableControl", ctypes.default_abi, this.OSStatus, this.ControlRef);
+    this.DisableControl = lib.declare("DisableControl", ctypes.default_abi, this.OSStatus, this.ControlRef);
+    this.DrawControls = lib.declare("DrawControls", ctypes.default_abi, ctypes.void_t, this.WindowRef);
+    this.Draw1Control = lib.declare("Draw1Control", ctypes.default_abi, ctypes.void_t, this.ControlRef);
+    this.UpdateControls = lib.declare("UpdateControls", ctypes.default_abi, ctypes.void_t, this.WindowRef, this.RgnHandle);
+    this.GetBestControlRect = lib.declare("GetBestControlRect", ctypes.default_abi, this.OSErr, this.ControlRef, this.Rect.ptr, this.SInt16.ptr);
+    this.SetControlFontStyle = lib.declare("SetControlFontStyle", ctypes.default_abi, this.OSErr, this.ControlRef, this.ControlFontStyleRec.ptr);
+    this.DrawControlInCurrentPort = lib.declare("DrawControlInCurrentPort", ctypes.default_abi, ctypes.void_t, this.ControlRef);
+    this.SetUpControlBackground = lib.declare("SetUpControlBackground", ctypes.default_abi, this.OSErr, this.ControlRef, this.SInt16, this.Boolean);
+    this.SetUpControlTextColor = lib.declare("SetUpControlTextColor", ctypes.default_abi, this.OSErr, this.ControlRef, this.SInt16, this.Boolean);
     this.ControlColorProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.OSStatus, [this.ControlRef, this.SInt16, this.SInt16, this.Boolean]).ptr;
     this.ControlColorUPP = this.ControlColorProcPtr;
     // Dropping inline function 'NewControlColorUPP'.
     // Dropping inline function 'DisposeControlColorUPP'.
     // Dropping inline function 'InvokeControlColorUPP'.
+    this.SetControlColorProc = lib.declare("SetControlColorProc", ctypes.default_abi, this.OSStatus, this.ControlRef, this.ControlColorUPP);
+    this.TrackControl = lib.declare("TrackControl", ctypes.default_abi, this.ControlPartCode, this.ControlRef, this.Point, this.ControlActionUPP);
+    this.DragControl = lib.declare("DragControl", ctypes.default_abi, ctypes.void_t, this.ControlRef, this.Point, this.Rect.ptr, this.Rect.ptr, this.DragConstraint);
+    this.TestControl = lib.declare("TestControl", ctypes.default_abi, this.ControlPartCode, this.ControlRef, this.Point);
+    this.FindControl = lib.declare("FindControl", ctypes.default_abi, this.ControlPartCode, this.Point, this.WindowRef, this.ControlRef.ptr);
+    this.FindControlUnderMouse = lib.declare("FindControlUnderMouse", ctypes.default_abi, this.ControlRef, this.Point, this.WindowRef, this.ControlPartCode.ptr);
+    this.HandleControlClick = lib.declare("HandleControlClick", ctypes.default_abi, this.ControlPartCode, this.ControlRef, this.Point, this.EventModifiers, this.ControlActionUPP);
+    this.HandleControlContextualMenuClick = lib.declare("HandleControlContextualMenuClick", ctypes.default_abi, this.OSStatus, this.ControlRef, this.Point, this.Boolean.ptr);
+    this.GetControlClickActivation = lib.declare("GetControlClickActivation", ctypes.default_abi, this.OSStatus, this.ControlRef, this.Point, this.EventModifiers, this.ClickActivationResult.ptr);
+    this.HandleControlKey = lib.declare("HandleControlKey", ctypes.default_abi, this.ControlPartCode, this.ControlRef, this.SInt16, this.SInt16, this.EventModifiers);
+    this.HandleControlSetCursor = lib.declare("HandleControlSetCursor", ctypes.default_abi, this.OSStatus, this.ControlRef, this.Point, this.EventModifiers, this.Boolean.ptr);
+    this.MoveControl = lib.declare("MoveControl", ctypes.default_abi, ctypes.void_t, this.ControlRef, this.SInt16, this.SInt16);
+    this.SizeControl = lib.declare("SizeControl", ctypes.default_abi, ctypes.void_t, this.ControlRef, this.SInt16, this.SInt16);
+    this.SetControlTitle = lib.declare("SetControlTitle", ctypes.default_abi, ctypes.void_t, this.ControlRef, this.ConstStr255Param);
+    this.GetControlTitle = lib.declare("GetControlTitle", ctypes.default_abi, ctypes.void_t, this.ControlRef, ctypes.unsigned_char.ptr);
+    this.SetControlTitleWithCFString = lib.declare("SetControlTitleWithCFString", ctypes.default_abi, this.OSStatus, this.ControlRef, this.CFStringRef);
+    this.CopyControlTitleAsCFString = lib.declare("CopyControlTitleAsCFString", ctypes.default_abi, this.OSStatus, this.ControlRef, this.CFStringRef.ptr);
+    this.GetControlValue = lib.declare("GetControlValue", ctypes.default_abi, this.SInt16, this.ControlRef);
+    this.SetControlValue = lib.declare("SetControlValue", ctypes.default_abi, ctypes.void_t, this.ControlRef, this.SInt16);
+    this.GetControlMinimum = lib.declare("GetControlMinimum", ctypes.default_abi, this.SInt16, this.ControlRef);
+    this.SetControlMinimum = lib.declare("SetControlMinimum", ctypes.default_abi, ctypes.void_t, this.ControlRef, this.SInt16);
+    this.GetControlMaximum = lib.declare("GetControlMaximum", ctypes.default_abi, this.SInt16, this.ControlRef);
+    this.SetControlMaximum = lib.declare("SetControlMaximum", ctypes.default_abi, ctypes.void_t, this.ControlRef, this.SInt16);
+    this.GetControlViewSize = lib.declare("GetControlViewSize", ctypes.default_abi, this.SInt32, this.ControlRef);
+    this.SetControlViewSize = lib.declare("SetControlViewSize", ctypes.default_abi, ctypes.void_t, this.ControlRef, this.SInt32);
+    this.GetControl32BitValue = lib.declare("GetControl32BitValue", ctypes.default_abi, this.SInt32, this.ControlRef);
+    this.SetControl32BitValue = lib.declare("SetControl32BitValue", ctypes.default_abi, ctypes.void_t, this.ControlRef, this.SInt32);
+    this.GetControl32BitMaximum = lib.declare("GetControl32BitMaximum", ctypes.default_abi, this.SInt32, this.ControlRef);
+    this.SetControl32BitMaximum = lib.declare("SetControl32BitMaximum", ctypes.default_abi, ctypes.void_t, this.ControlRef, this.SInt32);
+    this.GetControl32BitMinimum = lib.declare("GetControl32BitMinimum", ctypes.default_abi, this.SInt32, this.ControlRef);
+    this.SetControl32BitMinimum = lib.declare("SetControl32BitMinimum", ctypes.default_abi, ctypes.void_t, this.ControlRef, this.SInt32);
+    this.IsValidControlHandle = lib.declare("IsValidControlHandle", ctypes.default_abi, this.Boolean, this.ControlRef);
     this.ControlID = new ctypes.StructType("ControlID", [{signature: this.OSType}, {id: this.SInt32}]);
+    this.SetControlID = lib.declare("SetControlID", ctypes.default_abi, this.OSStatus, this.ControlRef, this.ControlID.ptr);
+    this.GetControlID = lib.declare("GetControlID", ctypes.default_abi, this.OSStatus, this.ControlRef, this.ControlID.ptr);
+    this.GetControlByID = lib.declare("GetControlByID", ctypes.default_abi, this.OSStatus, this.WindowRef, this.ControlID.ptr, this.ControlRef.ptr);
+    this.SetControlCommandID = lib.declare("SetControlCommandID", ctypes.default_abi, this.OSStatus, this.ControlRef, this.UInt32);
+    this.GetControlCommandID = lib.declare("GetControlCommandID", ctypes.default_abi, this.OSStatus, this.ControlRef, this.UInt32.ptr);
     this.ControlKind = new ctypes.StructType("ControlKind", [{signature: this.OSType}, {kind: this.OSType}]);
     this.kControlKindSignatureApple = 1634758764;
+    this.GetControlKind = lib.declare("GetControlKind", ctypes.default_abi, this.OSStatus, this.ControlRef, this.ControlKind.ptr);
     this.kControlPropertyPersistent = 1;
+    this.GetControlProperty = lib.declare("GetControlProperty", ctypes.default_abi, this.OSStatus, this.ControlRef, this.OSType, this.OSType, this.ByteCount, this.ByteCount.ptr, ctypes.void_t.ptr);
+    this.GetControlPropertySize = lib.declare("GetControlPropertySize", ctypes.default_abi, this.OSStatus, this.ControlRef, this.OSType, this.OSType, this.ByteCount.ptr);
+    this.SetControlProperty = lib.declare("SetControlProperty", ctypes.default_abi, this.OSStatus, this.ControlRef, this.OSType, this.OSType, this.ByteCount, ctypes.void_t.ptr);
+    this.RemoveControlProperty = lib.declare("RemoveControlProperty", ctypes.default_abi, this.OSStatus, this.ControlRef, this.OSType, this.OSType);
+    this.GetControlPropertyAttributes = lib.declare("GetControlPropertyAttributes", ctypes.default_abi, this.OSStatus, this.ControlRef, this.OSType, this.OSType, this.OptionBits.ptr);
+    this.ChangeControlPropertyAttributes = lib.declare("ChangeControlPropertyAttributes", ctypes.default_abi, this.OSStatus, this.ControlRef, this.OSType, this.OSType, this.OptionBits, this.OptionBits);
+    this.GetControlRegion = lib.declare("GetControlRegion", ctypes.default_abi, this.OSStatus, this.ControlRef, this.ControlPartCode, this.RgnHandle);
+    this.GetControlVariant = lib.declare("GetControlVariant", ctypes.default_abi, this.ControlVariant, this.ControlRef);
+    this.SetControlAction = lib.declare("SetControlAction", ctypes.default_abi, ctypes.void_t, this.ControlRef, this.ControlActionUPP);
+    this.GetControlAction = lib.declare("GetControlAction", ctypes.default_abi, this.ControlActionUPP, this.ControlRef);
+    this.SetControlReference = lib.declare("SetControlReference", ctypes.default_abi, ctypes.void_t, this.ControlRef, this.SRefCon);
+    this.GetControlReference = lib.declare("GetControlReference", ctypes.default_abi, this.SRefCon, this.ControlRef);
+    this.SendControlMessage = lib.declare("SendControlMessage", ctypes.default_abi, this.SInt32, this.ControlRef, this.SInt16, ctypes.void_t.ptr);
+    this.CreateRootControl = lib.declare("CreateRootControl", ctypes.default_abi, this.OSErr, this.WindowRef, this.ControlRef.ptr);
+    this.GetRootControl = lib.declare("GetRootControl", ctypes.default_abi, this.OSErr, this.WindowRef, this.ControlRef.ptr);
+    this.EmbedControl = lib.declare("EmbedControl", ctypes.default_abi, this.OSErr, this.ControlRef, this.ControlRef);
+    this.AutoEmbedControl = lib.declare("AutoEmbedControl", ctypes.default_abi, this.OSErr, this.ControlRef, this.WindowRef);
+    this.GetSuperControl = lib.declare("GetSuperControl", ctypes.default_abi, this.OSErr, this.ControlRef, this.ControlRef.ptr);
+    this.CountSubControls = lib.declare("CountSubControls", ctypes.default_abi, this.OSErr, this.ControlRef, this.UInt16.ptr);
+    this.GetIndexedSubControl = lib.declare("GetIndexedSubControl", ctypes.default_abi, this.OSErr, this.ControlRef, this.UInt16, this.ControlRef.ptr);
+    this.SetControlSupervisor = lib.declare("SetControlSupervisor", ctypes.default_abi, this.OSErr, this.ControlRef, this.ControlRef);
+    this.GetKeyboardFocus = lib.declare("GetKeyboardFocus", ctypes.default_abi, this.OSErr, this.WindowRef, this.ControlRef.ptr);
+    this.SetKeyboardFocus = lib.declare("SetKeyboardFocus", ctypes.default_abi, this.OSErr, this.WindowRef, this.ControlRef, this.ControlFocusPart);
+    this.AdvanceKeyboardFocus = lib.declare("AdvanceKeyboardFocus", ctypes.default_abi, this.OSErr, this.WindowRef);
+    this.ReverseKeyboardFocus = lib.declare("ReverseKeyboardFocus", ctypes.default_abi, this.OSErr, this.WindowRef);
+    this.ClearKeyboardFocus = lib.declare("ClearKeyboardFocus", ctypes.default_abi, this.OSErr, this.WindowRef);
+    this.GetControlFeatures = lib.declare("GetControlFeatures", ctypes.default_abi, this.OSErr, this.ControlRef, this.UInt32.ptr);
+    this.SetControlData = lib.declare("SetControlData", ctypes.default_abi, this.OSErr, this.ControlRef, this.ControlPartCode, this.ResType, this.Size, ctypes.void_t.ptr);
+    this.GetControlData = lib.declare("GetControlData", ctypes.default_abi, this.OSErr, this.ControlRef, this.ControlPartCode, this.ResType, this.Size, ctypes.void_t.ptr, this.Size.ptr);
+    this.GetControlDataSize = lib.declare("GetControlDataSize", ctypes.default_abi, this.OSErr, this.ControlRef, this.ControlPartCode, this.ResType, this.Size.ptr);
     this.kDragTrackingEnterControl = 2;
     this.kDragTrackingInControl = 3;
     this.kDragTrackingLeaveControl = 4;
+    this.HandleControlDragTracking = lib.declare("HandleControlDragTracking", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DragTrackingMessage, this.DragReference, this.Boolean.ptr);
+    this.HandleControlDragReceive = lib.declare("HandleControlDragReceive", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DragReference);
+    this.SetControlDragTrackingEnabled = lib.declare("SetControlDragTrackingEnabled", ctypes.default_abi, this.OSStatus, this.ControlRef, this.Boolean);
+    this.IsControlDragTrackingEnabled = lib.declare("IsControlDragTrackingEnabled", ctypes.default_abi, this.OSStatus, this.ControlRef, this.Boolean.ptr);
+    this.SetAutomaticControlDragTrackingEnabledForWindow = lib.declare("SetAutomaticControlDragTrackingEnabledForWindow", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Boolean);
+    this.IsAutomaticControlDragTrackingEnabledForWindow = lib.declare("IsAutomaticControlDragTrackingEnabledForWindow", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Boolean.ptr);
+    this.GetControlBounds = lib.declare("GetControlBounds", ctypes.default_abi, this.Rect.ptr, this.ControlRef, this.Rect.ptr);
+    this.IsControlHilited = lib.declare("IsControlHilited", ctypes.default_abi, this.Boolean, this.ControlRef);
+    this.GetControlHilite = lib.declare("GetControlHilite", ctypes.default_abi, this.UInt16, this.ControlRef);
+    this.GetControlOwner = lib.declare("GetControlOwner", ctypes.default_abi, this.WindowRef, this.ControlRef);
+    this.GetControlDataHandle = lib.declare("GetControlDataHandle", ctypes.default_abi, this.Handle, this.ControlRef);
+    this.GetControlPopupMenuHandle = lib.declare("GetControlPopupMenuHandle", ctypes.default_abi, this.MenuRef, this.ControlRef);
+    this.GetControlPopupMenuID = lib.declare("GetControlPopupMenuID", ctypes.default_abi, ctypes.short, this.ControlRef);
+    this.SetControlDataHandle = lib.declare("SetControlDataHandle", ctypes.default_abi, ctypes.void_t, this.ControlRef, this.Handle);
+    this.SetControlBounds = lib.declare("SetControlBounds", ctypes.default_abi, ctypes.void_t, this.ControlRef, this.Rect.ptr);
+    this.SetControlPopupMenuHandle = lib.declare("SetControlPopupMenuHandle", ctypes.default_abi, ctypes.void_t, this.ControlRef, this.MenuRef);
+    this.SetControlPopupMenuID = lib.declare("SetControlPopupMenuID", ctypes.default_abi, ctypes.void_t, this.ControlRef, ctypes.short);
+    this.IdleControls = lib.declare("IdleControls", ctypes.default_abi, ctypes.void_t, this.WindowRef);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HIView.h
 function HIView_h(lib) {
-    CGBase_h.call(this, lib);
     Controls_h.call(this, lib);
+    Events_h.call(this, lib);
+    HIGeometry_h.call(this, lib);
+    CarbonEventsCore_h.call(this, lib);
+    QuickdrawTypes_h.call(this, lib);
+    HITheme_h.call(this, lib);
     HIObject_h.call(this, lib);
+    CGImage_h.call(this, lib);
+    CGContext_h.call(this, lib);
+    HIShape_h.call(this, lib);
+    CarbonEvents_h.call(this, lib);
+    CGBase_h.call(this, lib);
+    CTFont_h.call(this, lib);
+    CFBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._HIVIEW_H)
@@ -2154,8 +3080,65 @@ function HIView_h(lib) {
     this.HIViewContentInfo = new ctypes.StructType("HIViewContentInfo", []);
     this.HIViewContentInfoPtr = this.HIViewContentInfo.ptr;
     this.errNeedsCompositedWindow = -30598;
+    this.HIViewGetRoot = lib.declare("HIViewGetRoot", ctypes.default_abi, this.HIViewRef, this.WindowRef);
+    this.HIViewAddSubview = lib.declare("HIViewAddSubview", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIViewRef);
+    this.HIViewRemoveFromSuperview = lib.declare("HIViewRemoveFromSuperview", ctypes.default_abi, this.OSStatus, this.HIViewRef);
+    this.HIViewGetSuperview = lib.declare("HIViewGetSuperview", ctypes.default_abi, this.HIViewRef, this.HIViewRef);
+    this.HIViewGetFirstSubview = lib.declare("HIViewGetFirstSubview", ctypes.default_abi, this.HIViewRef, this.HIViewRef);
+    this.HIViewGetLastSubview = lib.declare("HIViewGetLastSubview", ctypes.default_abi, this.HIViewRef, this.HIViewRef);
+    this.HIViewGetNextView = lib.declare("HIViewGetNextView", ctypes.default_abi, this.HIViewRef, this.HIViewRef);
+    this.HIViewGetPreviousView = lib.declare("HIViewGetPreviousView", ctypes.default_abi, this.HIViewRef, this.HIViewRef);
+    this.HIViewCountSubviews = lib.declare("HIViewCountSubviews", ctypes.default_abi, this.CFIndex, this.HIViewRef);
+    this.HIViewGetIndexedSubview = lib.declare("HIViewGetIndexedSubview", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.CFIndex, this.HIViewRef.ptr);
+    this.HIViewSetZOrder = lib.declare("HIViewSetZOrder", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIViewZOrderOp, this.HIViewRef);
     this.HIViewKind = new ctypes.StructType("HIViewKind", [{signature: this.OSType}, {kind: this.OSType}]);
     this.kHIViewKindSignatureApple = 1634758764;
+    this.HIViewSetVisible = lib.declare("HIViewSetVisible", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.Boolean);
+    this.HIViewIsVisible = lib.declare("HIViewIsVisible", ctypes.default_abi, this.Boolean, this.HIViewRef);
+    this.HIViewIsLatentlyVisible = lib.declare("HIViewIsLatentlyVisible", ctypes.default_abi, this.Boolean, this.HIViewRef);
+    this.HIViewSetHilite = lib.declare("HIViewSetHilite", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIViewPartCode);
+    this.HIViewIsActive = lib.declare("HIViewIsActive", ctypes.default_abi, this.Boolean, this.HIViewRef, this.Boolean.ptr);
+    this.HIViewSetActivated = lib.declare("HIViewSetActivated", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.Boolean);
+    this.HIViewIsEnabled = lib.declare("HIViewIsEnabled", ctypes.default_abi, this.Boolean, this.HIViewRef, this.Boolean.ptr);
+    this.HIViewSetEnabled = lib.declare("HIViewSetEnabled", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.Boolean);
+    this.HIViewIsCompositingEnabled = lib.declare("HIViewIsCompositingEnabled", ctypes.default_abi, this.Boolean, this.HIViewRef);
+    this.HIViewSetText = lib.declare("HIViewSetText", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.CFStringRef);
+    this.HIViewCopyText = lib.declare("HIViewCopyText", ctypes.default_abi, this.CFStringRef, this.HIViewRef);
+    this.HIViewGetValue = lib.declare("HIViewGetValue", ctypes.default_abi, this.SInt32, this.HIViewRef);
+    this.HIViewSetValue = lib.declare("HIViewSetValue", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.SInt32);
+    this.HIViewGetMinimum = lib.declare("HIViewGetMinimum", ctypes.default_abi, this.SInt32, this.HIViewRef);
+    this.HIViewSetMinimum = lib.declare("HIViewSetMinimum", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.SInt32);
+    this.HIViewGetMaximum = lib.declare("HIViewGetMaximum", ctypes.default_abi, this.SInt32, this.HIViewRef);
+    this.HIViewSetMaximum = lib.declare("HIViewSetMaximum", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.SInt32);
+    this.HIViewGetViewSize = lib.declare("HIViewGetViewSize", ctypes.default_abi, this.SInt32, this.HIViewRef);
+    this.HIViewSetViewSize = lib.declare("HIViewSetViewSize", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.SInt32);
+    this.HIViewIsValid = lib.declare("HIViewIsValid", ctypes.default_abi, this.Boolean, this.HIViewRef);
+    this.HIViewSetID = lib.declare("HIViewSetID", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIViewID);
+    this.HIViewGetID = lib.declare("HIViewGetID", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIViewID.ptr);
+    this.HIViewSetCommandID = lib.declare("HIViewSetCommandID", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.UInt32);
+    this.HIViewGetCommandID = lib.declare("HIViewGetCommandID", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.UInt32.ptr);
+    this.HIViewGetKind = lib.declare("HIViewGetKind", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIViewKind.ptr);
+    this.HIViewGetBounds = lib.declare("HIViewGetBounds", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIRect.ptr);
+    this.HIViewGetFrame = lib.declare("HIViewGetFrame", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIRect.ptr);
+    this.HIViewSetFrame = lib.declare("HIViewSetFrame", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIRect.ptr);
+    this.HIViewMoveBy = lib.declare("HIViewMoveBy", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.CGFloat, this.CGFloat);
+    this.HIViewPlaceInSuperviewAt = lib.declare("HIViewPlaceInSuperviewAt", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.CGFloat, this.CGFloat);
+    this.HIViewReshapeStructure = lib.declare("HIViewReshapeStructure", ctypes.default_abi, this.OSStatus, this.HIViewRef);
+    this.HIViewRegionChanged = lib.declare("HIViewRegionChanged", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIViewPartCode);
+    this.HIViewCopyShape = lib.declare("HIViewCopyShape", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIViewPartCode, this.HIShapeRef.ptr);
+    this.HIViewGetOptimalBounds = lib.declare("HIViewGetOptimalBounds", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIRect.ptr, this.CGFloat.ptr);
+    this.HIViewSetTextFont = lib.declare("HIViewSetTextFont", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIViewPartCode, this.CTFontRef);
+    this.HIViewSetTextHorizontalFlush = lib.declare("HIViewSetTextHorizontalFlush", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIViewPartCode, this.HIThemeTextHorizontalFlush);
+    this.HIViewSetTextVerticalFlush = lib.declare("HIViewSetTextVerticalFlush", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIViewPartCode, this.HIThemeTextVerticalFlush);
+    this.HIViewSetTextTruncation = lib.declare("HIViewSetTextTruncation", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIViewPartCode, this.HIThemeTextTruncation);
+    this.HIViewGetThemeTextInfo = lib.declare("HIViewGetThemeTextInfo", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIViewPartCode, this.UInt32, this.HIThemeTextInfo.ptr);
+    this.HIViewGetViewForMouseEvent = lib.declare("HIViewGetViewForMouseEvent", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.EventRef, this.HIViewRef.ptr);
+    this.HIViewClick = lib.declare("HIViewClick", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.EventRef);
+    this.HIViewSimulateClick = lib.declare("HIViewSimulateClick", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIViewPartCode, this.UInt32, this.HIViewPartCode.ptr);
+    this.HIViewGetPartHit = lib.declare("HIViewGetPartHit", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIPoint.ptr, this.HIViewPartCode.ptr);
+    this.HIViewGetSubviewHit = lib.declare("HIViewGetSubviewHit", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIPoint.ptr, this.Boolean, this.HIViewRef.ptr);
+    this.HIViewTrackMouseLocation = lib.declare("HIViewTrackMouseLocation", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.OptionBits, this.EventTimeout, this.ItemCount, this.EventTypeSpec.ptr, this.HIPoint.ptr, this.UInt32.ptr, this.EventRef.ptr, this.MouseTrackingResult.ptr);
+    this.HIViewTrackMouseShape = lib.declare("HIViewTrackMouseShape", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIShapeRef, this.Boolean.ptr, this.OptionBits, this.EventTimeout, this.ItemCount, this.EventTypeSpec.ptr, this.UInt32.ptr, this.EventRef.ptr, this.MouseTrackingResult.ptr);
     this.OpaqueHIViewTrackingAreaRef = new ctypes.StructType("OpaqueHIViewTrackingAreaRef");
     this.HIViewTrackingAreaRef = this.OpaqueHIViewTrackingAreaRef.ptr;
     this.kEventParamHIViewTrackingArea = 1668575841;
@@ -2163,9 +3146,37 @@ function HIView_h(lib) {
     this.kEventControlTrackingAreaEntered = 23;
     this.kEventControlTrackingAreaExited = 24;
     this.HIViewTrackingAreaID = this.UInt64;
+    this.HIViewNewTrackingArea = lib.declare("HIViewNewTrackingArea", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIShapeRef, this.HIViewTrackingAreaID, this.HIViewTrackingAreaRef.ptr);
+    this.HIViewChangeTrackingArea = lib.declare("HIViewChangeTrackingArea", ctypes.default_abi, this.OSStatus, this.HIViewTrackingAreaRef, this.HIShapeRef);
+    this.HIViewGetTrackingAreaID = lib.declare("HIViewGetTrackingAreaID", ctypes.default_abi, this.OSStatus, this.HIViewTrackingAreaRef, this.HIViewTrackingAreaID.ptr);
+    this.HIViewDisposeTrackingArea = lib.declare("HIViewDisposeTrackingArea", ctypes.default_abi, this.OSStatus, this.HIViewTrackingAreaRef);
+    this.HIViewGetNeedsDisplay = lib.declare("HIViewGetNeedsDisplay", ctypes.default_abi, this.Boolean, this.HIViewRef);
+    this.HIViewSetNeedsDisplay = lib.declare("HIViewSetNeedsDisplay", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.Boolean);
+    this.HIViewSetNeedsDisplayInRect = lib.declare("HIViewSetNeedsDisplayInRect", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIRect.ptr, this.Boolean);
+    this.HIViewSetNeedsDisplayInShape = lib.declare("HIViewSetNeedsDisplayInShape", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIShapeRef, this.Boolean);
+    this.HIViewSetNeedsDisplayInRegion = lib.declare("HIViewSetNeedsDisplayInRegion", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.RgnHandle, this.Boolean);
+    this.HIViewSetSubviewsNeedDisplayInShape = lib.declare("HIViewSetSubviewsNeedDisplayInShape", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIShapeRef, this.Boolean);
+    this.HIViewRender = lib.declare("HIViewRender", ctypes.default_abi, this.OSStatus, this.HIViewRef);
+    this.HIViewGetSizeConstraints = lib.declare("HIViewGetSizeConstraints", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HISize.ptr, this.HISize.ptr);
+    this.HIViewConvertPoint = lib.declare("HIViewConvertPoint", ctypes.default_abi, this.OSStatus, this.HIPoint.ptr, this.HIViewRef, this.HIViewRef);
+    this.HIViewConvertRect = lib.declare("HIViewConvertRect", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIViewRef, this.HIViewRef);
+    this.HIViewConvertRegion = lib.declare("HIViewConvertRegion", ctypes.default_abi, this.OSStatus, this.RgnHandle, this.HIViewRef, this.HIViewRef);
+    this.HIViewSetDrawingEnabled = lib.declare("HIViewSetDrawingEnabled", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.Boolean);
+    this.HIViewIsDrawingEnabled = lib.declare("HIViewIsDrawingEnabled", ctypes.default_abi, this.Boolean, this.HIViewRef);
+    this.HIViewScrollRect = lib.declare("HIViewScrollRect", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIRect.ptr, this.CGFloat, this.CGFloat);
+    this.HIViewSetBoundsOrigin = lib.declare("HIViewSetBoundsOrigin", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.CGFloat, this.CGFloat);
     this.kHIViewFocusOnAnyControl = 1;
     this.kHIViewFocusTraditionally = 2;
     this.kHIViewFocusWithoutWrapping = 4;
+    this.HIViewAdvanceFocus = lib.declare("HIViewAdvanceFocus", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.EventModifiers);
+    this.HIViewAdvanceFocusWithOptions = lib.declare("HIViewAdvanceFocusWithOptions", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.UInt32, this.OptionBits);
+    this.HIViewGetFocusPart = lib.declare("HIViewGetFocusPart", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIViewPartCode.ptr);
+    this.HIViewSubtreeContainsFocus = lib.declare("HIViewSubtreeContainsFocus", ctypes.default_abi, this.Boolean, this.HIViewRef);
+    this.HIViewSetNextFocus = lib.declare("HIViewSetNextFocus", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIViewRef);
+    this.HIViewSetFirstSubViewFocus = lib.declare("HIViewSetFirstSubViewFocus", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIViewRef);
+    this.HIViewSetFocus = lib.declare("HIViewSetFocus", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIViewPartCode, this.OptionBits);
+    this.HIViewGetFocus = lib.declare("HIViewGetFocus", ctypes.default_abi, this.OSStatus, this.WindowRef, this.HIViewRef.ptr, this.HIViewPartCode.ptr);
+    this.HIViewShowsFocus = lib.declare("HIViewShowsFocus", ctypes.default_abi, this.Boolean, this.HIViewRef, this.HIViewPartCode);
     this.kHILayoutBindNone = 0;
     this.kHILayoutBindMin = 1;
     this.kHILayoutBindMax = 2;
@@ -2193,14 +3204,39 @@ function HIView_h(lib) {
     this.HIPositioning = new ctypes.StructType("HIPositioning", [{x: this.HIAxisPosition}, {y: this.HIAxisPosition}]);
     this.HILayoutInfo = new ctypes.StructType("HILayoutInfo", [{version: this.UInt32}, {binding: this.HIBinding}, {scale: this.HIScaling}, {position: this.HIPositioning}]);
     this.kHILayoutInfoVersionZero = 0;
+    this.HIViewGetLayoutInfo = lib.declare("HIViewGetLayoutInfo", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HILayoutInfo.ptr);
+    this.HIViewSetLayoutInfo = lib.declare("HIViewSetLayoutInfo", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HILayoutInfo.ptr);
+    this.HIViewSuspendLayout = lib.declare("HIViewSuspendLayout", ctypes.default_abi, this.OSStatus, this.HIViewRef);
+    this.HIViewResumeLayout = lib.declare("HIViewResumeLayout", ctypes.default_abi, this.OSStatus, this.HIViewRef);
+    this.HIViewIsLayoutActive = lib.declare("HIViewIsLayoutActive", ctypes.default_abi, this.Boolean, this.HIViewRef);
+    this.HIViewIsLayoutLatentlyActive = lib.declare("HIViewIsLayoutLatentlyActive", ctypes.default_abi, this.Boolean, this.HIViewRef);
+    this.HIViewApplyLayout = lib.declare("HIViewApplyLayout", ctypes.default_abi, this.OSStatus, this.HIViewRef);
+    this.HIViewSetImageContent = lib.declare("HIViewSetImageContent", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIViewPartCode, this.HIViewContentInfo.ptr);
+    this.HIViewCopyImageContentWithSize = lib.declare("HIViewCopyImageContentWithSize", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIViewPartCode, this.ByteCount, this.HIViewContentInfo.ptr);
+    this.HIViewRetainImageContent = lib.declare("HIViewRetainImageContent", ctypes.default_abi, ctypes.void_t, this.HIViewContentInfo.ptr);
+    this.HIViewReleaseImageContent = lib.declare("HIViewReleaseImageContent", ctypes.default_abi, ctypes.void_t, this.HIViewContentInfo.ptr);
+    this.HIViewGetWindow = lib.declare("HIViewGetWindow", ctypes.default_abi, this.WindowRef, this.HIViewRef);
+    this.HIViewFindByID = lib.declare("HIViewFindByID", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIViewID, this.HIViewRef.ptr);
+    this.HIViewGetAttributes = lib.declare("HIViewGetAttributes", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.OptionBits.ptr);
+    this.HIViewChangeAttributes = lib.declare("HIViewChangeAttributes", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.OptionBits, this.OptionBits);
+    this.HIViewCreateOffscreenImage = lib.declare("HIViewCreateOffscreenImage", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.OptionBits, this.HIRect.ptr, this.CGImageRef.ptr);
+    this.HIViewDrawCGImage = lib.declare("HIViewDrawCGImage", ctypes.default_abi, this.OSStatus, this.CGContextRef, this.HIRect.ptr, this.CGImageRef);
+    this.HIViewGetFeatures = lib.declare("HIViewGetFeatures", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIViewFeatures.ptr);
+    this.HIViewChangeFeatures = lib.declare("HIViewChangeFeatures", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIViewFeatures, this.HIViewFeatures);
     this.kHITransformNone = 0;
     this.kHITransformDisabled = 1;
     this.kHITransformSelected = 16384;
+    this.HICreateTransformedCGImage = lib.declare("HICreateTransformedCGImage", ctypes.default_abi, this.OSStatus, this.CGImageRef, this.OptionBits, this.CGImageRef.ptr);
+    this.HIViewGetEventTarget = lib.declare("HIViewGetEventTarget", ctypes.default_abi, this.EventTargetRef, this.HIViewRef);
+    this.HIViewSetUpTextColor = lib.declare("HIViewSetUpTextColor", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.CGContextRef);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/TSMTE.h
 function TSMTE_h(lib) {
     TextEdit_h.call(this, lib);
+    TextServices_h.call(this, lib);
+    MacTypes_h.call(this, lib);
+    Dialogs_h.call(this, lib);
 
     if (this._TSMTE_H)
         return;
@@ -2222,10 +3258,23 @@ function TSMTE_h(lib) {
     // Dropping inline function 'DisposeTSMTEPostUpdateUPP'.
     // Dropping inline function 'InvokeTSMTEPreUpdateUPP'.
     // Dropping inline function 'InvokeTSMTEPostUpdateUPP'.
+    this.IsTSMTEDialog = lib.declare("IsTSMTEDialog", ctypes.default_abi, this.Boolean, this.DialogRef);
+    this.GetTSMTEDialogDocumentID = lib.declare("GetTSMTEDialogDocumentID", ctypes.default_abi, this.TSMDocumentID, this.DialogRef);
+    this.GetTSMTEDialogTSMTERecHandle = lib.declare("GetTSMTEDialogTSMTERecHandle", ctypes.default_abi, this.TSMTERecHandle, this.DialogRef);
+    this.SetTSMTEDialogDocumentID = lib.declare("SetTSMTEDialogDocumentID", ctypes.default_abi, ctypes.void_t, this.DialogRef, this.TSMDocumentID);
+    this.SetTSMTEDialogTSMTERecHandle = lib.declare("SetTSMTEDialogTSMTERecHandle", ctypes.default_abi, ctypes.void_t, this.DialogRef, this.TSMTERecHandle);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/CarbonEvents.h
 function CarbonEvents_h(lib) {
+    Events_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    CarbonEventsCore_h.call(this, lib);
+    QuickdrawTypes_h.call(this, lib);
+    HIObject_h.call(this, lib);
+    Menus_h.call(this, lib);
+    HIGeometry_h.call(this, lib);
+    CFArray_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._CARBONEVENTS_H)
@@ -2544,10 +3593,21 @@ function CarbonEvents_h(lib) {
     this.kMouseTrackingScrollWheel = 11;
     this.kTrackMouseLocationOptionDontConsumeMouseUp = 1;
     this.kTrackMouseLocationOptionIncludeScrollWheel = 8;
+    this.CheckEventQueueForUserCancel = lib.declare("CheckEventQueueForUserCancel", ctypes.default_abi, this.Boolean);
+    this.IsUserCancelEventRef = lib.declare("IsUserCancelEventRef", ctypes.default_abi, this.Boolean, this.EventRef);
+    this.TrackMouseLocation = lib.declare("TrackMouseLocation", ctypes.default_abi, this.OSStatus, this.GrafPtr, this.Point.ptr, this.MouseTrackingResult.ptr);
+    this.TrackMouseLocationWithOptions = lib.declare("TrackMouseLocationWithOptions", ctypes.default_abi, this.OSStatus, this.GrafPtr, this.OptionBits, this.EventTimeout, this.Point.ptr, this.UInt32.ptr, this.MouseTrackingResult.ptr);
+    this.TrackMouseRegion = lib.declare("TrackMouseRegion", ctypes.default_abi, this.OSStatus, this.GrafPtr, this.RgnHandle, this.Boolean.ptr, this.MouseTrackingResult.ptr);
     this.kMouseParamsSticky = 1937008995;
     this.kMouseParamsProxyIcon = 1886547832;
     this.kMouseParamsClickAndHold = 1668049007;
     this.kMouseParamsDragInitiation = 1685217639;
+    this.HIMouseTrackingGetParameters = lib.declare("HIMouseTrackingGetParameters", ctypes.default_abi, this.OSStatus, this.OSType, this.EventTime.ptr, this.HISize.ptr);
+    this.ConvertEventRefToEventRecord = lib.declare("ConvertEventRefToEventRecord", ctypes.default_abi, this.Boolean, this.EventRef, this.EventRecord.ptr);
+    this.IsEventInMask = lib.declare("IsEventInMask", ctypes.default_abi, this.Boolean, this.EventRef, this.EventMask);
+    this.GetLastUserEventTime = lib.declare("GetLastUserEventTime", ctypes.default_abi, this.EventTime);
+    this.IsMouseCoalescingEnabled = lib.declare("IsMouseCoalescingEnabled", ctypes.default_abi, this.Boolean);
+    this.SetMouseCoalescingEnabled = lib.declare("SetMouseCoalescingEnabled", ctypes.default_abi, this.OSStatus, this.Boolean, this.Boolean.ptr);
     this.kEventClassMouse = 1836021107;
     this.kEventClassKeyboard = 1801812322;
     this.kEventClassTextInput = 1952807028;
@@ -2908,20 +3968,42 @@ function CarbonEvents_h(lib) {
     this.kEventServicePaste = 2;
     this.kEventServiceGetTypes = 3;
     this.kEventServicePerform = 4;
+    this.CreateTypeStringWithOSType = lib.declare("CreateTypeStringWithOSType", ctypes.default_abi, this.CFStringRef, this.OSType);
+    this.CopyServicesMenuCommandKeys = lib.declare("CopyServicesMenuCommandKeys", ctypes.default_abi, this.OSStatus, this.CFArrayRef.ptr);
     this.kEventSystemTimeDateChanged = 2;
     this.kEventSystemDisplaysAsleep = 3;
     this.kEventSystemDisplaysAwake = 4;
     this.kEventSystemDisplayReconfigured = 6;
     this.kEventSystemUserSessionActivated = 10;
     this.kEventSystemUserSessionDeactivated = 11;
+    this.GetWindowEventTarget = lib.declare("GetWindowEventTarget", ctypes.default_abi, this.EventTargetRef, this.WindowRef);
+    this.GetControlEventTarget = lib.declare("GetControlEventTarget", ctypes.default_abi, this.EventTargetRef, this.ControlRef);
+    this.GetMenuEventTarget = lib.declare("GetMenuEventTarget", ctypes.default_abi, this.EventTargetRef, this.MenuRef);
+    this.GetApplicationEventTarget = lib.declare("GetApplicationEventTarget", ctypes.default_abi, this.EventTargetRef);
+    this.GetUserFocusEventTarget = lib.declare("GetUserFocusEventTarget", ctypes.default_abi, this.EventTargetRef);
+    this.GetEventDispatcherTarget = lib.declare("GetEventDispatcherTarget", ctypes.default_abi, this.EventTargetRef);
+    this.GetEventMonitorTarget = lib.declare("GetEventMonitorTarget", ctypes.default_abi, this.EventTargetRef);
+    this.ProcessHICommand = lib.declare("ProcessHICommand", ctypes.default_abi, this.OSStatus, this.HICommand.ptr);
+    this.RunApplicationEventLoop = lib.declare("RunApplicationEventLoop", ctypes.default_abi, ctypes.void_t);
+    this.QuitApplicationEventLoop = lib.declare("QuitApplicationEventLoop", ctypes.default_abi, ctypes.void_t);
+    this.RunAppModalLoopForWindow = lib.declare("RunAppModalLoopForWindow", ctypes.default_abi, this.OSStatus, this.WindowRef);
+    this.QuitAppModalLoopForWindow = lib.declare("QuitAppModalLoopForWindow", ctypes.default_abi, this.OSStatus, this.WindowRef);
+    this.BeginAppModalStateForWindow = lib.declare("BeginAppModalStateForWindow", ctypes.default_abi, this.OSStatus, this.WindowRef);
+    this.EndAppModalStateForWindow = lib.declare("EndAppModalStateForWindow", ctypes.default_abi, this.OSStatus, this.WindowRef);
     this.EventHotKeyID = new ctypes.StructType("EventHotKeyID", [{signature: this.OSType}, {id: this.UInt32}]);
     this.OpaqueEventHotKeyRef = new ctypes.StructType("OpaqueEventHotKeyRef");
     this.EventHotKeyRef = this.OpaqueEventHotKeyRef.ptr;
     this.kEventHotKeyNoOptions = 0;
     this.kEventHotKeyExclusive = 1;
+    this.RegisterEventHotKey = lib.declare("RegisterEventHotKey", ctypes.default_abi, this.OSStatus, this.UInt32, this.UInt32, this.EventHotKeyID, this.EventTargetRef, this.OptionBits, this.EventHotKeyRef.ptr);
+    this.UnregisterEventHotKey = lib.declare("UnregisterEventHotKey", ctypes.default_abi, this.OSStatus, this.EventHotKeyRef);
+    this.CopySymbolicHotKeys = lib.declare("CopySymbolicHotKeys", ctypes.default_abi, this.OSStatus, this.CFArrayRef.ptr);
     this.kHIHotKeyModeAllEnabled = 0;
     this.kHIHotKeyModeAllDisabled = 1;
     this.kHIHotKeyModeAllDisabledExceptUniversalAccess = 2;
+    this.PushSymbolicHotKeyMode = lib.declare("PushSymbolicHotKeyMode", ctypes.default_abi, ctypes.void_t.ptr, this.OptionBits);
+    this.PopSymbolicHotKeyMode = lib.declare("PopSymbolicHotKeyMode", ctypes.default_abi, ctypes.void_t, ctypes.void_t.ptr);
+    this.GetSymbolicHotKeyMode = lib.declare("GetSymbolicHotKeyMode", ctypes.default_abi, this.OptionBits);
     this.kEventParamInkTextRef = 1769435748;
     this.kEventParamInkKeyboardShortcut = 1768645220;
     this.kEventParamInkGestureKind = 1735093860;
@@ -2937,8 +4019,23 @@ function CarbonEvents_h(lib) {
     this.kMouseTrackingOptionsGlobalClip = 1;
     this.kMouseTrackingOptionsStandard = 0;
     this.MouseTrackingRegionID = new ctypes.StructType("MouseTrackingRegionID", [{signature: this.OSType}, {id: this.SInt32}]);
+    this.CreateMouseTrackingRegion = lib.declare("CreateMouseTrackingRegion", ctypes.default_abi, this.OSStatus, this.WindowRef, this.RgnHandle, this.RgnHandle, this.MouseTrackingOptions, this.MouseTrackingRegionID, ctypes.void_t.ptr, this.EventTargetRef, this.MouseTrackingRef.ptr);
+    this.RetainMouseTrackingRegion = lib.declare("RetainMouseTrackingRegion", ctypes.default_abi, this.OSStatus, this.MouseTrackingRef);
+    this.ReleaseMouseTrackingRegion = lib.declare("ReleaseMouseTrackingRegion", ctypes.default_abi, this.OSStatus, this.MouseTrackingRef);
+    this.ChangeMouseTrackingRegion = lib.declare("ChangeMouseTrackingRegion", ctypes.default_abi, this.OSStatus, this.MouseTrackingRef, this.RgnHandle, this.RgnHandle);
+    this.ClipMouseTrackingRegion = lib.declare("ClipMouseTrackingRegion", ctypes.default_abi, this.OSStatus, this.MouseTrackingRef, this.RgnHandle);
+    this.GetMouseTrackingRegionID = lib.declare("GetMouseTrackingRegionID", ctypes.default_abi, this.OSStatus, this.MouseTrackingRef, this.MouseTrackingRegionID.ptr);
+    this.GetMouseTrackingRegionRefCon = lib.declare("GetMouseTrackingRegionRefCon", ctypes.default_abi, this.OSStatus, this.MouseTrackingRef, ctypes.void_t.ptr.ptr);
+    this.MoveMouseTrackingRegion = lib.declare("MoveMouseTrackingRegion", ctypes.default_abi, this.OSStatus, this.MouseTrackingRef, this.SInt16, this.SInt16, this.RgnHandle);
+    this.SetMouseTrackingRegionEnabled = lib.declare("SetMouseTrackingRegionEnabled", ctypes.default_abi, this.OSStatus, this.MouseTrackingRef, this.Boolean);
+    this.ClipWindowMouseTrackingRegions = lib.declare("ClipWindowMouseTrackingRegions", ctypes.default_abi, this.OSStatus, this.WindowRef, this.OSType, this.RgnHandle);
+    this.MoveWindowMouseTrackingRegions = lib.declare("MoveWindowMouseTrackingRegions", ctypes.default_abi, this.OSStatus, this.WindowRef, this.OSType, this.SInt16, this.SInt16, this.RgnHandle);
+    this.SetWindowMouseTrackingRegionsEnabled = lib.declare("SetWindowMouseTrackingRegionsEnabled", ctypes.default_abi, this.OSStatus, this.WindowRef, this.OSType, this.Boolean);
+    this.ReleaseWindowMouseTrackingRegions = lib.declare("ReleaseWindowMouseTrackingRegions", ctypes.default_abi, this.OSStatus, this.WindowRef, this.OSType);
     this.OpaqueToolboxObjectClassRef = new ctypes.StructType("OpaqueToolboxObjectClassRef");
     this.ToolboxObjectClassRef = this.OpaqueToolboxObjectClassRef.ptr;
+    this.RegisterToolboxObjectClass = lib.declare("RegisterToolboxObjectClass", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.ToolboxObjectClassRef, this.ItemCount, this.EventTypeSpec.ptr, this.EventHandlerUPP, ctypes.void_t.ptr, this.ToolboxObjectClassRef.ptr);
+    this.UnregisterToolboxObjectClass = lib.declare("UnregisterToolboxObjectClass", ctypes.default_abi, this.OSStatus, this.ToolboxObjectClassRef);
     this.kEventParamTabletPointerRec = 1952608867;
     this.typeTabletPointerRec = 1952608867;
     this.kEventWindowDefDrawFrame = 1000;
@@ -2974,6 +4071,8 @@ function CarbonEvents_h(lib) {
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HIWindowViews.h
 function HIWindowViews_h(lib) {
+    HIObject_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._HIWINDOWVIEWS_H)
         return;
@@ -2983,13 +4082,22 @@ function HIWindowViews_h(lib) {
     this.kHIWindowDragPart = 3;
     this.kHIWindowTitleProxyIconPart = 2;
     this.kControlKindHIGrowBoxView = 1735552887;
+    this.HIGrowBoxViewSetTransparent = lib.declare("HIGrowBoxViewSetTransparent", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.Boolean);
+    this.HIGrowBoxViewIsTransparent = lib.declare("HIGrowBoxViewIsTransparent", ctypes.default_abi, this.Boolean, this.HIViewRef);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/TextServices.h
 function TextServices_h(lib) {
+    AEInteraction_h.call(this, lib);
     ATSTypes_h.call(this, lib);
-    CFBase_h.call(this, lib);
     Components_h.call(this, lib);
+    CarbonEventsCore_h.call(this, lib);
+    QuickdrawTypes_h.call(this, lib);
+    CFDictionary_h.call(this, lib);
+    AEDataModel_h.call(this, lib);
+    Menus_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._TEXTSERVICES_H)
@@ -3032,6 +4140,9 @@ function TextServices_h(lib) {
     this.kTSMDocumentWindowLevelPropertyTag = 1953983600;
     this.kTSMDocumentInputSourceOverridePropertyTag = 1768843635;
     this.kTSMDocumentEnabledInputSourcesPropertyTag = 1701734771;
+    this.TSMSetDocumentProperty = lib.declare("TSMSetDocumentProperty", ctypes.default_abi, this.OSStatus, this.TSMDocumentID, this.TSMDocumentPropertyTag, this.UInt32, ctypes.void_t.ptr);
+    this.TSMGetDocumentProperty = lib.declare("TSMGetDocumentProperty", ctypes.default_abi, this.OSStatus, this.TSMDocumentID, this.TSMDocumentPropertyTag, this.UInt32, this.UInt32.ptr, ctypes.void_t.ptr);
+    this.TSMRemoveDocumentProperty = lib.declare("TSMRemoveDocumentProperty", ctypes.default_abi, this.OSStatus, this.TSMDocumentID, this.TSMDocumentPropertyTag);
     this.kUnknownLanguage = 65535;
     this.kUnknownScript = 65535;
     this.kNeutralScript = 65535;
@@ -3069,6 +4180,31 @@ function TextServices_h(lib) {
     this.ScriptLanguageSupportHandle = this.ScriptLanguageSupportPtr.ptr;
     this.TSMGlyphInfo = new ctypes.StructType("TSMGlyphInfo", [{range: this.CFRange}, {fontRef: this.ATSFontRef}, {collection: this.UInt16}, {glyphID: this.UInt16}]);
     this.TSMGlyphInfoArray = new ctypes.StructType("TSMGlyphInfoArray", [{numGlyphInfo: this.ItemCount}, {glyphInfo: this.TSMGlyphInfo.array(1)}]);
+    this.NewTSMDocument = lib.declare("NewTSMDocument", ctypes.default_abi, this.OSErr, this.SInt16, this.OSType.ptr, this.TSMDocumentID.ptr, this.SRefCon);
+    this.DeleteTSMDocument = lib.declare("DeleteTSMDocument", ctypes.default_abi, this.OSErr, this.TSMDocumentID);
+    this.ActivateTSMDocument = lib.declare("ActivateTSMDocument", ctypes.default_abi, this.OSErr, this.TSMDocumentID);
+    this.DeactivateTSMDocument = lib.declare("DeactivateTSMDocument", ctypes.default_abi, this.OSErr, this.TSMDocumentID);
+    this.FixTSMDocument = lib.declare("FixTSMDocument", ctypes.default_abi, this.OSErr, this.TSMDocumentID);
+    this.GetServiceList = lib.declare("GetServiceList", ctypes.default_abi, this.OSErr, this.SInt16, this.OSType.ptr, this.TextServiceListHandle.ptr, this.SInt32.ptr);
+    this.OpenTextService = lib.declare("OpenTextService", ctypes.default_abi, this.OSErr, this.TSMDocumentID, this.Component, this.ComponentInstance.ptr);
+    this.CloseTextService = lib.declare("CloseTextService", ctypes.default_abi, this.OSErr, this.TSMDocumentID, this.ComponentInstance);
+    this.SendAEFromTSMComponent = lib.declare("SendAEFromTSMComponent", ctypes.default_abi, this.OSErr, this.AppleEvent.ptr, this.AppleEvent.ptr, this.AESendMode, this.AESendPriority, this.SInt32, this.AEIdleUPP, this.AEFilterUPP);
+    this.SendTextInputEvent = lib.declare("SendTextInputEvent", ctypes.default_abi, this.OSStatus, this.EventRef);
+    this.SetDefaultInputMethod = lib.declare("SetDefaultInputMethod", ctypes.default_abi, this.OSErr, this.Component, this.ScriptLanguageRecord.ptr);
+    this.GetDefaultInputMethod = lib.declare("GetDefaultInputMethod", ctypes.default_abi, this.OSErr, this.Component.ptr, this.ScriptLanguageRecord.ptr);
+    this.SetTextServiceLanguage = lib.declare("SetTextServiceLanguage", ctypes.default_abi, this.OSErr, this.ScriptLanguageRecord.ptr);
+    this.GetTextServiceLanguage = lib.declare("GetTextServiceLanguage", ctypes.default_abi, this.OSErr, this.ScriptLanguageRecord.ptr);
+    this.UseInputWindow = lib.declare("UseInputWindow", ctypes.default_abi, this.OSErr, this.TSMDocumentID, this.Boolean);
+    this.TSMSetInlineInputRegion = lib.declare("TSMSetInlineInputRegion", ctypes.default_abi, this.OSStatus, this.TSMDocumentID, this.WindowRef, this.RgnHandle);
+    this.GetScriptLanguageSupport = lib.declare("GetScriptLanguageSupport", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.ScriptLanguageSupportHandle.ptr);
+    this.InitiateTextService = lib.declare("InitiateTextService", ctypes.default_abi, this.ComponentResult, this.ComponentInstance);
+    this.TerminateTextService = lib.declare("TerminateTextService", ctypes.default_abi, this.ComponentResult, this.ComponentInstance);
+    this.ActivateTextService = lib.declare("ActivateTextService", ctypes.default_abi, this.ComponentResult, this.ComponentInstance);
+    this.DeactivateTextService = lib.declare("DeactivateTextService", ctypes.default_abi, this.ComponentResult, this.ComponentInstance);
+    this.GetTextServiceMenu = lib.declare("GetTextServiceMenu", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.MenuRef.ptr);
+    this.TextServiceEventRef = lib.declare("TextServiceEventRef", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.EventRef);
+    this.FixTextService = lib.declare("FixTextService", ctypes.default_abi, this.ComponentResult, this.ComponentInstance);
+    this.HidePaletteWindows = lib.declare("HidePaletteWindows", ctypes.default_abi, this.ComponentResult, this.ComponentInstance);
     this.TextServicePropertyTag = this.OSType;
     this.kTextServiceJaTypingMethodPropertyTag = 1786018160;
     this.kTextServiceInputModePropertyTag = 1768778093;
@@ -3076,10 +4212,31 @@ function TextServices_h(lib) {
     this.kIMJaTypingMethodRoman = 1919905121;
     this.kIMJaTypingMethodKana = 1801547361;
     this.TextServicePropertyValue = this.SInt32;
+    this.GetTextServiceProperty = lib.declare("GetTextServiceProperty", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.TextServicePropertyTag, this.TextServicePropertyValue.ptr);
+    this.SetTextServiceProperty = lib.declare("SetTextServiceProperty", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.TextServicePropertyTag, this.TextServicePropertyValue);
+    this.CopyTextServiceInputModeList = lib.declare("CopyTextServiceInputModeList", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.CFDictionaryRef.ptr);
+    this.TSMCopyInputMethodEnabledInputModes = lib.declare("TSMCopyInputMethodEnabledInputModes", ctypes.default_abi, this.Boolean, this.Component, this.CFArrayRef.ptr);
+    this.TSMSelectInputMode = lib.declare("TSMSelectInputMode", ctypes.default_abi, this.OSStatus, this.Component, this.CFStringRef);
+    this.TSMGetActiveDocument = lib.declare("TSMGetActiveDocument", ctypes.default_abi, this.TSMDocumentID);
+    this.GetDefaultInputMethodOfClass = lib.declare("GetDefaultInputMethodOfClass", ctypes.default_abi, this.OSStatus, this.Component.ptr, this.ScriptLanguageRecord.ptr, this.TextServiceClass);
+    this.SetDefaultInputMethodOfClass = lib.declare("SetDefaultInputMethodOfClass", ctypes.default_abi, this.OSStatus, this.Component, this.ScriptLanguageRecord.ptr, this.TextServiceClass);
+    this.SelectTextService = lib.declare("SelectTextService", ctypes.default_abi, this.OSStatus, this.Component);
+    this.DeselectTextService = lib.declare("DeselectTextService", ctypes.default_abi, this.OSStatus, this.Component);
+    this.IsTextServiceSelected = lib.declare("IsTextServiceSelected", ctypes.default_abi, this.Boolean, this.Component);
+    this.TSMInputModePaletteLoadButtons = lib.declare("TSMInputModePaletteLoadButtons", ctypes.default_abi, ctypes.void_t, this.CFArrayRef);
+    this.TSMInputModePaletteUpdateButtons = lib.declare("TSMInputModePaletteUpdateButtons", ctypes.default_abi, ctypes.void_t, this.CFArrayRef);
+    this.InputModePaletteItemHit = lib.declare("InputModePaletteItemHit", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.UInt32, this.UInt32);
+    this.GetInputModePaletteMenu = lib.declare("GetInputModePaletteMenu", ctypes.default_abi, this.ComponentResult, this.ComponentInstance, this.UInt32, this.CFArrayRef.ptr);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HIImageViews.h
 function HIImageViews_h(lib) {
+    Controls_h.call(this, lib);
+    QuickdrawTypes_h.call(this, lib);
+    HIObject_h.call(this, lib);
+    CGImage_h.call(this, lib);
+    Icons_h.call(this, lib);
+    CGBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._HIIMAGEVIEWS_H)
@@ -3087,10 +4244,21 @@ function HIImageViews_h(lib) {
     this._HIIMAGEVIEWS_H = true;
 
     this.kControlKindHIImageView = 1768776039;
+    this.HIImageViewCreate = lib.declare("HIImageViewCreate", ctypes.default_abi, this.OSStatus, this.CGImageRef, this.HIViewRef.ptr);
+    this.HIImageViewSetOpaque = lib.declare("HIImageViewSetOpaque", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.Boolean);
+    this.HIImageViewIsOpaque = lib.declare("HIImageViewIsOpaque", ctypes.default_abi, this.Boolean, this.HIViewRef);
+    this.HIImageViewSetAlpha = lib.declare("HIImageViewSetAlpha", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.CGFloat);
+    this.HIImageViewGetAlpha = lib.declare("HIImageViewGetAlpha", ctypes.default_abi, this.CGFloat, this.HIViewRef);
+    this.HIImageViewSetScaleToFit = lib.declare("HIImageViewSetScaleToFit", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.Boolean);
+    this.HIImageViewGetScaleToFit = lib.declare("HIImageViewGetScaleToFit", ctypes.default_abi, this.Boolean, this.HIViewRef);
+    this.HIImageViewSetImage = lib.declare("HIImageViewSetImage", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.CGImageRef);
+    this.HIImageViewCopyImage = lib.declare("HIImageViewCopyImage", ctypes.default_abi, this.CGImageRef, this.HIViewRef);
     this.HIImageViewAutoTransformOptions = this.UInt32;
     this.kHIImageViewAutoTransformNone = 0;
     this.kHIImageViewAutoTransformOnDisable = 1;
     this.kHIImageViewAutoTransformOnDeactivate = 2;
+    this.HIImageViewSetAutoTransform = lib.declare("HIImageViewSetAutoTransform", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIImageViewAutoTransformOptions);
+    this.HIImageViewGetAutoTransform = lib.declare("HIImageViewGetAutoTransform", ctypes.default_abi, this.HIImageViewAutoTransformOptions, this.HIViewRef);
     this.kHIImageViewImageTag = 1768776039;
     this.kControlIconProc = 320;
     this.kControlIconNoTrackProc = 321;
@@ -3099,20 +4267,29 @@ function HIImageViews_h(lib) {
     this.kControlIconRefProc = 324;
     this.kControlIconRefNoTrackProc = 325;
     this.kControlKindIcon = 1768124270;
+    this.CreateIconControl = lib.declare("CreateIconControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.ControlButtonContentInfo.ptr, this.Boolean, this.ControlRef.ptr);
     this.kControlIconTransformTag = 1953654381;
     this.kControlIconAlignmentTag = 1634494318;
     this.kControlIconResourceIDTag = 1769104755;
     this.kControlIconContentTag = 1668247156;
     this.kControlImageWellProc = 176;
     this.kControlKindImageWell = 2003135596;
+    this.CreateImageWellControl = lib.declare("CreateImageWellControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.ControlButtonContentInfo.ptr, this.ControlRef.ptr);
     this.kControlImageWellContentTag = 1668247156;
     this.kControlImageWellTransformTag = 1953653102;
     this.kControlImageWellIsDragDestinationTag = 1685217639;
+    this.GetImageWellContentInfo = lib.declare("GetImageWellContentInfo", ctypes.default_abi, this.OSErr, this.ControlRef, this.ControlButtonContentInfoPtr);
+    this.SetImageWellContentInfo = lib.declare("SetImageWellContentInfo", ctypes.default_abi, this.OSErr, this.ControlRef, this.ControlButtonContentInfoPtr);
+    this.SetImageWellTransform = lib.declare("SetImageWellTransform", ctypes.default_abi, this.OSErr, this.ControlRef, this.IconTransformType);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/Appearance.h
 function Appearance_h(lib) {
     Collections_h.call(this, lib);
+    QuickdrawTypes_h.call(this, lib);
+    QuickdrawText_h.call(this, lib);
+    CGContext_h.call(this, lib);
+    CFBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._APPEARANCE_H)
@@ -3783,6 +4960,88 @@ function Appearance_h(lib) {
     // Dropping inline function 'DisposeMenuItemDrawingUPP'.
     // Dropping inline function 'InvokeMenuTitleDrawingUPP'.
     // Dropping inline function 'InvokeMenuItemDrawingUPP'.
+    this.RegisterAppearanceClient = lib.declare("RegisterAppearanceClient", ctypes.default_abi, this.OSStatus);
+    this.UnregisterAppearanceClient = lib.declare("UnregisterAppearanceClient", ctypes.default_abi, this.OSStatus);
+    this.IsAppearanceClient = lib.declare("IsAppearanceClient", ctypes.default_abi, this.Boolean, this.ProcessSerialNumber.ptr);
+    this.SetThemePen = lib.declare("SetThemePen", ctypes.default_abi, this.OSStatus, this.ThemeBrush, this.SInt16, this.Boolean);
+    this.SetThemeBackground = lib.declare("SetThemeBackground", ctypes.default_abi, this.OSStatus, this.ThemeBrush, this.SInt16, this.Boolean);
+    this.SetThemeTextColor = lib.declare("SetThemeTextColor", ctypes.default_abi, this.OSStatus, this.ThemeTextColor, this.SInt16, this.Boolean);
+    this.DrawThemeWindowHeader = lib.declare("DrawThemeWindowHeader", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.ThemeDrawState);
+    this.DrawThemeWindowListViewHeader = lib.declare("DrawThemeWindowListViewHeader", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.ThemeDrawState);
+    this.DrawThemePlacard = lib.declare("DrawThemePlacard", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.ThemeDrawState);
+    this.DrawThemeEditTextFrame = lib.declare("DrawThemeEditTextFrame", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.ThemeDrawState);
+    this.DrawThemeListBoxFrame = lib.declare("DrawThemeListBoxFrame", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.ThemeDrawState);
+    this.DrawThemeFocusRect = lib.declare("DrawThemeFocusRect", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.Boolean);
+    this.DrawThemePrimaryGroup = lib.declare("DrawThemePrimaryGroup", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.ThemeDrawState);
+    this.DrawThemeSecondaryGroup = lib.declare("DrawThemeSecondaryGroup", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.ThemeDrawState);
+    this.DrawThemeSeparator = lib.declare("DrawThemeSeparator", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.ThemeDrawState);
+    this.DrawThemeModelessDialogFrame = lib.declare("DrawThemeModelessDialogFrame", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.ThemeDrawState);
+    this.DrawThemeGenericWell = lib.declare("DrawThemeGenericWell", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.ThemeDrawState, this.Boolean);
+    this.DrawThemeFocusRegion = lib.declare("DrawThemeFocusRegion", ctypes.default_abi, this.OSStatus, this.RgnHandle, this.Boolean);
+    this.IsThemeInColor = lib.declare("IsThemeInColor", ctypes.default_abi, this.Boolean, this.SInt16, this.Boolean);
+    this.GetThemeAccentColors = lib.declare("GetThemeAccentColors", ctypes.default_abi, this.OSStatus, this.CTabHandle.ptr);
+    this.DrawThemeMenuBarBackground = lib.declare("DrawThemeMenuBarBackground", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.ThemeMenuBarState, this.UInt32);
+    this.DrawThemeMenuTitle = lib.declare("DrawThemeMenuTitle", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.Rect.ptr, this.ThemeMenuState, this.UInt32, this.MenuTitleDrawingUPP, this.URefCon);
+    this.GetThemeMenuBarHeight = lib.declare("GetThemeMenuBarHeight", ctypes.default_abi, this.OSStatus, this.SInt16.ptr);
+    this.DrawThemeMenuBackground = lib.declare("DrawThemeMenuBackground", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.ThemeMenuType);
+    this.GetThemeMenuBackgroundRegion = lib.declare("GetThemeMenuBackgroundRegion", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.ThemeMenuType, this.RgnHandle);
+    this.DrawThemeMenuItem = lib.declare("DrawThemeMenuItem", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.Rect.ptr, this.SInt16, this.SInt16, this.ThemeMenuState, this.ThemeMenuItemType, this.MenuItemDrawingUPP, this.URefCon);
+    this.DrawThemeMenuSeparator = lib.declare("DrawThemeMenuSeparator", ctypes.default_abi, this.OSStatus, this.Rect.ptr);
+    this.GetTheme = lib.declare("GetTheme", ctypes.default_abi, this.OSStatus, this.Collection);
+    this.SetTheme = lib.declare("SetTheme", ctypes.default_abi, this.OSStatus, this.Collection);
+    this.IterateThemes = lib.declare("IterateThemes", ctypes.default_abi, this.OSStatus, this.ThemeIteratorUPP, this.PRefCon);
+    this.DrawThemeTabPane = lib.declare("DrawThemeTabPane", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.ThemeDrawState);
+    this.DrawThemeTab = lib.declare("DrawThemeTab", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.ThemeTabStyle, this.ThemeTabDirection, this.ThemeTabTitleDrawUPP, this.URefCon);
+    this.GetThemeTabRegion = lib.declare("GetThemeTabRegion", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.ThemeTabStyle, this.ThemeTabDirection, this.RgnHandle);
+    this.SetThemeCursor = lib.declare("SetThemeCursor", ctypes.default_abi, this.OSStatus, this.ThemeCursor);
+    this.SetAnimatedThemeCursor = lib.declare("SetAnimatedThemeCursor", ctypes.default_abi, this.OSStatus, this.ThemeCursor, this.UInt32);
+    this.GetThemeScrollBarThumbStyle = lib.declare("GetThemeScrollBarThumbStyle", ctypes.default_abi, this.OSStatus, this.ThemeScrollBarThumbStyle.ptr);
+    this.GetThemeScrollBarArrowStyle = lib.declare("GetThemeScrollBarArrowStyle", ctypes.default_abi, this.OSStatus, this.ThemeScrollBarArrowStyle.ptr);
+    this.GetThemeCheckBoxStyle = lib.declare("GetThemeCheckBoxStyle", ctypes.default_abi, this.OSStatus, this.ThemeCheckBoxStyle.ptr);
+    this.UseThemeFont = lib.declare("UseThemeFont", ctypes.default_abi, this.OSStatus, this.ThemeFontID, this.ScriptCode);
+    this.GetThemeFont = lib.declare("GetThemeFont", ctypes.default_abi, this.OSStatus, this.ThemeFontID, this.ScriptCode, ctypes.unsigned_char.ptr, this.SInt16.ptr, this.Style.ptr);
+    this.DrawThemeTextBox = lib.declare("DrawThemeTextBox", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.ThemeFontID, this.ThemeDrawState, this.Boolean, this.Rect.ptr, this.SInt16, this.CGContextRef);
+    this.TruncateThemeText = lib.declare("TruncateThemeText", ctypes.default_abi, this.OSStatus, this.CFMutableStringRef, this.ThemeFontID, this.ThemeDrawState, this.SInt16, this.TruncCode, this.Boolean.ptr);
+    this.GetThemeTextDimensions = lib.declare("GetThemeTextDimensions", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.ThemeFontID, this.ThemeDrawState, this.Boolean, this.Point.ptr, this.SInt16.ptr);
+    this.GetThemeTextShadowOutset = lib.declare("GetThemeTextShadowOutset", ctypes.default_abi, this.OSStatus, this.ThemeFontID, this.ThemeDrawState, this.Rect.ptr);
+    this.DrawThemeTrack = lib.declare("DrawThemeTrack", ctypes.default_abi, this.OSStatus, this.ThemeTrackDrawInfo.ptr, this.RgnHandle, this.ThemeEraseUPP, this.URefCon);
+    this.HitTestThemeTrack = lib.declare("HitTestThemeTrack", ctypes.default_abi, this.Boolean, this.ThemeTrackDrawInfo.ptr, this.Point, this.AppearancePartCode.ptr);
+    this.GetThemeTrackBounds = lib.declare("GetThemeTrackBounds", ctypes.default_abi, this.OSStatus, this.ThemeTrackDrawInfo.ptr, this.Rect.ptr);
+    this.GetThemeTrackThumbRgn = lib.declare("GetThemeTrackThumbRgn", ctypes.default_abi, this.OSStatus, this.ThemeTrackDrawInfo.ptr, this.RgnHandle);
+    this.GetThemeTrackDragRect = lib.declare("GetThemeTrackDragRect", ctypes.default_abi, this.OSStatus, this.ThemeTrackDrawInfo.ptr, this.Rect.ptr);
+    this.DrawThemeTrackTickMarks = lib.declare("DrawThemeTrackTickMarks", ctypes.default_abi, this.OSStatus, this.ThemeTrackDrawInfo.ptr, this.ItemCount, this.ThemeEraseUPP, this.URefCon);
+    this.GetThemeTrackThumbPositionFromOffset = lib.declare("GetThemeTrackThumbPositionFromOffset", ctypes.default_abi, this.OSStatus, this.ThemeTrackDrawInfo.ptr, this.Point, this.SInt32.ptr);
+    this.GetThemeTrackThumbPositionFromRegion = lib.declare("GetThemeTrackThumbPositionFromRegion", ctypes.default_abi, this.OSStatus, this.ThemeTrackDrawInfo.ptr, this.RgnHandle, this.SInt32.ptr);
+    this.GetThemeTrackLiveValue = lib.declare("GetThemeTrackLiveValue", ctypes.default_abi, this.OSStatus, this.ThemeTrackDrawInfo.ptr, this.SInt32, this.SInt32.ptr);
+    this.DrawThemeScrollBarArrows = lib.declare("DrawThemeScrollBarArrows", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.ThemeTrackEnableState, this.ThemeTrackPressState, this.Boolean, this.Rect.ptr);
+    this.GetThemeScrollBarTrackRect = lib.declare("GetThemeScrollBarTrackRect", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.ThemeTrackEnableState, this.ThemeTrackPressState, this.Boolean, this.Rect.ptr);
+    this.HitTestThemeScrollBarArrows = lib.declare("HitTestThemeScrollBarArrows", ctypes.default_abi, this.Boolean, this.Rect.ptr, this.ThemeTrackEnableState, this.ThemeTrackPressState, this.Boolean, this.Point, this.Rect.ptr, this.AppearancePartCode.ptr);
+    this.GetThemeWindowRegion = lib.declare("GetThemeWindowRegion", ctypes.default_abi, this.OSStatus, this.ThemeWindowType, this.Rect.ptr, this.ThemeDrawState, this.ThemeWindowMetrics.ptr, this.ThemeWindowAttributes, this.AppearanceRegionCode, this.RgnHandle);
+    this.DrawThemeWindowFrame = lib.declare("DrawThemeWindowFrame", ctypes.default_abi, this.OSStatus, this.ThemeWindowType, this.Rect.ptr, this.ThemeDrawState, this.ThemeWindowMetrics.ptr, this.ThemeWindowAttributes, this.WindowTitleDrawingUPP, this.URefCon);
+    this.DrawThemeTitleBarWidget = lib.declare("DrawThemeTitleBarWidget", ctypes.default_abi, this.OSStatus, this.ThemeWindowType, this.Rect.ptr, this.ThemeDrawState, this.ThemeWindowMetrics.ptr, this.ThemeWindowAttributes, this.ThemeTitleBarWidget);
+    this.GetThemeWindowRegionHit = lib.declare("GetThemeWindowRegionHit", ctypes.default_abi, this.Boolean, this.ThemeWindowType, this.Rect.ptr, this.ThemeDrawState, this.ThemeWindowMetrics.ptr, this.ThemeWindowAttributes, this.Point, this.AppearanceRegionCode.ptr);
+    this.DrawThemeScrollBarDelimiters = lib.declare("DrawThemeScrollBarDelimiters", ctypes.default_abi, this.OSStatus, this.ThemeWindowType, this.Rect.ptr, this.ThemeDrawState, this.ThemeWindowAttributes);
+    this.DrawThemeButton = lib.declare("DrawThemeButton", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.ThemeButtonKind, this.ThemeButtonDrawInfo.ptr, this.ThemeButtonDrawInfo.ptr, this.ThemeEraseUPP, this.ThemeButtonDrawUPP, this.URefCon);
+    this.GetThemeButtonRegion = lib.declare("GetThemeButtonRegion", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.ThemeButtonKind, this.ThemeButtonDrawInfo.ptr, this.RgnHandle);
+    this.GetThemeButtonContentBounds = lib.declare("GetThemeButtonContentBounds", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.ThemeButtonKind, this.ThemeButtonDrawInfo.ptr, this.Rect.ptr);
+    this.GetThemeButtonBackgroundBounds = lib.declare("GetThemeButtonBackgroundBounds", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.ThemeButtonKind, this.ThemeButtonDrawInfo.ptr, this.Rect.ptr);
+    this.PlayThemeSound = lib.declare("PlayThemeSound", ctypes.default_abi, this.OSStatus, this.ThemeSoundKind);
+    this.BeginThemeDragSound = lib.declare("BeginThemeDragSound", ctypes.default_abi, this.OSStatus, this.ThemeDragSoundKind);
+    this.EndThemeDragSound = lib.declare("EndThemeDragSound", ctypes.default_abi, this.OSStatus);
+    this.DrawThemeTickMark = lib.declare("DrawThemeTickMark", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.ThemeDrawState);
+    this.DrawThemeChasingArrows = lib.declare("DrawThemeChasingArrows", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.UInt32, this.ThemeDrawState, this.ThemeEraseUPP, this.URefCon);
+    this.DrawThemePopupArrow = lib.declare("DrawThemePopupArrow", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.ThemeArrowOrientation, this.ThemePopupArrowSize, this.ThemeDrawState, this.ThemeEraseUPP, this.URefCon);
+    this.DrawThemeStandaloneGrowBox = lib.declare("DrawThemeStandaloneGrowBox", ctypes.default_abi, this.OSStatus, this.Point, this.ThemeGrowDirection, this.Boolean, this.ThemeDrawState);
+    this.DrawThemeStandaloneNoGrowBox = lib.declare("DrawThemeStandaloneNoGrowBox", ctypes.default_abi, this.OSStatus, this.Point, this.ThemeGrowDirection, this.Boolean, this.ThemeDrawState);
+    this.GetThemeStandaloneGrowBoxBounds = lib.declare("GetThemeStandaloneGrowBoxBounds", ctypes.default_abi, this.OSStatus, this.Point, this.ThemeGrowDirection, this.Boolean, this.Rect.ptr);
+    this.NormalizeThemeDrawingState = lib.declare("NormalizeThemeDrawingState", ctypes.default_abi, this.OSStatus);
+    this.GetThemeDrawingState = lib.declare("GetThemeDrawingState", ctypes.default_abi, this.OSStatus, this.ThemeDrawingState.ptr);
+    this.SetThemeDrawingState = lib.declare("SetThemeDrawingState", ctypes.default_abi, this.OSStatus, this.ThemeDrawingState, this.Boolean);
+    this.DisposeThemeDrawingState = lib.declare("DisposeThemeDrawingState", ctypes.default_abi, this.OSStatus, this.ThemeDrawingState);
+    this.ApplyThemeBackground = lib.declare("ApplyThemeBackground", ctypes.default_abi, this.OSStatus, this.ThemeBackgroundKind, this.Rect.ptr, this.ThemeDrawState, this.SInt16, this.Boolean);
+    this.IsValidAppearanceFileType = lib.declare("IsValidAppearanceFileType", ctypes.default_abi, this.Boolean, this.OSType);
+    this.GetThemeBrushAsColor = lib.declare("GetThemeBrushAsColor", ctypes.default_abi, this.OSStatus, this.ThemeBrush, this.SInt16, this.Boolean, this.RGBColor.ptr);
+    this.GetThemeTextColor = lib.declare("GetThemeTextColor", ctypes.default_abi, this.OSStatus, this.ThemeTextColor, this.SInt16, this.Boolean, this.RGBColor.ptr);
     this.appearanceBadBrushIndexErr = -30560;
     this.appearanceProcessRegisteredErr = -30561;
     this.appearanceProcessNotRegisteredErr = -30562;
@@ -3865,8 +5124,11 @@ function Appearance_h(lib) {
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/Dialogs.h
 function Dialogs_h(lib) {
+    TextEdit_h.call(this, lib);
     Events_h.call(this, lib);
+    CarbonEventsCore_h.call(this, lib);
     QuickdrawTypes_h.call(this, lib);
+    HIObject_h.call(this, lib);
     IconsCore_h.call(this, lib);
     CFBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
@@ -3987,6 +5249,70 @@ function Dialogs_h(lib) {
     this.kStdAlertDoNotCloseOnHelp = 16;
     this.AlertStdCFStringAlertParamRec = new ctypes.StructType("AlertStdCFStringAlertParamRec", [{version: this.UInt32}, {movable: this.Boolean}, {helpButton: this.Boolean}, {defaultText: this.CFStringRef}, {cancelText: this.CFStringRef}, {otherText: this.CFStringRef}, {defaultButton: this.SInt16}, {cancelButton: this.SInt16}, {position: this.UInt16}, {flags: this.OptionBits}, {icon: this.IconRef}]);
     this.AlertStdCFStringAlertParamPtr = this.AlertStdCFStringAlertParamRec.ptr;
+    this.NewDialog = lib.declare("NewDialog", ctypes.default_abi, this.DialogRef, ctypes.void_t.ptr, this.Rect.ptr, this.ConstStr255Param, this.Boolean, this.SInt16, this.WindowRef, this.Boolean, this.SRefCon, this.Handle);
+    this.GetNewDialog = lib.declare("GetNewDialog", ctypes.default_abi, this.DialogRef, this.SInt16, ctypes.void_t.ptr, this.WindowRef);
+    this.NewColorDialog = lib.declare("NewColorDialog", ctypes.default_abi, this.DialogRef, ctypes.void_t.ptr, this.Rect.ptr, this.ConstStr255Param, this.Boolean, this.SInt16, this.WindowRef, this.Boolean, this.SRefCon, this.Handle);
+    this.DisposeDialog = lib.declare("DisposeDialog", ctypes.default_abi, ctypes.void_t, this.DialogRef);
+    this.ModalDialog = lib.declare("ModalDialog", ctypes.default_abi, ctypes.void_t, this.ModalFilterUPP, this.DialogItemIndex.ptr);
+    this.IsDialogEvent = lib.declare("IsDialogEvent", ctypes.default_abi, this.Boolean, this.EventRecord.ptr);
+    this.DialogSelect = lib.declare("DialogSelect", ctypes.default_abi, this.Boolean, this.EventRecord.ptr, this.DialogRef.ptr, this.DialogItemIndex.ptr);
+    this.DrawDialog = lib.declare("DrawDialog", ctypes.default_abi, ctypes.void_t, this.DialogRef);
+    this.UpdateDialog = lib.declare("UpdateDialog", ctypes.default_abi, ctypes.void_t, this.DialogRef, this.RgnHandle);
+    this.HideDialogItem = lib.declare("HideDialogItem", ctypes.default_abi, ctypes.void_t, this.DialogRef, this.DialogItemIndex);
+    this.ShowDialogItem = lib.declare("ShowDialogItem", ctypes.default_abi, ctypes.void_t, this.DialogRef, this.DialogItemIndex);
+    this.FindDialogItem = lib.declare("FindDialogItem", ctypes.default_abi, this.DialogItemIndexZeroBased, this.DialogRef, this.Point);
+    this.DialogCut = lib.declare("DialogCut", ctypes.default_abi, ctypes.void_t, this.DialogRef);
+    this.DialogPaste = lib.declare("DialogPaste", ctypes.default_abi, ctypes.void_t, this.DialogRef);
+    this.DialogCopy = lib.declare("DialogCopy", ctypes.default_abi, ctypes.void_t, this.DialogRef);
+    this.DialogDelete = lib.declare("DialogDelete", ctypes.default_abi, ctypes.void_t, this.DialogRef);
+    this.Alert = lib.declare("Alert", ctypes.default_abi, this.DialogItemIndex, this.SInt16, this.ModalFilterUPP);
+    this.StopAlert = lib.declare("StopAlert", ctypes.default_abi, this.DialogItemIndex, this.SInt16, this.ModalFilterUPP);
+    this.NoteAlert = lib.declare("NoteAlert", ctypes.default_abi, this.DialogItemIndex, this.SInt16, this.ModalFilterUPP);
+    this.CautionAlert = lib.declare("CautionAlert", ctypes.default_abi, this.DialogItemIndex, this.SInt16, this.ModalFilterUPP);
+    this.GetDialogItem = lib.declare("GetDialogItem", ctypes.default_abi, ctypes.void_t, this.DialogRef, this.DialogItemIndex, this.DialogItemType.ptr, this.Handle.ptr, this.Rect.ptr);
+    this.SetDialogItem = lib.declare("SetDialogItem", ctypes.default_abi, ctypes.void_t, this.DialogRef, this.DialogItemIndex, this.DialogItemType, this.Handle, this.Rect.ptr);
+    this.ParamText = lib.declare("ParamText", ctypes.default_abi, ctypes.void_t, this.ConstStr255Param, this.ConstStr255Param, this.ConstStr255Param, this.ConstStr255Param);
+    this.SelectDialogItemText = lib.declare("SelectDialogItemText", ctypes.default_abi, ctypes.void_t, this.DialogRef, this.DialogItemIndex, this.SInt16, this.SInt16);
+    this.GetDialogItemText = lib.declare("GetDialogItemText", ctypes.default_abi, ctypes.void_t, this.Handle, ctypes.unsigned_char.ptr);
+    this.SetDialogItemText = lib.declare("SetDialogItemText", ctypes.default_abi, ctypes.void_t, this.Handle, this.ConstStr255Param);
+    this.GetAlertStage = lib.declare("GetAlertStage", ctypes.default_abi, this.SInt16);
+    this.SetDialogFont = lib.declare("SetDialogFont", ctypes.default_abi, ctypes.void_t, this.SInt16);
+    this.ResetAlertStage = lib.declare("ResetAlertStage", ctypes.default_abi, ctypes.void_t);
+    this.GetParamText = lib.declare("GetParamText", ctypes.default_abi, ctypes.void_t, this.StringPtr, this.StringPtr, this.StringPtr, this.StringPtr);
+    this.AppendDITL = lib.declare("AppendDITL", ctypes.default_abi, ctypes.void_t, this.DialogRef, this.Handle, this.DITLMethod);
+    this.CountDITL = lib.declare("CountDITL", ctypes.default_abi, this.DialogItemIndex, this.DialogRef);
+    this.ShortenDITL = lib.declare("ShortenDITL", ctypes.default_abi, ctypes.void_t, this.DialogRef, this.DialogItemIndex);
+    this.InsertDialogItem = lib.declare("InsertDialogItem", ctypes.default_abi, this.OSStatus, this.DialogRef, this.DialogItemIndex, this.DialogItemType, this.Handle, this.Rect.ptr);
+    this.RemoveDialogItems = lib.declare("RemoveDialogItems", ctypes.default_abi, this.OSStatus, this.DialogRef, this.DialogItemIndex, this.DialogItemIndex, this.Boolean);
+    this.StdFilterProc = lib.declare("StdFilterProc", ctypes.default_abi, this.Boolean, this.DialogRef, this.EventRecord.ptr, this.DialogItemIndex.ptr);
+    this.GetStdFilterProc = lib.declare("GetStdFilterProc", ctypes.default_abi, this.OSErr, this.ModalFilterUPP.ptr);
+    this.SetDialogDefaultItem = lib.declare("SetDialogDefaultItem", ctypes.default_abi, this.OSErr, this.DialogRef, this.DialogItemIndex);
+    this.SetDialogCancelItem = lib.declare("SetDialogCancelItem", ctypes.default_abi, this.OSErr, this.DialogRef, this.DialogItemIndex);
+    this.SetDialogTracksCursor = lib.declare("SetDialogTracksCursor", ctypes.default_abi, this.OSErr, this.DialogRef, this.Boolean);
+    this.NewFeaturesDialog = lib.declare("NewFeaturesDialog", ctypes.default_abi, this.DialogRef, ctypes.void_t.ptr, this.Rect.ptr, this.ConstStr255Param, this.Boolean, this.SInt16, this.WindowRef, this.Boolean, this.SRefCon, this.Handle, this.UInt32);
+    this.AutoSizeDialog = lib.declare("AutoSizeDialog", ctypes.default_abi, this.OSErr, this.DialogRef);
+    this.StandardAlert = lib.declare("StandardAlert", ctypes.default_abi, this.OSErr, this.AlertType, this.ConstStr255Param, this.ConstStr255Param, this.AlertStdAlertParamRec.ptr, this.SInt16.ptr);
+    this.GetStandardAlertDefaultParams = lib.declare("GetStandardAlertDefaultParams", ctypes.default_abi, this.OSStatus, this.AlertStdCFStringAlertParamPtr, this.UInt32);
+    this.CreateStandardAlert = lib.declare("CreateStandardAlert", ctypes.default_abi, this.OSStatus, this.AlertType, this.CFStringRef, this.CFStringRef, this.AlertStdCFStringAlertParamRec.ptr, this.DialogRef.ptr);
+    this.RunStandardAlert = lib.declare("RunStandardAlert", ctypes.default_abi, this.OSStatus, this.DialogRef, this.ModalFilterUPP, this.DialogItemIndex.ptr);
+    this.CreateStandardSheet = lib.declare("CreateStandardSheet", ctypes.default_abi, this.OSStatus, this.AlertType, this.CFStringRef, this.CFStringRef, this.AlertStdCFStringAlertParamRec.ptr, this.EventTargetRef, this.DialogRef.ptr);
+    this.CloseStandardSheet = lib.declare("CloseStandardSheet", ctypes.default_abi, this.OSStatus, this.DialogRef, this.UInt32);
+    this.GetDialogItemAsControl = lib.declare("GetDialogItemAsControl", ctypes.default_abi, this.OSErr, this.DialogRef, this.DialogItemIndex, this.ControlRef.ptr);
+    this.MoveDialogItem = lib.declare("MoveDialogItem", ctypes.default_abi, this.OSErr, this.DialogRef, this.DialogItemIndex, this.SInt16, this.SInt16);
+    this.SizeDialogItem = lib.declare("SizeDialogItem", ctypes.default_abi, this.OSErr, this.DialogRef, this.DialogItemIndex, this.SInt16, this.SInt16);
+    this.AppendDialogItemList = lib.declare("AppendDialogItemList", ctypes.default_abi, this.OSErr, this.DialogRef, this.SInt16, this.DITLMethod);
+    this.SetDialogTimeout = lib.declare("SetDialogTimeout", ctypes.default_abi, this.OSStatus, this.DialogRef, this.DialogItemIndex, this.UInt32);
+    this.GetDialogTimeout = lib.declare("GetDialogTimeout", ctypes.default_abi, this.OSStatus, this.DialogRef, this.DialogItemIndex.ptr, this.UInt32.ptr, this.UInt32.ptr);
+    this.SetModalDialogEventMask = lib.declare("SetModalDialogEventMask", ctypes.default_abi, this.OSStatus, this.DialogRef, this.EventMask);
+    this.GetModalDialogEventMask = lib.declare("GetModalDialogEventMask", ctypes.default_abi, this.OSStatus, this.DialogRef, this.EventMask.ptr);
+    this.GetDialogWindow = lib.declare("GetDialogWindow", ctypes.default_abi, this.WindowRef, this.DialogRef);
+    this.GetDialogTextEditHandle = lib.declare("GetDialogTextEditHandle", ctypes.default_abi, this.TEHandle, this.DialogRef);
+    this.GetDialogDefaultItem = lib.declare("GetDialogDefaultItem", ctypes.default_abi, this.SInt16, this.DialogRef);
+    this.GetDialogCancelItem = lib.declare("GetDialogCancelItem", ctypes.default_abi, this.SInt16, this.DialogRef);
+    this.GetDialogKeyboardFocusItem = lib.declare("GetDialogKeyboardFocusItem", ctypes.default_abi, this.SInt16, this.DialogRef);
+    this.SetPortDialogPort = lib.declare("SetPortDialogPort", ctypes.default_abi, ctypes.void_t, this.DialogRef);
+    this.GetDialogPort = lib.declare("GetDialogPort", ctypes.default_abi, this.CGrafPtr, this.DialogRef);
+    this.GetDialogFromWindow = lib.declare("GetDialogFromWindow", ctypes.default_abi, this.DialogRef, this.WindowRef);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/TextEdit.h
@@ -4145,13 +5471,71 @@ function TextEdit_h(lib) {
     // Dropping inline function 'InvokeTEDoTextUPP'.
     // Dropping inline function 'InvokeTEClickLoopUPP'.
     this.teFUseTextServices = 4;
+    this.TEScrapHandle = lib.declare("TEScrapHandle", ctypes.default_abi, this.Handle);
+    this.TEGetScrapLength = lib.declare("TEGetScrapLength", ctypes.default_abi, ctypes.long);
+    this.TENew = lib.declare("TENew", ctypes.default_abi, this.TEHandle, this.Rect.ptr, this.Rect.ptr);
+    this.TEDispose = lib.declare("TEDispose", ctypes.default_abi, ctypes.void_t, this.TEHandle);
+    this.TESetText = lib.declare("TESetText", ctypes.default_abi, ctypes.void_t, ctypes.void_t.ptr, ctypes.long, this.TEHandle);
+    this.TEGetText = lib.declare("TEGetText", ctypes.default_abi, this.CharsHandle, this.TEHandle);
+    this.TEIdle = lib.declare("TEIdle", ctypes.default_abi, ctypes.void_t, this.TEHandle);
+    this.TESetSelect = lib.declare("TESetSelect", ctypes.default_abi, ctypes.void_t, ctypes.long, ctypes.long, this.TEHandle);
+    this.TEActivate = lib.declare("TEActivate", ctypes.default_abi, ctypes.void_t, this.TEHandle);
+    this.TEDeactivate = lib.declare("TEDeactivate", ctypes.default_abi, ctypes.void_t, this.TEHandle);
+    this.TEKey = lib.declare("TEKey", ctypes.default_abi, ctypes.void_t, this.CharParameter, this.TEHandle);
+    this.TECut = lib.declare("TECut", ctypes.default_abi, ctypes.void_t, this.TEHandle);
+    this.TECopy = lib.declare("TECopy", ctypes.default_abi, ctypes.void_t, this.TEHandle);
+    this.TEPaste = lib.declare("TEPaste", ctypes.default_abi, ctypes.void_t, this.TEHandle);
+    this.TEDelete = lib.declare("TEDelete", ctypes.default_abi, ctypes.void_t, this.TEHandle);
+    this.TEInsert = lib.declare("TEInsert", ctypes.default_abi, ctypes.void_t, ctypes.void_t.ptr, ctypes.long, this.TEHandle);
+    this.TESetAlignment = lib.declare("TESetAlignment", ctypes.default_abi, ctypes.void_t, ctypes.short, this.TEHandle);
+    this.TEUpdate = lib.declare("TEUpdate", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, this.TEHandle);
+    this.TETextBox = lib.declare("TETextBox", ctypes.default_abi, ctypes.void_t, ctypes.void_t.ptr, ctypes.long, this.Rect.ptr, ctypes.short);
+    this.TEScroll = lib.declare("TEScroll", ctypes.default_abi, ctypes.void_t, ctypes.short, ctypes.short, this.TEHandle);
+    this.TESelView = lib.declare("TESelView", ctypes.default_abi, ctypes.void_t, this.TEHandle);
+    this.TEPinScroll = lib.declare("TEPinScroll", ctypes.default_abi, ctypes.void_t, ctypes.short, ctypes.short, this.TEHandle);
+    this.TEAutoView = lib.declare("TEAutoView", ctypes.default_abi, ctypes.void_t, this.Boolean, this.TEHandle);
+    this.TECalText = lib.declare("TECalText", ctypes.default_abi, ctypes.void_t, this.TEHandle);
+    this.TEGetOffset = lib.declare("TEGetOffset", ctypes.default_abi, ctypes.short, this.Point, this.TEHandle);
+    this.TEGetPoint = lib.declare("TEGetPoint", ctypes.default_abi, this.Point, ctypes.short, this.TEHandle);
+    this.TEClick = lib.declare("TEClick", ctypes.default_abi, ctypes.void_t, this.Point, this.Boolean, this.TEHandle);
+    this.TEStyleNew = lib.declare("TEStyleNew", ctypes.default_abi, this.TEHandle, this.Rect.ptr, this.Rect.ptr);
+    this.TESetStyleHandle = lib.declare("TESetStyleHandle", ctypes.default_abi, ctypes.void_t, this.TEStyleHandle, this.TEHandle);
+    this.TEGetStyleHandle = lib.declare("TEGetStyleHandle", ctypes.default_abi, this.TEStyleHandle, this.TEHandle);
+    this.TEGetStyle = lib.declare("TEGetStyle", ctypes.default_abi, ctypes.void_t, ctypes.short, this.TextStyle.ptr, ctypes.short.ptr, ctypes.short.ptr, this.TEHandle);
+    this.TEStylePaste = lib.declare("TEStylePaste", ctypes.default_abi, ctypes.void_t, this.TEHandle);
+    this.TESetStyle = lib.declare("TESetStyle", ctypes.default_abi, ctypes.void_t, ctypes.short, this.TextStyle.ptr, this.Boolean, this.TEHandle);
+    this.TEReplaceStyle = lib.declare("TEReplaceStyle", ctypes.default_abi, ctypes.void_t, ctypes.short, this.TextStyle.ptr, this.TextStyle.ptr, this.Boolean, this.TEHandle);
+    this.TEGetStyleScrapHandle = lib.declare("TEGetStyleScrapHandle", ctypes.default_abi, this.StScrpHandle, this.TEHandle);
+    this.TEStyleInsert = lib.declare("TEStyleInsert", ctypes.default_abi, ctypes.void_t, ctypes.void_t.ptr, ctypes.long, this.StScrpHandle, this.TEHandle);
+    this.TEGetHeight = lib.declare("TEGetHeight", ctypes.default_abi, ctypes.long, ctypes.long, ctypes.long, this.TEHandle);
+    this.TEContinuousStyle = lib.declare("TEContinuousStyle", ctypes.default_abi, this.Boolean, ctypes.short.ptr, this.TextStyle.ptr, this.TEHandle);
+    this.TEUseStyleScrap = lib.declare("TEUseStyleScrap", ctypes.default_abi, ctypes.void_t, ctypes.long, ctypes.long, this.StScrpHandle, this.Boolean, this.TEHandle);
+    this.TECustomHook = lib.declare("TECustomHook", ctypes.default_abi, ctypes.void_t, this.TEIntHook, this.UniversalProcPtr.ptr, this.TEHandle);
+    this.TENumStyles = lib.declare("TENumStyles", ctypes.default_abi, ctypes.long, ctypes.long, ctypes.long, this.TEHandle);
+    this.TEFeatureFlag = lib.declare("TEFeatureFlag", ctypes.default_abi, ctypes.short, ctypes.short, ctypes.short, this.TEHandle);
+    this.TEGetHiliteRgn = lib.declare("TEGetHiliteRgn", ctypes.default_abi, this.OSErr, this.RgnHandle, this.TEHandle);
+    this.TESetScrapLength = lib.declare("TESetScrapLength", ctypes.default_abi, ctypes.void_t, ctypes.long);
+    this.TEFromScrap = lib.declare("TEFromScrap", ctypes.default_abi, this.OSErr);
+    this.TEToScrap = lib.declare("TEToScrap", ctypes.default_abi, this.OSErr);
+    this.TESetClickLoop = lib.declare("TESetClickLoop", ctypes.default_abi, ctypes.void_t, this.TEClickLoopUPP, this.TEHandle);
+    this.TEGetDoTextHook = lib.declare("TEGetDoTextHook", ctypes.default_abi, this.TEDoTextUPP);
+    this.TESetDoTextHook = lib.declare("TESetDoTextHook", ctypes.default_abi, ctypes.void_t, this.TEDoTextUPP);
+    this.TEGetRecalcHook = lib.declare("TEGetRecalcHook", ctypes.default_abi, this.TERecalcUPP);
+    this.TESetRecalcHook = lib.declare("TESetRecalcHook", ctypes.default_abi, ctypes.void_t, this.TERecalcUPP);
+    this.TEGetFindWordHook = lib.declare("TEGetFindWordHook", ctypes.default_abi, this.TEFindWordUPP);
+    this.TESetFindWordHook = lib.declare("TESetFindWordHook", ctypes.default_abi, ctypes.void_t, this.TEFindWordUPP);
+    this.TEGetScrapHandle = lib.declare("TEGetScrapHandle", ctypes.default_abi, this.Handle);
+    this.TESetScrapHandle = lib.declare("TESetScrapHandle", ctypes.default_abi, ctypes.void_t, this.Handle);
+    this.LMGetWordRedraw = lib.declare("LMGetWordRedraw", ctypes.default_abi, this.UInt8);
+    this.LMSetWordRedraw = lib.declare("LMSetWordRedraw", ctypes.default_abi, ctypes.void_t, this.UInt8);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/MacHelp.h
 function MacHelp_h(lib) {
-    Menus_h.call(this, lib);
     QuickdrawTypes_h.call(this, lib);
     HIObject_h.call(this, lib);
+    Dialogs_h.call(this, lib);
+    Menus_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._MACHELP_H)
@@ -4243,31 +5627,91 @@ function MacHelp_h(lib) {
     // Dropping inline function 'InvokeHMWindowContentUPP'.
     // Dropping inline function 'InvokeHMMenuTitleContentUPP'.
     // Dropping inline function 'InvokeHMMenuItemContentUPP'.
+    this.HMGetHelpMenu = lib.declare("HMGetHelpMenu", ctypes.default_abi, this.OSStatus, this.MenuRef.ptr, this.MenuItemIndex.ptr);
+    this.HMSetControlHelpContent = lib.declare("HMSetControlHelpContent", ctypes.default_abi, this.OSStatus, this.ControlRef, this.HMHelpContentRec.ptr);
+    this.HMGetControlHelpContent = lib.declare("HMGetControlHelpContent", ctypes.default_abi, this.OSStatus, this.ControlRef, this.HMHelpContentRec.ptr);
+    this.HMSetWindowHelpContent = lib.declare("HMSetWindowHelpContent", ctypes.default_abi, this.OSStatus, this.WindowRef, this.HMHelpContentRec.ptr);
+    this.HMGetWindowHelpContent = lib.declare("HMGetWindowHelpContent", ctypes.default_abi, this.OSStatus, this.WindowRef, this.HMHelpContentRec.ptr);
+    this.HMSetMenuItemHelpContent = lib.declare("HMSetMenuItemHelpContent", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.HMHelpContentRec.ptr);
+    this.HMGetMenuItemHelpContent = lib.declare("HMGetMenuItemHelpContent", ctypes.default_abi, this.OSStatus, this.MenuRef, this.MenuItemIndex, this.HMHelpContentRec.ptr);
+    this.HMInstallControlContentCallback = lib.declare("HMInstallControlContentCallback", ctypes.default_abi, this.OSStatus, this.ControlRef, this.HMControlContentUPP);
+    this.HMInstallWindowContentCallback = lib.declare("HMInstallWindowContentCallback", ctypes.default_abi, this.OSStatus, this.WindowRef, this.HMWindowContentUPP);
+    this.HMInstallMenuTitleContentCallback = lib.declare("HMInstallMenuTitleContentCallback", ctypes.default_abi, this.OSStatus, this.MenuRef, this.HMMenuTitleContentUPP);
+    this.HMInstallMenuItemContentCallback = lib.declare("HMInstallMenuItemContentCallback", ctypes.default_abi, this.OSStatus, this.MenuRef, this.HMMenuItemContentUPP);
+    this.HMGetControlContentCallback = lib.declare("HMGetControlContentCallback", ctypes.default_abi, this.OSStatus, this.ControlRef, this.HMControlContentUPP.ptr);
+    this.HMGetWindowContentCallback = lib.declare("HMGetWindowContentCallback", ctypes.default_abi, this.OSStatus, this.WindowRef, this.HMWindowContentUPP.ptr);
+    this.HMGetMenuTitleContentCallback = lib.declare("HMGetMenuTitleContentCallback", ctypes.default_abi, this.OSStatus, this.MenuRef, this.HMMenuTitleContentUPP.ptr);
+    this.HMGetMenuItemContentCallback = lib.declare("HMGetMenuItemContentCallback", ctypes.default_abi, this.OSStatus, this.MenuRef, this.HMMenuItemContentUPP.ptr);
+    this.HMAreHelpTagsDisplayed = lib.declare("HMAreHelpTagsDisplayed", ctypes.default_abi, this.Boolean);
+    this.HMSetHelpTagsDisplayed = lib.declare("HMSetHelpTagsDisplayed", ctypes.default_abi, this.OSStatus, this.Boolean);
+    this.HMSetTagDelay = lib.declare("HMSetTagDelay", ctypes.default_abi, this.OSStatus, this.Duration);
+    this.HMGetTagDelay = lib.declare("HMGetTagDelay", ctypes.default_abi, this.OSStatus, this.Duration.ptr);
+    this.HMDisplayTag = lib.declare("HMDisplayTag", ctypes.default_abi, this.OSStatus, this.HMHelpContentRec.ptr);
+    this.HMHideTag = lib.declare("HMHideTag", ctypes.default_abi, this.OSStatus);
     this.kHMHideTagFade = 1;
     this.kHMHideTagImmediately = 2;
+    this.HMHideTagWithOptions = lib.declare("HMHideTagWithOptions", ctypes.default_abi, this.OSStatus, this.OptionBits);
+    this.HMSetMenuHelpFromBalloonRsrc = lib.declare("HMSetMenuHelpFromBalloonRsrc", ctypes.default_abi, this.OSStatus, this.MenuRef, this.SInt16);
+    this.HMSetDialogHelpFromBalloonRsrc = lib.declare("HMSetDialogHelpFromBalloonRsrc", ctypes.default_abi, this.OSStatus, this.DialogRef, this.SInt16, this.SInt16);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HIToolboxDebugging.h
 function HIToolboxDebugging_h(lib) {
+    CarbonEventsCore_h.call(this, lib);
+    QuickdrawTypes_h.call(this, lib);
+    HIObject_h.call(this, lib);
+    Files_h.call(this, lib);
+    Dialogs_h.call(this, lib);
+    MacWindows_h.call(this, lib);
+    Menus_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._HITOOLBOXDEBUGGING_H)
         return;
     this._HITOOLBOXDEBUGGING_H = true;
 
+    this.DebugSetEventTraceEnabled = lib.declare("DebugSetEventTraceEnabled", ctypes.default_abi, ctypes.void_t, this.Boolean);
+    this.DebugTraceEvent = lib.declare("DebugTraceEvent", ctypes.default_abi, ctypes.void_t, this.OSType, this.UInt32, this.Boolean);
+    this.DebugTraceEventByName = lib.declare("DebugTraceEventByName", ctypes.default_abi, ctypes.void_t, ctypes.char.ptr, this.Boolean);
+    this.DebugPrintTracedEvents = lib.declare("DebugPrintTracedEvents", ctypes.default_abi, ctypes.void_t);
+    this.DebugPrintEventQueue = lib.declare("DebugPrintEventQueue", ctypes.default_abi, ctypes.void_t, this.EventQueueRef);
+    this.DebugPrintMainEventQueue = lib.declare("DebugPrintMainEventQueue", ctypes.default_abi, ctypes.void_t);
+    this.DebugPrintEvent = lib.declare("DebugPrintEvent", ctypes.default_abi, ctypes.void_t, this.EventRef);
+    this.DebugPrintControl = lib.declare("DebugPrintControl", ctypes.default_abi, ctypes.void_t, this.ControlRef);
+    this.DebugPrintControlHierarchy = lib.declare("DebugPrintControlHierarchy", ctypes.default_abi, ctypes.void_t, this.WindowRef);
+    this.DumpControlHierarchy = lib.declare("DumpControlHierarchy", ctypes.default_abi, this.OSErr, this.WindowRef, this.FSSpec.ptr);
+    this.DebugPrintDialogInfo = lib.declare("DebugPrintDialogInfo", ctypes.default_abi, ctypes.void_t, this.DialogRef);
+    this.HIViewFlashDirtyArea = lib.declare("HIViewFlashDirtyArea", ctypes.default_abi, this.OSStatus, this.WindowRef);
+    this.DebugPrintMenuList = lib.declare("DebugPrintMenuList", ctypes.default_abi, ctypes.void_t);
+    this.DebugPrintMenu = lib.declare("DebugPrintMenu", ctypes.default_abi, ctypes.void_t, this.MenuRef);
+    this.DebugPrintMenuItem = lib.declare("DebugPrintMenuItem", ctypes.default_abi, ctypes.void_t, this.MenuRef, this.MenuItemIndex);
+    this.DebugPrintWindow = lib.declare("DebugPrintWindow", ctypes.default_abi, ctypes.void_t, this.WindowRef);
+    this.DebugPrintWindowGroup = lib.declare("DebugPrintWindowGroup", ctypes.default_abi, ctypes.void_t, this.WindowGroupRef);
+    this.DebugPrintAllWindowGroups = lib.declare("DebugPrintAllWindowGroups", ctypes.default_abi, ctypes.void_t);
+    this.DebugPrintWindowList = lib.declare("DebugPrintWindowList", ctypes.default_abi, ctypes.void_t);
+    this.DebugFlashWindowVisRgn = lib.declare("DebugFlashWindowVisRgn", ctypes.default_abi, ctypes.void_t, this.WindowRef);
+    this.DebugFlashWindowUpdateRgn = lib.declare("DebugFlashWindowUpdateRgn", ctypes.default_abi, ctypes.void_t, this.WindowRef);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HIDataBrowser.h
 function HIDataBrowser_h(lib) {
+    Drag_h.call(this, lib);
     Controls_h.call(this, lib);
     Events_h.call(this, lib);
+    AEDataModel_h.call(this, lib);
     MacHelp_h.call(this, lib);
     QuickdrawTypes_h.call(this, lib);
+    IconsCore_h.call(this, lib);
     HIObject_h.call(this, lib);
-    AEDataModel_h.call(this, lib);
+    Appearance_h.call(this, lib);
+    CFDictionary_h.call(this, lib);
+    Icons_h.call(this, lib);
+    CGBase_h.call(this, lib);
     Menus_h.call(this, lib);
     CFBase_h.call(this, lib);
+    AXUIElement_h.call(this, lib);
     MacTypes_h.call(this, lib);
-    Drag_h.call(this, lib);
+    DateTimeUtils_h.call(this, lib);
 
     if (this._HIDATABROWSER_H)
         return;
@@ -4416,12 +5860,17 @@ function HIDataBrowser_h(lib) {
     // Dropping inline function 'NewDataBrowserItemUPP'.
     // Dropping inline function 'DisposeDataBrowserItemUPP'.
     // Dropping inline function 'InvokeDataBrowserItemUPP'.
+    this.CreateDataBrowserControl = lib.declare("CreateDataBrowserControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.DataBrowserViewStyle, this.ControlRef.ptr);
+    this.GetDataBrowserViewStyle = lib.declare("GetDataBrowserViewStyle", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserViewStyle.ptr);
+    this.SetDataBrowserViewStyle = lib.declare("SetDataBrowserViewStyle", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserViewStyle);
     this.kDataBrowserAttributeNone = 0;
     this.kDataBrowserAttributeColumnViewResizeWindow = 1;
     this.kDataBrowserAttributeListViewAlternatingRowColors = 2;
     this.kDataBrowserAttributeListViewDrawColumnDividers = 4;
     this.kDataBrowserAttributeAutoHideScrollBars = 8;
     this.kDataBrowserAttributeReserveGrowBoxSpace = 16;
+    this.DataBrowserChangeAttributes = lib.declare("DataBrowserChangeAttributes", ctypes.default_abi, this.OSStatus, this.ControlRef, this.OptionBits, this.OptionBits);
+    this.DataBrowserGetAttributes = lib.declare("DataBrowserGetAttributes", ctypes.default_abi, this.OSStatus, this.ControlRef, this.OptionBits.ptr);
     this.kDataBrowserMetricCellContentInset = 1;
     this.kDataBrowserMetricIconAndTextGap = 2;
     this.kDataBrowserMetricDisclosureColumnEdgeInset = 3;
@@ -4429,7 +5878,81 @@ function HIDataBrowser_h(lib) {
     this.kDataBrowserMetricDisclosureColumnPerDepthGap = 5;
     this.kDataBrowserMetricLast = 5;
     this.DataBrowserMetric = this.UInt32;
+    this.DataBrowserSetMetric = lib.declare("DataBrowserSetMetric", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserMetric, this.Boolean, this.CGFloat);
+    this.DataBrowserGetMetric = lib.declare("DataBrowserGetMetric", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserMetric, this.Boolean.ptr, this.CGFloat.ptr);
+    this.AddDataBrowserItems = lib.declare("AddDataBrowserItems", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserItemID, this.ItemCount, this.DataBrowserItemID.ptr, this.DataBrowserPropertyID);
+    this.RemoveDataBrowserItems = lib.declare("RemoveDataBrowserItems", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserItemID, this.ItemCount, this.DataBrowserItemID.ptr, this.DataBrowserPropertyID);
+    this.UpdateDataBrowserItems = lib.declare("UpdateDataBrowserItems", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserItemID, this.ItemCount, this.DataBrowserItemID.ptr, this.DataBrowserPropertyID, this.DataBrowserPropertyID);
+    this.EnableDataBrowserEditCommand = lib.declare("EnableDataBrowserEditCommand", ctypes.default_abi, this.Boolean, this.ControlRef, this.DataBrowserEditCommand);
+    this.ExecuteDataBrowserEditCommand = lib.declare("ExecuteDataBrowserEditCommand", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserEditCommand);
+    this.GetDataBrowserSelectionAnchor = lib.declare("GetDataBrowserSelectionAnchor", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserItemID.ptr, this.DataBrowserItemID.ptr);
+    this.MoveDataBrowserSelectionAnchor = lib.declare("MoveDataBrowserSelectionAnchor", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserSelectionAnchorDirection, this.Boolean);
+    this.OpenDataBrowserContainer = lib.declare("OpenDataBrowserContainer", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserItemID);
+    this.CloseDataBrowserContainer = lib.declare("CloseDataBrowserContainer", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserItemID);
+    this.SortDataBrowserContainer = lib.declare("SortDataBrowserContainer", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserItemID, this.Boolean);
+    this.GetDataBrowserItems = lib.declare("GetDataBrowserItems", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserItemID, this.Boolean, this.DataBrowserItemState, this.Handle);
+    this.GetDataBrowserItemCount = lib.declare("GetDataBrowserItemCount", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserItemID, this.Boolean, this.DataBrowserItemState, this.ItemCount.ptr);
+    this.ForEachDataBrowserItem = lib.declare("ForEachDataBrowserItem", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserItemID, this.Boolean, this.DataBrowserItemState, this.DataBrowserItemUPP, ctypes.void_t.ptr);
+    this.IsDataBrowserItemSelected = lib.declare("IsDataBrowserItemSelected", ctypes.default_abi, this.Boolean, this.ControlRef, this.DataBrowserItemID);
+    this.GetDataBrowserItemState = lib.declare("GetDataBrowserItemState", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserItemID, this.DataBrowserItemState.ptr);
+    this.RevealDataBrowserItem = lib.declare("RevealDataBrowserItem", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserItemID, this.DataBrowserPropertyID, this.DataBrowserRevealOptions);
+    this.SetDataBrowserSelectedItems = lib.declare("SetDataBrowserSelectedItems", ctypes.default_abi, this.OSStatus, this.ControlRef, this.ItemCount, this.DataBrowserItemID.ptr, this.DataBrowserSetOption);
+    this.SetDataBrowserUserState = lib.declare("SetDataBrowserUserState", ctypes.default_abi, this.OSStatus, this.ControlRef, this.CFDictionaryRef);
+    this.GetDataBrowserUserState = lib.declare("GetDataBrowserUserState", ctypes.default_abi, this.OSStatus, this.ControlRef, this.CFDictionaryRef.ptr);
+    this.SetDataBrowserActiveItems = lib.declare("SetDataBrowserActiveItems", ctypes.default_abi, this.OSStatus, this.ControlRef, this.Boolean);
+    this.GetDataBrowserActiveItems = lib.declare("GetDataBrowserActiveItems", ctypes.default_abi, this.OSStatus, this.ControlRef, this.Boolean.ptr);
+    this.SetDataBrowserScrollBarInset = lib.declare("SetDataBrowserScrollBarInset", ctypes.default_abi, this.OSStatus, this.ControlRef, this.Rect.ptr);
+    this.GetDataBrowserScrollBarInset = lib.declare("GetDataBrowserScrollBarInset", ctypes.default_abi, this.OSStatus, this.ControlRef, this.Rect.ptr);
+    this.SetDataBrowserTarget = lib.declare("SetDataBrowserTarget", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserItemID);
+    this.GetDataBrowserTarget = lib.declare("GetDataBrowserTarget", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserItemID.ptr);
+    this.SetDataBrowserSortOrder = lib.declare("SetDataBrowserSortOrder", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserSortOrder);
+    this.GetDataBrowserSortOrder = lib.declare("GetDataBrowserSortOrder", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserSortOrder.ptr);
+    this.SetDataBrowserScrollPosition = lib.declare("SetDataBrowserScrollPosition", ctypes.default_abi, this.OSStatus, this.ControlRef, this.UInt32, this.UInt32);
+    this.GetDataBrowserScrollPosition = lib.declare("GetDataBrowserScrollPosition", ctypes.default_abi, this.OSStatus, this.ControlRef, this.UInt32.ptr, this.UInt32.ptr);
+    this.SetDataBrowserHasScrollBars = lib.declare("SetDataBrowserHasScrollBars", ctypes.default_abi, this.OSStatus, this.ControlRef, this.Boolean, this.Boolean);
+    this.GetDataBrowserHasScrollBars = lib.declare("GetDataBrowserHasScrollBars", ctypes.default_abi, this.OSStatus, this.ControlRef, this.Boolean.ptr, this.Boolean.ptr);
+    this.SetDataBrowserSortProperty = lib.declare("SetDataBrowserSortProperty", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserPropertyID);
+    this.GetDataBrowserSortProperty = lib.declare("GetDataBrowserSortProperty", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserPropertyID.ptr);
+    this.SetDataBrowserSelectionFlags = lib.declare("SetDataBrowserSelectionFlags", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserSelectionFlags);
+    this.GetDataBrowserSelectionFlags = lib.declare("GetDataBrowserSelectionFlags", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserSelectionFlags.ptr);
+    this.SetDataBrowserPropertyFlags = lib.declare("SetDataBrowserPropertyFlags", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserPropertyID, this.DataBrowserPropertyFlags);
+    this.GetDataBrowserPropertyFlags = lib.declare("GetDataBrowserPropertyFlags", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserPropertyID, this.DataBrowserPropertyFlags.ptr);
+    this.SetDataBrowserEditText = lib.declare("SetDataBrowserEditText", ctypes.default_abi, this.OSStatus, this.ControlRef, this.CFStringRef);
+    this.CopyDataBrowserEditText = lib.declare("CopyDataBrowserEditText", ctypes.default_abi, this.OSStatus, this.ControlRef, this.CFStringRef.ptr);
+    this.GetDataBrowserEditText = lib.declare("GetDataBrowserEditText", ctypes.default_abi, this.OSStatus, this.ControlRef, this.CFMutableStringRef);
+    this.SetDataBrowserEditItem = lib.declare("SetDataBrowserEditItem", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserItemID, this.DataBrowserPropertyID);
+    this.GetDataBrowserEditItem = lib.declare("GetDataBrowserEditItem", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserItemID.ptr, this.DataBrowserPropertyID.ptr);
+    this.GetDataBrowserItemPartBounds = lib.declare("GetDataBrowserItemPartBounds", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserItemID, this.DataBrowserPropertyID, this.DataBrowserPropertyPart, this.Rect.ptr);
     this.DataBrowserItemDataRef = ctypes.void_t.ptr;
+    this.SetDataBrowserItemDataIcon = lib.declare("SetDataBrowserItemDataIcon", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.IconRef);
+    this.GetDataBrowserItemDataIcon = lib.declare("GetDataBrowserItemDataIcon", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.IconRef.ptr);
+    this.SetDataBrowserItemDataText = lib.declare("SetDataBrowserItemDataText", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.CFStringRef);
+    this.GetDataBrowserItemDataText = lib.declare("GetDataBrowserItemDataText", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.CFStringRef.ptr);
+    this.SetDataBrowserItemDataValue = lib.declare("SetDataBrowserItemDataValue", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.SInt32);
+    this.GetDataBrowserItemDataValue = lib.declare("GetDataBrowserItemDataValue", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.SInt32.ptr);
+    this.SetDataBrowserItemDataMinimum = lib.declare("SetDataBrowserItemDataMinimum", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.SInt32);
+    this.GetDataBrowserItemDataMinimum = lib.declare("GetDataBrowserItemDataMinimum", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.SInt32.ptr);
+    this.SetDataBrowserItemDataMaximum = lib.declare("SetDataBrowserItemDataMaximum", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.SInt32);
+    this.GetDataBrowserItemDataMaximum = lib.declare("GetDataBrowserItemDataMaximum", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.SInt32.ptr);
+    this.SetDataBrowserItemDataBooleanValue = lib.declare("SetDataBrowserItemDataBooleanValue", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.Boolean);
+    this.GetDataBrowserItemDataBooleanValue = lib.declare("GetDataBrowserItemDataBooleanValue", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.Boolean.ptr);
+    this.SetDataBrowserItemDataMenuRef = lib.declare("SetDataBrowserItemDataMenuRef", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.MenuRef);
+    this.GetDataBrowserItemDataMenuRef = lib.declare("GetDataBrowserItemDataMenuRef", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.MenuRef.ptr);
+    this.SetDataBrowserItemDataRGBColor = lib.declare("SetDataBrowserItemDataRGBColor", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.RGBColor.ptr);
+    this.GetDataBrowserItemDataRGBColor = lib.declare("GetDataBrowserItemDataRGBColor", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.RGBColor.ptr);
+    this.SetDataBrowserItemDataDrawState = lib.declare("SetDataBrowserItemDataDrawState", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.ThemeDrawState);
+    this.GetDataBrowserItemDataDrawState = lib.declare("GetDataBrowserItemDataDrawState", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.ThemeDrawState.ptr);
+    this.SetDataBrowserItemDataButtonValue = lib.declare("SetDataBrowserItemDataButtonValue", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.ThemeButtonValue);
+    this.GetDataBrowserItemDataButtonValue = lib.declare("GetDataBrowserItemDataButtonValue", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.ThemeButtonValue.ptr);
+    this.SetDataBrowserItemDataIconTransform = lib.declare("SetDataBrowserItemDataIconTransform", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.IconTransformType);
+    this.GetDataBrowserItemDataIconTransform = lib.declare("GetDataBrowserItemDataIconTransform", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.IconTransformType.ptr);
+    this.SetDataBrowserItemDataDateTime = lib.declare("SetDataBrowserItemDataDateTime", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.SInt32);
+    this.GetDataBrowserItemDataDateTime = lib.declare("GetDataBrowserItemDataDateTime", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.SInt32.ptr);
+    this.SetDataBrowserItemDataLongDateTime = lib.declare("SetDataBrowserItemDataLongDateTime", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.LongDateTime.ptr);
+    this.GetDataBrowserItemDataLongDateTime = lib.declare("GetDataBrowserItemDataLongDateTime", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.LongDateTime.ptr);
+    this.SetDataBrowserItemDataItemID = lib.declare("SetDataBrowserItemDataItemID", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.DataBrowserItemID);
+    this.GetDataBrowserItemDataItemID = lib.declare("GetDataBrowserItemDataItemID", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.DataBrowserItemID.ptr);
+    this.GetDataBrowserItemDataProperty = lib.declare("GetDataBrowserItemDataProperty", ctypes.default_abi, this.OSStatus, this.DataBrowserItemDataRef, this.DataBrowserPropertyID.ptr);
     this.DataBrowserItemDataProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.OSStatus, [this.ControlRef, this.DataBrowserItemID, this.DataBrowserPropertyID, this.DataBrowserItemDataRef, this.Boolean]).ptr;
     this.DataBrowserItemDataUPP = this.DataBrowserItemDataProcPtr;
     this.DataBrowserItemCompareProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.Boolean, [this.ControlRef, this.DataBrowserItemID, this.DataBrowserItemID, this.DataBrowserPropertyID]).ptr;
@@ -4487,6 +6010,9 @@ function HIDataBrowser_h(lib) {
     // Dropping inline function 'InvokeDataBrowserItemHelpContentUPP'.
     this.kDataBrowserLatestCallbacks = 0;
     this.DataBrowserCallbacks = new ctypes.StructType("DataBrowserCallbacks", []);
+    this.InitDataBrowserCallbacks = lib.declare("InitDataBrowserCallbacks", ctypes.default_abi, this.OSStatus, this.DataBrowserCallbacks.ptr);
+    this.GetDataBrowserCallbacks = lib.declare("GetDataBrowserCallbacks", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserCallbacks.ptr);
+    this.SetDataBrowserCallbacks = lib.declare("SetDataBrowserCallbacks", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserCallbacks.ptr);
     this.kEventClassDataBrowser = 1751737442;
     this.kEventParamDataBrowserItemID = 1684171108;
     this.kEventParamDataBrowserPropertyID = 1684172900;
@@ -4534,6 +6060,9 @@ function HIDataBrowser_h(lib) {
     // Dropping inline function 'InvokeDataBrowserItemReceiveDragUPP'.
     this.kDataBrowserLatestCustomCallbacks = 0;
     this.DataBrowserCustomCallbacks = new ctypes.StructType("DataBrowserCustomCallbacks", []);
+    this.InitDataBrowserCustomCallbacks = lib.declare("InitDataBrowserCustomCallbacks", ctypes.default_abi, this.OSStatus, this.DataBrowserCustomCallbacks.ptr);
+    this.GetDataBrowserCustomCallbacks = lib.declare("GetDataBrowserCustomCallbacks", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserCustomCallbacks.ptr);
+    this.SetDataBrowserCustomCallbacks = lib.declare("SetDataBrowserCustomCallbacks", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserCustomCallbacks.ptr);
     this.DataBrowserTableViewHiliteStyle = this.UInt32;
     this.kDataBrowserTableViewMinimalHilite = 0;
     this.kDataBrowserTableViewFillHilite = 1;
@@ -4544,6 +6073,26 @@ function HIDataBrowser_h(lib) {
     this.DataBrowserTableViewColumnID = this.DataBrowserPropertyID;
     this.DataBrowserTableViewColumnDesc = this.DataBrowserPropertyDesc;
     this.kDataBrowserTableViewLastColumn = -1;
+    this.RemoveDataBrowserTableViewColumn = lib.declare("RemoveDataBrowserTableViewColumn", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserTableViewColumnID);
+    this.GetDataBrowserTableViewColumnCount = lib.declare("GetDataBrowserTableViewColumnCount", ctypes.default_abi, this.OSStatus, this.ControlRef, this.UInt32.ptr);
+    this.SetDataBrowserTableViewHiliteStyle = lib.declare("SetDataBrowserTableViewHiliteStyle", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserTableViewHiliteStyle);
+    this.GetDataBrowserTableViewHiliteStyle = lib.declare("GetDataBrowserTableViewHiliteStyle", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserTableViewHiliteStyle.ptr);
+    this.SetDataBrowserTableViewRowHeight = lib.declare("SetDataBrowserTableViewRowHeight", ctypes.default_abi, this.OSStatus, this.ControlRef, this.UInt16);
+    this.GetDataBrowserTableViewRowHeight = lib.declare("GetDataBrowserTableViewRowHeight", ctypes.default_abi, this.OSStatus, this.ControlRef, this.UInt16.ptr);
+    this.SetDataBrowserTableViewColumnWidth = lib.declare("SetDataBrowserTableViewColumnWidth", ctypes.default_abi, this.OSStatus, this.ControlRef, this.UInt16);
+    this.GetDataBrowserTableViewColumnWidth = lib.declare("GetDataBrowserTableViewColumnWidth", ctypes.default_abi, this.OSStatus, this.ControlRef, this.UInt16.ptr);
+    this.SetDataBrowserTableViewItemRowHeight = lib.declare("SetDataBrowserTableViewItemRowHeight", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserItemID, this.UInt16);
+    this.GetDataBrowserTableViewItemRowHeight = lib.declare("GetDataBrowserTableViewItemRowHeight", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserItemID, this.UInt16.ptr);
+    this.SetDataBrowserTableViewNamedColumnWidth = lib.declare("SetDataBrowserTableViewNamedColumnWidth", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserTableViewColumnID, this.UInt16);
+    this.GetDataBrowserTableViewNamedColumnWidth = lib.declare("GetDataBrowserTableViewNamedColumnWidth", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserTableViewColumnID, this.UInt16.ptr);
+    this.SetDataBrowserTableViewGeometry = lib.declare("SetDataBrowserTableViewGeometry", ctypes.default_abi, this.OSStatus, this.ControlRef, this.Boolean, this.Boolean);
+    this.GetDataBrowserTableViewGeometry = lib.declare("GetDataBrowserTableViewGeometry", ctypes.default_abi, this.OSStatus, this.ControlRef, this.Boolean.ptr, this.Boolean.ptr);
+    this.GetDataBrowserTableViewItemID = lib.declare("GetDataBrowserTableViewItemID", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserTableViewRowIndex, this.DataBrowserItemID.ptr);
+    this.SetDataBrowserTableViewItemRow = lib.declare("SetDataBrowserTableViewItemRow", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserItemID, this.DataBrowserTableViewRowIndex);
+    this.GetDataBrowserTableViewItemRow = lib.declare("GetDataBrowserTableViewItemRow", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserItemID, this.DataBrowserTableViewRowIndex.ptr);
+    this.SetDataBrowserTableViewColumnPosition = lib.declare("SetDataBrowserTableViewColumnPosition", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserTableViewColumnID, this.DataBrowserTableViewColumnIndex);
+    this.GetDataBrowserTableViewColumnPosition = lib.declare("GetDataBrowserTableViewColumnPosition", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserTableViewColumnID, this.DataBrowserTableViewColumnIndex.ptr);
+    this.GetDataBrowserTableViewColumnProperty = lib.declare("GetDataBrowserTableViewColumnProperty", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserTableViewColumnIndex, this.DataBrowserTableViewColumnID.ptr);
     this.kDataBrowserListViewSelectionColumn = 65536;
     this.kDataBrowserListViewMovableColumn = 131072;
     this.kDataBrowserListViewSortableColumn = 262144;
@@ -4555,13 +6104,35 @@ function HIDataBrowser_h(lib) {
     this.DataBrowserListViewHeaderDesc = new ctypes.StructType("DataBrowserListViewHeaderDesc", [{version: this.UInt32}, {minimumWidth: this.UInt16}, {maximumWidth: this.UInt16}, {titleOffset: this.SInt16}, {titleString: this.CFStringRef}, {initialOrder: this.DataBrowserSortOrder}, {btnFontStyle: this.ControlFontStyleRec}, {btnContentInfo: this.ControlButtonContentInfo}]);
     this.DataBrowserListViewColumnDesc = new ctypes.StructType("DataBrowserListViewColumnDesc", [{propertyDesc: this.DataBrowserTableViewColumnDesc}, {headerBtnDesc: this.DataBrowserListViewHeaderDesc}]);
     this.kDataBrowserListViewAppendColumn = -1;
+    this.AutoSizeDataBrowserListViewColumns = lib.declare("AutoSizeDataBrowserListViewColumns", ctypes.default_abi, this.OSStatus, this.ControlRef);
+    this.AddDataBrowserListViewColumn = lib.declare("AddDataBrowserListViewColumn", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserListViewColumnDesc.ptr, this.DataBrowserTableViewColumnIndex);
+    this.GetDataBrowserListViewHeaderDesc = lib.declare("GetDataBrowserListViewHeaderDesc", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserTableViewColumnID, this.DataBrowserListViewHeaderDesc.ptr);
+    this.SetDataBrowserListViewHeaderDesc = lib.declare("SetDataBrowserListViewHeaderDesc", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserTableViewColumnID, this.DataBrowserListViewHeaderDesc.ptr);
+    this.SetDataBrowserListViewHeaderBtnHeight = lib.declare("SetDataBrowserListViewHeaderBtnHeight", ctypes.default_abi, this.OSStatus, this.ControlRef, this.UInt16);
+    this.GetDataBrowserListViewHeaderBtnHeight = lib.declare("GetDataBrowserListViewHeaderBtnHeight", ctypes.default_abi, this.OSStatus, this.ControlRef, this.UInt16.ptr);
+    this.SetDataBrowserListViewUsePlainBackground = lib.declare("SetDataBrowserListViewUsePlainBackground", ctypes.default_abi, this.OSStatus, this.ControlRef, this.Boolean);
+    this.GetDataBrowserListViewUsePlainBackground = lib.declare("GetDataBrowserListViewUsePlainBackground", ctypes.default_abi, this.OSStatus, this.ControlRef, this.Boolean.ptr);
+    this.SetDataBrowserListViewDisclosureColumn = lib.declare("SetDataBrowserListViewDisclosureColumn", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserTableViewColumnID, this.Boolean);
+    this.GetDataBrowserListViewDisclosureColumn = lib.declare("GetDataBrowserListViewDisclosureColumn", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserTableViewColumnID.ptr, this.Boolean.ptr);
+    this.GetDataBrowserColumnViewPath = lib.declare("GetDataBrowserColumnViewPath", ctypes.default_abi, this.OSStatus, this.ControlRef, this.Handle);
+    this.GetDataBrowserColumnViewPathLength = lib.declare("GetDataBrowserColumnViewPathLength", ctypes.default_abi, this.OSStatus, this.ControlRef, this.UInt32.ptr);
+    this.SetDataBrowserColumnViewPath = lib.declare("SetDataBrowserColumnViewPath", ctypes.default_abi, this.OSStatus, this.ControlRef, this.UInt32, this.DataBrowserItemID.ptr);
+    this.SetDataBrowserColumnViewDisplayType = lib.declare("SetDataBrowserColumnViewDisplayType", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserPropertyType);
+    this.GetDataBrowserColumnViewDisplayType = lib.declare("GetDataBrowserColumnViewDisplayType", ctypes.default_abi, this.OSStatus, this.ControlRef, this.DataBrowserPropertyType.ptr);
     this.DataBrowserAccessibilityItemInfoV0 = new ctypes.StructType("DataBrowserAccessibilityItemInfoV0", [{container: this.DataBrowserItemID}, {item: this.DataBrowserItemID}, {columnProperty: this.DataBrowserPropertyID}, {propertyPart: this.DataBrowserPropertyPart}]);
     this.DataBrowserAccessibilityItemInfoV1 = new ctypes.StructType("DataBrowserAccessibilityItemInfoV1", [{container: this.DataBrowserItemID}, {item: this.DataBrowserItemID}, {columnProperty: this.DataBrowserPropertyID}, {propertyPart: this.DataBrowserPropertyPart}, {rowIndex: this.DataBrowserTableViewRowIndex}, {columnIndex: this.DataBrowserTableViewColumnIndex}]);
     this.DataBrowserAccessibilityItemInfo = new ctypes.StructType("DataBrowserAccessibilityItemInfo", []);
+    this.AXUIElementGetDataBrowserItemInfo = lib.declare("AXUIElementGetDataBrowserItemInfo", ctypes.default_abi, this.OSStatus, this.AXUIElementRef, this.ControlRef, this.UInt32, this.DataBrowserAccessibilityItemInfo.ptr);
+    this.AXUIElementCreateWithDataBrowserAndItemInfo = lib.declare("AXUIElementCreateWithDataBrowserAndItemInfo", ctypes.default_abi, this.AXUIElementRef, this.ControlRef, this.DataBrowserAccessibilityItemInfo.ptr);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/IBCarbonRuntime.h
 function IBCarbonRuntime_h(lib) {
+    CFBundle_h.call(this, lib);
+    QuickdrawTypes_h.call(this, lib);
+    Menus_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._IBCARBONRUNTIME_H)
         return;
@@ -4572,12 +6143,22 @@ function IBCarbonRuntime_h(lib) {
     this.kIBCarbonRuntimeCantFindObject = -10962;
     this.OpaqueIBNibRef = new ctypes.StructType("OpaqueIBNibRef");
     this.IBNibRef = this.OpaqueIBNibRef.ptr;
+    this.CreateNibReference = lib.declare("CreateNibReference", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.IBNibRef.ptr);
+    this.CreateNibReferenceWithCFBundle = lib.declare("CreateNibReferenceWithCFBundle", ctypes.default_abi, this.OSStatus, this.CFBundleRef, this.CFStringRef, this.IBNibRef.ptr);
+    this.DisposeNibReference = lib.declare("DisposeNibReference", ctypes.default_abi, ctypes.void_t, this.IBNibRef);
+    this.CreateWindowFromNib = lib.declare("CreateWindowFromNib", ctypes.default_abi, this.OSStatus, this.IBNibRef, this.CFStringRef, this.WindowRef.ptr);
+    this.CreateMenuFromNib = lib.declare("CreateMenuFromNib", ctypes.default_abi, this.OSStatus, this.IBNibRef, this.CFStringRef, this.MenuRef.ptr);
+    this.CreateMenuBarFromNib = lib.declare("CreateMenuBarFromNib", ctypes.default_abi, this.OSStatus, this.IBNibRef, this.CFStringRef, this.Handle.ptr);
+    this.SetMenuBarFromNib = lib.declare("SetMenuBarFromNib", ctypes.default_abi, this.OSStatus, this.IBNibRef, this.CFStringRef);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HIContainerViews.h
 function HIContainerViews_h(lib) {
     Controls_h.call(this, lib);
+    QuickdrawTypes_h.call(this, lib);
     HIObject_h.call(this, lib);
+    Menus_h.call(this, lib);
+    CFBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._HICONTAINERVIEWS_H)
@@ -4593,6 +6174,9 @@ function HIContainerViews_h(lib) {
     this.kControlKindGroupBox = 1735553122;
     this.kControlKindCheckGroupBox = 1667723888;
     this.kControlKindPopupGroupBox = 1885827696;
+    this.CreateGroupBoxControl = lib.declare("CreateGroupBoxControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.CFStringRef, this.Boolean, this.ControlRef.ptr);
+    this.CreateCheckGroupBoxControl = lib.declare("CreateCheckGroupBoxControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.CFStringRef, this.SInt32, this.Boolean, this.Boolean, this.ControlRef.ptr);
+    this.CreatePopupGroupBoxControl = lib.declare("CreatePopupGroupBoxControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.CFStringRef, this.Boolean, this.MenuID, this.Boolean, this.SInt16, this.SInt16, this.Style, this.ControlRef.ptr);
     this.kControlGroupBoxMenuHandleTag = 1835557230;
     this.kControlGroupBoxMenuRefTag = 1835557230;
     this.kControlGroupBoxFontStyleTag = 1718578804;
@@ -4600,12 +6184,15 @@ function HIContainerViews_h(lib) {
     this.kControlGroupBoxFrameRectTag = 1718773091;
     this.kControlPlacardProc = 224;
     this.kControlKindPlacard = 1886151011;
+    this.CreatePlacardControl = lib.declare("CreatePlacardControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.ControlRef.ptr);
     this.kControlWindowHeaderProc = 336;
     this.kControlWindowListViewHeaderProc = 337;
     this.kControlKindWindowHeader = 2003330404;
     this.kControlWindowHeaderIsListHeaderTag = 1769172072;
+    this.CreateWindowHeaderControl = lib.declare("CreateWindowHeaderControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.Boolean, this.ControlRef.ptr);
     this.kControlUserPaneProc = 256;
     this.kControlKindUserPane = 1970299246;
+    this.CreateUserPaneControl = lib.declare("CreateUserPaneControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.UInt32, this.ControlRef.ptr);
     this.kControlUserItemDrawProcTag = 1969841264;
     this.kControlUserPaneDrawProcTag = 1685217655;
     this.kControlUserPaneHitTestProcTag = 1751741556;
@@ -4659,6 +6246,7 @@ function HIContainerViews_h(lib) {
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/Lists.h
 function Lists_h(lib) {
+    Events_h.call(this, lib);
     HIObject_h.call(this, lib);
     MacTypes_h.call(this, lib);
     QuickdrawTypes_h.call(this, lib);
@@ -4724,10 +6312,72 @@ function Lists_h(lib) {
     this.ListDefType = this.UInt32;
     this.ListDefSpec = new ctypes.StructType("ListDefSpec", []);
     this.ListDefSpecPtr = this.ListDefSpec.ptr;
+    this.CreateCustomList = lib.declare("CreateCustomList", ctypes.default_abi, this.OSStatus, this.Rect.ptr, this.ListBounds.ptr, this.Point, this.ListDefSpec.ptr, this.WindowRef, this.Boolean, this.Boolean, this.Boolean, this.Boolean, this.ListHandle.ptr);
+    this.LNew = lib.declare("LNew", ctypes.default_abi, this.ListHandle, this.Rect.ptr, this.ListBounds.ptr, this.Point, ctypes.short, this.WindowRef, this.Boolean, this.Boolean, this.Boolean, this.Boolean);
+    this.LDispose = lib.declare("LDispose", ctypes.default_abi, ctypes.void_t, this.ListHandle);
+    this.LAddColumn = lib.declare("LAddColumn", ctypes.default_abi, ctypes.short, ctypes.short, ctypes.short, this.ListHandle);
+    this.LAddRow = lib.declare("LAddRow", ctypes.default_abi, ctypes.short, ctypes.short, ctypes.short, this.ListHandle);
+    this.LDelColumn = lib.declare("LDelColumn", ctypes.default_abi, ctypes.void_t, ctypes.short, ctypes.short, this.ListHandle);
+    this.LDelRow = lib.declare("LDelRow", ctypes.default_abi, ctypes.void_t, ctypes.short, ctypes.short, this.ListHandle);
+    this.LGetSelect = lib.declare("LGetSelect", ctypes.default_abi, this.Boolean, this.Boolean, this.Cell.ptr, this.ListHandle);
+    this.LLastClick = lib.declare("LLastClick", ctypes.default_abi, this.Cell, this.ListHandle);
+    this.LNextCell = lib.declare("LNextCell", ctypes.default_abi, this.Boolean, this.Boolean, this.Boolean, this.Cell.ptr, this.ListHandle);
+    this.LSearch = lib.declare("LSearch", ctypes.default_abi, this.Boolean, ctypes.void_t.ptr, ctypes.short, this.ListSearchUPP, this.Cell.ptr, this.ListHandle);
+    this.LSize = lib.declare("LSize", ctypes.default_abi, ctypes.void_t, ctypes.short, ctypes.short, this.ListHandle);
+    this.LSetDrawingMode = lib.declare("LSetDrawingMode", ctypes.default_abi, ctypes.void_t, this.Boolean, this.ListHandle);
+    this.LScroll = lib.declare("LScroll", ctypes.default_abi, ctypes.void_t, ctypes.short, ctypes.short, this.ListHandle);
+    this.LAutoScroll = lib.declare("LAutoScroll", ctypes.default_abi, ctypes.void_t, this.ListHandle);
+    this.LUpdate = lib.declare("LUpdate", ctypes.default_abi, ctypes.void_t, this.RgnHandle, this.ListHandle);
+    this.LActivate = lib.declare("LActivate", ctypes.default_abi, ctypes.void_t, this.Boolean, this.ListHandle);
+    this.LCellSize = lib.declare("LCellSize", ctypes.default_abi, ctypes.void_t, this.Point, this.ListHandle);
+    this.LClick = lib.declare("LClick", ctypes.default_abi, this.Boolean, this.Point, this.EventModifiers, this.ListHandle);
+    this.LAddToCell = lib.declare("LAddToCell", ctypes.default_abi, ctypes.void_t, ctypes.void_t.ptr, ctypes.short, this.Cell, this.ListHandle);
+    this.LClrCell = lib.declare("LClrCell", ctypes.default_abi, ctypes.void_t, this.Cell, this.ListHandle);
+    this.LGetCell = lib.declare("LGetCell", ctypes.default_abi, ctypes.void_t, ctypes.void_t.ptr, ctypes.short.ptr, this.Cell, this.ListHandle);
+    this.LRect = lib.declare("LRect", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, this.Cell, this.ListHandle);
+    this.LSetCell = lib.declare("LSetCell", ctypes.default_abi, ctypes.void_t, ctypes.void_t.ptr, ctypes.short, this.Cell, this.ListHandle);
+    this.LSetSelect = lib.declare("LSetSelect", ctypes.default_abi, ctypes.void_t, this.Boolean, this.Cell, this.ListHandle);
+    this.LDraw = lib.declare("LDraw", ctypes.default_abi, ctypes.void_t, this.Cell, this.ListHandle);
+    this.LGetCellDataLocation = lib.declare("LGetCellDataLocation", ctypes.default_abi, ctypes.void_t, ctypes.short.ptr, ctypes.short.ptr, this.Cell, this.ListHandle);
+    this.RegisterListDefinition = lib.declare("RegisterListDefinition", ctypes.default_abi, this.OSStatus, this.SInt16, this.ListDefSpecPtr);
+    this.GetListViewBounds = lib.declare("GetListViewBounds", ctypes.default_abi, this.Rect.ptr, this.ListHandle, this.Rect.ptr);
+    this.GetListPort = lib.declare("GetListPort", ctypes.default_abi, this.CGrafPtr, this.ListHandle);
+    this.GetListCellIndent = lib.declare("GetListCellIndent", ctypes.default_abi, this.Point.ptr, this.ListHandle, this.Point.ptr);
+    this.GetListCellSize = lib.declare("GetListCellSize", ctypes.default_abi, this.Point.ptr, this.ListHandle, this.Point.ptr);
+    this.GetListVisibleCells = lib.declare("GetListVisibleCells", ctypes.default_abi, this.ListBounds.ptr, this.ListHandle, this.ListBounds.ptr);
+    this.GetListVerticalScrollBar = lib.declare("GetListVerticalScrollBar", ctypes.default_abi, this.ControlRef, this.ListHandle);
+    this.GetListHorizontalScrollBar = lib.declare("GetListHorizontalScrollBar", ctypes.default_abi, this.ControlRef, this.ListHandle);
+    this.GetListActive = lib.declare("GetListActive", ctypes.default_abi, this.Boolean, this.ListHandle);
+    this.GetListClickTime = lib.declare("GetListClickTime", ctypes.default_abi, this.SInt32, this.ListHandle);
+    this.GetListClickLocation = lib.declare("GetListClickLocation", ctypes.default_abi, this.Point.ptr, this.ListHandle, this.Point.ptr);
+    this.GetListMouseLocation = lib.declare("GetListMouseLocation", ctypes.default_abi, this.Point.ptr, this.ListHandle, this.Point.ptr);
+    this.GetListClickLoop = lib.declare("GetListClickLoop", ctypes.default_abi, this.ListClickLoopUPP, this.ListHandle);
+    this.GetListRefCon = lib.declare("GetListRefCon", ctypes.default_abi, this.SInt32, this.ListHandle);
+    this.GetListDefinition = lib.declare("GetListDefinition", ctypes.default_abi, this.Handle, this.ListHandle);
+    this.GetListUserHandle = lib.declare("GetListUserHandle", ctypes.default_abi, this.Handle, this.ListHandle);
+    this.GetListDataBounds = lib.declare("GetListDataBounds", ctypes.default_abi, this.ListBounds.ptr, this.ListHandle, this.ListBounds.ptr);
+    this.GetListDataHandle = lib.declare("GetListDataHandle", ctypes.default_abi, this.DataHandle, this.ListHandle);
+    this.GetListFlags = lib.declare("GetListFlags", ctypes.default_abi, this.OptionBits, this.ListHandle);
+    this.GetListSelectionFlags = lib.declare("GetListSelectionFlags", ctypes.default_abi, this.OptionBits, this.ListHandle);
+    this.SetListViewBounds = lib.declare("SetListViewBounds", ctypes.default_abi, ctypes.void_t, this.ListHandle, this.Rect.ptr);
+    this.SetListPort = lib.declare("SetListPort", ctypes.default_abi, ctypes.void_t, this.ListHandle, this.CGrafPtr);
+    this.SetListCellIndent = lib.declare("SetListCellIndent", ctypes.default_abi, ctypes.void_t, this.ListHandle, this.Point.ptr);
+    this.SetListClickTime = lib.declare("SetListClickTime", ctypes.default_abi, ctypes.void_t, this.ListHandle, this.SInt32);
+    this.SetListClickLoop = lib.declare("SetListClickLoop", ctypes.default_abi, ctypes.void_t, this.ListHandle, this.ListClickLoopUPP);
+    this.SetListLastClick = lib.declare("SetListLastClick", ctypes.default_abi, ctypes.void_t, this.ListHandle, this.Cell.ptr);
+    this.SetListRefCon = lib.declare("SetListRefCon", ctypes.default_abi, ctypes.void_t, this.ListHandle, this.SInt32);
+    this.SetListUserHandle = lib.declare("SetListUserHandle", ctypes.default_abi, ctypes.void_t, this.ListHandle, this.Handle);
+    this.SetListFlags = lib.declare("SetListFlags", ctypes.default_abi, ctypes.void_t, this.ListHandle, this.OptionBits);
+    this.SetListSelectionFlags = lib.declare("SetListSelectionFlags", ctypes.default_abi, ctypes.void_t, this.ListHandle, this.OptionBits);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HISegmentedView.h
 function HISegmentedView_h(lib) {
+    HIGeometry_h.call(this, lib);
+    HIObject_h.call(this, lib);
+    HIView_h.call(this, lib);
+    CGBase_h.call(this, lib);
+    CFBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._HISEGMENTEDVIEW_H)
@@ -4735,17 +6385,38 @@ function HISegmentedView_h(lib) {
     this._HISEGMENTEDVIEW_H = true;
 
     this.kHISegmentedViewKind = 1936158068;
+    this.HISegmentedViewCreate = lib.declare("HISegmentedViewCreate", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.HIViewRef.ptr);
+    this.HISegmentedViewSetSegmentCount = lib.declare("HISegmentedViewSetSegmentCount", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.UInt32);
+    this.HISegmentedViewGetSegmentCount = lib.declare("HISegmentedViewGetSegmentCount", ctypes.default_abi, this.UInt32, this.HIViewRef);
     this.kHISegmentBehaviorMomentary = 1;
     this.kHISegmentBehaviorRadio = 2;
     this.kHISegmentBehaviorToggles = 3;
     this.kHISegmentBehaviorSticky = 4;
     this.HISegmentBehavior = this.UInt32;
+    this.HISegmentedViewSetSegmentBehavior = lib.declare("HISegmentedViewSetSegmentBehavior", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.UInt32, this.HISegmentBehavior);
+    this.HISegmentedViewGetSegmentBehavior = lib.declare("HISegmentedViewGetSegmentBehavior", ctypes.default_abi, this.HISegmentBehavior, this.HIViewRef, this.UInt32);
     this.kHISegmentNoAttributes = 0;
     this.kHISegmentSendCmdToUserFocus = 1;
+    this.HISegmentedViewChangeSegmentAttributes = lib.declare("HISegmentedViewChangeSegmentAttributes", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.UInt32, this.OptionBits, this.OptionBits);
+    this.HISegmentedViewGetSegmentAttributes = lib.declare("HISegmentedViewGetSegmentAttributes", ctypes.default_abi, this.OptionBits, this.HIViewRef, this.UInt32);
+    this.HISegmentedViewSetSegmentValue = lib.declare("HISegmentedViewSetSegmentValue", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.UInt32, this.SInt32);
+    this.HISegmentedViewGetSegmentValue = lib.declare("HISegmentedViewGetSegmentValue", ctypes.default_abi, this.SInt32, this.HIViewRef, this.UInt32);
+    this.HISegmentedViewSetSegmentEnabled = lib.declare("HISegmentedViewSetSegmentEnabled", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.UInt32, this.Boolean);
+    this.HISegmentedViewIsSegmentEnabled = lib.declare("HISegmentedViewIsSegmentEnabled", ctypes.default_abi, this.Boolean, this.HIViewRef, this.UInt32);
+    this.HISegmentedViewSetSegmentCommand = lib.declare("HISegmentedViewSetSegmentCommand", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.UInt32, this.UInt32);
+    this.HISegmentedViewGetSegmentCommand = lib.declare("HISegmentedViewGetSegmentCommand", ctypes.default_abi, this.UInt32, this.HIViewRef, this.UInt32);
+    this.HISegmentedViewSetSegmentLabel = lib.declare("HISegmentedViewSetSegmentLabel", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.UInt32, this.CFStringRef);
+    this.HISegmentedViewCopySegmentLabel = lib.declare("HISegmentedViewCopySegmentLabel", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.UInt32, this.CFStringRef.ptr);
+    this.HISegmentedViewSetSegmentContentWidth = lib.declare("HISegmentedViewSetSegmentContentWidth", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.UInt32, this.Boolean, this.CGFloat);
+    this.HISegmentedViewGetSegmentContentWidth = lib.declare("HISegmentedViewGetSegmentContentWidth", ctypes.default_abi, this.CGFloat, this.HIViewRef, this.UInt32, this.Boolean.ptr);
+    this.HISegmentedViewSetSegmentImage = lib.declare("HISegmentedViewSetSegmentImage", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.UInt32, this.HIViewImageContentInfo.ptr);
+    this.HISegmentedViewGetSegmentImageContentType = lib.declare("HISegmentedViewGetSegmentImageContentType", ctypes.default_abi, this.HIViewImageContentType, this.HIViewRef, this.UInt32);
+    this.HISegmentedViewCopySegmentImage = lib.declare("HISegmentedViewCopySegmentImage", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.UInt32, this.HIViewImageContentInfo.ptr);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/Keyboards.h
 function Keyboards_h(lib) {
+    CFBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._KEYBOARDS_H)
@@ -4775,6 +6446,14 @@ function Keyboards_h(lib) {
     this.kKLuchrKind = 2;
     this.KeyboardLayoutIdentifier = this.SInt32;
     this.kKLUSKeyboard = 0;
+    this.KBGetLayoutType = lib.declare("KBGetLayoutType", ctypes.default_abi, this.PhysicalKeyboardLayoutType, this.SInt16);
+    this.KLGetKeyboardLayoutCount = lib.declare("KLGetKeyboardLayoutCount", ctypes.default_abi, this.OSStatus, this.CFIndex.ptr);
+    this.KLGetKeyboardLayoutAtIndex = lib.declare("KLGetKeyboardLayoutAtIndex", ctypes.default_abi, this.OSStatus, this.CFIndex, this.KeyboardLayoutRef.ptr);
+    this.KLGetKeyboardLayoutProperty = lib.declare("KLGetKeyboardLayoutProperty", ctypes.default_abi, this.OSStatus, this.KeyboardLayoutRef, this.KeyboardLayoutPropertyTag, ctypes.void_t.ptr.ptr);
+    this.KLGetKeyboardLayoutWithIdentifier = lib.declare("KLGetKeyboardLayoutWithIdentifier", ctypes.default_abi, this.OSStatus, this.KeyboardLayoutIdentifier, this.KeyboardLayoutRef.ptr);
+    this.KLGetKeyboardLayoutWithName = lib.declare("KLGetKeyboardLayoutWithName", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.KeyboardLayoutRef.ptr);
+    this.KLGetCurrentKeyboardLayout = lib.declare("KLGetCurrentKeyboardLayout", ctypes.default_abi, this.OSStatus, this.KeyboardLayoutRef.ptr);
+    this.KLSetCurrentKeyboardLayout = lib.declare("KLSetCurrentKeyboardLayout", ctypes.default_abi, this.OSStatus, this.KeyboardLayoutRef);
     this._KeyboardDispatch = 43642;
     this.gestaltKeyboardsAttr = 1801610355;
     this.gestaltKBPS2Keyboards = 1;
@@ -4789,6 +6468,10 @@ function Keyboards_h(lib) {
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HIAccessibility.h
 function HIAccessibility_h(lib) {
+    CFBase_h.call(this, lib);
+    AXUIElement_h.call(this, lib);
+    MacTypes_h.call(this, lib);
+    HIObject_h.call(this, lib);
 
     if (this._HIACCESSIBILITY_H)
         return;
@@ -4804,11 +6487,23 @@ function HIAccessibility_h(lib) {
     this.kEventAccessibleGetAllActionNames = 41;
     this.kEventAccessiblePerformNamedAction = 42;
     this.kEventAccessibleGetNamedActionDescription = 44;
+    this.AXUIElementCreateWithHIObjectAndIdentifier = lib.declare("AXUIElementCreateWithHIObjectAndIdentifier", ctypes.default_abi, this.AXUIElementRef, this.HIObjectRef, this.UInt64);
+    this.AXUIElementGetHIObject = lib.declare("AXUIElementGetHIObject", ctypes.default_abi, this.HIObjectRef, this.AXUIElementRef);
+    this.AXUIElementGetIdentifier = lib.declare("AXUIElementGetIdentifier", ctypes.default_abi, ctypes.void_t, this.AXUIElementRef, this.UInt64.ptr);
+    this.AXNotificationHIObjectNotify = lib.declare("AXNotificationHIObjectNotify", ctypes.default_abi, ctypes.void_t, this.CFStringRef, this.HIObjectRef, this.UInt64);
+    this.HICopyAccessibilityRoleDescription = lib.declare("HICopyAccessibilityRoleDescription", ctypes.default_abi, this.CFStringRef, this.CFStringRef, this.CFStringRef);
+    this.HICopyAccessibilityActionDescription = lib.declare("HICopyAccessibilityActionDescription", ctypes.default_abi, this.CFStringRef, this.CFStringRef);
+    this.HIObjectIsAccessibilityIgnored = lib.declare("HIObjectIsAccessibilityIgnored", ctypes.default_abi, this.Boolean, this.HIObjectRef);
+    this.HIObjectSetAccessibilityIgnored = lib.declare("HIObjectSetAccessibilityIgnored", ctypes.default_abi, this.OSStatus, this.HIObjectRef, this.Boolean);
+    this.HIObjectSetAuxiliaryAccessibilityAttribute = lib.declare("HIObjectSetAuxiliaryAccessibilityAttribute", ctypes.default_abi, this.OSStatus, this.HIObjectRef, this.UInt64, this.CFStringRef, this.CFTypeRef);
+    this.HIObjectOverrideAccessibilityContainment = lib.declare("HIObjectOverrideAccessibilityContainment", ctypes.default_abi, this.OSStatus, this.HIObjectRef, this.AXUIElementRef, this.AXUIElementRef, this.AXUIElementRef);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HITabbedView.h
 function HITabbedView_h(lib) {
     Controls_h.call(this, lib);
+    QuickdrawTypes_h.call(this, lib);
+    HIObject_h.call(this, lib);
     CFBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
@@ -4837,6 +6532,7 @@ function HITabbedView_h(lib) {
     this.kControlTabSizeMini = 3;
     this.ControlTabEntry = new ctypes.StructType("ControlTabEntry", [{icon: this.ControlButtonContentInfo.ptr}, {name: this.CFStringRef}, {enabled: this.Boolean}]);
     this.kControlKindTabs = 1952539251;
+    this.CreateTabsControl = lib.declare("CreateTabsControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.ControlTabSize, this.ControlTabDirection, this.UInt16, this.ControlTabEntry.ptr, this.ControlRef.ptr);
     this.kControlTabContentRectTag = 1919247220;
     this.kControlTabEnabledFlagTag = 1701732706;
     this.kControlTabFontStyleTag = 1718578804;
@@ -4846,11 +6542,19 @@ function HITabbedView_h(lib) {
     this.kControlTabInfoVersionOne = 1;
     this.ControlTabInfoRec = new ctypes.StructType("ControlTabInfoRec", [{version: this.SInt16}, {iconSuiteID: this.SInt16}, {name: this.Str255}]);
     this.ControlTabInfoRecV1 = new ctypes.StructType("ControlTabInfoRecV1", [{version: this.SInt16}, {iconSuiteID: this.SInt16}, {name: this.CFStringRef}]);
+    this.GetTabContentRect = lib.declare("GetTabContentRect", ctypes.default_abi, this.OSErr, this.ControlRef, this.Rect.ptr);
+    this.SetTabEnabled = lib.declare("SetTabEnabled", ctypes.default_abi, this.OSErr, this.ControlRef, this.SInt16, this.Boolean);
     this.kControlTabListResType = 1952539171;
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HIButtonViews.h
 function HIButtonViews_h(lib) {
+    Controls_h.call(this, lib);
+    QuickdrawTypes_h.call(this, lib);
+    HIObject_h.call(this, lib);
+    Icons_h.call(this, lib);
+    Menus_h.call(this, lib);
+    CFBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._HIBUTTONVIEWS_H)
@@ -4865,6 +6569,8 @@ function HIButtonViews_h(lib) {
     this.kControlPushButtonIconOnRight = 7;
     this.kControlKindPushButton = 1886745448;
     this.kControlKindPushIconButton = 1885954926;
+    this.CreatePushButtonControl = lib.declare("CreatePushButtonControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.CFStringRef, this.ControlRef.ptr);
+    this.CreatePushButtonWithIconControl = lib.declare("CreatePushButtonWithIconControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.CFStringRef, this.ControlButtonContentInfo.ptr, this.ControlPushButtonIconAlignment, this.ControlRef.ptr);
     this.kControlPushButtonDefaultTag = 1684434036;
     this.kControlPushButtonCancelTag = 1668178796;
     this.kControlPushButtonContentTag = 1668247156;
@@ -4874,6 +6580,7 @@ function HIButtonViews_h(lib) {
     this.kControlCheckBoxProc = 369;
     this.kControlCheckBoxAutoToggleProc = 371;
     this.kControlKindCheckBox = 1667395448;
+    this.CreateCheckBoxControl = lib.declare("CreateCheckBoxControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.CFStringRef, this.SInt32, this.Boolean, this.ControlRef.ptr);
     this.kControlCheckBoxUncheckedValue = 0;
     this.kControlCheckBoxCheckedValue = 1;
     this.kControlCheckBoxMixedValue = 2;
@@ -4883,8 +6590,10 @@ function HIButtonViews_h(lib) {
     this.kControlRadioButtonCheckedValue = 1;
     this.kControlRadioButtonMixedValue = 2;
     this.kControlKindRadioButton = 1919183215;
+    this.CreateRadioButtonControl = lib.declare("CreateRadioButtonControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.CFStringRef, this.SInt32, this.Boolean, this.ControlRef.ptr);
     this.kControlRadioGroupProc = 416;
     this.kControlKindRadioGroup = 1919382128;
+    this.CreateRadioGroupControl = lib.declare("CreateRadioGroupControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.ControlRef.ptr);
     this.kControlBevelButtonSmallBevelProc = 32;
     this.kControlBevelButtonNormalBevelProc = 33;
     this.kControlBevelButtonLargeBevelProc = 34;
@@ -4909,6 +6618,7 @@ function HIButtonViews_h(lib) {
     this.kControlBevelButtonMenuOnBottom = 0;
     this.kControlBevelButtonMenuOnRight = 4;
     this.kControlKindBevelButton = 1650816620;
+    this.CreateBevelButtonControl = lib.declare("CreateBevelButtonControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.CFStringRef, this.ControlBevelThickness, this.ControlBevelButtonBehavior, this.ControlButtonContentInfoPtr, this.MenuID, this.ControlBevelButtonMenuBehavior, this.ControlBevelButtonMenuPlacement, this.ControlRef.ptr);
     this.ControlButtonGraphicAlignment = this.SInt16;
     this.kControlBevelButtonAlignSysDirection = -1;
     this.kControlBevelButtonAlignCenter = 0;
@@ -4949,16 +6659,30 @@ function HIButtonViews_h(lib) {
     this.kControlBevelButtonOwnedMenuRefTag = 1869443686;
     this.kControlBevelButtonKindTag = 1650811499;
     this.kControlBevelButtonIsMultiValueMenuTag = 1836412020;
+    this.GetBevelButtonMenuValue = lib.declare("GetBevelButtonMenuValue", ctypes.default_abi, this.OSErr, this.ControlRef, this.MenuItemIndex.ptr);
+    this.SetBevelButtonMenuValue = lib.declare("SetBevelButtonMenuValue", ctypes.default_abi, this.OSErr, this.ControlRef, this.MenuItemIndex);
+    this.GetBevelButtonMenuHandle = lib.declare("GetBevelButtonMenuHandle", ctypes.default_abi, this.OSErr, this.ControlRef, this.MenuHandle.ptr);
+    this.GetBevelButtonContentInfo = lib.declare("GetBevelButtonContentInfo", ctypes.default_abi, this.OSErr, this.ControlRef, this.ControlButtonContentInfoPtr);
+    this.SetBevelButtonContentInfo = lib.declare("SetBevelButtonContentInfo", ctypes.default_abi, this.OSErr, this.ControlRef, this.ControlButtonContentInfoPtr);
+    this.SetBevelButtonTransform = lib.declare("SetBevelButtonTransform", ctypes.default_abi, this.OSErr, this.ControlRef, this.IconTransformType);
+    this.SetBevelButtonGraphicAlignment = lib.declare("SetBevelButtonGraphicAlignment", ctypes.default_abi, this.OSErr, this.ControlRef, this.ControlButtonGraphicAlignment, this.SInt16, this.SInt16);
+    this.SetBevelButtonTextAlignment = lib.declare("SetBevelButtonTextAlignment", ctypes.default_abi, this.OSErr, this.ControlRef, this.ControlButtonTextAlignment, this.SInt16);
+    this.SetBevelButtonTextPlacement = lib.declare("SetBevelButtonTextPlacement", ctypes.default_abi, this.OSErr, this.ControlRef, this.ControlButtonTextPlacement);
     this.ControlRoundButtonSize = this.SInt16;
     this.kControlRoundButtonNormalSize = 0;
     this.kControlRoundButtonLargeSize = 2;
     this.kControlRoundButtonContentTag = 1668247156;
     this.kControlRoundButtonSizeTag = 1936292453;
     this.kControlKindRoundButton = 1919837282;
+    this.CreateRoundButtonControl = lib.declare("CreateRoundButtonControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.ControlRoundButtonSize, this.ControlButtonContentInfo.ptr, this.ControlRef.ptr);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HIArchive.h
 function HIArchive_h(lib) {
+    CFNumber_h.call(this, lib);
+    CFData_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._HIARCHIVE_H)
         return;
@@ -4972,10 +6696,25 @@ function HIArchive_h(lib) {
     this.hiArchiveHIObjectIgnoresArchivingErr = -6783;
     this.kHIArchiveDecodeSuperclassForUnregisteredObjects = 1;
     this.kHIArchiveDecodingForEditor = 2;
+    this.HIArchiveGetTypeID = lib.declare("HIArchiveGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.HIArchiveCreateForEncoding = lib.declare("HIArchiveCreateForEncoding", ctypes.default_abi, this.OSStatus, this.HIArchiveRef.ptr);
+    this.HIArchiveEncodeBoolean = lib.declare("HIArchiveEncodeBoolean", ctypes.default_abi, this.OSStatus, this.HIArchiveRef, this.CFStringRef, this.Boolean);
+    this.HIArchiveEncodeNumber = lib.declare("HIArchiveEncodeNumber", ctypes.default_abi, this.OSStatus, this.HIArchiveRef, this.CFStringRef, this.CFNumberType, ctypes.void_t.ptr);
+    this.HIArchiveEncodeCFType = lib.declare("HIArchiveEncodeCFType", ctypes.default_abi, this.OSStatus, this.HIArchiveRef, this.CFStringRef, this.CFTypeRef);
+    this.HIArchiveCopyEncodedData = lib.declare("HIArchiveCopyEncodedData", ctypes.default_abi, this.OSStatus, this.HIArchiveRef, this.CFDataRef.ptr);
+    this.HIArchiveCreateForDecoding = lib.declare("HIArchiveCreateForDecoding", ctypes.default_abi, this.OSStatus, this.CFDataRef, this.OptionBits, this.HIArchiveRef.ptr);
+    this.HIArchiveDecodeBoolean = lib.declare("HIArchiveDecodeBoolean", ctypes.default_abi, this.OSStatus, this.HIArchiveRef, this.CFStringRef, this.Boolean.ptr);
+    this.HIArchiveDecodeNumber = lib.declare("HIArchiveDecodeNumber", ctypes.default_abi, this.OSStatus, this.HIArchiveRef, this.CFStringRef, this.CFNumberType, ctypes.void_t.ptr);
+    this.HIArchiveCopyDecodedCFType = lib.declare("HIArchiveCopyDecodedCFType", ctypes.default_abi, this.OSStatus, this.HIArchiveRef, this.CFStringRef, this.CFTypeRef.ptr);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/TextInputSources.h
 function TextInputSources_h(lib) {
+    CFDictionary_h.call(this, lib);
+    CFURL_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._TEXTINPUTSOURCES_H)
         return;
@@ -4983,11 +6722,33 @@ function TextInputSources_h(lib) {
 
     this.__TISInputSource = new ctypes.StructType("__TISInputSource");
     this.TISInputSourceRef = this.__TISInputSource.ptr;
+    this.TISInputSourceGetTypeID = lib.declare("TISInputSourceGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.TISGetInputSourceProperty = lib.declare("TISGetInputSourceProperty", ctypes.default_abi, ctypes.void_t.ptr, this.TISInputSourceRef, this.CFStringRef);
+    this.TISCreateInputSourceList = lib.declare("TISCreateInputSourceList", ctypes.default_abi, this.CFArrayRef, this.CFDictionaryRef, this.Boolean);
+    this.TISCopyCurrentKeyboardInputSource = lib.declare("TISCopyCurrentKeyboardInputSource", ctypes.default_abi, this.TISInputSourceRef);
+    this.TISCopyCurrentKeyboardLayoutInputSource = lib.declare("TISCopyCurrentKeyboardLayoutInputSource", ctypes.default_abi, this.TISInputSourceRef);
+    this.TISCopyCurrentASCIICapableKeyboardInputSource = lib.declare("TISCopyCurrentASCIICapableKeyboardInputSource", ctypes.default_abi, this.TISInputSourceRef);
+    this.TISCopyCurrentASCIICapableKeyboardLayoutInputSource = lib.declare("TISCopyCurrentASCIICapableKeyboardLayoutInputSource", ctypes.default_abi, this.TISInputSourceRef);
+    this.TISCopyInputSourceForLanguage = lib.declare("TISCopyInputSourceForLanguage", ctypes.default_abi, this.TISInputSourceRef, this.CFStringRef);
+    this.TISCreateASCIICapableInputSourceList = lib.declare("TISCreateASCIICapableInputSourceList", ctypes.default_abi, this.CFArrayRef);
+    this.TISSelectInputSource = lib.declare("TISSelectInputSource", ctypes.default_abi, this.OSStatus, this.TISInputSourceRef);
+    this.TISDeselectInputSource = lib.declare("TISDeselectInputSource", ctypes.default_abi, this.OSStatus, this.TISInputSourceRef);
+    this.TISEnableInputSource = lib.declare("TISEnableInputSource", ctypes.default_abi, this.OSStatus, this.TISInputSourceRef);
+    this.TISDisableInputSource = lib.declare("TISDisableInputSource", ctypes.default_abi, this.OSStatus, this.TISInputSourceRef);
+    this.TISSetInputMethodKeyboardLayoutOverride = lib.declare("TISSetInputMethodKeyboardLayoutOverride", ctypes.default_abi, this.OSStatus, this.TISInputSourceRef);
+    this.TISCopyInputMethodKeyboardLayoutOverride = lib.declare("TISCopyInputMethodKeyboardLayoutOverride", ctypes.default_abi, this.TISInputSourceRef);
+    this.TISRegisterInputSource = lib.declare("TISRegisterInputSource", ctypes.default_abi, this.OSStatus, this.CFURLRef);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HIToolbar.h
 function HIToolbar_h(lib) {
+    QuickdrawTypes_h.call(this, lib);
     HIObject_h.call(this, lib);
+    CGImage_h.call(this, lib);
+    IconsCore_h.call(this, lib);
+    Menus_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._HITOOLBAR_H)
@@ -5065,13 +6826,58 @@ function HIToolbar_h(lib) {
     this.kHIToolbarItemSelected = 128;
     this.kHIToolbarItemValidAttrs = 255;
     this.kHIToolbarItemMutableAttrs = 230;
+    this.HIToolbarCreate = lib.declare("HIToolbarCreate", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.OptionBits, this.HIToolbarRef.ptr);
+    this.HIToolbarGetAttributes = lib.declare("HIToolbarGetAttributes", ctypes.default_abi, this.OSStatus, this.HIToolbarRef, this.OptionBits.ptr);
+    this.HIToolbarChangeAttributes = lib.declare("HIToolbarChangeAttributes", ctypes.default_abi, this.OSStatus, this.HIToolbarRef, this.OptionBits, this.OptionBits);
+    this.HIToolbarGetDisplayMode = lib.declare("HIToolbarGetDisplayMode", ctypes.default_abi, this.OSStatus, this.HIToolbarRef, this.HIToolbarDisplayMode.ptr);
+    this.HIToolbarSetDisplayMode = lib.declare("HIToolbarSetDisplayMode", ctypes.default_abi, this.OSStatus, this.HIToolbarRef, this.HIToolbarDisplayMode);
+    this.HIToolbarGetDisplaySize = lib.declare("HIToolbarGetDisplaySize", ctypes.default_abi, this.OSStatus, this.HIToolbarRef, this.HIToolbarDisplaySize.ptr);
+    this.HIToolbarSetDisplaySize = lib.declare("HIToolbarSetDisplaySize", ctypes.default_abi, this.OSStatus, this.HIToolbarRef, this.HIToolbarDisplaySize);
+    this.HIToolbarCopyIdentifier = lib.declare("HIToolbarCopyIdentifier", ctypes.default_abi, this.OSStatus, this.HIToolbarRef, this.CFStringRef.ptr);
+    this.HIToolbarSetItemsWithIdentifiers = lib.declare("HIToolbarSetItemsWithIdentifiers", ctypes.default_abi, this.OSStatus, this.HIToolbarRef, this.CFArrayRef);
+    this.HIToolbarCopyItems = lib.declare("HIToolbarCopyItems", ctypes.default_abi, this.OSStatus, this.HIToolbarRef, this.CFArrayRef.ptr);
+    this.HIToolbarCreateItemWithIdentifier = lib.declare("HIToolbarCreateItemWithIdentifier", ctypes.default_abi, this.OSStatus, this.HIToolbarRef, this.CFStringRef, this.CFTypeRef, this.HIToolbarItemRef.ptr);
+    this.HIToolbarInsertItemAtIndex = lib.declare("HIToolbarInsertItemAtIndex", ctypes.default_abi, this.OSStatus, this.HIToolbarRef, this.HIToolbarItemRef, this.CFIndex);
+    this.HIToolbarAppendItem = lib.declare("HIToolbarAppendItem", ctypes.default_abi, this.OSStatus, this.HIToolbarRef, this.HIToolbarItemRef);
+    this.HIToolbarRemoveItemAtIndex = lib.declare("HIToolbarRemoveItemAtIndex", ctypes.default_abi, this.OSStatus, this.HIToolbarRef, this.CFIndex);
+    this.HIToolbarSetDelegate = lib.declare("HIToolbarSetDelegate", ctypes.default_abi, this.OSStatus, this.HIToolbarRef, this.HIObjectRef);
+    this.HIToolbarGetDelegate = lib.declare("HIToolbarGetDelegate", ctypes.default_abi, this.HIObjectRef, this.HIToolbarRef);
+    this.HIToolbarItemCreate = lib.declare("HIToolbarItemCreate", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.OptionBits, this.HIToolbarItemRef.ptr);
+    this.HIToolbarItemCopyIdentifier = lib.declare("HIToolbarItemCopyIdentifier", ctypes.default_abi, this.OSStatus, this.HIToolbarItemRef, this.CFStringRef.ptr);
+    this.HIToolbarItemGetAttributes = lib.declare("HIToolbarItemGetAttributes", ctypes.default_abi, this.OSStatus, this.HIToolbarItemRef, this.OptionBits.ptr);
+    this.HIToolbarItemChangeAttributes = lib.declare("HIToolbarItemChangeAttributes", ctypes.default_abi, this.OSStatus, this.HIToolbarItemRef, this.OptionBits, this.OptionBits);
+    this.HIToolbarItemGetAttributesInWindow = lib.declare("HIToolbarItemGetAttributesInWindow", ctypes.default_abi, this.OSStatus, this.HIToolbarItemRef, this.WindowRef, this.OptionBits.ptr, this.OptionBits.ptr);
+    this.HIToolbarItemChangeAttributesInWindow = lib.declare("HIToolbarItemChangeAttributesInWindow", ctypes.default_abi, this.OSStatus, this.HIToolbarItemRef, this.WindowRef, this.OptionBits, this.OptionBits, this.OptionBits);
+    this.HIToolbarGetSelectedItemInWindow = lib.declare("HIToolbarGetSelectedItemInWindow", ctypes.default_abi, this.OSStatus, this.HIToolbarRef, this.WindowRef, this.HIToolbarItemRef.ptr);
+    this.HIToolbarItemSetLabel = lib.declare("HIToolbarItemSetLabel", ctypes.default_abi, this.OSStatus, this.HIToolbarItemRef, this.CFStringRef);
+    this.HIToolbarItemCopyLabel = lib.declare("HIToolbarItemCopyLabel", ctypes.default_abi, this.OSStatus, this.HIToolbarItemRef, this.CFStringRef.ptr);
+    this.HIToolbarItemSetHelpText = lib.declare("HIToolbarItemSetHelpText", ctypes.default_abi, this.OSStatus, this.HIToolbarItemRef, this.CFStringRef, this.CFStringRef);
+    this.HIToolbarItemCopyHelpText = lib.declare("HIToolbarItemCopyHelpText", ctypes.default_abi, this.OSStatus, this.HIToolbarItemRef, this.CFStringRef.ptr, this.CFStringRef.ptr);
+    this.HIToolbarItemSetCommandID = lib.declare("HIToolbarItemSetCommandID", ctypes.default_abi, this.OSStatus, this.HIToolbarItemRef, this.MenuCommand);
+    this.HIToolbarItemGetCommandID = lib.declare("HIToolbarItemGetCommandID", ctypes.default_abi, this.OSStatus, this.HIToolbarItemRef, this.MenuCommand.ptr);
+    this.HIToolbarItemSetIconRef = lib.declare("HIToolbarItemSetIconRef", ctypes.default_abi, this.OSStatus, this.HIToolbarItemRef, this.IconRef);
+    this.HIToolbarItemCopyIconRef = lib.declare("HIToolbarItemCopyIconRef", ctypes.default_abi, this.OSStatus, this.HIToolbarItemRef, this.IconRef.ptr);
+    this.HIToolbarItemSetImage = lib.declare("HIToolbarItemSetImage", ctypes.default_abi, this.OSStatus, this.HIToolbarItemRef, this.CGImageRef);
+    this.HIToolbarItemCopyImage = lib.declare("HIToolbarItemCopyImage", ctypes.default_abi, this.OSStatus, this.HIToolbarItemRef, this.CGImageRef.ptr);
+    this.HIToolbarItemSetMenu = lib.declare("HIToolbarItemSetMenu", ctypes.default_abi, this.OSStatus, this.HIToolbarItemRef, this.MenuRef);
+    this.HIToolbarItemCopyMenu = lib.declare("HIToolbarItemCopyMenu", ctypes.default_abi, this.OSStatus, this.HIToolbarItemRef, this.MenuRef.ptr);
+    this.HIToolbarItemGetToolbar = lib.declare("HIToolbarItemGetToolbar", ctypes.default_abi, this.HIToolbarRef, this.HIToolbarItemRef);
+    this.HIToolbarItemIsEnabled = lib.declare("HIToolbarItemIsEnabled", ctypes.default_abi, this.Boolean, this.HIToolbarItemRef);
+    this.HIToolbarItemSetEnabled = lib.declare("HIToolbarItemSetEnabled", ctypes.default_abi, this.OSStatus, this.HIToolbarItemRef, this.Boolean);
+    this.HIToolbarItemConfigDataChanged = lib.declare("HIToolbarItemConfigDataChanged", ctypes.default_abi, this.OSStatus, this.HIToolbarItemRef);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HITextViews.h
 function HITextViews_h(lib) {
+    CGColor_h.call(this, lib);
+    Controls_h.call(this, lib);
     TextCommon_h.call(this, lib);
-    MacTypes_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    QuickdrawTypes_h.call(this, lib);
     HIObject_h.call(this, lib);
+    MacTextEditor_h.call(this, lib);
+    HIGeometry_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._HITEXTVIEWS_H)
         return;
@@ -5079,6 +6885,7 @@ function HITextViews_h(lib) {
 
     this.kControlStaticTextProc = 288;
     this.kControlKindStaticText = 1937012852;
+    this.CreateStaticTextControl = lib.declare("CreateStaticTextControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.CFStringRef, this.ControlFontStyleRec.ptr, this.ControlRef.ptr);
     this.kControlStaticTextStyleTag = 1718578804;
     this.kControlStaticTextTextTag = 1952807028;
     this.kControlStaticTextTextHeightTag = 1952998761;
@@ -5095,9 +6902,14 @@ function HITextViews_h(lib) {
     this.kEventTextShouldChangeInRange = 2;
     this.kEventTextDidChange = 3;
     this.kControlKindHITextView = 1751741560;
+    this.HITextViewCreate = lib.declare("HITextViewCreate", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.OptionBits, this.TXNFrameOptions, this.HIViewRef.ptr);
+    this.HITextViewGetTXNObject = lib.declare("HITextViewGetTXNObject", ctypes.default_abi, this.TXNObject, this.HIViewRef);
+    this.HITextViewSetBackgroundColor = lib.declare("HITextViewSetBackgroundColor", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.CGColorRef);
+    this.HITextViewCopyBackgroundColor = lib.declare("HITextViewCopyBackgroundColor", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.CGColorRef.ptr);
     this.kControlEditUnicodeTextProc = 912;
     this.kControlEditUnicodeTextPasswordProc = 914;
     this.kControlKindEditUnicodeText = 1702196344;
+    this.CreateEditUnicodeTextControl = lib.declare("CreateEditUnicodeTextControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.CFStringRef, this.Boolean, this.ControlFontStyleRec.ptr, this.ControlRef.ptr);
     this.kControlEditTextStyleTag = 1718578804;
     this.kControlEditTextTextTag = 1952807028;
     this.kControlEditTextKeyFilterTag = 1718383730;
@@ -5132,6 +6944,10 @@ function HITextViews_h(lib) {
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HIPopupButton.h
 function HIPopupButton_h(lib) {
+    QuickdrawTypes_h.call(this, lib);
+    HIObject_h.call(this, lib);
+    Menus_h.call(this, lib);
+    CFBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._HIPOPUPBUTTON_H)
@@ -5144,6 +6960,7 @@ function HIPopupButton_h(lib) {
     this.kControlPopupUseAddResMenuVariant = 4;
     this.kControlPopupUseWFontVariant = 8;
     this.kControlKindPopupButton = 1886351458;
+    this.CreatePopupButtonControl = lib.declare("CreatePopupButtonControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.CFStringRef, this.MenuID, this.Boolean, this.SInt16, this.SInt16, this.Style, this.ControlRef.ptr);
     this.kControlPopupButtonMenuHandleTag = 1835557230;
     this.kControlPopupButtonMenuRefTag = 1835557230;
     this.kControlPopupButtonMenuIDTag = 1835952484;
@@ -5167,6 +6984,7 @@ function HIPopupButton_h(lib) {
     this.kControlPopupArrowSizeSmall = 1;
     this.ControlPopupArrowSize = this.UInt16;
     this.kControlKindPopupArrow = 1885434482;
+    this.CreatePopupArrowControl = lib.declare("CreatePopupArrowControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.ControlPopupArrowOrientation, this.ControlPopupArrowSize, this.ControlRef.ptr);
     this.popupFixedWidth = 1;
     this.popupVariableWidth = 2;
     this.popupUseAddResMenu = 4;
@@ -5186,6 +7004,10 @@ function HIPopupButton_h(lib) {
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HIObject.h
 function HIObject_h(lib) {
+    CFBundle_h.call(this, lib);
+    CarbonEventsCore_h.call(this, lib);
+    CFDictionary_h.call(this, lib);
+    CFBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._HIOBJECT_H)
@@ -5230,10 +7052,28 @@ function HIObject_h(lib) {
     this.kEventDelegateGetTargetClasses = 3;
     this.kEventDelegateIsGroup = 4;
     this.kEventDelegateGetGroupClasses = 5;
+    this.HIObjectRegisterSubclass = lib.declare("HIObjectRegisterSubclass", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.CFStringRef, this.OptionBits, this.EventHandlerUPP, this.ItemCount, this.EventTypeSpec.ptr, ctypes.void_t.ptr, this.HIObjectClassRef.ptr);
+    this.HIObjectUnregisterClass = lib.declare("HIObjectUnregisterClass", ctypes.default_abi, this.OSStatus, this.HIObjectClassRef);
+    this.HIObjectCreate = lib.declare("HIObjectCreate", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.EventRef, this.HIObjectRef.ptr);
+    this.HIObjectGetEventTarget = lib.declare("HIObjectGetEventTarget", ctypes.default_abi, this.EventTargetRef, this.HIObjectRef);
+    this.HIObjectPrintDebugInfo = lib.declare("HIObjectPrintDebugInfo", ctypes.default_abi, ctypes.void_t, this.HIObjectRef);
+    this.HIObjectCopyClassID = lib.declare("HIObjectCopyClassID", ctypes.default_abi, this.CFStringRef, this.HIObjectRef);
+    this.HIObjectIsOfClass = lib.declare("HIObjectIsOfClass", ctypes.default_abi, this.Boolean, this.HIObjectRef, this.CFStringRef);
+    this.HIObjectDynamicCast = lib.declare("HIObjectDynamicCast", ctypes.default_abi, ctypes.void_t.ptr, this.HIObjectRef, this.CFStringRef);
+    this.HIObjectCreateFromBundle = lib.declare("HIObjectCreateFromBundle", ctypes.default_abi, this.OSStatus, this.CFBundleRef, this.HIObjectRef.ptr);
+    this.HIObjectFromEventTarget = lib.declare("HIObjectFromEventTarget", ctypes.default_abi, this.HIObjectRef, this.EventTargetRef);
+    this.HIObjectIsArchivingIgnored = lib.declare("HIObjectIsArchivingIgnored", ctypes.default_abi, this.Boolean, this.HIObjectRef);
+    this.HIObjectSetArchivingIgnored = lib.declare("HIObjectSetArchivingIgnored", ctypes.default_abi, this.OSStatus, this.HIObjectRef, this.Boolean);
+    this.HIObjectCopyCustomArchiveData = lib.declare("HIObjectCopyCustomArchiveData", ctypes.default_abi, this.OSStatus, this.HIObjectRef, this.CFDictionaryRef.ptr);
+    this.HIObjectSetCustomArchiveData = lib.declare("HIObjectSetCustomArchiveData", ctypes.default_abi, this.OSStatus, this.HIObjectRef, this.CFDictionaryRef);
     this.HIDelegatePosition = this.UInt32;
     this.kHIDelegateAll = 0;
     this.kHIDelegateBefore = 1;
     this.kHIDelegateAfter = 2;
+    this.HIObjectAddDelegate = lib.declare("HIObjectAddDelegate", ctypes.default_abi, this.OSStatus, this.HIObjectRef, this.HIObjectRef, this.HIDelegatePosition);
+    this.HIObjectRemoveDelegate = lib.declare("HIObjectRemoveDelegate", ctypes.default_abi, this.OSStatus, this.HIObjectRef, this.HIObjectRef, this.HIDelegatePosition);
+    this.HIObjectCopyDelegates = lib.declare("HIObjectCopyDelegates", ctypes.default_abi, this.OSStatus, this.HIObjectRef, this.CFDictionaryRef.ptr);
+    this.HIObjectGetEventHandlerObject = lib.declare("HIObjectGetEventHandlerObject", ctypes.default_abi, this.HIObjectRef, this.EventHandlerCallRef);
     this.OpaqueControlRef = new ctypes.StructType("OpaqueControlRef");
     this.ControlRef = this.OpaqueControlRef.ptr;
     this.ControlHandle = this.ControlRef;
@@ -5242,9 +7082,11 @@ function HIObject_h(lib) {
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/AEInteraction.h
 function AEInteraction_h(lib) {
-    AEDataModel_h.call(this, lib);
-    QuickdrawTypes_h.call(this, lib);
     Events_h.call(this, lib);
+    CarbonEventsCore_h.call(this, lib);
+    QuickdrawTypes_h.call(this, lib);
+    AEDataModel_h.call(this, lib);
+    Notification_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._AEINTERACTION_H)
@@ -5255,10 +7097,18 @@ function AEInteraction_h(lib) {
     this.AEFilterProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.Boolean, [this.EventRecord.ptr, this.SInt32, this.AETransactionID, this.AEAddressDesc.ptr]).ptr;
     this.AEIdleUPP = this.AEIdleProcPtr;
     this.AEFilterUPP = this.AEFilterProcPtr;
+    this.AESend = lib.declare("AESend", ctypes.default_abi, this.OSErr, this.AppleEvent.ptr, this.AppleEvent.ptr, this.AESendMode, this.AESendPriority, this.SInt32, this.AEIdleUPP, this.AEFilterUPP);
+    this.AEProcessAppleEvent = lib.declare("AEProcessAppleEvent", ctypes.default_abi, this.OSErr, this.EventRecord.ptr);
+    this.AEProcessEvent = lib.declare("AEProcessEvent", ctypes.default_abi, this.OSStatus, this.EventRef);
+    this.AEResetTimer = lib.declare("AEResetTimer", ctypes.default_abi, this.OSErr, this.AppleEvent.ptr);
     this.AEInteractAllowed = this.SInt8;
     this.kAEInteractWithSelf = 0;
     this.kAEInteractWithLocal = 1;
     this.kAEInteractWithAll = 2;
+    this.AEGetInteractionAllowed = lib.declare("AEGetInteractionAllowed", ctypes.default_abi, this.OSErr, this.AEInteractAllowed.ptr);
+    this.AESetInteractionAllowed = lib.declare("AESetInteractionAllowed", ctypes.default_abi, this.OSErr, this.AEInteractAllowed);
+    this.AEInteractWithUser = lib.declare("AEInteractWithUser", ctypes.default_abi, this.OSErr, this.SInt32, this.NMRecPtr, this.AEIdleUPP);
+    this.AESuspendTheCurrentEvent = lib.declare("AESuspendTheCurrentEvent", ctypes.default_abi, this.OSErr, this.AppleEvent.ptr);
     this.kAEDoNotIgnoreHandler = 0;
     this.kAEIgnoreAppPhacHandler = 1;
     this.kAEIgnoreAppEventHandler = 2;
@@ -5268,6 +7118,9 @@ function AEInteraction_h(lib) {
     this.kAEDontDisposeOnResume = -2147483648;
     this.kAENoDispatch = 0;
     this.kAEUseStandardDispatch = -1;
+    this.AEResumeTheCurrentEvent = lib.declare("AEResumeTheCurrentEvent", ctypes.default_abi, this.OSErr, this.AppleEvent.ptr, this.AppleEvent.ptr, this.AEEventHandlerUPP, this.SRefCon);
+    this.AEGetTheCurrentEvent = lib.declare("AEGetTheCurrentEvent", ctypes.default_abi, this.OSErr, this.AppleEvent.ptr);
+    this.AESetTheCurrentEvent = lib.declare("AESetTheCurrentEvent", ctypes.default_abi, this.OSErr, this.AppleEvent.ptr);
     // Dropping inline function 'NewAEIdleUPP'.
     // Dropping inline function 'NewAEFilterUPP'.
     // Dropping inline function 'DisposeAEIdleUPP'.
@@ -5278,6 +7131,7 @@ function AEInteraction_h(lib) {
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/Translation.h
 function Translation_h(lib) {
+    Files_h.call(this, lib);
     MacTypes_h.call(this, lib);
     TranslationExtensions_h.call(this, lib);
 
@@ -5296,16 +7150,31 @@ function Translation_h(lib) {
     this.FileTranslationSpec = new ctypes.StructType("FileTranslationSpec", [{componentSignature: this.OSType}, {translationSystemInfo: ctypes.void_t.ptr}, {src: this.FileTypeSpec}, {dst: this.FileTypeSpec}]);
     this.FileTranslationSpecArrayPtr = this.FileTranslationSpec.ptr;
     this.FileTranslationSpecArrayHandle = this.FileTranslationSpecArrayPtr.ptr;
+    this.GetFileTypesThatAppCanNativelyOpen = lib.declare("GetFileTypesThatAppCanNativelyOpen", ctypes.default_abi, this.OSErr, ctypes.short, this.OSType, this.FileType.ptr);
+    this.ExtendFileTypeList = lib.declare("ExtendFileTypeList", ctypes.default_abi, this.OSErr, this.FileType.ptr, ctypes.short, this.FileType.ptr, ctypes.short.ptr);
+    this.CanDocBeOpened = lib.declare("CanDocBeOpened", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, ctypes.short, this.OSType, this.FileType.ptr, this.Boolean, this.DocOpenMethod.ptr, this.FileTranslationSpec.ptr);
+    this.GetFileTranslationPaths = lib.declare("GetFileTranslationPaths", ctypes.default_abi, ctypes.short, this.FSSpec.ptr, this.FileType, ctypes.unsigned_short, this.FileTranslationSpecArrayPtr);
+    this.GetPathFromTranslationDialog = lib.declare("GetPathFromTranslationDialog", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, this.FSSpec.ptr, this.TypesBlockPtr, this.DocOpenMethod.ptr, this.FileTranslationSpec.ptr);
+    this.TranslateFile = lib.declare("TranslateFile", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, this.FSSpec.ptr, this.FileTranslationSpec.ptr);
+    this.GetDocumentKindString = lib.declare("GetDocumentKindString", ctypes.default_abi, this.OSErr, ctypes.short, this.OSType, this.OSType, ctypes.unsigned_char.ptr);
+    this.GetTranslationExtensionName = lib.declare("GetTranslationExtensionName", ctypes.default_abi, this.OSErr, this.FileTranslationSpec.ptr, ctypes.unsigned_char.ptr);
     this.GetScrapDataProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.OSErr, [this.ScrapType, this.Handle, ctypes.void_t.ptr]).ptr;
     this.GetScrapDataUPP = this.GetScrapDataProcPtr;
     // Dropping inline function 'NewGetScrapDataUPP'.
     // Dropping inline function 'DisposeGetScrapDataUPP'.
     // Dropping inline function 'InvokeGetScrapDataUPP'.
     this.GetScrapData = this.GetScrapDataUPP;
+    this.TranslateScrap = lib.declare("TranslateScrap", ctypes.default_abi, this.OSErr, this.GetScrapDataUPP, ctypes.void_t.ptr, this.ScrapType, this.Handle, ctypes.short);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HIComboBox.h
 function HIComboBox_h(lib) {
+    Controls_h.call(this, lib);
+    HIGeometry_h.call(this, lib);
+    HIObject_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._HICOMBOBOX_H)
         return;
@@ -5327,11 +7196,22 @@ function HIComboBox_h(lib) {
     this.kHIComboBoxListPixelWidthTag = 1667394679;
     this.kHIComboBoxListPixelHeightTag = 1667394664;
     this.kHIComboBoxNumVisibleItemsTag = 1667395177;
+    this.HIComboBoxCreate = lib.declare("HIComboBoxCreate", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.CFStringRef, this.ControlFontStyleRec.ptr, this.CFArrayRef, this.OptionBits, this.HIViewRef.ptr);
+    this.HIComboBoxGetItemCount = lib.declare("HIComboBoxGetItemCount", ctypes.default_abi, this.ItemCount, this.HIViewRef);
+    this.HIComboBoxInsertTextItemAtIndex = lib.declare("HIComboBoxInsertTextItemAtIndex", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.CFIndex, this.CFStringRef);
+    this.HIComboBoxAppendTextItem = lib.declare("HIComboBoxAppendTextItem", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.CFStringRef, this.CFIndex.ptr);
+    this.HIComboBoxCopyTextItemAtIndex = lib.declare("HIComboBoxCopyTextItemAtIndex", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.CFIndex, this.CFStringRef.ptr);
+    this.HIComboBoxRemoveItemAtIndex = lib.declare("HIComboBoxRemoveItemAtIndex", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.CFIndex);
+    this.HIComboBoxChangeAttributes = lib.declare("HIComboBoxChangeAttributes", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.OptionBits, this.OptionBits);
+    this.HIComboBoxGetAttributes = lib.declare("HIComboBoxGetAttributes", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.OptionBits.ptr);
+    this.HIComboBoxIsListVisible = lib.declare("HIComboBoxIsListVisible", ctypes.default_abi, this.Boolean, this.HIViewRef);
+    this.HIComboBoxSetListVisible = lib.declare("HIComboBoxSetListVisible", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.Boolean);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HIGeometry.h
 function HIGeometry_h(lib) {
     CGGeometry_h.call(this, lib);
+    CGBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._HIGEOMETRY_H)
@@ -5341,15 +7221,32 @@ function HIGeometry_h(lib) {
     this.HIPoint = this.CGPoint;
     this.HISize = this.CGSize;
     this.HIRect = this.CGRect;
+    this.HIGetScaleFactor = lib.declare("HIGetScaleFactor", ctypes.default_abi, this.CGFloat);
     this.HICoordinateSpace = this.UInt32;
     this.kHICoordSpace72DPIGlobal = 1;
     this.kHICoordSpaceScreenPixel = 2;
     this.kHICoordSpaceWindow = 3;
     this.kHICoordSpaceView = 4;
+    this.HIPointConvert = lib.declare("HIPointConvert", ctypes.default_abi, ctypes.void_t, this.HIPoint.ptr, this.HICoordinateSpace, ctypes.void_t.ptr, this.HICoordinateSpace, ctypes.void_t.ptr);
+    this.HIRectConvert = lib.declare("HIRectConvert", ctypes.default_abi, ctypes.void_t, this.HIRect.ptr, this.HICoordinateSpace, ctypes.void_t.ptr, this.HICoordinateSpace, ctypes.void_t.ptr);
+    this.HISizeConvert = lib.declare("HISizeConvert", ctypes.default_abi, ctypes.void_t, this.HISize.ptr, this.HICoordinateSpace, ctypes.void_t.ptr, this.HICoordinateSpace, ctypes.void_t.ptr);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/MacApplication.h
 function MacApplication_h(lib) {
+    CGAffineTransform_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    QuickdrawTypes_h.call(this, lib);
+    HIObject_h.call(this, lib);
+    CGImage_h.call(this, lib);
+    CGGeometry_h.call(this, lib);
+    CGContext_h.call(this, lib);
+    CFDictionary_h.call(this, lib);
+    DictionaryServices_h.call(this, lib);
+    TextCommon_h.call(this, lib);
+    Menus_h.call(this, lib);
+    HIGeometry_h.call(this, lib);
+    CTFont_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._MACAPPLICATION_H)
@@ -5370,16 +7267,40 @@ function MacApplication_h(lib) {
     this.kUIOptionDisableHide = 64;
     this.kUIOptionDisableMenuBarTransparency = 512;
     this.SystemUIOptions = this.OptionBits;
+    this.SetSystemUIMode = lib.declare("SetSystemUIMode", ctypes.default_abi, this.OSStatus, this.SystemUIMode, this.SystemUIOptions);
+    this.GetSystemUIMode = lib.declare("GetSystemUIMode", ctypes.default_abi, ctypes.void_t, this.SystemUIMode.ptr, this.SystemUIOptions.ptr);
+    this.HIApplicationGetCurrent = lib.declare("HIApplicationGetCurrent", ctypes.default_abi, this.HIObjectRef);
+    this.HIApplicationGetFocus = lib.declare("HIApplicationGetFocus", ctypes.default_abi, this.WindowRef, this.Boolean);
+    this.SetApplicationDockTileImage = lib.declare("SetApplicationDockTileImage", ctypes.default_abi, this.OSStatus, this.CGImageRef);
+    this.OverlayApplicationDockTileImage = lib.declare("OverlayApplicationDockTileImage", ctypes.default_abi, this.OSStatus, this.CGImageRef);
+    this.RestoreApplicationDockTileImage = lib.declare("RestoreApplicationDockTileImage", ctypes.default_abi, this.OSStatus);
+    this.HIApplicationCreateDockTileContext = lib.declare("HIApplicationCreateDockTileContext", ctypes.default_abi, this.CGContextRef, this.HISize.ptr);
+    this.BeginCGContextForApplicationDockTile = lib.declare("BeginCGContextForApplicationDockTile", ctypes.default_abi, this.CGContextRef);
+    this.EndCGContextForApplicationDockTile = lib.declare("EndCGContextForApplicationDockTile", ctypes.default_abi, ctypes.void_t, this.CGContextRef);
+    this.BeginQDContextForApplicationDockTile = lib.declare("BeginQDContextForApplicationDockTile", ctypes.default_abi, this.CGrafPtr);
+    this.EndQDContextForApplicationDockTile = lib.declare("EndQDContextForApplicationDockTile", ctypes.default_abi, ctypes.void_t, this.CGrafPtr);
+    this.SetApplicationDockTileMenu = lib.declare("SetApplicationDockTileMenu", ctypes.default_abi, this.OSStatus, this.MenuRef);
+    this.GetApplicationDockTileMenu = lib.declare("GetApplicationDockTileMenu", ctypes.default_abi, this.MenuRef);
+    this.CreateCGImageFromPixMaps = lib.declare("CreateCGImageFromPixMaps", ctypes.default_abi, this.OSStatus, this.PixMapHandle, this.PixMapHandle, this.CGImageRef.ptr);
+    this.GetApplicationTextEncoding = lib.declare("GetApplicationTextEncoding", ctypes.default_abi, this.TextEncoding);
+    this.GetApplicationScript = lib.declare("GetApplicationScript", ctypes.default_abi, this.ScriptCode);
+    this.HIAboutBox = lib.declare("HIAboutBox", ctypes.default_abi, this.OSStatus, this.CFDictionaryRef);
+    this.HISearchWindowShow = lib.declare("HISearchWindowShow", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.OptionBits);
+    this.HIDictionaryWindowShow = lib.declare("HIDictionaryWindowShow", ctypes.default_abi, ctypes.void_t, this.DCSDictionaryRef, this.CFTypeRef, this.CFRange, this.CTFontRef, this.CGPoint, this.Boolean, this.CGAffineTransform.ptr);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HIDisclosureViews.h
 function HIDisclosureViews_h(lib) {
+    QuickdrawTypes_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    HIObject_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._HIDISCLOSUREVIEWS_H)
         return;
     this._HIDISCLOSUREVIEWS_H = true;
 
+    this.CreateDisclosureButtonControl = lib.declare("CreateDisclosureButtonControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.SInt32, this.Boolean, this.ControlRef.ptr);
     this.kControlKindDisclosureButton = 1684632418;
     this.kControlDisclosureButtonClosed = 0;
     this.kControlDisclosureButtonDisclosed = 1;
@@ -5392,11 +7313,16 @@ function HIDisclosureViews_h(lib) {
     this.kControlDisclosureTrianglePointRight = 1;
     this.kControlDisclosureTrianglePointLeft = 2;
     this.kControlKindDisclosureTriangle = 1684632436;
+    this.CreateDisclosureTriangleControl = lib.declare("CreateDisclosureTriangleControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.ControlDisclosureTriangleOrientation, this.CFStringRef, this.SInt32, this.Boolean, this.Boolean, this.ControlRef.ptr);
     this.kControlTriangleLastValueTag = 1818325876;
+    this.SetDisclosureTriangleLastValue = lib.declare("SetDisclosureTriangleLastValue", ctypes.default_abi, this.OSErr, this.HIViewRef, this.SInt16);
+    this.HIDisclosureTriangleSetDisplaysTitle = lib.declare("HIDisclosureTriangleSetDisplaysTitle", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.Boolean);
+    this.HIDisclosureTriangleGetDisplaysTitle = lib.declare("HIDisclosureTriangleGetDisplaysTitle", ctypes.default_abi, this.Boolean, this.HIViewRef);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/Scrap.h
 function Scrap_h(lib) {
+    CFBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._SCRAP_H)
@@ -5412,6 +7338,8 @@ function Scrap_h(lib) {
     this.kScrapFlavorTypeUnicode = 1970567284;
     this.kScrapFlavorTypeUTF16External = 1970549046;
     this.kScrapFlavorTypeUnicodeStyle = 1970500716;
+    this.LoadScrap = lib.declare("LoadScrap", ctypes.default_abi, this.OSStatus);
+    this.UnloadScrap = lib.declare("UnloadScrap", ctypes.default_abi, this.OSStatus);
     this.kScrapFlavorSizeUnknown = -1;
     this.kScrapReservedFlavorType = 1936877172;
     this.kScrapFlavorMaskNone = 0;
@@ -5423,15 +7351,32 @@ function Scrap_h(lib) {
     this.ScrapRef = this.OpaqueScrapRef.ptr;
     this.kScrapGetNamedScrap = 0;
     this.kScrapClearNamedScrap = 1;
+    this.GetScrapByName = lib.declare("GetScrapByName", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.OptionBits, this.ScrapRef.ptr);
+    this.GetCurrentScrap = lib.declare("GetCurrentScrap", ctypes.default_abi, this.OSStatus, this.ScrapRef.ptr);
+    this.GetScrapFlavorFlags = lib.declare("GetScrapFlavorFlags", ctypes.default_abi, this.OSStatus, this.ScrapRef, this.ScrapFlavorType, this.ScrapFlavorFlags.ptr);
+    this.GetScrapFlavorSize = lib.declare("GetScrapFlavorSize", ctypes.default_abi, this.OSStatus, this.ScrapRef, this.ScrapFlavorType, this.Size.ptr);
+    this.GetScrapFlavorData = lib.declare("GetScrapFlavorData", ctypes.default_abi, this.OSStatus, this.ScrapRef, this.ScrapFlavorType, this.Size.ptr, ctypes.void_t.ptr);
+    this.ClearCurrentScrap = lib.declare("ClearCurrentScrap", ctypes.default_abi, this.OSStatus);
+    this.ClearScrap = lib.declare("ClearScrap", ctypes.default_abi, this.OSStatus, this.ScrapRef.ptr);
+    this.PutScrapFlavor = lib.declare("PutScrapFlavor", ctypes.default_abi, this.OSStatus, this.ScrapRef, this.ScrapFlavorType, this.ScrapFlavorFlags, this.Size, ctypes.void_t.ptr);
     this.ScrapPromiseKeeperProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.OSStatus, [this.ScrapRef, this.ScrapFlavorType, ctypes.void_t.ptr]).ptr;
     this.ScrapPromiseKeeperUPP = this.ScrapPromiseKeeperProcPtr;
     // Dropping inline function 'NewScrapPromiseKeeperUPP'.
     // Dropping inline function 'DisposeScrapPromiseKeeperUPP'.
     // Dropping inline function 'InvokeScrapPromiseKeeperUPP'.
+    this.SetScrapPromiseKeeper = lib.declare("SetScrapPromiseKeeper", ctypes.default_abi, this.OSStatus, this.ScrapRef, this.ScrapPromiseKeeperUPP, ctypes.void_t.ptr);
+    this.GetScrapFlavorCount = lib.declare("GetScrapFlavorCount", ctypes.default_abi, this.OSStatus, this.ScrapRef, this.UInt32.ptr);
+    this.GetScrapFlavorInfoList = lib.declare("GetScrapFlavorInfoList", ctypes.default_abi, this.OSStatus, this.ScrapRef, this.UInt32.ptr, this.ScrapFlavorInfo.ptr);
+    this.CallInScrapPromises = lib.declare("CallInScrapPromises", ctypes.default_abi, this.OSStatus);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HISearchField.h
 function HISearchField_h(lib) {
+    CFBase_h.call(this, lib);
+    Menus_h.call(this, lib);
+    HIGeometry_h.call(this, lib);
+    HIObject_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._HISEARCHFIELD_H)
         return;
@@ -5446,11 +7391,20 @@ function HISearchField_h(lib) {
     this.kEventClassSearchField = 1936877156;
     this.kEventSearchFieldCancelClicked = 1;
     this.kEventSearchFieldSearchClicked = 2;
+    this.HISearchFieldCreate = lib.declare("HISearchFieldCreate", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.OptionBits, this.MenuRef, this.CFStringRef, this.HIViewRef.ptr);
+    this.HISearchFieldSetSearchMenu = lib.declare("HISearchFieldSetSearchMenu", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.MenuRef);
+    this.HISearchFieldGetSearchMenu = lib.declare("HISearchFieldGetSearchMenu", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.MenuRef.ptr);
+    this.HISearchFieldChangeAttributes = lib.declare("HISearchFieldChangeAttributes", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.OptionBits, this.OptionBits);
+    this.HISearchFieldGetAttributes = lib.declare("HISearchFieldGetAttributes", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.OptionBits.ptr);
+    this.HISearchFieldSetDescriptiveText = lib.declare("HISearchFieldSetDescriptiveText", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.CFStringRef);
+    this.HISearchFieldCopyDescriptiveText = lib.declare("HISearchFieldCopyDescriptiveText", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.CFStringRef.ptr);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HIClockView.h
 function HIClockView_h(lib) {
+    QuickdrawTypes_h.call(this, lib);
     MacTypes_h.call(this, lib);
+    HIObject_h.call(this, lib);
 
     if (this._HICLOCKVIEW_H)
         return;
@@ -5475,6 +7429,7 @@ function HIClockView_h(lib) {
     this.kControlClockFlagLive = 2;
     this.kControlClockIsLive = 2;
     this.kControlKindClock = 1668047723;
+    this.CreateClockControl = lib.declare("CreateClockControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.ControlClockType, this.ControlClockFlags, this.ControlRef.ptr);
     this.kControlClockLongDateTag = 1684108389;
     this.kControlClockAbsoluteTimeTag = 1633842036;
     this.kControlClockFontStyleTag = 1718578804;
@@ -5483,6 +7438,8 @@ function HIClockView_h(lib) {
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HIMenuView.h
 function HIMenuView_h(lib) {
+    Menus_h.call(this, lib);
+    HIObject_h.call(this, lib);
 
     if (this._HIMENUVIEW_H)
         return;
@@ -5490,10 +7447,14 @@ function HIMenuView_h(lib) {
 
     this.kControlKindHIMenuView = 1835363957;
     this.kControlKindHIStandardMenuView = 1936551541;
+    this.HIMenuViewGetMenu = lib.declare("HIMenuViewGetMenu", ctypes.default_abi, this.MenuRef, this.HIViewRef);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HIScrollView.h
 function HIScrollView_h(lib) {
+    QuickdrawTypes_h.call(this, lib);
+    Controls_h.call(this, lib);
+    HIObject_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._HISCROLLVIEW_H)
@@ -5503,6 +7464,7 @@ function HIScrollView_h(lib) {
     this.kControlScrollBarProc = 384;
     this.kControlScrollBarLiveProc = 386;
     this.kControlKindScrollBar = 1935827314;
+    this.CreateScrollBarControl = lib.declare("CreateScrollBarControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.SInt32, this.SInt32, this.SInt32, this.SInt32, this.Boolean, this.ControlActionUPP, this.ControlRef.ptr);
     this.kControlScrollBarShowsArrowsTag = 1634890351;
     this.kControlKindHIScrollView = 1935897196;
     this.kEventClassScrollable = 1935897196;
@@ -5528,10 +7490,18 @@ function HIScrollView_h(lib) {
     this.kHIScrollViewPageDown = 32;
     this.kHIScrollViewPageLeft = 64;
     this.kHIScrollViewPageRight = 128;
+    this.HIScrollViewCreate = lib.declare("HIScrollViewCreate", ctypes.default_abi, this.OSStatus, this.OptionBits, this.HIViewRef.ptr);
+    this.HIScrollViewSetScrollBarAutoHide = lib.declare("HIScrollViewSetScrollBarAutoHide", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.Boolean);
+    this.HIScrollViewGetScrollBarAutoHide = lib.declare("HIScrollViewGetScrollBarAutoHide", ctypes.default_abi, this.Boolean, this.HIViewRef);
+    this.HIScrollViewNavigate = lib.declare("HIScrollViewNavigate", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.HIScrollViewAction);
+    this.HIScrollViewCanNavigate = lib.declare("HIScrollViewCanNavigate", ctypes.default_abi, this.Boolean, this.HIViewRef, this.HIScrollViewAction);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HISeparator.h
 function HISeparator_h(lib) {
+    QuickdrawTypes_h.call(this, lib);
+    HIObject_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._HISEPARATOR_H)
         return;
@@ -5539,10 +7509,12 @@ function HISeparator_h(lib) {
 
     this.kControlSeparatorLineProc = 144;
     this.kControlKindSeparator = 1936027745;
+    this.CreateSeparatorControl = lib.declare("CreateSeparatorControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.ControlRef.ptr);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/TypeSelect.h
 function TypeSelect_h(lib) {
+    Events_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._TYPESELECT_H)
@@ -5559,6 +7531,10 @@ function TypeSelect_h(lib) {
     // Dropping inline function 'NewIndexToStringUPP'.
     // Dropping inline function 'DisposeIndexToStringUPP'.
     // Dropping inline function 'InvokeIndexToStringUPP'.
+    this.TypeSelectClear = lib.declare("TypeSelectClear", ctypes.default_abi, ctypes.void_t, this.TypeSelectRecord.ptr);
+    this.TypeSelectNewKey = lib.declare("TypeSelectNewKey", ctypes.default_abi, this.Boolean, this.EventRecord.ptr, this.TypeSelectRecord.ptr);
+    this.TypeSelectFindItem = lib.declare("TypeSelectFindItem", ctypes.default_abi, ctypes.short, this.TypeSelectRecord.ptr, ctypes.short, this.TSCode, this.IndexToStringUPP, ctypes.void_t.ptr);
+    this.TypeSelectCompare = lib.declare("TypeSelectCompare", ctypes.default_abi, ctypes.short, this.TypeSelectRecord.ptr, this.ScriptCode, this.StringPtr);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/Notification.h
@@ -5577,10 +7553,15 @@ function Notification_h(lib) {
     // Dropping inline function 'NewNMUPP'.
     // Dropping inline function 'DisposeNMUPP'.
     // Dropping inline function 'InvokeNMUPP'.
+    this.NMInstall = lib.declare("NMInstall", ctypes.default_abi, this.OSErr, this.NMRecPtr);
+    this.NMRemove = lib.declare("NMRemove", ctypes.default_abi, this.OSErr, this.NMRecPtr);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HISlider.h
 function HISlider_h(lib) {
+    QuickdrawTypes_h.call(this, lib);
+    Controls_h.call(this, lib);
+    HIObject_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._HISLIDER_H)
@@ -5597,10 +7578,18 @@ function HISlider_h(lib) {
     this.kControlSliderPointsUpOrLeft = 1;
     this.kControlSliderDoesNotPoint = 2;
     this.kControlKindSlider = 1936483442;
+    this.CreateSliderControl = lib.declare("CreateSliderControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.SInt32, this.SInt32, this.SInt32, this.ControlSliderOrientation, this.UInt16, this.Boolean, this.ControlActionUPP, this.ControlRef.ptr);
+    this.HISliderGetThumbOrientation = lib.declare("HISliderGetThumbOrientation", ctypes.default_abi, this.ControlSliderOrientation, this.HIViewRef);
+    this.HISliderSetThumbOrientation = lib.declare("HISliderSetThumbOrientation", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.ControlSliderOrientation);
+    this.HISliderGetTickMarkCount = lib.declare("HISliderGetTickMarkCount", ctypes.default_abi, this.ItemCount, this.HIViewRef);
+    this.HISliderSetTickMarkCount = lib.declare("HISliderSetTickMarkCount", ctypes.default_abi, this.OSStatus, this.HIViewRef, this.ItemCount);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HIProgressViews.h
 function HIProgressViews_h(lib) {
+    QuickdrawTypes_h.call(this, lib);
+    HIObject_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._HIPROGRESSVIEWS_H)
         return;
@@ -5610,15 +7599,23 @@ function HIProgressViews_h(lib) {
     this.kControlRelevanceBarProc = 81;
     this.kControlKindProgressBar = 1886545762;
     this.kControlKindRelevanceBar = 1919249506;
+    this.CreateProgressBarControl = lib.declare("CreateProgressBarControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.SInt32, this.SInt32, this.SInt32, this.Boolean, this.ControlRef.ptr);
     this.kControlProgressBarIndeterminateTag = 1768842341;
     this.kControlProgressBarAnimatingTag = 1634625901;
     this.kControlChasingArrowsProc = 112;
     this.kControlKindChasingArrows = 1667330674;
+    this.CreateChasingArrowsControl = lib.declare("CreateChasingArrowsControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.ControlRef.ptr);
     this.kControlChasingArrowsAnimatingTag = 1634625901;
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/ControlDefinitions.h
 function ControlDefinitions_h(lib) {
+    Controls_h.call(this, lib);
+    QuickdrawTypes_h.call(this, lib);
+    HIObject_h.call(this, lib);
+    Lists_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._CONTROLDEFINITIONS_H)
         return;
@@ -5657,16 +7654,19 @@ function ControlDefinitions_h(lib) {
     this.kControlEditTextPasswordProc = 274;
     this.kControlEditTextInlineInputProc = 276;
     this.kControlKindEditText = 1702131828;
+    this.CreateEditTextControl = lib.declare("CreateEditTextControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.CFStringRef, this.Boolean, this.Boolean, this.ControlFontStyleRec.ptr, this.ControlRef.ptr);
     this.kControlEditTextTEHandleTag = 1952997742;
     this.kControlEditTextInlinePreUpdateProcTag = 1886549360;
     this.kControlEditTextInlinePostUpdateProcTag = 1886352752;
     this.kControlPictureProc = 304;
     this.kControlPictureNoTrackProc = 305;
     this.kControlKindPicture = 1885954932;
+    this.CreatePictureControl = lib.declare("CreatePictureControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.ControlButtonContentInfo.ptr, this.Boolean, this.ControlRef.ptr);
     this.kControlPictureHandleTag = 1885954920;
     this.kControlListBoxProc = 352;
     this.kControlListBoxAutoSizeProc = 353;
     this.kControlKindListBox = 1818390392;
+    this.CreateListBoxControl = lib.declare("CreateListBoxControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.Boolean, this.SInt16, this.SInt16, this.Boolean, this.Boolean, this.SInt16, this.SInt16, this.Boolean, this.ListDefSpec.ptr, this.ControlRef.ptr);
     this.kControlListBoxListHandleTag = 1818780014;
     this.kControlListBoxKeyFilterTag = 1718383730;
     this.kControlListBoxFontStyleTag = 1718578804;
@@ -5676,6 +7676,7 @@ function ControlDefinitions_h(lib) {
     this.kControlScrollTextBoxProc = 432;
     this.kControlScrollTextBoxAutoScrollProc = 433;
     this.kControlKindScrollingTextBox = 1937007224;
+    this.CreateScrollingTextBoxControl = lib.declare("CreateScrollingTextBoxControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.SInt16, this.Boolean, this.UInt32, this.UInt32, this.UInt16, this.ControlRef.ptr);
     this.kControlScrollTextBoxDelayBeforeAutoScrollTag = 1937007724;
     this.kControlScrollTextBoxDelayBetweenAutoScrollTag = 1935893612;
     this.kControlScrollTextBoxAutoScrollAmountTag = 1935764852;
@@ -5685,24 +7686,35 @@ function ControlDefinitions_h(lib) {
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HITextUtils.h
 function HITextUtils_h(lib) {
+    CFBase_h.call(this, lib);
+    TextCommon_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._HITEXTUTILS_H)
         return;
     this._HITEXTUTILS_H = true;
 
+    this.GetTextAndEncodingFromCFString = lib.declare("GetTextAndEncodingFromCFString", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.BytePtr, this.ByteCount, this.ByteCount.ptr, this.TextEncoding.ptr);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HIRelevanceBar.h
 function HIRelevanceBar_h(lib) {
+    QuickdrawTypes_h.call(this, lib);
+    HIObject_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._HIRELEVANCEBAR_H)
         return;
     this._HIRELEVANCEBAR_H = true;
 
+    this.CreateRelevanceBarControl = lib.declare("CreateRelevanceBarControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.SInt32, this.SInt32, this.SInt32, this.ControlRef.ptr);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HILittleArrows.h
 function HILittleArrows_h(lib) {
+    QuickdrawTypes_h.call(this, lib);
+    HIObject_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._HILITTLEARROWS_H)
         return;
@@ -5711,6 +7723,7 @@ function HILittleArrows_h(lib) {
     this.kControlLittleArrowsProc = 96;
     this.kControlKindLittleArrows = 1818325618;
     this.kControlLittleArrowsIncrementValueTag = 1768842098;
+    this.CreateLittleArrowsControl = lib.declare("CreateLittleArrowsControl", ctypes.default_abi, this.OSStatus, this.WindowRef, this.Rect.ptr, this.SInt32, this.SInt32, this.SInt32, this.SInt32, this.ControlRef.ptr);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HITextLengthFilter.h
@@ -5727,7 +7740,9 @@ Components.utils.import("resource://gre/modules/ctypes.jsm");
 Components.utils.import("resource://osxtypes/CoreFoundation.jsm");
 Components.utils.import("resource://osxtypes/MacTypes.jsm");
 Components.utils.import("resource://osxtypes/AE.jsm");
+Components.utils.import("resource://osxtypes/DictionaryServices.jsm");
 Components.utils.import("resource://osxtypes/CarbonCore.jsm");
+Components.utils.import("resource://osxtypes/HIServices.jsm");
 Components.utils.import("resource://osxtypes/CoreText.jsm");
 Components.utils.import("resource://osxtypes/CoreGraphics.jsm");
 Components.utils.import("resource://osxtypes/QD.jsm");
@@ -5738,9 +7753,19 @@ const EXPORTED_SYMBOLS = ["HIToolbox", "Menus_h", "MacWindows_h", "MacTextEditor
 
 function HIToolbox() {
     let libpath = "/System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/HIToolbox";
-    let lib = ctypes.open(libpath);
+    let library = ctypes.open(libpath);
     this.close = function() {
-        lib.close();
+        library.close();
+    };
+    let lib = {
+        declare: function() {
+            try {
+                return library.declare.apply(library, arguments);
+            } catch (ex) {
+                dump("Failed to declare " + arguments[0] + "\n");
+                return null;
+            }
+        }
     };
 
     Menus_h.call(this, lib);

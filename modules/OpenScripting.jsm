@@ -1,7 +1,10 @@
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/OpenScripting.framework/Headers/OSA.h
 function OSA_h(lib) {
-    AEDataModel_h.call(this, lib);
     AEInteraction_h.call(this, lib);
+    CFAttributedString_h.call(this, lib);
+    Files_h.call(this, lib);
+    CFURL_h.call(this, lib);
+    AEDataModel_h.call(this, lib);
     Components_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
@@ -104,6 +107,12 @@ function OSA_h(lib) {
     this.kOSAModeFullyQualifyDescriptors = 524288;
     this.kOSAScriptResourceType = 1935896692;
     this.typeOSAGenericStorage = 1935896692;
+    this.OSALoad = lib.declare("OSALoad", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.AEDesc.ptr, this.SInt32, this.OSAID.ptr);
+    this.OSAStore = lib.declare("OSAStore", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.OSAID, this.DescType, this.SInt32, this.AEDesc.ptr);
+    this.OSAExecute = lib.declare("OSAExecute", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.OSAID, this.OSAID, this.SInt32, this.OSAID.ptr);
+    this.OSADisplay = lib.declare("OSADisplay", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.OSAID, this.DescType, this.SInt32, this.AEDesc.ptr);
+    this.OSACopyDisplayString = lib.declare("OSACopyDisplayString", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.OSAID, this.SInt32, this.CFAttributedStringRef.ptr);
+    this.OSAScriptError = lib.declare("OSAScriptError", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.OSType, this.DescType, this.AEDesc.ptr);
     this.kOSAErrorNumber = 1701999214;
     this.kOSAErrorMessage = 1701999219;
     this.kOSAErrorBriefMessage = 1701999202;
@@ -115,20 +124,61 @@ function OSA_h(lib) {
     this.typeOSAErrorRange = 1701998183;
     this.keyOSASourceStart = 1936876403;
     this.keyOSASourceEnd = 1936876389;
+    this.OSADispose = lib.declare("OSADispose", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.OSAID);
+    this.OSASetScriptInfo = lib.declare("OSASetScriptInfo", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.OSAID, this.OSType, ctypes.long);
+    this.OSAGetScriptInfo = lib.declare("OSAGetScriptInfo", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.OSAID, this.OSType, ctypes.long.ptr);
     this.OSAActiveProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.OSErr, [this.SRefCon]).ptr;
     this.OSAActiveUPP = this.OSAActiveProcPtr;
     // Dropping inline function 'NewOSAActiveUPP'.
     // Dropping inline function 'DisposeOSAActiveUPP'.
     // Dropping inline function 'InvokeOSAActiveUPP'.
+    this.OSASetActiveProc = lib.declare("OSASetActiveProc", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.OSAActiveUPP, this.SRefCon);
+    this.OSAGetActiveProc = lib.declare("OSAGetActiveProc", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.OSAActiveUPP.ptr, this.SRefCon.ptr);
+    this.OSAScriptingComponentName = lib.declare("OSAScriptingComponentName", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.AEDesc.ptr);
+    this.OSACompile = lib.declare("OSACompile", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.AEDesc.ptr, this.SInt32, this.OSAID.ptr);
+    this.OSACopyID = lib.declare("OSACopyID", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.OSAID, this.OSAID.ptr);
+    this.OSACopyScript = lib.declare("OSACopyScript", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.OSAID, this.OSAID.ptr);
+    this.OSAGetSource = lib.declare("OSAGetSource", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.OSAID, this.DescType, this.AEDesc.ptr);
+    this.OSACopySourceString = lib.declare("OSACopySourceString", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.OSAID, this.SInt32, this.CFAttributedStringRef.ptr);
+    this.OSACoerceFromDesc = lib.declare("OSACoerceFromDesc", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.AEDesc.ptr, this.SInt32, this.OSAID.ptr);
+    this.OSACoerceToDesc = lib.declare("OSACoerceToDesc", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.OSAID, this.DescType, this.SInt32, this.AEDesc.ptr);
+    this.OSASetSendProc = lib.declare("OSASetSendProc", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.OSASendUPP, this.SRefCon);
+    this.OSAGetSendProc = lib.declare("OSAGetSendProc", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.OSASendUPP.ptr, this.SRefCon.ptr);
+    this.OSASetCreateProc = lib.declare("OSASetCreateProc", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.OSACreateAppleEventUPP, this.SRefCon);
+    this.OSAGetCreateProc = lib.declare("OSAGetCreateProc", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.OSACreateAppleEventUPP.ptr, this.SRefCon.ptr);
+    this.OSASetDefaultTarget = lib.declare("OSASetDefaultTarget", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.AEAddressDesc.ptr);
+    this.OSAStartRecording = lib.declare("OSAStartRecording", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.OSAID.ptr);
+    this.OSAStopRecording = lib.declare("OSAStopRecording", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.OSAID);
+    this.OSALoadExecute = lib.declare("OSALoadExecute", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.AEDesc.ptr, this.OSAID, this.SInt32, this.OSAID.ptr);
+    this.OSACompileExecute = lib.declare("OSACompileExecute", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.AEDesc.ptr, this.OSAID, this.SInt32, this.OSAID.ptr);
+    this.OSADoScript = lib.declare("OSADoScript", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.AEDesc.ptr, this.OSAID, this.DescType, this.SInt32, this.AEDesc.ptr);
+    this.OSASetCurrentDialect = lib.declare("OSASetCurrentDialect", ctypes.default_abi, this.OSAError, this.ComponentInstance, ctypes.short);
+    this.OSAGetCurrentDialect = lib.declare("OSAGetCurrentDialect", ctypes.default_abi, this.OSAError, this.ComponentInstance, ctypes.short.ptr);
+    this.OSAAvailableDialects = lib.declare("OSAAvailableDialects", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.AEDesc.ptr);
+    this.OSAGetDialectInfo = lib.declare("OSAGetDialectInfo", ctypes.default_abi, this.OSAError, this.ComponentInstance, ctypes.short, this.OSType, this.AEDesc.ptr);
+    this.OSAAvailableDialectCodeList = lib.declare("OSAAvailableDialectCodeList", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.AEDesc.ptr);
+    this.OSASetResumeDispatchProc = lib.declare("OSASetResumeDispatchProc", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.AEEventHandlerUPP, this.SRefCon);
     this.kOSAUseStandardDispatch = -1;
     this.kOSANoDispatch = 0;
     this.kOSADontUsePhac = 1;
+    this.OSAGetResumeDispatchProc = lib.declare("OSAGetResumeDispatchProc", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.AEEventHandlerUPP.ptr, this.SRefCon.ptr);
+    this.OSAExecuteEvent = lib.declare("OSAExecuteEvent", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.AppleEvent.ptr, this.OSAID, this.SInt32, this.OSAID.ptr);
+    this.OSADoEvent = lib.declare("OSADoEvent", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.AppleEvent.ptr, this.OSAID, this.SInt32, this.AppleEvent.ptr);
+    this.OSAMakeContext = lib.declare("OSAMakeContext", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.AEDesc.ptr, this.OSAID, this.OSAID.ptr);
+    this.OSAGetScriptDataFromURL = lib.declare("OSAGetScriptDataFromURL", ctypes.default_abi, this.OSAError, this.CFURLRef, this.Boolean.ptr, this.SInt32, this.AEDesc.ptr);
+    this.OSALoadScriptData = lib.declare("OSALoadScriptData", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.AEDesc.ptr, this.CFURLRef, this.SInt32, this.OSAID.ptr);
+    this.OSALoadFile = lib.declare("OSALoadFile", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.FSRef.ptr, this.Boolean.ptr, this.SInt32, this.OSAID.ptr);
+    this.OSAStoreFile = lib.declare("OSAStoreFile", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.OSAID, this.DescType, this.SInt32, this.FSRef.ptr);
+    this.OSALoadExecuteFile = lib.declare("OSALoadExecuteFile", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.FSRef.ptr, this.OSAID, this.SInt32, this.OSAID.ptr);
+    this.OSADoScriptFile = lib.declare("OSADoScriptFile", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.FSRef.ptr, this.OSAID, this.DescType, this.SInt32, this.AEDesc.ptr);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/OpenScripting.framework/Headers/OSAGeneric.h
 function OSAGeneric_h(lib) {
     OSA_h.call(this, lib);
+    Components_h.call(this, lib);
     MacTypes_h.call(this, lib);
+    AEDataModel_h.call(this, lib);
 
     if (this._OSAGENERIC_H)
         return;
@@ -144,10 +194,22 @@ function OSAGeneric_h(lib) {
     this.kGSSSelectOutOfRange = 4103;
     this.ScriptingComponentSelector = this.OSType;
     this.GenericID = this.OSAID;
+    this.OSAGetDefaultScriptingComponent = lib.declare("OSAGetDefaultScriptingComponent", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.ScriptingComponentSelector.ptr);
+    this.OSASetDefaultScriptingComponent = lib.declare("OSASetDefaultScriptingComponent", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.ScriptingComponentSelector);
+    this.OSAGetScriptingComponent = lib.declare("OSAGetScriptingComponent", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.ScriptingComponentSelector, this.ComponentInstance.ptr);
+    this.OSAGetScriptingComponentFromStored = lib.declare("OSAGetScriptingComponentFromStored", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.AEDesc.ptr, this.ScriptingComponentSelector.ptr);
+    this.OSAGenericToRealID = lib.declare("OSAGenericToRealID", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.OSAID.ptr, this.ComponentInstance.ptr);
+    this.OSARealToGenericID = lib.declare("OSARealToGenericID", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.OSAID.ptr, this.ComponentInstance);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/OpenScripting.framework/Headers/AppleScript.h
 function AppleScript_h(lib) {
+    OSA_h.call(this, lib);
+    TextEdit_h.call(this, lib);
+    AEDataModel_h.call(this, lib);
+    Components_h.call(this, lib);
+    CFArray_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._APPLESCRIPT_H)
         return;
@@ -163,12 +225,18 @@ function AppleScript_h(lib) {
     this.kASSelectCopySourceAttributes = 4101;
     this.kASSelectSetSourceAttributes = 4102;
     this.kASHasOpenHandler = 1752395620;
+    this.ASInit = lib.declare("ASInit", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.SInt32, this.UInt32, this.UInt32, this.UInt32, this.UInt32, this.UInt32, this.UInt32);
     this.kASDefaultMinStackSize = 4096;
     this.kASDefaultPreferredStackSize = 16384;
     this.kASDefaultMaxStackSize = 16384;
     this.kASDefaultMinHeapSize = 4096;
     this.kASDefaultPreferredHeapSize = 16384;
     this.kASDefaultMaxHeapSize = 33554432;
+    this.ASSetSourceStyles = lib.declare("ASSetSourceStyles", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.STHandle);
+    this.ASGetSourceStyles = lib.declare("ASGetSourceStyles", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.STHandle.ptr);
+    this.ASCopySourceAttributes = lib.declare("ASCopySourceAttributes", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.CFArrayRef.ptr);
+    this.ASSetSourceAttributes = lib.declare("ASSetSourceAttributes", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.CFArrayRef);
+    this.ASGetSourceStyleNames = lib.declare("ASGetSourceStyleNames", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.SInt32, this.AEDescList.ptr);
     this.kASSourceStyleUncompiledText = 0;
     this.kASSourceStyleNormalText = 1;
     this.kASSourceStyleLanguageKeyword = 2;
@@ -193,6 +261,13 @@ function AppleScript_h(lib) {
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/OpenScripting.framework/Headers/ASDebugging.h
 function ASDebugging_h(lib) {
+    OSA_h.call(this, lib);
+    CFData_h.call(this, lib);
+    Files_h.call(this, lib);
+    CFURL_h.call(this, lib);
+    AEDataModel_h.call(this, lib);
+    Components_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._ASDEBUGGING_H)
         return;
@@ -212,6 +287,21 @@ function ASDebugging_h(lib) {
     this.kASSelectGetSysTerminology = 4363;
     this.kASSelectGetPropertyNames = 4364;
     this.kASSelectGetHandlerNames = 4365;
+    this.OSASetProperty = lib.declare("OSASetProperty", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.SInt32, this.OSAID, this.AEDesc.ptr, this.OSAID);
+    this.OSAGetProperty = lib.declare("OSAGetProperty", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.SInt32, this.OSAID, this.AEDesc.ptr, this.OSAID.ptr);
+    this.OSAGetPropertyNames = lib.declare("OSAGetPropertyNames", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.SInt32, this.OSAID, this.AEDescList.ptr);
+    this.OSASetHandler = lib.declare("OSASetHandler", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.SInt32, this.OSAID, this.AEDesc.ptr, this.OSAID);
+    this.OSAGetHandler = lib.declare("OSAGetHandler", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.SInt32, this.OSAID, this.AEDesc.ptr, this.OSAID.ptr);
+    this.OSAGetHandlerNames = lib.declare("OSAGetHandlerNames", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.SInt32, this.OSAID, this.AEDescList.ptr);
+    this.OSAGetAppTerminology = lib.declare("OSAGetAppTerminology", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.SInt32, this.FSSpec.ptr, ctypes.short, this.Boolean.ptr, this.AEDesc.ptr);
+    this.OSAGetSysTerminology = lib.declare("OSAGetSysTerminology", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.SInt32, ctypes.short, this.AEDesc.ptr);
+    this.OSACopyScriptingDefinition = lib.declare("OSACopyScriptingDefinition", ctypes.default_abi, this.OSAError, this.FSRef.ptr, this.SInt32, this.CFDataRef.ptr);
+    this.OSACopyScriptingDefinitionFromURL = lib.declare("OSACopyScriptingDefinitionFromURL", ctypes.default_abi, this.OSAError, this.CFURLRef, this.SInt32, this.CFDataRef.ptr);
+    this.ASSetProperty = lib.declare("ASSetProperty", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.OSAID, this.AEDesc.ptr, this.OSAID);
+    this.ASGetProperty = lib.declare("ASGetProperty", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.OSAID, this.AEDesc.ptr, this.OSAID.ptr);
+    this.ASSetHandler = lib.declare("ASSetHandler", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.OSAID, this.AEDesc.ptr, this.OSAID);
+    this.ASGetHandler = lib.declare("ASGetHandler", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.OSAID, this.AEDesc.ptr, this.OSAID.ptr);
+    this.ASGetAppTerminology = lib.declare("ASGetAppTerminology", ctypes.default_abi, this.OSAError, this.ComponentInstance, this.FSSpec.ptr, ctypes.short, this.Boolean.ptr, this.AEDesc.ptr);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/OpenScripting.framework/Headers/ASRegistry.h
@@ -804,26 +894,42 @@ function DigitalHubRegistry_h(lib) {
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/OpenScripting.framework/Headers/OSAComp.h
 function OSAComp_h(lib) {
+    AEDataModel_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._OSACOMP_H)
         return;
     this._OSACOMP_H = true;
 
+    this.OSAGetStorageType = lib.declare("OSAGetStorageType", ctypes.default_abi, this.OSErr, this.AEDataStorage, this.DescType.ptr);
+    this.OSAAddStorageType = lib.declare("OSAAddStorageType", ctypes.default_abi, this.OSErr, this.AEDataStorage, this.DescType);
+    this.OSARemoveStorageType = lib.declare("OSARemoveStorageType", ctypes.default_abi, this.OSErr, this.AEDataStorage);
 }
 
 Components.utils.import("resource://gre/modules/ctypes.jsm");
+Components.utils.import("resource://osxtypes/CoreFoundation.jsm");
+Components.utils.import("resource://osxtypes/AE.jsm");
 Components.utils.import("resource://osxtypes/CarbonCore.jsm");
 Components.utils.import("resource://osxtypes/MacTypes.jsm");
-Components.utils.import("resource://osxtypes/AE.jsm");
 Components.utils.import("resource://osxtypes/HIToolbox.jsm");
 
 const EXPORTED_SYMBOLS = ["OpenScripting", "OSA_h", "OSAGeneric_h", "AppleScript_h", "ASDebugging_h", "ASRegistry_h", "FinderRegistry_h", "DigitalHubRegistry_h", "OSAComp_h"];
 
 function OpenScripting() {
     let libpath = "/System/Library/Frameworks/Carbon.framework/Frameworks/OpenScripting.framework/OpenScripting";
-    let lib = ctypes.open(libpath);
+    let library = ctypes.open(libpath);
     this.close = function() {
-        lib.close();
+        library.close();
+    };
+    let lib = {
+        declare: function() {
+            try {
+                return library.declare.apply(library, arguments);
+            } catch (ex) {
+                dump("Failed to declare " + arguments[0] + "\n");
+                return null;
+            }
+        }
     };
 
     OSA_h.call(this, lib);

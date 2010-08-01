@@ -106,16 +106,25 @@ function ICAApplication_h(lib) {
     this.kICAAllowMultipleImages = 1;
     this.kICADownloadAndReturnPathArray = 2;
     this.ICAImportImagePB = new ctypes.StructType("ICAImportImagePB", [{header: this.ICAHeader}, {deviceObject: this.ICAObject}, {flags: this.UInt32}, {supportedFileTypes: this.CFArrayRef}, {filterProc: this.ICAImportFilterProc}, {importedImages: this.CFArrayRef.ptr}]);
+    this.ICAImportImage = lib.declare("ICAImportImage", ctypes.default_abi, this.ICAError, this.ICAImportImagePB.ptr, this.ICACompletion);
+    this.ICAShowDeviceBrowser = lib.declare("ICAShowDeviceBrowser", ctypes.default_abi, this.ICAError, this.CFDictionaryRef);
     this.ICANotification = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.CFStringRef, this.CFDictionaryRef]).ptr;
     this.ICARegisterForEventNotificationPB = new ctypes.StructType("ICARegisterForEventNotificationPB", [{header: this.ICAHeader}, {objectOfInterest: this.ICAObject}, {eventsOfInterest: this.CFArrayRef}, {notificationProc: this.ICANotification}, {options: this.CFDictionaryRef}]);
+    this.ICARegisterForEventNotification = lib.declare("ICARegisterForEventNotification", ctypes.default_abi, this.ICAError, this.ICARegisterForEventNotificationPB.ptr, this.ICACompletion);
     this.ICASendNotificationPB = new ctypes.StructType("ICASendNotificationPB", [{header: this.ICAHeader}, {notificationDictionary: this.CFMutableDictionaryRef}, {replyCode: this.UInt32}]);
+    this.ICASendNotification = lib.declare("ICASendNotification", ctypes.default_abi, this.ICAError, this.ICASendNotificationPB.ptr);
+    this.ICASendNotificationAndWaitForReply = lib.declare("ICASendNotificationAndWaitForReply", ctypes.default_abi, this.ICAError, this.ICASendNotificationPB.ptr);
     this.ICAGetDeviceListPB = new ctypes.StructType("ICAGetDeviceListPB", [{header: this.ICAHeader}, {object: this.ICAObject}]);
+    this.ICAGetDeviceList = lib.declare("ICAGetDeviceList", ctypes.default_abi, this.ICAError, this.ICAGetDeviceListPB.ptr, this.ICACompletion);
     this.ICACopyObjectPropertyDictionaryPB = new ctypes.StructType("ICACopyObjectPropertyDictionaryPB", [{header: this.ICAHeader}, {object: this.ICAObject}, {theDict: this.CFDictionaryRef.ptr}]);
+    this.ICACopyObjectPropertyDictionary = lib.declare("ICACopyObjectPropertyDictionary", ctypes.default_abi, this.ICAError, this.ICACopyObjectPropertyDictionaryPB.ptr, this.ICACompletion);
     this.kICAThumbnailFormatJPEG = 1785750887;
     this.kICAThumbnailFormatTIFF = 1953064550;
     this.kICAThumbnailFormatPNG = 1886283552;
     this.ICACopyObjectThumbnailPB = new ctypes.StructType("ICACopyObjectThumbnailPB", [{header: this.ICAHeader}, {object: this.ICAObject}, {thumbnailFormat: this.OSType}, {thumbnailData: this.CFDataRef.ptr}]);
+    this.ICACopyObjectThumbnail = lib.declare("ICACopyObjectThumbnail", ctypes.default_abi, this.ICAError, this.ICACopyObjectThumbnailPB.ptr, this.ICACompletion);
     this.ICACopyObjectDataPB = new ctypes.StructType("ICACopyObjectDataPB", []);
+    this.ICACopyObjectData = lib.declare("ICACopyObjectData", ctypes.default_abi, this.ICAError, this.ICACopyObjectDataPB.ptr, this.ICACompletion);
     this.ICAMessage = new ctypes.StructType("ICAMessage", [{messageType: this.OSType}, {startByte: this.UInt32}, {dataPtr: ctypes.void_t.ptr}, {dataSize: this.UInt32}, {dataType: this.OSType}]);
     this.kICAMessageConnect = 1869636974;
     this.kICAMessageDisconnect = 1668050803;
@@ -128,6 +137,7 @@ function ICAApplication_h(lib) {
     this.kICAMessageCameraPassThrough = 1885434739;
     this.kICAMessageScannerOverviewSelectionChanged = 1634887009;
     this.ICAObjectSendMessagePB = new ctypes.StructType("ICAObjectSendMessagePB", [{header: this.ICAHeader}, {object: this.ICAObject}, {message: this.ICAMessage}, {result: this.UInt32}]);
+    this.ICAObjectSendMessage = lib.declare("ICAObjectSendMessage", ctypes.default_abi, this.ICAError, this.ICAObjectSendMessagePB.ptr, this.ICACompletion);
     this.kDeleteAfterDownload = 1;
     this.kCreateCustomIcon = 2;
     this.kAddMetaDataToFinderComment = 4;
@@ -136,20 +146,33 @@ function ICAApplication_h(lib) {
     this.kRotateImage = 64;
     this.kDontEmbedColorSyncProfile = 128;
     this.ICADownloadFilePB = new ctypes.StructType("ICADownloadFilePB", [{header: this.ICAHeader}, {object: this.ICAObject}, {dirFSRef: this.FSRef.ptr}, {flags: this.UInt32}, {fileType: this.OSType}, {fileCreator: this.OSType}, {rotationAngle: this.Fixed}, {fileFSRef: this.FSRef.ptr}]);
+    this.ICADownloadFile = lib.declare("ICADownloadFile", ctypes.default_abi, this.ICAError, this.ICADownloadFilePB.ptr, this.ICACompletion);
     this.kICAUploadFileAsIs = 0;
     this.kICAUploadFileScaleToFit = 1;
     this.ICAUploadFilePB = new ctypes.StructType("ICAUploadFilePB", [{header: this.ICAHeader}, {parentObject: this.ICAObject}, {fileFSRef: this.FSRef.ptr}, {flags: this.UInt32}]);
+    this.ICAUploadFile = lib.declare("ICAUploadFile", ctypes.default_abi, this.ICAError, this.ICAUploadFilePB.ptr, this.ICACompletion);
     this.ICALoadDeviceModulePB = new ctypes.StructType("ICALoadDeviceModulePB", [{header: this.ICAHeader}, {paramDictionary: this.CFDictionaryRef}]);
+    this.ICALoadDeviceModule = lib.declare("ICALoadDeviceModule", ctypes.default_abi, this.ICAError, this.ICALoadDeviceModulePB.ptr, this.ICACompletion);
     this.ICAUnloadDeviceModulePB = new ctypes.StructType("ICAUnloadDeviceModulePB", [{header: this.ICAHeader}, {deviceObject: this.ICAObject}]);
+    this.ICAUnloadDeviceModule = lib.declare("ICAUnloadDeviceModule", ctypes.default_abi, this.ICAError, this.ICAUnloadDeviceModulePB.ptr, this.ICACompletion);
     this.ICAOpenSessionPB = new ctypes.StructType("ICAOpenSessionPB", [{header: this.ICAHeader}, {deviceObject: this.ICAObject}, {sessionID: this.ICASessionID}]);
+    this.ICAOpenSession = lib.declare("ICAOpenSession", ctypes.default_abi, this.ICAError, this.ICAOpenSessionPB.ptr, this.ICACompletion);
     this.ICACloseSessionPB = new ctypes.StructType("ICACloseSessionPB", [{header: this.ICAHeader}, {sessionID: this.ICASessionID}]);
+    this.ICACloseSession = lib.declare("ICACloseSession", ctypes.default_abi, this.ICAError, this.ICACloseSessionPB.ptr, this.ICACompletion);
     this.ICAScannerOpenSessionPB = new ctypes.StructType("ICAScannerOpenSessionPB", [{header: this.ICAHeader}, {object: this.ICAObject}, {sessionID: this.ICAScannerSessionID}]);
+    this.ICAScannerOpenSession = lib.declare("ICAScannerOpenSession", ctypes.default_abi, this.ICAError, this.ICAScannerOpenSessionPB.ptr, this.ICACompletion);
     this.ICAScannerCloseSessionPB = new ctypes.StructType("ICAScannerCloseSessionPB", [{header: this.ICAHeader}, {sessionID: this.ICAScannerSessionID}]);
+    this.ICAScannerCloseSession = lib.declare("ICAScannerCloseSession", ctypes.default_abi, this.ICAError, this.ICAScannerCloseSessionPB.ptr, this.ICACompletion);
     this.ICAScannerInitializePB = new ctypes.StructType("ICAScannerInitializePB", [{header: this.ICAHeader}, {sessionID: this.ICAScannerSessionID}]);
+    this.ICAScannerInitialize = lib.declare("ICAScannerInitialize", ctypes.default_abi, this.ICAError, this.ICAScannerInitializePB.ptr, this.ICACompletion);
     this.ICAScannerGetParametersPB = new ctypes.StructType("ICAScannerGetParametersPB", [{header: this.ICAHeader}, {sessionID: this.ICAScannerSessionID}, {theDict: this.CFMutableDictionaryRef}]);
+    this.ICAScannerGetParameters = lib.declare("ICAScannerGetParameters", ctypes.default_abi, this.ICAError, this.ICAScannerGetParametersPB.ptr, this.ICACompletion);
     this.ICAScannerSetParametersPB = new ctypes.StructType("ICAScannerSetParametersPB", [{header: this.ICAHeader}, {sessionID: this.ICAScannerSessionID}, {theDict: this.CFMutableDictionaryRef}]);
+    this.ICAScannerSetParameters = lib.declare("ICAScannerSetParameters", ctypes.default_abi, this.ICAError, this.ICAScannerSetParametersPB.ptr, this.ICACompletion);
     this.ICAScannerStatusPB = new ctypes.StructType("ICAScannerStatusPB", [{header: this.ICAHeader}, {sessionID: this.ICAScannerSessionID}, {status: this.UInt32}]);
+    this.ICAScannerStatus = lib.declare("ICAScannerStatus", ctypes.default_abi, this.ICAError, this.ICAScannerStatusPB.ptr, this.ICACompletion);
     this.ICAScannerStartPB = new ctypes.StructType("ICAScannerStartPB", [{header: this.ICAHeader}, {sessionID: this.ICAScannerSessionID}]);
+    this.ICAScannerStart = lib.declare("ICAScannerStart", ctypes.default_abi, this.ICAError, this.ICAScannerStartPB.ptr, this.ICACompletion);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/ImageCapture.framework/Headers/ICADevice.h
@@ -163,7 +186,9 @@ function ICADevice_h(lib) {
     this.ICDHeader = new ctypes.StructType("ICDHeader", [{err: this.ICAError}, {refcon: ctypes.unsigned_long}]);
     this.ICDCompletion = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.ICDHeader.ptr]).ptr;
     this.ICD_NewObjectPB = new ctypes.StructType("ICD_NewObjectPB", [{header: this.ICDHeader}, {parentObject: this.ICAObject}, {objectInfo: this.ICAObjectInfo}, {object: this.ICAObject}]);
+    this.ICDNewObject = lib.declare("ICDNewObject", ctypes.default_abi, this.ICAError, this.ICD_NewObjectPB.ptr, this.ICDCompletion);
     this.ICD_DisposeObjectPB = new ctypes.StructType("ICD_DisposeObjectPB", [{header: this.ICDHeader}, {object: this.ICAObject}]);
+    this.ICDDisposeObject = lib.declare("ICDDisposeObject", ctypes.default_abi, this.ICAError, this.ICD_DisposeObjectPB.ptr, this.ICDCompletion);
 }
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/ImageCapture.framework/Headers/ICACamera.h
@@ -248,9 +273,19 @@ const EXPORTED_SYMBOLS = ["ImageCapture", "ICAApplication_h", "ICADevice_h", "IC
 
 function ImageCapture() {
     let libpath = "/System/Library/Frameworks/Carbon.framework/Frameworks/ImageCapture.framework/ImageCapture";
-    let lib = ctypes.open(libpath);
+    let library = ctypes.open(libpath);
     this.close = function() {
-        lib.close();
+        library.close();
+    };
+    let lib = {
+        declare: function() {
+            try {
+                return library.declare.apply(library, arguments);
+            } catch (ex) {
+                dump("Failed to declare " + arguments[0] + "\n");
+                return null;
+            }
+        }
     };
 
     ICAApplication_h.call(this, lib);

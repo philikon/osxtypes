@@ -98,6 +98,20 @@ function AUComponent_h(lib) {
     this.AURenderCallback = new ctypes.FunctionType(ctypes.default_abi, this.OSStatus, [ctypes.void_t.ptr, this.AudioUnitRenderActionFlags.ptr, this.AudioTimeStamp.ptr, this.UInt32, this.UInt32, this.AudioBufferList.ptr]).ptr;
     this.AudioUnitPropertyListenerProc = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [ctypes.void_t.ptr, this.AudioUnit, this.AudioUnitPropertyID, this.AudioUnitScope, this.AudioUnitElement]).ptr;
     this.AUInputSamplesInOutputCallback = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [ctypes.void_t.ptr, this.AudioTimeStamp.ptr, this.Float64, this.Float64]).ptr;
+    this.AudioUnitInitialize = lib.declare("AudioUnitInitialize", ctypes.default_abi, this.OSStatus, this.AudioUnit);
+    this.AudioUnitUninitialize = lib.declare("AudioUnitUninitialize", ctypes.default_abi, this.OSStatus, this.AudioUnit);
+    this.AudioUnitGetPropertyInfo = lib.declare("AudioUnitGetPropertyInfo", ctypes.default_abi, this.OSStatus, this.AudioUnit, this.AudioUnitPropertyID, this.AudioUnitScope, this.AudioUnitElement, this.UInt32.ptr, this.Boolean.ptr);
+    this.AudioUnitGetProperty = lib.declare("AudioUnitGetProperty", ctypes.default_abi, this.OSStatus, this.AudioUnit, this.AudioUnitPropertyID, this.AudioUnitScope, this.AudioUnitElement, ctypes.void_t.ptr, this.UInt32.ptr);
+    this.AudioUnitSetProperty = lib.declare("AudioUnitSetProperty", ctypes.default_abi, this.OSStatus, this.AudioUnit, this.AudioUnitPropertyID, this.AudioUnitScope, this.AudioUnitElement, ctypes.void_t.ptr, this.UInt32);
+    this.AudioUnitAddPropertyListener = lib.declare("AudioUnitAddPropertyListener", ctypes.default_abi, this.OSStatus, this.AudioUnit, this.AudioUnitPropertyID, this.AudioUnitPropertyListenerProc, ctypes.void_t.ptr);
+    this.AudioUnitRemovePropertyListenerWithUserData = lib.declare("AudioUnitRemovePropertyListenerWithUserData", ctypes.default_abi, this.OSStatus, this.AudioUnit, this.AudioUnitPropertyID, this.AudioUnitPropertyListenerProc, ctypes.void_t.ptr);
+    this.AudioUnitAddRenderNotify = lib.declare("AudioUnitAddRenderNotify", ctypes.default_abi, this.OSStatus, this.AudioUnit, this.AURenderCallback, ctypes.void_t.ptr);
+    this.AudioUnitRemoveRenderNotify = lib.declare("AudioUnitRemoveRenderNotify", ctypes.default_abi, this.OSStatus, this.AudioUnit, this.AURenderCallback, ctypes.void_t.ptr);
+    this.AudioUnitGetParameter = lib.declare("AudioUnitGetParameter", ctypes.default_abi, this.OSStatus, this.AudioUnit, this.AudioUnitParameterID, this.AudioUnitScope, this.AudioUnitElement, this.AudioUnitParameterValue.ptr);
+    this.AudioUnitSetParameter = lib.declare("AudioUnitSetParameter", ctypes.default_abi, this.OSStatus, this.AudioUnit, this.AudioUnitParameterID, this.AudioUnitScope, this.AudioUnitElement, this.AudioUnitParameterValue, this.UInt32);
+    this.AudioUnitScheduleParameters = lib.declare("AudioUnitScheduleParameters", ctypes.default_abi, this.OSStatus, this.AudioUnit, this.AudioUnitParameterEvent.ptr, this.UInt32);
+    this.AudioUnitRender = lib.declare("AudioUnitRender", ctypes.default_abi, this.OSStatus, this.AudioUnit, this.AudioUnitRenderActionFlags.ptr, this.AudioTimeStamp.ptr, this.UInt32, this.UInt32, this.AudioBufferList.ptr);
+    this.AudioUnitReset = lib.declare("AudioUnitReset", ctypes.default_abi, this.OSStatus, this.AudioUnit, this.AudioUnitScope, this.AudioUnitElement);
     this.kAudioUnitRange = 0;
     this.kAudioUnitInitializeSelect = 1;
     this.kAudioUnitUninitializeSelect = 2;
@@ -121,6 +135,7 @@ function AUComponent_h(lib) {
     this.kAudioUnitErr_InstrumentTypeNotFound = -10872;
     this.kAudioUnitErr_UnknownFileType = -10870;
     this.kAudioUnitErr_FileNotSpecified = -10869;
+    this.AudioUnitRemovePropertyListener = lib.declare("AudioUnitRemovePropertyListener", ctypes.default_abi, this.OSStatus, this.AudioUnit, this.AudioUnitPropertyID, this.AudioUnitPropertyListenerProc);
 }
 
 // Based on /System/Library/Frameworks/AudioUnit.framework/Headers/AudioUnitProperties.h
@@ -373,7 +388,6 @@ function AudioUnitProperties_h(lib) {
     this.kScheduledAudioSliceFlag_Complete = 1;
     this.kScheduledAudioSliceFlag_BeganToRender = 2;
     this.kScheduledAudioSliceFlag_BeganToRenderLate = 4;
-    this.ScheduledAudioSlice = new ctypes.StructType("ScheduledAudioSlice");
     this.ScheduledAudioSliceCompletionProc = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [ctypes.void_t.ptr, this.ScheduledAudioSlice.ptr]).ptr;
     this.ScheduledAudioSlice = new ctypes.StructType("ScheduledAudioSlice", [{mTimeStamp: this.AudioTimeStamp}, {mCompletionProc: this.ScheduledAudioSliceCompletionProc}, {mCompletionProcUserData: ctypes.void_t.ptr}, {mFlags: this.UInt32}, {mReserved: this.UInt32}, {mReserved2: ctypes.void_t.ptr}, {mNumberFrames: this.UInt32}, {mBufferList: this.AudioBufferList.ptr}]);
     this.kAudioUnitProperty_ScheduledFileIDs = 3310;
@@ -381,10 +395,9 @@ function AudioUnitProperties_h(lib) {
     this.kAudioUnitProperty_ScheduledFilePrime = 3312;
     this.kAudioUnitProperty_ScheduledFileBufferSizeFrames = 3313;
     this.kAudioUnitProperty_ScheduledFileNumberBuffers = 3314;
-    this.ScheduledAudioFileRegion = new ctypes.StructType("ScheduledAudioFileRegion");
     this.ScheduledAudioFileRegionCompletionProc = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [ctypes.void_t.ptr, this.ScheduledAudioFileRegion.ptr, this.OSStatus]).ptr;
-    this.OpaqueAudioFileID = new ctypes.StructType("OpaqueAudioFileID");
     this.ScheduledAudioFileRegion = new ctypes.StructType("ScheduledAudioFileRegion", [{mTimeStamp: this.AudioTimeStamp}, {mCompletionProc: this.ScheduledAudioFileRegionCompletionProc}, {mCompletionProcUserData: ctypes.void_t.ptr}, {mAudioFile: this.OpaqueAudioFileID.ptr}, {mLoopCount: this.UInt32}, {mStartFrame: this.SInt64}, {mFramesToPlay: this.UInt32}]);
+    this.OpaqueAudioFileID = new ctypes.StructType("OpaqueAudioFileID");
     this.kAudioUnitProperty_DeferredRendererPullSize = 3320;
     this.kAudioUnitProperty_DeferredRendererExtraLatency = 3321;
     this.kAudioUnitProperty_DeferredRendererWaitFrames = 3322;
@@ -446,6 +459,7 @@ function AudioUnitProperties_h(lib) {
 
 // Based on /System/Library/Frameworks/AudioUnit.framework/Headers/AudioCodec.h
 function AudioCodec_h(lib) {
+    CoreAudioTypes_h.call(this, lib);
     AudioComponent_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
@@ -540,6 +554,14 @@ function AudioCodec_h(lib) {
     this.kAudioCodecUnsupportedFormatError = 560226676;
     this.kAudioCodecStateError = 561214580;
     this.kAudioCodecNotEnoughBufferSpaceError = 560100710;
+    this.AudioCodecGetPropertyInfo = lib.declare("AudioCodecGetPropertyInfo", ctypes.default_abi, this.OSStatus, this.AudioCodec, this.AudioCodecPropertyID, this.UInt32.ptr, this.Boolean.ptr);
+    this.AudioCodecGetProperty = lib.declare("AudioCodecGetProperty", ctypes.default_abi, this.OSStatus, this.AudioCodec, this.AudioCodecPropertyID, this.UInt32.ptr, ctypes.void_t.ptr);
+    this.AudioCodecSetProperty = lib.declare("AudioCodecSetProperty", ctypes.default_abi, this.OSStatus, this.AudioCodec, this.AudioCodecPropertyID, this.UInt32, ctypes.void_t.ptr);
+    this.AudioCodecInitialize = lib.declare("AudioCodecInitialize", ctypes.default_abi, this.OSStatus, this.AudioCodec, this.AudioStreamBasicDescription.ptr, this.AudioStreamBasicDescription.ptr, ctypes.void_t.ptr, this.UInt32);
+    this.AudioCodecUninitialize = lib.declare("AudioCodecUninitialize", ctypes.default_abi, this.OSStatus, this.AudioCodec);
+    this.AudioCodecAppendInputData = lib.declare("AudioCodecAppendInputData", ctypes.default_abi, this.OSStatus, this.AudioCodec, ctypes.void_t.ptr, this.UInt32.ptr, this.UInt32.ptr, this.AudioStreamPacketDescription.ptr);
+    this.AudioCodecProduceOutputPackets = lib.declare("AudioCodecProduceOutputPackets", ctypes.default_abi, this.OSStatus, this.AudioCodec, ctypes.void_t.ptr, this.UInt32.ptr, this.UInt32.ptr, this.AudioStreamPacketDescription.ptr, this.UInt32.ptr);
+    this.AudioCodecReset = lib.declare("AudioCodecReset", ctypes.default_abi, this.OSStatus, this.AudioCodec);
     this.kAudioCodecPropertyRequiresPacketDescription = 1885432676;
     this.kAudioCodecPropertyAvailableBitRates = 1651668003;
     this.kAudioCodecExtendFrequencies = 1633903974;
@@ -585,6 +607,10 @@ function MusicDevice_h(lib) {
     this.MusicDeviceGroupID = this.UInt32;
     this.NoteInstanceID = this.UInt32;
     this.MusicDeviceComponent = this.AudioComponentInstance;
+    this.MusicDeviceMIDIEvent = lib.declare("MusicDeviceMIDIEvent", ctypes.default_abi, this.OSStatus, this.MusicDeviceComponent, this.UInt32, this.UInt32, this.UInt32, this.UInt32);
+    this.MusicDeviceSysEx = lib.declare("MusicDeviceSysEx", ctypes.default_abi, this.OSStatus, this.MusicDeviceComponent, this.UInt8.ptr, this.UInt32);
+    this.MusicDeviceStartNote = lib.declare("MusicDeviceStartNote", ctypes.default_abi, this.OSStatus, this.MusicDeviceComponent, this.MusicDeviceInstrumentID, this.MusicDeviceGroupID, this.NoteInstanceID.ptr, this.UInt32, this.MusicDeviceNoteParams.ptr);
+    this.MusicDeviceStopNote = lib.declare("MusicDeviceStopNote", ctypes.default_abi, this.OSStatus, this.MusicDeviceComponent, this.MusicDeviceGroupID, this.NoteInstanceID, this.UInt32);
     this.kMusicDeviceRange = 256;
     this.kMusicDeviceMIDIEventSelect = 257;
     this.kMusicDeviceSysExSelect = 258;
@@ -596,15 +622,21 @@ function MusicDevice_h(lib) {
     this.MusicDeviceSysExProc = new ctypes.FunctionType(ctypes.default_abi, this.OSStatus, [ctypes.void_t.ptr, this.UInt8.ptr, this.UInt32]).ptr;
     this.MusicDeviceStartNoteProc = new ctypes.FunctionType(ctypes.default_abi, this.OSStatus, [ctypes.void_t.ptr, this.MusicDeviceInstrumentID, this.MusicDeviceGroupID, this.NoteInstanceID.ptr, this.UInt32, this.MusicDeviceNoteParams.ptr]).ptr;
     this.MusicDeviceStopNoteProc = new ctypes.FunctionType(ctypes.default_abi, this.OSStatus, [ctypes.void_t.ptr, this.MusicDeviceGroupID, this.NoteInstanceID, this.UInt32]).ptr;
+    this.MusicDevicePrepareInstrument = lib.declare("MusicDevicePrepareInstrument", ctypes.default_abi, this.OSStatus, this.MusicDeviceComponent, this.MusicDeviceInstrumentID);
+    this.MusicDeviceReleaseInstrument = lib.declare("MusicDeviceReleaseInstrument", ctypes.default_abi, this.OSStatus, this.MusicDeviceComponent, this.MusicDeviceInstrumentID);
 }
 
 // Based on /System/Library/Frameworks/AudioUnit.framework/Headers/AudioOutputUnit.h
 function AudioOutputUnit_h(lib) {
+    AUComponent_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._AUDIOOUTPUTUNIT_H)
         return;
     this._AUDIOOUTPUTUNIT_H = true;
 
+    this.AudioOutputUnitStart = lib.declare("AudioOutputUnitStart", ctypes.default_abi, this.OSStatus, this.AudioUnit);
+    this.AudioOutputUnitStop = lib.declare("AudioOutputUnitStop", ctypes.default_abi, this.OSStatus, this.AudioUnit);
     this.kAudioOutputUnitRange = 512;
     this.kAudioOutputUnitStartSelect = 513;
     this.kAudioOutputUnitStopSelect = 514;
@@ -614,6 +646,7 @@ function AudioOutputUnit_h(lib) {
 function AudioComponent_h(lib) {
     Components_h.call(this, lib);
     MacTypes_h.call(this, lib);
+    CFBase_h.call(this, lib);
 
     if (this._AUDIOCOMPONENT_H)
         return;
@@ -623,6 +656,15 @@ function AudioComponent_h(lib) {
     this.OpaqueAudioComponent = new ctypes.StructType("OpaqueAudioComponent");
     this.AudioComponent = this.OpaqueAudioComponent.ptr;
     this.AudioComponentInstance = this.ComponentInstanceRecord.ptr;
+    this.AudioComponentFindNext = lib.declare("AudioComponentFindNext", ctypes.default_abi, this.AudioComponent, this.AudioComponent, this.AudioComponentDescription.ptr);
+    this.AudioComponentCount = lib.declare("AudioComponentCount", ctypes.default_abi, this.UInt32, this.AudioComponentDescription.ptr);
+    this.AudioComponentCopyName = lib.declare("AudioComponentCopyName", ctypes.default_abi, this.OSStatus, this.AudioComponent, this.CFStringRef.ptr);
+    this.AudioComponentGetDescription = lib.declare("AudioComponentGetDescription", ctypes.default_abi, this.OSStatus, this.AudioComponent, this.AudioComponentDescription.ptr);
+    this.AudioComponentGetVersion = lib.declare("AudioComponentGetVersion", ctypes.default_abi, this.OSStatus, this.AudioComponent, this.UInt32.ptr);
+    this.AudioComponentInstanceNew = lib.declare("AudioComponentInstanceNew", ctypes.default_abi, this.OSStatus, this.AudioComponent, this.AudioComponentInstance.ptr);
+    this.AudioComponentInstanceDispose = lib.declare("AudioComponentInstanceDispose", ctypes.default_abi, this.OSStatus, this.AudioComponentInstance);
+    this.AudioComponentInstanceGetComponent = lib.declare("AudioComponentInstanceGetComponent", ctypes.default_abi, this.AudioComponent, this.AudioComponentInstance);
+    this.AudioComponentInstanceCanDo = lib.declare("AudioComponentInstanceCanDo", ctypes.default_abi, this.Boolean, this.AudioComponentInstance, this.SInt16);
 }
 
 // Based on /System/Library/Frameworks/AudioUnit.framework/Headers/AudioUnitParameters.h
@@ -842,9 +884,19 @@ const EXPORTED_SYMBOLS = ["AudioUnit", "AUComponent_h", "AudioUnitProperties_h",
 
 function AudioUnit() {
     let libpath = "/System/Library/Frameworks/AudioUnit.framework/AudioUnit";
-    let lib = ctypes.open(libpath);
+    let library = ctypes.open(libpath);
     this.close = function() {
-        lib.close();
+        library.close();
+    };
+    let lib = {
+        declare: function() {
+            try {
+                return library.declare.apply(library, arguments);
+            } catch (ex) {
+                dump("Failed to declare " + arguments[0] + "\n");
+                return null;
+            }
+        }
     };
 
     AUComponent_h.call(this, lib);

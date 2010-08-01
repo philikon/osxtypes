@@ -124,6 +124,45 @@ function SpeechRecognition_h(lib) {
     this.kSRPhraseType = 1885893217;
     this.kSRWordType = 2003792484;
     this.kSRDefaultRejectionLevel = 50;
+    this.SROpenRecognitionSystem = lib.declare("SROpenRecognitionSystem", ctypes.default_abi, this.OSErr, this.SRRecognitionSystem.ptr, this.OSType);
+    this.SRCloseRecognitionSystem = lib.declare("SRCloseRecognitionSystem", ctypes.default_abi, this.OSErr, this.SRRecognitionSystem);
+    this.SRSetProperty = lib.declare("SRSetProperty", ctypes.default_abi, this.OSErr, this.SRSpeechObject, this.OSType, ctypes.void_t.ptr, this.Size);
+    this.SRGetProperty = lib.declare("SRGetProperty", ctypes.default_abi, this.OSErr, this.SRSpeechObject, this.OSType, ctypes.void_t.ptr, this.Size.ptr);
+    this.SRReleaseObject = lib.declare("SRReleaseObject", ctypes.default_abi, this.OSErr, this.SRSpeechObject);
+    this.SRGetReference = lib.declare("SRGetReference", ctypes.default_abi, this.OSErr, this.SRSpeechObject, this.SRSpeechObject.ptr);
+    this.SRNewRecognizer = lib.declare("SRNewRecognizer", ctypes.default_abi, this.OSErr, this.SRRecognitionSystem, this.SRRecognizer.ptr, this.OSType);
+    this.SRStartListening = lib.declare("SRStartListening", ctypes.default_abi, this.OSErr, this.SRRecognizer);
+    this.SRStopListening = lib.declare("SRStopListening", ctypes.default_abi, this.OSErr, this.SRRecognizer);
+    this.SRSetLanguageModel = lib.declare("SRSetLanguageModel", ctypes.default_abi, this.OSErr, this.SRRecognizer, this.SRLanguageModel);
+    this.SRGetLanguageModel = lib.declare("SRGetLanguageModel", ctypes.default_abi, this.OSErr, this.SRRecognizer, this.SRLanguageModel.ptr);
+    this.SRContinueRecognition = lib.declare("SRContinueRecognition", ctypes.default_abi, this.OSErr, this.SRRecognizer);
+    this.SRCancelRecognition = lib.declare("SRCancelRecognition", ctypes.default_abi, this.OSErr, this.SRRecognizer);
+    this.SRIdle = lib.declare("SRIdle", ctypes.default_abi, this.OSErr);
+    this.SRNewLanguageModel = lib.declare("SRNewLanguageModel", ctypes.default_abi, this.OSErr, this.SRRecognitionSystem, this.SRLanguageModel.ptr, ctypes.void_t.ptr, this.SInt32);
+    this.SRNewPath = lib.declare("SRNewPath", ctypes.default_abi, this.OSErr, this.SRRecognitionSystem, this.SRPath.ptr);
+    this.SRNewPhrase = lib.declare("SRNewPhrase", ctypes.default_abi, this.OSErr, this.SRRecognitionSystem, this.SRPhrase.ptr, ctypes.void_t.ptr, this.SInt32);
+    this.SRNewWord = lib.declare("SRNewWord", ctypes.default_abi, this.OSErr, this.SRRecognitionSystem, this.SRWord.ptr, ctypes.void_t.ptr, this.SInt32);
+    this.SRPutLanguageObjectIntoHandle = lib.declare("SRPutLanguageObjectIntoHandle", ctypes.default_abi, this.OSErr, this.SRLanguageObject, this.Handle);
+    this.SRPutLanguageObjectIntoDataFile = lib.declare("SRPutLanguageObjectIntoDataFile", ctypes.default_abi, this.OSErr, this.SRLanguageObject, ctypes.short);
+    this.SRNewLanguageObjectFromHandle = lib.declare("SRNewLanguageObjectFromHandle", ctypes.default_abi, this.OSErr, this.SRRecognitionSystem, this.SRLanguageObject.ptr, this.Handle);
+    this.SRNewLanguageObjectFromDataFile = lib.declare("SRNewLanguageObjectFromDataFile", ctypes.default_abi, this.OSErr, this.SRRecognitionSystem, this.SRLanguageObject.ptr, ctypes.short);
+    this.SREmptyLanguageObject = lib.declare("SREmptyLanguageObject", ctypes.default_abi, this.OSErr, this.SRLanguageObject);
+    this.SRChangeLanguageObject = lib.declare("SRChangeLanguageObject", ctypes.default_abi, this.OSErr, this.SRLanguageObject, ctypes.void_t.ptr, this.SInt32);
+    this.SRAddLanguageObject = lib.declare("SRAddLanguageObject", ctypes.default_abi, this.OSErr, this.SRLanguageObject, this.SRLanguageObject);
+    this.SRAddText = lib.declare("SRAddText", ctypes.default_abi, this.OSErr, this.SRLanguageObject, ctypes.void_t.ptr, this.SInt32, this.SRefCon);
+    this.SRRemoveLanguageObject = lib.declare("SRRemoveLanguageObject", ctypes.default_abi, this.OSErr, this.SRLanguageObject, this.SRLanguageObject);
+    this.SRCountItems = lib.declare("SRCountItems", ctypes.default_abi, this.OSErr, this.SRSpeechObject, ctypes.long.ptr);
+    this.SRGetIndexedItem = lib.declare("SRGetIndexedItem", ctypes.default_abi, this.OSErr, this.SRSpeechObject, this.SRSpeechObject.ptr, ctypes.long);
+    this.SRSetIndexedItem = lib.declare("SRSetIndexedItem", ctypes.default_abi, this.OSErr, this.SRSpeechObject, this.SRSpeechObject, ctypes.long);
+    this.SRRemoveIndexedItem = lib.declare("SRRemoveIndexedItem", ctypes.default_abi, this.OSErr, this.SRSpeechObject, ctypes.long);
+    this.SRDrawText = lib.declare("SRDrawText", ctypes.default_abi, this.OSErr, this.SRRecognizer, ctypes.void_t.ptr, this.SInt32);
+    this.SRDrawRecognizedText = lib.declare("SRDrawRecognizedText", ctypes.default_abi, this.OSErr, this.SRRecognizer, ctypes.void_t.ptr, this.SInt32);
+    this.SRSpeakText = lib.declare("SRSpeakText", ctypes.default_abi, this.OSErr, this.SRRecognizer, ctypes.void_t.ptr, this.SInt32);
+    this.SRSpeakAndDrawText = lib.declare("SRSpeakAndDrawText", ctypes.default_abi, this.OSErr, this.SRRecognizer, ctypes.void_t.ptr, this.SInt32);
+    this.SRStopSpeech = lib.declare("SRStopSpeech", ctypes.default_abi, this.OSErr, this.SRRecognizer);
+    this.SRSpeechBusy = lib.declare("SRSpeechBusy", ctypes.default_abi, this.Boolean, this.SRRecognizer);
+    this.SRProcessBegin = lib.declare("SRProcessBegin", ctypes.default_abi, this.OSErr, this.SRRecognizer, this.Boolean);
+    this.SRProcessEnd = lib.declare("SRProcessEnd", ctypes.default_abi, this.OSErr, this.SRRecognizer, this.Boolean);
 }
 
 Components.utils.import("resource://gre/modules/ctypes.jsm");
@@ -133,9 +172,19 @@ const EXPORTED_SYMBOLS = ["SpeechRecognition", "SpeechRecognition_h"];
 
 function SpeechRecognition() {
     let libpath = "/System/Library/Frameworks/Carbon.framework/Frameworks/SpeechRecognition.framework/SpeechRecognition";
-    let lib = ctypes.open(libpath);
+    let library = ctypes.open(libpath);
     this.close = function() {
-        lib.close();
+        library.close();
+    };
+    let lib = {
+        declare: function() {
+            try {
+                return library.declare.apply(library, arguments);
+            } catch (ex) {
+                dump("Failed to declare " + arguments[0] + "\n");
+                return null;
+            }
+        }
     };
 
     SpeechRecognition_h.call(this, lib);

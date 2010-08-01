@@ -1,14 +1,38 @@
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Headers/UTType.h
 function UTType_h(lib) {
+    CFDictionary_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
+    MacTypes_h.call(this, lib);
+    CFURL_h.call(this, lib);
 
     if (this._UTTYPE_H)
         return;
     this._UTTYPE_H = true;
 
+    this.UTTypeCreatePreferredIdentifierForTag = lib.declare("UTTypeCreatePreferredIdentifierForTag", ctypes.default_abi, this.CFStringRef, this.CFStringRef, this.CFStringRef, this.CFStringRef);
+    this.UTTypeCreateAllIdentifiersForTag = lib.declare("UTTypeCreateAllIdentifiersForTag", ctypes.default_abi, this.CFArrayRef, this.CFStringRef, this.CFStringRef, this.CFStringRef);
+    this.UTTypeCopyPreferredTagWithClass = lib.declare("UTTypeCopyPreferredTagWithClass", ctypes.default_abi, this.CFStringRef, this.CFStringRef, this.CFStringRef);
+    this.UTTypeEqual = lib.declare("UTTypeEqual", ctypes.default_abi, this.Boolean, this.CFStringRef, this.CFStringRef);
+    this.UTTypeConformsTo = lib.declare("UTTypeConformsTo", ctypes.default_abi, this.Boolean, this.CFStringRef, this.CFStringRef);
+    this.UTTypeCopyDescription = lib.declare("UTTypeCopyDescription", ctypes.default_abi, this.CFStringRef, this.CFStringRef);
+    this.UTTypeCopyDeclaration = lib.declare("UTTypeCopyDeclaration", ctypes.default_abi, this.CFDictionaryRef, this.CFStringRef);
+    this.UTTypeCopyDeclaringBundleURL = lib.declare("UTTypeCopyDeclaringBundleURL", ctypes.default_abi, this.CFURLRef, this.CFStringRef);
+    this.UTCreateStringForOSType = lib.declare("UTCreateStringForOSType", ctypes.default_abi, this.CFStringRef, this.OSType);
+    this.UTGetOSTypeFromString = lib.declare("UTGetOSTypeFromString", ctypes.default_abi, this.OSType, this.CFStringRef);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Headers/LSSharedFileList.h
 function LSSharedFileList_h(lib) {
+    Authorization_h.call(this, lib);
+    CFDictionary_h.call(this, lib);
+    CFRunLoop_h.call(this, lib);
+    Files_h.call(this, lib);
+    IconsCore_h.call(this, lib);
+    CFURL_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._LSSHAREDFILELIST_H)
         return;
@@ -21,11 +45,36 @@ function LSSharedFileList_h(lib) {
     this.kLSSharedFileListNoUserInteraction = 1;
     this.kLSSharedFileListDoNotMountVolumes = 2;
     this.LSSharedFileListChangedProcPtr = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.LSSharedFileListRef, ctypes.void_t.ptr]).ptr;
+    this.LSSharedFileListGetTypeID = lib.declare("LSSharedFileListGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.LSSharedFileListItemGetTypeID = lib.declare("LSSharedFileListItemGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.LSSharedFileListCreate = lib.declare("LSSharedFileListCreate", ctypes.default_abi, this.LSSharedFileListRef, this.CFAllocatorRef, this.CFStringRef, this.CFTypeRef);
+    this.LSSharedFileListSetAuthorization = lib.declare("LSSharedFileListSetAuthorization", ctypes.default_abi, this.OSStatus, this.LSSharedFileListRef, this.AuthorizationRef);
+    this.LSSharedFileListAddObserver = lib.declare("LSSharedFileListAddObserver", ctypes.default_abi, ctypes.void_t, this.LSSharedFileListRef, this.CFRunLoopRef, this.CFStringRef, this.LSSharedFileListChangedProcPtr, ctypes.void_t.ptr);
+    this.LSSharedFileListRemoveObserver = lib.declare("LSSharedFileListRemoveObserver", ctypes.default_abi, ctypes.void_t, this.LSSharedFileListRef, this.CFRunLoopRef, this.CFStringRef, this.LSSharedFileListChangedProcPtr, ctypes.void_t.ptr);
+    this.LSSharedFileListGetSeedValue = lib.declare("LSSharedFileListGetSeedValue", ctypes.default_abi, this.UInt32, this.LSSharedFileListRef);
+    this.LSSharedFileListCopyProperty = lib.declare("LSSharedFileListCopyProperty", ctypes.default_abi, this.CFTypeRef, this.LSSharedFileListRef, this.CFStringRef);
+    this.LSSharedFileListSetProperty = lib.declare("LSSharedFileListSetProperty", ctypes.default_abi, this.OSStatus, this.LSSharedFileListRef, this.CFStringRef, this.CFTypeRef);
+    this.LSSharedFileListCopySnapshot = lib.declare("LSSharedFileListCopySnapshot", ctypes.default_abi, this.CFArrayRef, this.LSSharedFileListRef, this.UInt32.ptr);
+    this.LSSharedFileListInsertItemURL = lib.declare("LSSharedFileListInsertItemURL", ctypes.default_abi, this.LSSharedFileListItemRef, this.LSSharedFileListRef, this.LSSharedFileListItemRef, this.CFStringRef, this.IconRef, this.CFURLRef, this.CFDictionaryRef, this.CFArrayRef);
+    this.LSSharedFileListInsertItemFSRef = lib.declare("LSSharedFileListInsertItemFSRef", ctypes.default_abi, this.LSSharedFileListItemRef, this.LSSharedFileListRef, this.LSSharedFileListItemRef, this.CFStringRef, this.IconRef, this.FSRef.ptr, this.CFDictionaryRef, this.CFArrayRef);
+    this.LSSharedFileListItemMove = lib.declare("LSSharedFileListItemMove", ctypes.default_abi, this.OSStatus, this.LSSharedFileListRef, this.LSSharedFileListItemRef, this.LSSharedFileListItemRef);
+    this.LSSharedFileListItemRemove = lib.declare("LSSharedFileListItemRemove", ctypes.default_abi, this.OSStatus, this.LSSharedFileListRef, this.LSSharedFileListItemRef);
+    this.LSSharedFileListRemoveAllItems = lib.declare("LSSharedFileListRemoveAllItems", ctypes.default_abi, this.OSStatus, this.LSSharedFileListRef);
+    this.LSSharedFileListItemGetID = lib.declare("LSSharedFileListItemGetID", ctypes.default_abi, this.UInt32, this.LSSharedFileListItemRef);
+    this.LSSharedFileListItemCopyIconRef = lib.declare("LSSharedFileListItemCopyIconRef", ctypes.default_abi, this.IconRef, this.LSSharedFileListItemRef);
+    this.LSSharedFileListItemCopyDisplayName = lib.declare("LSSharedFileListItemCopyDisplayName", ctypes.default_abi, this.CFStringRef, this.LSSharedFileListItemRef);
+    this.LSSharedFileListItemResolve = lib.declare("LSSharedFileListItemResolve", ctypes.default_abi, this.OSStatus, this.LSSharedFileListItemRef, this.UInt32, this.CFURLRef.ptr, this.FSRef.ptr);
+    this.LSSharedFileListItemCopyProperty = lib.declare("LSSharedFileListItemCopyProperty", ctypes.default_abi, this.CFTypeRef, this.LSSharedFileListItemRef, this.CFStringRef);
+    this.LSSharedFileListItemSetProperty = lib.declare("LSSharedFileListItemSetProperty", ctypes.default_abi, this.OSStatus, this.LSSharedFileListItemRef, this.CFStringRef, this.CFTypeRef);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Headers/LSInfo.h
 function LSInfo_h(lib) {
+    Files_h.call(this, lib);
+    CFDictionary_h.call(this, lib);
+    CFURL_h.call(this, lib);
     CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._LSINFO_H)
@@ -99,9 +148,43 @@ function LSInfo_h(lib) {
     this.LSAcceptanceFlags = this.OptionBits;
     this.kLSAcceptDefault = 1;
     this.kLSAcceptAllowLoginUI = 2;
+    this.LSInit = lib.declare("LSInit", ctypes.default_abi, this.OSStatus, this.LSInitializeFlags);
+    this.LSTerm = lib.declare("LSTerm", ctypes.default_abi, this.OSStatus);
+    this.LSCopyItemInfoForRef = lib.declare("LSCopyItemInfoForRef", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.LSRequestedInfo, this.LSItemInfoRecord.ptr);
+    this.LSCopyItemInfoForURL = lib.declare("LSCopyItemInfoForURL", ctypes.default_abi, this.OSStatus, this.CFURLRef, this.LSRequestedInfo, this.LSItemInfoRecord.ptr);
+    this.LSGetExtensionInfo = lib.declare("LSGetExtensionInfo", ctypes.default_abi, this.OSStatus, this.UniCharCount, this.UniChar.ptr, this.UniCharCount.ptr);
+    this.LSCopyDisplayNameForRef = lib.declare("LSCopyDisplayNameForRef", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.CFStringRef.ptr);
+    this.LSCopyDisplayNameForURL = lib.declare("LSCopyDisplayNameForURL", ctypes.default_abi, this.OSStatus, this.CFURLRef, this.CFStringRef.ptr);
+    this.LSSetExtensionHiddenForRef = lib.declare("LSSetExtensionHiddenForRef", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.Boolean);
+    this.LSSetExtensionHiddenForURL = lib.declare("LSSetExtensionHiddenForURL", ctypes.default_abi, this.OSStatus, this.CFURLRef, this.Boolean);
+    this.LSCopyKindStringForRef = lib.declare("LSCopyKindStringForRef", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.CFStringRef.ptr);
+    this.LSCopyKindStringForURL = lib.declare("LSCopyKindStringForURL", ctypes.default_abi, this.OSStatus, this.CFURLRef, this.CFStringRef.ptr);
+    this.LSCopyKindStringForTypeInfo = lib.declare("LSCopyKindStringForTypeInfo", ctypes.default_abi, this.OSStatus, this.OSType, this.OSType, this.CFStringRef, this.CFStringRef.ptr);
+    this.LSCopyKindStringForMIMEType = lib.declare("LSCopyKindStringForMIMEType", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.CFStringRef.ptr);
+    this.LSGetApplicationForItem = lib.declare("LSGetApplicationForItem", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.LSRolesMask, this.FSRef.ptr, this.CFURLRef.ptr);
+    this.LSGetApplicationForInfo = lib.declare("LSGetApplicationForInfo", ctypes.default_abi, this.OSStatus, this.OSType, this.OSType, this.CFStringRef, this.LSRolesMask, this.FSRef.ptr, this.CFURLRef.ptr);
+    this.LSCopyApplicationForMIMEType = lib.declare("LSCopyApplicationForMIMEType", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.LSRolesMask, this.CFURLRef.ptr);
+    this.LSGetApplicationForURL = lib.declare("LSGetApplicationForURL", ctypes.default_abi, this.OSStatus, this.CFURLRef, this.LSRolesMask, this.FSRef.ptr, this.CFURLRef.ptr);
+    this.LSFindApplicationForInfo = lib.declare("LSFindApplicationForInfo", ctypes.default_abi, this.OSStatus, this.OSType, this.CFStringRef, this.CFStringRef, this.FSRef.ptr, this.CFURLRef.ptr);
+    this.LSCanRefAcceptItem = lib.declare("LSCanRefAcceptItem", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.FSRef.ptr, this.LSRolesMask, this.LSAcceptanceFlags, this.Boolean.ptr);
+    this.LSCanURLAcceptURL = lib.declare("LSCanURLAcceptURL", ctypes.default_abi, this.OSStatus, this.CFURLRef, this.CFURLRef, this.LSRolesMask, this.LSAcceptanceFlags, this.Boolean.ptr);
+    this.LSRegisterURL = lib.declare("LSRegisterURL", ctypes.default_abi, this.OSStatus, this.CFURLRef, this.Boolean);
+    this.LSRegisterFSRef = lib.declare("LSRegisterFSRef", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.Boolean);
+    this.LSCopyApplicationURLsForURL = lib.declare("LSCopyApplicationURLsForURL", ctypes.default_abi, this.CFArrayRef, this.CFURLRef, this.LSRolesMask);
+    this.LSCopyItemAttribute = lib.declare("LSCopyItemAttribute", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.LSRolesMask, this.CFStringRef, this.CFTypeRef.ptr);
+    this.LSCopyItemAttributes = lib.declare("LSCopyItemAttributes", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.LSRolesMask, this.CFArrayRef, this.CFDictionaryRef.ptr);
+    this.LSSetItemAttribute = lib.declare("LSSetItemAttribute", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.LSRolesMask, this.CFStringRef, this.CFTypeRef);
+    this.LSCopyDefaultRoleHandlerForContentType = lib.declare("LSCopyDefaultRoleHandlerForContentType", ctypes.default_abi, this.CFStringRef, this.CFStringRef, this.LSRolesMask);
+    this.LSCopyAllRoleHandlersForContentType = lib.declare("LSCopyAllRoleHandlersForContentType", ctypes.default_abi, this.CFArrayRef, this.CFStringRef, this.LSRolesMask);
+    this.LSSetDefaultRoleHandlerForContentType = lib.declare("LSSetDefaultRoleHandlerForContentType", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.LSRolesMask, this.CFStringRef);
     this.LSHandlerOptions = this.OptionBits;
     this.kLSHandlerOptionsDefault = 0;
     this.kLSHandlerOptionsIgnoreCreator = 1;
+    this.LSGetHandlerOptionsForContentType = lib.declare("LSGetHandlerOptionsForContentType", ctypes.default_abi, this.LSHandlerOptions, this.CFStringRef);
+    this.LSSetHandlerOptionsForContentType = lib.declare("LSSetHandlerOptionsForContentType", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.LSHandlerOptions);
+    this.LSCopyDefaultHandlerForURLScheme = lib.declare("LSCopyDefaultHandlerForURLScheme", ctypes.default_abi, this.CFStringRef, this.CFStringRef);
+    this.LSCopyAllHandlersForURLScheme = lib.declare("LSCopyAllHandlersForURLScheme", ctypes.default_abi, this.CFArrayRef, this.CFStringRef);
+    this.LSSetDefaultHandlerForURLScheme = lib.declare("LSSetDefaultHandlerForURLScheme", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.CFStringRef);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Headers/UTCoreTypes.h
@@ -115,6 +198,10 @@ function UTCoreTypes_h(lib) {
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Headers/IconsCore.h
 function IconsCore_h(lib) {
+    CFBase_h.call(this, lib);
+    Files_h.call(this, lib);
+    Components_h.call(this, lib);
+    IconStorage_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._ICONSCORE_H)
@@ -374,12 +461,43 @@ function IconsCore_h(lib) {
     this.kIconServicesNoBadgeFlag = 1;
     this.kIconServicesUpdateIfNeededFlag = 2;
     this.kIconServicesCatalogInfoMask = 531550;
+    this.GetIconRefOwners = lib.declare("GetIconRefOwners", ctypes.default_abi, this.OSErr, this.IconRef, this.UInt16.ptr);
+    this.AcquireIconRef = lib.declare("AcquireIconRef", ctypes.default_abi, this.OSErr, this.IconRef);
+    this.ReleaseIconRef = lib.declare("ReleaseIconRef", ctypes.default_abi, this.OSErr, this.IconRef);
+    this.GetIconRefFromFile = lib.declare("GetIconRefFromFile", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, this.IconRef.ptr, this.SInt16.ptr);
+    this.GetIconRef = lib.declare("GetIconRef", ctypes.default_abi, this.OSErr, this.SInt16, this.OSType, this.OSType, this.IconRef.ptr);
+    this.GetIconRefFromFolder = lib.declare("GetIconRefFromFolder", ctypes.default_abi, this.OSErr, this.SInt16, this.SInt32, this.SInt32, this.SInt8, this.SInt8, this.IconRef.ptr);
+    this.GetIconRefFromFileInfo = lib.declare("GetIconRefFromFileInfo", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.UniCharCount, this.UniChar.ptr, this.FSCatalogInfoBitmap, this.FSCatalogInfo.ptr, this.IconServicesUsageFlags, this.IconRef.ptr, this.SInt16.ptr);
+    this.GetIconRefFromTypeInfo = lib.declare("GetIconRefFromTypeInfo", ctypes.default_abi, this.OSErr, this.OSType, this.OSType, this.CFStringRef, this.CFStringRef, this.IconServicesUsageFlags, this.IconRef.ptr);
+    this.GetIconRefFromIconFamilyPtr = lib.declare("GetIconRefFromIconFamilyPtr", ctypes.default_abi, this.OSStatus, this.IconFamilyResource.ptr, this.Size, this.IconRef.ptr);
+    this.GetIconRefFromComponent = lib.declare("GetIconRefFromComponent", ctypes.default_abi, this.OSStatus, this.Component, this.IconRef.ptr);
+    this.RegisterIconRefFromIconFamily = lib.declare("RegisterIconRefFromIconFamily", ctypes.default_abi, this.OSErr, this.OSType, this.OSType, this.IconFamilyHandle, this.IconRef.ptr);
+    this.RegisterIconRefFromResource = lib.declare("RegisterIconRefFromResource", ctypes.default_abi, this.OSErr, this.OSType, this.OSType, this.FSSpec.ptr, this.SInt16, this.IconRef.ptr);
+    this.RegisterIconRefFromFSRef = lib.declare("RegisterIconRefFromFSRef", ctypes.default_abi, this.OSStatus, this.OSType, this.OSType, this.FSRef.ptr, this.IconRef.ptr);
+    this.UnregisterIconRef = lib.declare("UnregisterIconRef", ctypes.default_abi, this.OSErr, this.OSType, this.OSType);
+    this.UpdateIconRef = lib.declare("UpdateIconRef", ctypes.default_abi, this.OSErr, this.IconRef);
+    this.OverrideIconRefFromResource = lib.declare("OverrideIconRefFromResource", ctypes.default_abi, this.OSErr, this.IconRef, this.FSSpec.ptr, this.SInt16);
+    this.OverrideIconRef = lib.declare("OverrideIconRef", ctypes.default_abi, this.OSErr, this.IconRef, this.IconRef);
+    this.RemoveIconRefOverride = lib.declare("RemoveIconRefOverride", ctypes.default_abi, this.OSErr, this.IconRef);
+    this.CompositeIconRef = lib.declare("CompositeIconRef", ctypes.default_abi, this.OSErr, this.IconRef, this.IconRef, this.IconRef.ptr);
+    this.IsIconRefComposite = lib.declare("IsIconRefComposite", ctypes.default_abi, this.OSErr, this.IconRef, this.IconRef.ptr, this.IconRef.ptr);
+    this.IsValidIconRef = lib.declare("IsValidIconRef", ctypes.default_abi, this.Boolean, this.IconRef);
+    this.IsDataAvailableInIconRef = lib.declare("IsDataAvailableInIconRef", ctypes.default_abi, this.Boolean, this.OSType, this.IconRef);
+    this.FlushIconRefs = lib.declare("FlushIconRefs", ctypes.default_abi, this.OSErr, this.OSType, this.OSType);
+    this.FlushIconRefsByVolume = lib.declare("FlushIconRefsByVolume", ctypes.default_abi, this.OSErr, this.SInt16);
+    this.SetCustomIconsEnabled = lib.declare("SetCustomIconsEnabled", ctypes.default_abi, this.OSErr, this.SInt16, this.Boolean);
+    this.GetCustomIconsEnabled = lib.declare("GetCustomIconsEnabled", ctypes.default_abi, this.OSErr, this.SInt16, this.Boolean.ptr);
+    this.RegisterIconRefFromIconFile = lib.declare("RegisterIconRefFromIconFile", ctypes.default_abi, this.OSErr, this.OSType, this.OSType, this.FSSpec.ptr, this.IconRef.ptr);
+    this.ReadIconFile = lib.declare("ReadIconFile", ctypes.default_abi, this.OSErr, this.FSSpec.ptr, this.IconFamilyHandle.ptr);
+    this.WriteIconFile = lib.declare("WriteIconFile", ctypes.default_abi, this.OSErr, this.IconFamilyHandle, this.FSSpec.ptr);
+    this.ReadIconFromFSRef = lib.declare("ReadIconFromFSRef", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.IconFamilyHandle.ptr);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Headers/LSOpen.h
 function LSOpen_h(lib) {
     Files_h.call(this, lib);
     CFDictionary_h.call(this, lib);
+    LSInfo_h.call(this, lib);
     CFURL_h.call(this, lib);
     AEDataModel_h.call(this, lib);
     CFBase_h.call(this, lib);
@@ -411,7 +529,14 @@ function LSOpen_h(lib) {
     this.kLSLaunchHasUntrustedContents = 4194304;
     this.LSLaunchFSRefSpec = new ctypes.StructType("LSLaunchFSRefSpec", [{appRef: this.FSRef.ptr}, {numDocs: this.ItemCount}, {itemRefs: this.FSRef.ptr}, {passThruParams: this.AEDesc.ptr}, {launchFlags: this.LSLaunchFlags}, {asyncRefCon: ctypes.void_t.ptr}]);
     this.LSLaunchURLSpec = new ctypes.StructType("LSLaunchURLSpec", [{appURL: this.CFURLRef}, {itemURLs: this.CFArrayRef}, {passThruParams: this.AEDesc.ptr}, {launchFlags: this.LSLaunchFlags}, {asyncRefCon: ctypes.void_t.ptr}]);
+    this.LSOpenFSRef = lib.declare("LSOpenFSRef", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.FSRef.ptr);
+    this.LSOpenCFURLRef = lib.declare("LSOpenCFURLRef", ctypes.default_abi, this.OSStatus, this.CFURLRef, this.CFURLRef.ptr);
+    this.LSOpenFromRefSpec = lib.declare("LSOpenFromRefSpec", ctypes.default_abi, this.OSStatus, this.LSLaunchFSRefSpec.ptr, this.FSRef.ptr);
+    this.LSOpenFromURLSpec = lib.declare("LSOpenFromURLSpec", ctypes.default_abi, this.OSStatus, this.LSLaunchURLSpec.ptr, this.CFURLRef.ptr);
     this.LSApplicationParameters = new ctypes.StructType("LSApplicationParameters", [{version: this.CFIndex}, {flags: this.LSLaunchFlags}, {application: this.FSRef.ptr}, {asyncLaunchRefCon: ctypes.void_t.ptr}, {environment: this.CFDictionaryRef}, {argv: this.CFArrayRef}, {initialEvent: this.AppleEvent.ptr}]);
+    this.LSOpenApplication = lib.declare("LSOpenApplication", ctypes.default_abi, this.OSStatus, this.LSApplicationParameters.ptr, this.ProcessSerialNumber.ptr);
+    this.LSOpenItemsWithRole = lib.declare("LSOpenItemsWithRole", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.CFIndex, this.LSRolesMask, this.AEKeyDesc.ptr, this.LSApplicationParameters.ptr, this.ProcessSerialNumber.ptr, this.CFIndex);
+    this.LSOpenURLsWithRole = lib.declare("LSOpenURLsWithRole", ctypes.default_abi, this.OSStatus, this.CFArrayRef, this.LSRolesMask, this.AEKeyDesc.ptr, this.LSApplicationParameters.ptr, this.ProcessSerialNumber.ptr, this.CFIndex);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Headers/LSQuarantine.h
@@ -425,17 +550,29 @@ function LSQuarantine_h(lib) {
 
 Components.utils.import("resource://gre/modules/ctypes.jsm");
 Components.utils.import("resource://osxtypes/CoreFoundation.jsm");
-Components.utils.import("resource://osxtypes/MacTypes.jsm");
-Components.utils.import("resource://osxtypes/CarbonCore.jsm");
 Components.utils.import("resource://osxtypes/AE.jsm");
+Components.utils.import("resource://osxtypes/CarbonCore.jsm");
+Components.utils.import("resource://osxtypes/MacTypes.jsm");
+Components.utils.import("resource://osxtypes/OSServices.jsm");
+Components.utils.import("resource://osxtypes/Security.jsm");
 
 const EXPORTED_SYMBOLS = ["LaunchServices", "UTType_h", "LSSharedFileList_h", "LSInfo_h", "UTCoreTypes_h", "IconsCore_h", "LSOpen_h", "LSQuarantine_h"];
 
 function LaunchServices() {
     let libpath = "/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/LaunchServices";
-    let lib = ctypes.open(libpath);
+    let library = ctypes.open(libpath);
     this.close = function() {
-        lib.close();
+        library.close();
+    };
+    let lib = {
+        declare: function() {
+            try {
+                return library.declare.apply(library, arguments);
+            } catch (ex) {
+                dump("Failed to declare " + arguments[0] + "\n");
+                return null;
+            }
+        }
     };
 
     UTType_h.call(this, lib);

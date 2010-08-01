@@ -1,6 +1,7 @@
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/LangAnalysis.framework/Headers/Dictionary.h
 function Dictionary_h(lib) {
     AEDataModel_h.call(this, lib);
+    Files_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._DICTIONARY_H)
@@ -77,6 +78,51 @@ function Dictionary_h(lib) {
     this.DCMDictionaryHeader = new ctypes.StructType("DCMDictionaryHeader", [{headerSignature: this.FourCharCode}, {headerVersion: this.UInt32}, {headerSize: this.UInt32}, {accessMethod: this.Str63}]);
     this.DCMProgressFilterProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.Boolean, [this.Boolean, this.UInt16, this.UInt32]).ptr;
     this.DCMProgressFilterUPP = this.DCMProgressFilterProcPtr;
+    this.DCMLibraryVersion = lib.declare("DCMLibraryVersion", ctypes.default_abi, this.UInt32);
+    this.DCMNewDictionary = lib.declare("DCMNewDictionary", ctypes.default_abi, this.OSStatus, this.DCMAccessMethodID, this.FSSpec.ptr, this.ScriptCode, this.AEDesc.ptr, this.Boolean, this.ItemCount, this.DCMDictionaryID.ptr);
+    this.DCMDeriveNewDictionary = lib.declare("DCMDeriveNewDictionary", ctypes.default_abi, this.OSStatus, this.DCMDictionaryID, this.FSSpec.ptr, this.ScriptCode, this.Boolean, this.ItemCount, this.DCMDictionaryID.ptr);
+    this.DCMDeleteDictionary = lib.declare("DCMDeleteDictionary", ctypes.default_abi, this.OSStatus, this.DCMDictionaryID);
+    this.DCMRegisterDictionaryFile = lib.declare("DCMRegisterDictionaryFile", ctypes.default_abi, this.OSStatus, this.FSSpec.ptr, this.DCMDictionaryID.ptr);
+    this.DCMUnregisterDictionary = lib.declare("DCMUnregisterDictionary", ctypes.default_abi, this.OSStatus, this.DCMDictionaryID);
+    this.DCMOpenDictionary = lib.declare("DCMOpenDictionary", ctypes.default_abi, this.OSStatus, this.DCMDictionaryID, this.ByteCount, this.ConstLogicalAddress, this.DCMDictionaryRef.ptr);
+    this.DCMCloseDictionary = lib.declare("DCMCloseDictionary", ctypes.default_abi, this.OSStatus, this.DCMDictionaryRef);
+    this.DCMGetDictionaryWriteAccess = lib.declare("DCMGetDictionaryWriteAccess", ctypes.default_abi, this.OSStatus, this.DCMDictionaryRef, this.Duration);
+    this.DCMReleaseDictionaryWriteAccess = lib.declare("DCMReleaseDictionaryWriteAccess", ctypes.default_abi, this.OSStatus, this.DCMDictionaryRef, this.Boolean);
+    this.DCMFindRecords = lib.declare("DCMFindRecords", ctypes.default_abi, this.OSStatus, this.DCMDictionaryRef, this.DCMFieldTag, this.ByteCount, this.ConstLogicalAddress, this.DCMFindMethod, this.ItemCount, this.DCMFieldTag.ptr, this.ItemCount, this.ItemCount, this.DCMFoundRecordIterator.ptr);
+    this.DCMCountRecordIterator = lib.declare("DCMCountRecordIterator", ctypes.default_abi, this.ItemCount, this.DCMFoundRecordIterator);
+    this.DCMIterateFoundRecord = lib.declare("DCMIterateFoundRecord", ctypes.default_abi, this.OSStatus, this.DCMFoundRecordIterator, this.ByteCount, this.ByteCount.ptr, this.LogicalAddress, this.DCMUniqueID.ptr, this.AEDesc.ptr);
+    this.DCMDisposeRecordIterator = lib.declare("DCMDisposeRecordIterator", ctypes.default_abi, this.OSStatus, this.DCMFoundRecordIterator);
+    this.DCMCountRecord = lib.declare("DCMCountRecord", ctypes.default_abi, this.OSStatus, this.DCMDictionaryID, this.ItemCount.ptr);
+    this.DCMGetRecordSequenceNumber = lib.declare("DCMGetRecordSequenceNumber", ctypes.default_abi, this.OSStatus, this.DCMDictionaryRef, this.DCMFieldTag, this.ByteCount, this.ConstLogicalAddress, this.DCMUniqueID, this.ItemCount.ptr);
+    this.DCMGetNthRecord = lib.declare("DCMGetNthRecord", ctypes.default_abi, this.OSStatus, this.DCMDictionaryRef, this.DCMFieldTag, this.ItemCount, this.ByteCount, this.ByteCount.ptr, this.LogicalAddress, this.DCMUniqueID.ptr);
+    this.DCMGetNextRecord = lib.declare("DCMGetNextRecord", ctypes.default_abi, this.OSStatus, this.DCMDictionaryRef, this.DCMFieldTag, this.ByteCount, this.ConstLogicalAddress, this.DCMUniqueID, this.ByteCount, this.ByteCount.ptr, this.LogicalAddress, this.DCMUniqueID.ptr);
+    this.DCMGetPrevRecord = lib.declare("DCMGetPrevRecord", ctypes.default_abi, this.OSStatus, this.DCMDictionaryRef, this.DCMFieldTag, this.ByteCount, this.ConstLogicalAddress, this.DCMUniqueID, this.ByteCount, this.ByteCount.ptr, this.LogicalAddress, this.DCMUniqueID.ptr);
+    this.DCMGetFieldData = lib.declare("DCMGetFieldData", ctypes.default_abi, this.OSStatus, this.DCMDictionaryRef, this.DCMFieldTag, this.ByteCount, this.ConstLogicalAddress, this.DCMUniqueID, this.ItemCount, this.DCMFieldTag.ptr, this.AEDesc.ptr);
+    this.DCMSetFieldData = lib.declare("DCMSetFieldData", ctypes.default_abi, this.OSStatus, this.DCMDictionaryRef, this.DCMFieldTag, this.ByteCount, this.ConstLogicalAddress, this.DCMUniqueID, this.AEDesc.ptr);
+    this.DCMAddRecord = lib.declare("DCMAddRecord", ctypes.default_abi, this.OSStatus, this.DCMDictionaryRef, this.DCMFieldTag, this.ByteCount, this.ConstLogicalAddress, this.Boolean, this.AEDesc.ptr, this.DCMUniqueID.ptr);
+    this.DCMDeleteRecord = lib.declare("DCMDeleteRecord", ctypes.default_abi, this.OSStatus, this.DCMDictionaryRef, this.DCMFieldTag, this.ByteCount, this.ConstLogicalAddress, this.DCMUniqueID);
+    this.DCMReorganizeDictionary = lib.declare("DCMReorganizeDictionary", ctypes.default_abi, this.OSStatus, this.DCMDictionaryID, this.ItemCount, this.DCMProgressFilterUPP, this.UInt32);
+    this.DCMCompactDictionary = lib.declare("DCMCompactDictionary", ctypes.default_abi, this.OSStatus, this.DCMDictionaryID, this.DCMProgressFilterUPP, this.UInt32);
+    this.DCMGetFileFromDictionaryID = lib.declare("DCMGetFileFromDictionaryID", ctypes.default_abi, this.OSStatus, this.DCMDictionaryID, this.FSSpec.ptr);
+    this.DCMGetDictionaryIDFromFile = lib.declare("DCMGetDictionaryIDFromFile", ctypes.default_abi, this.OSStatus, this.FSSpec.ptr, this.DCMDictionaryID.ptr);
+    this.DCMGetDictionaryIDFromRef = lib.declare("DCMGetDictionaryIDFromRef", ctypes.default_abi, this.DCMDictionaryID, this.DCMDictionaryRef);
+    this.DCMGetDictionaryFieldInfo = lib.declare("DCMGetDictionaryFieldInfo", ctypes.default_abi, this.OSStatus, this.DCMDictionaryID, this.DCMFieldTag, this.AEDesc.ptr);
+    this.DCMGetDictionaryProperty = lib.declare("DCMGetDictionaryProperty", ctypes.default_abi, this.OSStatus, this.DCMDictionaryID, this.DCMFieldTag, this.ByteCount, this.ByteCount.ptr, this.LogicalAddress);
+    this.DCMSetDictionaryProperty = lib.declare("DCMSetDictionaryProperty", ctypes.default_abi, this.OSStatus, this.DCMDictionaryID, this.DCMFieldTag, this.ByteCount, this.ConstLogicalAddress);
+    this.DCMGetDictionaryPropertyList = lib.declare("DCMGetDictionaryPropertyList", ctypes.default_abi, this.OSStatus, this.DCMDictionaryID, this.ItemCount, this.ItemCount.ptr, this.DCMFieldTag.ptr);
+    this.DCMCreateDictionaryIterator = lib.declare("DCMCreateDictionaryIterator", ctypes.default_abi, this.OSStatus, this.DCMDictionaryIterator.ptr);
+    this.DCMCreateAccessMethodIterator = lib.declare("DCMCreateAccessMethodIterator", ctypes.default_abi, this.OSStatus, this.DCMAccessMethodIterator.ptr);
+    this.DCMCountObjectIterator = lib.declare("DCMCountObjectIterator", ctypes.default_abi, this.ItemCount, this.DCMObjectIterator);
+    this.DCMIterateObject = lib.declare("DCMIterateObject", ctypes.default_abi, this.OSStatus, this.DCMObjectIterator, this.DCMObjectID.ptr);
+    this.DCMResetObjectIterator = lib.declare("DCMResetObjectIterator", ctypes.default_abi, this.OSStatus, this.DCMObjectIterator);
+    this.DCMDisposeObjectIterator = lib.declare("DCMDisposeObjectIterator", ctypes.default_abi, this.OSStatus, this.DCMObjectIterator);
+    this.DCMGetAccessMethodIDFromName = lib.declare("DCMGetAccessMethodIDFromName", ctypes.default_abi, this.OSStatus, this.ConstStr63Param, this.DCMAccessMethodID.ptr);
+    this.DCMCreateFieldInfoRecord = lib.declare("DCMCreateFieldInfoRecord", ctypes.default_abi, this.OSStatus, this.DescType, this.DescType, this.ByteCount, this.DCMFieldAttributes, this.AEDesc.ptr, this.ItemCount, this.DCMFindMethod.ptr, this.AEDesc.ptr);
+    this.DCMGetFieldTagAndType = lib.declare("DCMGetFieldTagAndType", ctypes.default_abi, this.OSStatus, this.AEDesc.ptr, this.DCMFieldTag.ptr, this.DCMFieldType.ptr);
+    this.DCMGetFieldMaxRecordSize = lib.declare("DCMGetFieldMaxRecordSize", ctypes.default_abi, this.OSStatus, this.AEDesc.ptr, this.ByteCount.ptr);
+    this.DCMGetFieldAttributes = lib.declare("DCMGetFieldAttributes", ctypes.default_abi, this.OSStatus, this.AEDesc.ptr, this.DCMFieldAttributes.ptr);
+    this.DCMGetFieldDefaultData = lib.declare("DCMGetFieldDefaultData", ctypes.default_abi, this.OSStatus, this.AEDesc.ptr, this.DescType, this.AEDesc.ptr);
+    this.DCMGetFieldFindMethods = lib.declare("DCMGetFieldFindMethods", ctypes.default_abi, this.OSStatus, this.AEDesc.ptr, this.ItemCount, this.DCMFindMethod.ptr, this.ItemCount.ptr);
     // Dropping inline function 'DCMDictionaryManagerAvailable'.
     this.kMaxYomiLengthInAppleJapaneseDictionary = 40;
     this.kMaxKanjiLengthInAppleJapaneseDictionary = 64;
@@ -100,9 +146,11 @@ function Dictionary_h(lib) {
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/LangAnalysis.framework/Headers/LanguageAnalysis.h
 function LanguageAnalysis_h(lib) {
+    Files_h.call(this, lib);
+    MacTypes_h.call(this, lib);
+    TextCommon_h.call(this, lib);
     AEDataModel_h.call(this, lib);
     Dictionary_h.call(this, lib);
-    MacTypes_h.call(this, lib);
 
     if (this._LANGUAGEANALYSIS_H)
         return;
@@ -141,6 +189,24 @@ function LanguageAnalysis_h(lib) {
     this.kLAFreeEdge = 1;
     this.kLAIncompleteEdge = 2;
     this.kLAAllMorphemes = 0;
+    this.LALibraryVersion = lib.declare("LALibraryVersion", ctypes.default_abi, this.UInt32);
+    this.LATextToMorphemes = lib.declare("LATextToMorphemes", ctypes.default_abi, this.OSStatus, this.LAContextRef, this.TextEncoding, this.ByteCount, this.ConstLogicalAddress, this.ByteCount, this.OptionBits, this.UInt32, this.ByteCount.ptr, this.LAMorphemesArrayPtr);
+    this.LAOpenAnalysisContext = lib.declare("LAOpenAnalysisContext", ctypes.default_abi, this.OSStatus, this.LAEnvironmentRef, this.LAContextRef.ptr);
+    this.LACloseAnalysisContext = lib.declare("LACloseAnalysisContext", ctypes.default_abi, this.OSStatus, this.LAContextRef);
+    this.LAGetEnvironmentList = lib.declare("LAGetEnvironmentList", ctypes.default_abi, this.OSStatus, this.UInt32, this.UInt32.ptr, this.LAEnvironmentRef.ptr);
+    this.LAGetEnvironmentName = lib.declare("LAGetEnvironmentName", ctypes.default_abi, this.OSStatus, this.LAEnvironmentRef, ctypes.unsigned_char.ptr);
+    this.LAGetEnvironmentRef = lib.declare("LAGetEnvironmentRef", ctypes.default_abi, this.OSStatus, this.ConstStr63Param, this.LAEnvironmentRef.ptr);
+    this.LACreateCustomEnvironment = lib.declare("LACreateCustomEnvironment", ctypes.default_abi, this.OSStatus, this.LAEnvironmentRef, this.ConstStr63Param, this.Boolean, this.LAEnvironmentRef.ptr);
+    this.LADeleteCustomEnvironment = lib.declare("LADeleteCustomEnvironment", ctypes.default_abi, this.OSStatus, this.LAEnvironmentRef);
+    this.LAOpenDictionary = lib.declare("LAOpenDictionary", ctypes.default_abi, this.OSStatus, this.LAEnvironmentRef, this.FSSpec.ptr);
+    this.LACloseDictionary = lib.declare("LACloseDictionary", ctypes.default_abi, this.OSStatus, this.LAEnvironmentRef, this.FSSpec.ptr);
+    this.LAListAvailableDictionaries = lib.declare("LAListAvailableDictionaries", ctypes.default_abi, this.OSStatus, this.LAEnvironmentRef, this.ItemCount, this.ItemCount.ptr, this.FSSpec.ptr, this.Boolean.ptr);
+    this.LAAddNewWord = lib.declare("LAAddNewWord", ctypes.default_abi, this.OSStatus, this.LAEnvironmentRef, this.FSSpec.ptr, this.AEDesc.ptr);
+    this.LAMorphemeAnalysis = lib.declare("LAMorphemeAnalysis", ctypes.default_abi, this.OSStatus, this.LAContextRef, this.ConstUniCharArrayPtr, this.UniCharCount, this.LAMorphemePath.ptr, this.LAMorphemePath.ptr, this.ItemCount, this.LAMorphemeBundle.ptr);
+    this.LAContinuousMorphemeAnalysis = lib.declare("LAContinuousMorphemeAnalysis", ctypes.default_abi, this.OSStatus, this.LAContextRef, this.ConstUniCharArrayPtr, this.UniCharCount, this.Boolean, this.LAMorphemePath.ptr, this.LAMorphemePath.ptr, this.Boolean.ptr);
+    this.LAGetMorphemes = lib.declare("LAGetMorphemes", ctypes.default_abi, this.OSStatus, this.LAContextRef, this.LAMorphemePath.ptr);
+    this.LAShiftMorphemes = lib.declare("LAShiftMorphemes", ctypes.default_abi, this.OSStatus, this.LAContextRef, this.ItemCount, this.LAMorphemePath.ptr, this.UniCharCount.ptr);
+    this.LAResetAnalysis = lib.declare("LAResetAnalysis", ctypes.default_abi, this.OSStatus, this.LAContextRef);
     // Dropping inline function 'LALanguageAnalysisAvailable'.
     this.kAppleJapaneseDictionarySignature = 1785487726;
     this.kMaxInputLengthOfAppleJapaneseEngine = 200;
@@ -217,6 +283,7 @@ function LanguageAnalysis_h(lib) {
 }
 
 Components.utils.import("resource://gre/modules/ctypes.jsm");
+Components.utils.import("resource://osxtypes/CarbonCore.jsm");
 Components.utils.import("resource://osxtypes/MacTypes.jsm");
 Components.utils.import("resource://osxtypes/AE.jsm");
 
@@ -224,9 +291,19 @@ const EXPORTED_SYMBOLS = ["LangAnalysis", "Dictionary_h", "LanguageAnalysis_h"];
 
 function LangAnalysis() {
     let libpath = "/System/Library/Frameworks/ApplicationServices.framework/Frameworks/LangAnalysis.framework/LangAnalysis";
-    let lib = ctypes.open(libpath);
+    let library = ctypes.open(libpath);
     this.close = function() {
-        lib.close();
+        library.close();
+    };
+    let lib = {
+        declare: function() {
+            try {
+                return library.declare.apply(library, arguments);
+            } catch (ex) {
+                dump("Failed to declare " + arguments[0] + "\n");
+                return null;
+            }
+        }
     };
 
     Dictionary_h.call(this, lib);

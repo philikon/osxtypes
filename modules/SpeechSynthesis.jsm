@@ -1,8 +1,10 @@
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/SpeechSynthesis.framework/Headers/SpeechSynthesis.h
 function SpeechSynthesis_h(lib) {
     CFError_h.call(this, lib);
-    CFBase_h.call(this, lib);
     Files_h.call(this, lib);
+    CFDictionary_h.call(this, lib);
+    CFURL_h.call(this, lib);
+    CFBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._SPEECHSYNTHESIS_H)
@@ -113,6 +115,38 @@ function SpeechSynthesis_h(lib) {
     // Dropping inline function 'InvokeSpeechWordUPP'.
     this.SpeechErrorCFProcPtr = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.SpeechChannel, this.SRefCon, this.CFErrorRef]).ptr;
     this.SpeechWordCFProcPtr = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.SpeechChannel, this.SRefCon, this.CFStringRef, this.CFRange]).ptr;
+    this.SpeechManagerVersion = lib.declare("SpeechManagerVersion", ctypes.default_abi, this.NumVersion);
+    this.MakeVoiceSpec = lib.declare("MakeVoiceSpec", ctypes.default_abi, this.OSErr, this.OSType, this.OSType, this.VoiceSpec.ptr);
+    this.CountVoices = lib.declare("CountVoices", ctypes.default_abi, this.OSErr, this.SInt16.ptr);
+    this.GetIndVoice = lib.declare("GetIndVoice", ctypes.default_abi, this.OSErr, this.SInt16, this.VoiceSpec.ptr);
+    this.GetVoiceDescription = lib.declare("GetVoiceDescription", ctypes.default_abi, this.OSErr, this.VoiceSpec.ptr, this.VoiceDescription.ptr, ctypes.long);
+    this.GetVoiceInfo = lib.declare("GetVoiceInfo", ctypes.default_abi, this.OSErr, this.VoiceSpec.ptr, this.OSType, ctypes.void_t.ptr);
+    this.NewSpeechChannel = lib.declare("NewSpeechChannel", ctypes.default_abi, this.OSErr, this.VoiceSpec.ptr, this.SpeechChannel.ptr);
+    this.DisposeSpeechChannel = lib.declare("DisposeSpeechChannel", ctypes.default_abi, this.OSErr, this.SpeechChannel);
+    this.SpeakString = lib.declare("SpeakString", ctypes.default_abi, this.OSErr, this.ConstStr255Param);
+    this.SpeakText = lib.declare("SpeakText", ctypes.default_abi, this.OSErr, this.SpeechChannel, ctypes.void_t.ptr, ctypes.unsigned_long);
+    this.SpeakBuffer = lib.declare("SpeakBuffer", ctypes.default_abi, this.OSErr, this.SpeechChannel, ctypes.void_t.ptr, ctypes.unsigned_long, this.SInt32);
+    this.StopSpeech = lib.declare("StopSpeech", ctypes.default_abi, this.OSErr, this.SpeechChannel);
+    this.StopSpeechAt = lib.declare("StopSpeechAt", ctypes.default_abi, this.OSErr, this.SpeechChannel, this.SInt32);
+    this.PauseSpeechAt = lib.declare("PauseSpeechAt", ctypes.default_abi, this.OSErr, this.SpeechChannel, this.SInt32);
+    this.ContinueSpeech = lib.declare("ContinueSpeech", ctypes.default_abi, this.OSErr, this.SpeechChannel);
+    this.SpeechBusy = lib.declare("SpeechBusy", ctypes.default_abi, this.SInt16);
+    this.SpeechBusySystemWide = lib.declare("SpeechBusySystemWide", ctypes.default_abi, this.SInt16);
+    this.SetSpeechRate = lib.declare("SetSpeechRate", ctypes.default_abi, this.OSErr, this.SpeechChannel, this.Fixed);
+    this.GetSpeechRate = lib.declare("GetSpeechRate", ctypes.default_abi, this.OSErr, this.SpeechChannel, this.Fixed.ptr);
+    this.SetSpeechPitch = lib.declare("SetSpeechPitch", ctypes.default_abi, this.OSErr, this.SpeechChannel, this.Fixed);
+    this.GetSpeechPitch = lib.declare("GetSpeechPitch", ctypes.default_abi, this.OSErr, this.SpeechChannel, this.Fixed.ptr);
+    this.SetSpeechInfo = lib.declare("SetSpeechInfo", ctypes.default_abi, this.OSErr, this.SpeechChannel, this.OSType, ctypes.void_t.ptr);
+    this.GetSpeechInfo = lib.declare("GetSpeechInfo", ctypes.default_abi, this.OSErr, this.SpeechChannel, this.OSType, ctypes.void_t.ptr);
+    this.TextToPhonemes = lib.declare("TextToPhonemes", ctypes.default_abi, this.OSErr, this.SpeechChannel, ctypes.void_t.ptr, ctypes.unsigned_long, this.Handle, ctypes.long.ptr);
+    this.UseDictionary = lib.declare("UseDictionary", ctypes.default_abi, this.OSErr, this.SpeechChannel, this.Handle);
+    this.SpeakCFString = lib.declare("SpeakCFString", ctypes.default_abi, this.OSErr, this.SpeechChannel, this.CFStringRef, this.CFDictionaryRef);
+    this.UseSpeechDictionary = lib.declare("UseSpeechDictionary", ctypes.default_abi, this.OSErr, this.SpeechChannel, this.CFDictionaryRef);
+    this.CopyPhonemesFromText = lib.declare("CopyPhonemesFromText", ctypes.default_abi, this.OSErr, this.SpeechChannel, this.CFStringRef, this.CFStringRef.ptr);
+    this.CopySpeechProperty = lib.declare("CopySpeechProperty", ctypes.default_abi, this.OSErr, this.SpeechChannel, this.CFStringRef, this.CFTypeRef.ptr);
+    this.SetSpeechProperty = lib.declare("SetSpeechProperty", ctypes.default_abi, this.OSErr, this.SpeechChannel, this.CFStringRef, this.CFTypeRef);
+    this.SpeechSynthesisRegisterModuleURL = lib.declare("SpeechSynthesisRegisterModuleURL", ctypes.default_abi, this.OSErr, this.CFURLRef);
+    this.SpeechSynthesisUnregisterModuleURL = lib.declare("SpeechSynthesisUnregisterModuleURL", ctypes.default_abi, this.OSErr, this.CFURLRef);
 }
 
 Components.utils.import("resource://gre/modules/ctypes.jsm");
@@ -124,9 +158,19 @@ const EXPORTED_SYMBOLS = ["SpeechSynthesis", "SpeechSynthesis_h"];
 
 function SpeechSynthesis() {
     let libpath = "/System/Library/Frameworks/ApplicationServices.framework/Frameworks/SpeechSynthesis.framework/SpeechSynthesis";
-    let lib = ctypes.open(libpath);
+    let library = ctypes.open(libpath);
     this.close = function() {
-        lib.close();
+        library.close();
+    };
+    let lib = {
+        declare: function() {
+            try {
+                return library.declare.apply(library, arguments);
+            } catch (ex) {
+                dump("Failed to declare " + arguments[0] + "\n");
+                return null;
+            }
+        }
     };
 
     SpeechSynthesis_h.call(this, lib);

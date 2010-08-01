@@ -1,18 +1,27 @@
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/ColorSync.framework/Headers/ColorSyncDevice.h
 function ColorSyncDevice_h(lib) {
+    CFDictionary_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    CFUUID_h.call(this, lib);
 
     if (this._COLORSYNCDEVICE_H)
         return;
     this._COLORSYNCDEVICE_H = true;
 
+    // Dropping declaration of 'ColorSyncRegisterDevice': Unknown type bool_t
+    // Dropping declaration of 'ColorSyncUnregisterDevice': Unknown type bool_t
+    // Dropping declaration of 'ColorSyncDeviceSetCustomProfiles': Unknown type bool_t
+    this.ColorSyncDeviceCopyDeviceInfo = lib.declare("ColorSyncDeviceCopyDeviceInfo", ctypes.default_abi, this.CFDictionaryRef, this.CFStringRef, this.CFUUIDRef);
     // Dropping declaration of 'ColorSyncDeviceProfileIterateCallback': Unknown type bool_t
+    this.ColorSyncIterateDeviceProfiles = lib.declare("ColorSyncIterateDeviceProfiles", ctypes.default_abi, ctypes.void_t, this.ColorSyncDeviceProfileIterateCallback, ctypes.void_t.ptr);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/ColorSync.framework/Headers/ColorSyncDeprecated.h
 function ColorSyncDeprecated_h(lib) {
+    CFData_h.call(this, lib);
+    Files_h.call(this, lib);
     CFDictionary_h.call(this, lib);
     CFBase_h.call(this, lib);
-    Files_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._COLORSYNCDEPRECATED_H)
@@ -589,14 +598,127 @@ function ColorSyncDeprecated_h(lib) {
     // Dropping inline function 'InvokeCMMIterateUPP'.
     // Dropping inline function 'DisposeCMMIterateUPP'.
     this.CMLabToLabProcPtr = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [ctypes.float.ptr, ctypes.float.ptr, ctypes.float.ptr, ctypes.void_t.ptr]).ptr;
+    this.CMNewProfile = lib.declare("CMNewProfile", ctypes.default_abi, this.CMError, this.CMProfileRef.ptr, this.CMProfileLocation.ptr);
+    this.CWNewLinkProfile = lib.declare("CWNewLinkProfile", ctypes.default_abi, this.CMError, this.CMProfileRef.ptr, this.CMProfileLocation.ptr, this.CMConcatProfileSet.ptr);
+    this.NCWNewLinkProfile = lib.declare("NCWNewLinkProfile", ctypes.default_abi, this.CMError, this.CMProfileRef.ptr, this.CMProfileLocation.ptr, this.NCMConcatProfileSet.ptr, this.CMConcatCallBackUPP, ctypes.void_t.ptr);
+    this.CMMakeProfile = lib.declare("CMMakeProfile", ctypes.default_abi, this.CMError, this.CMProfileRef, this.CFDictionaryRef);
+    this.CMOpenProfile = lib.declare("CMOpenProfile", ctypes.default_abi, this.CMError, this.CMProfileRef.ptr, this.CMProfileLocation.ptr);
+    this.CMCloseProfile = lib.declare("CMCloseProfile", ctypes.default_abi, this.CMError, this.CMProfileRef);
+    this.CMUpdateProfile = lib.declare("CMUpdateProfile", ctypes.default_abi, this.CMError, this.CMProfileRef);
+    this.CMCopyProfile = lib.declare("CMCopyProfile", ctypes.default_abi, this.CMError, this.CMProfileRef.ptr, this.CMProfileLocation.ptr, this.CMProfileRef);
+    this.CMValidateProfile = lib.declare("CMValidateProfile", ctypes.default_abi, this.CMError, this.CMProfileRef, this.Boolean.ptr, this.Boolean.ptr);
+    this.CMGetProfileLocation = lib.declare("CMGetProfileLocation", ctypes.default_abi, this.CMError, this.CMProfileRef, this.CMProfileLocation.ptr);
+    this.NCMGetProfileLocation = lib.declare("NCMGetProfileLocation", ctypes.default_abi, this.CMError, this.CMProfileRef, this.CMProfileLocation.ptr, this.UInt32.ptr);
+    this.CMProfileCopyICCData = lib.declare("CMProfileCopyICCData", ctypes.default_abi, this.CFDataRef, this.CFAllocatorRef, this.CMProfileRef);
+    this.CMFlattenProfile = lib.declare("CMFlattenProfile", ctypes.default_abi, this.CMError, this.CMProfileRef, this.UInt32, this.CMFlattenUPP, ctypes.void_t.ptr, this.Boolean.ptr);
+    this.NCMUnflattenProfile = lib.declare("NCMUnflattenProfile", ctypes.default_abi, this.CMError, this.CMProfileLocation.ptr, this.CMFlattenUPP, ctypes.void_t.ptr, this.Boolean.ptr);
+    this.CMGetProfileHeader = lib.declare("CMGetProfileHeader", ctypes.default_abi, this.CMError, this.CMProfileRef, this.CMAppleProfileHeader.ptr);
+    this.CMSetProfileHeader = lib.declare("CMSetProfileHeader", ctypes.default_abi, this.CMError, this.CMProfileRef, this.CMAppleProfileHeader.ptr);
+    this.CMCloneProfileRef = lib.declare("CMCloneProfileRef", ctypes.default_abi, this.CMError, this.CMProfileRef);
+    this.CMGetProfileRefCount = lib.declare("CMGetProfileRefCount", ctypes.default_abi, this.CMError, this.CMProfileRef, ctypes.long.ptr);
+    this.CMProfileModified = lib.declare("CMProfileModified", ctypes.default_abi, this.CMError, this.CMProfileRef, this.Boolean.ptr);
+    this.CMGetProfileMD5 = lib.declare("CMGetProfileMD5", ctypes.default_abi, this.CMError, this.CMProfileRef, ctypes.unsigned_char.ptr);
+    this.CMCountProfileElements = lib.declare("CMCountProfileElements", ctypes.default_abi, this.CMError, this.CMProfileRef, this.UInt32.ptr);
+    this.CMProfileElementExists = lib.declare("CMProfileElementExists", ctypes.default_abi, this.CMError, this.CMProfileRef, this.OSType, this.Boolean.ptr);
+    this.CMGetProfileElement = lib.declare("CMGetProfileElement", ctypes.default_abi, this.CMError, this.CMProfileRef, this.OSType, this.UInt32.ptr, ctypes.void_t.ptr);
+    this.CMSetProfileElement = lib.declare("CMSetProfileElement", ctypes.default_abi, this.CMError, this.CMProfileRef, this.OSType, this.UInt32, ctypes.void_t.ptr);
+    this.CMSetProfileElementSize = lib.declare("CMSetProfileElementSize", ctypes.default_abi, this.CMError, this.CMProfileRef, this.OSType, this.UInt32);
+    this.CMSetProfileElementReference = lib.declare("CMSetProfileElementReference", ctypes.default_abi, this.CMError, this.CMProfileRef, this.OSType, this.OSType);
+    this.CMGetPartialProfileElement = lib.declare("CMGetPartialProfileElement", ctypes.default_abi, this.CMError, this.CMProfileRef, this.OSType, this.UInt32, this.UInt32.ptr, ctypes.void_t.ptr);
+    this.CMSetPartialProfileElement = lib.declare("CMSetPartialProfileElement", ctypes.default_abi, this.CMError, this.CMProfileRef, this.OSType, this.UInt32, this.UInt32, ctypes.void_t.ptr);
+    this.CMGetIndProfileElementInfo = lib.declare("CMGetIndProfileElementInfo", ctypes.default_abi, this.CMError, this.CMProfileRef, this.UInt32, this.OSType.ptr, this.UInt32.ptr, this.Boolean.ptr);
+    this.CMGetIndProfileElement = lib.declare("CMGetIndProfileElement", ctypes.default_abi, this.CMError, this.CMProfileRef, this.UInt32, this.UInt32.ptr, ctypes.void_t.ptr);
+    this.CMRemoveProfileElement = lib.declare("CMRemoveProfileElement", ctypes.default_abi, this.CMError, this.CMProfileRef, this.OSType);
+    this.CMGetScriptProfileDescription = lib.declare("CMGetScriptProfileDescription", ctypes.default_abi, this.CMError, this.CMProfileRef, ctypes.unsigned_char.ptr, this.ScriptCode.ptr);
+    this.CMGetProfileDescriptions = lib.declare("CMGetProfileDescriptions", ctypes.default_abi, this.CMError, this.CMProfileRef, ctypes.char.ptr, this.UInt32.ptr, ctypes.unsigned_char.ptr, this.ScriptCode.ptr, ctypes.unsigned_short.ptr, this.UniCharCount.ptr);
+    this.CMSetProfileDescriptions = lib.declare("CMSetProfileDescriptions", ctypes.default_abi, this.CMError, this.CMProfileRef, ctypes.char.ptr, this.UInt32, this.ConstStr255Param, this.ScriptCode, this.UniChar.ptr, this.UniCharCount);
+    this.CMCopyProfileLocalizedStringDictionary = lib.declare("CMCopyProfileLocalizedStringDictionary", ctypes.default_abi, this.CMError, this.CMProfileRef, this.OSType, this.CFDictionaryRef.ptr);
+    this.CMSetProfileLocalizedStringDictionary = lib.declare("CMSetProfileLocalizedStringDictionary", ctypes.default_abi, this.CMError, this.CMProfileRef, this.OSType, this.CFDictionaryRef);
+    this.CMCopyProfileLocalizedString = lib.declare("CMCopyProfileLocalizedString", ctypes.default_abi, this.CMError, this.CMProfileRef, this.OSType, this.CFStringRef, this.CFStringRef.ptr, this.CFStringRef.ptr);
+    this.CMCopyProfileDescriptionString = lib.declare("CMCopyProfileDescriptionString", ctypes.default_abi, this.CMError, this.CMProfileRef, this.CFStringRef.ptr);
+    this.CMGetNamedColorInfo = lib.declare("CMGetNamedColorInfo", ctypes.default_abi, this.CMError, this.CMProfileRef, this.UInt32.ptr, this.OSType.ptr, this.OSType.ptr, this.UInt32.ptr, this.StringPtr, this.StringPtr);
+    this.CMGetNamedColorValue = lib.declare("CMGetNamedColorValue", ctypes.default_abi, this.CMError, this.CMProfileRef, this.StringPtr, this.CMColor.ptr, this.CMColor.ptr);
+    this.CMGetIndNamedColorValue = lib.declare("CMGetIndNamedColorValue", ctypes.default_abi, this.CMError, this.CMProfileRef, this.UInt32, this.CMColor.ptr, this.CMColor.ptr);
+    this.CMGetNamedColorIndex = lib.declare("CMGetNamedColorIndex", ctypes.default_abi, this.CMError, this.CMProfileRef, this.StringPtr, this.UInt32.ptr);
+    this.CMGetNamedColorName = lib.declare("CMGetNamedColorName", ctypes.default_abi, this.CMError, this.CMProfileRef, this.UInt32, this.StringPtr);
+    this.NCWNewColorWorld = lib.declare("NCWNewColorWorld", ctypes.default_abi, this.CMError, this.CMWorldRef.ptr, this.CMProfileRef, this.CMProfileRef);
+    this.CWConcatColorWorld = lib.declare("CWConcatColorWorld", ctypes.default_abi, this.CMError, this.CMWorldRef.ptr, this.CMConcatProfileSet.ptr);
+    this.NCWConcatColorWorld = lib.declare("NCWConcatColorWorld", ctypes.default_abi, this.CMError, this.CMWorldRef.ptr, this.NCMConcatProfileSet.ptr, this.CMConcatCallBackUPP, ctypes.void_t.ptr);
+    this.CMGetCWInfo = lib.declare("CMGetCWInfo", ctypes.default_abi, this.CMError, this.CMWorldRef, this.CMCWInfoRecord.ptr);
+    this.CWDisposeColorWorld = lib.declare("CWDisposeColorWorld", ctypes.default_abi, ctypes.void_t, this.CMWorldRef);
+    // Dropping declaration of 'CWMatchColors': 'size_t' defined out of scope
+    // Dropping declaration of 'CWCheckColors': 'size_t' defined out of scope
+    this.CWMatchBitmap = lib.declare("CWMatchBitmap", ctypes.default_abi, this.CMError, this.CMWorldRef, this.CMBitmap.ptr, this.CMBitmapCallBackUPP, ctypes.void_t.ptr, this.CMBitmap.ptr);
+    this.CWCheckBitmap = lib.declare("CWCheckBitmap", ctypes.default_abi, this.CMError, this.CMWorldRef, this.CMBitmap.ptr, this.CMBitmapCallBackUPP, ctypes.void_t.ptr, this.CMBitmap.ptr);
+    this.CWGetCMMSignature = lib.declare("CWGetCMMSignature", ctypes.default_abi, this.UInt32, this.CMWorldRef);
     this.cmTextureRGBtoRGBX8 = 0;
     this.cmTextureRGBtoRGBX16 = 1;
     this.cmTextureRGBtoRGBXFloat32 = 2;
+    this.CWFillLookupTexture = lib.declare("CWFillLookupTexture", ctypes.default_abi, this.CMError, this.CMWorldRef, this.UInt32, this.UInt32, this.UInt32, ctypes.void_t.ptr);
+    this.CMGetSystemProfile = lib.declare("CMGetSystemProfile", ctypes.default_abi, this.CMError, this.CMProfileRef.ptr);
+    this.CMSetSystemProfile = lib.declare("CMSetSystemProfile", ctypes.default_abi, this.CMError, this.FSSpec.ptr);
+    this.NCMSetSystemProfile = lib.declare("NCMSetSystemProfile", ctypes.default_abi, this.CMError, this.CMProfileLocation.ptr);
+    this.CMGetDefaultProfileBySpace = lib.declare("CMGetDefaultProfileBySpace", ctypes.default_abi, this.CMError, this.OSType, this.CMProfileRef.ptr);
+    this.CMSetDefaultProfileBySpace = lib.declare("CMSetDefaultProfileBySpace", ctypes.default_abi, this.CMError, this.OSType, this.CMProfileRef);
+    this.CMGetDefaultProfileByUse = lib.declare("CMGetDefaultProfileByUse", ctypes.default_abi, this.CMError, this.OSType, this.CMProfileRef.ptr);
+    this.CMSetDefaultProfileByUse = lib.declare("CMSetDefaultProfileByUse", ctypes.default_abi, this.CMError, this.OSType, this.CMProfileRef);
+    this.CMGetProfileByAVID = lib.declare("CMGetProfileByAVID", ctypes.default_abi, this.CMError, this.CMDisplayIDType, this.CMProfileRef.ptr);
+    this.CMSetProfileByAVID = lib.declare("CMSetProfileByAVID", ctypes.default_abi, this.CMError, this.CMDisplayIDType, this.CMProfileRef);
+    this.CMGetGammaByAVID = lib.declare("CMGetGammaByAVID", ctypes.default_abi, this.CMError, this.CMDisplayIDType, this.CMVideoCardGamma.ptr, this.UInt32.ptr);
+    this.CMSetGammaByAVID = lib.declare("CMSetGammaByAVID", ctypes.default_abi, this.CMError, this.CMDisplayIDType, this.CMVideoCardGamma.ptr);
+    this.CMIterateColorSyncFolder = lib.declare("CMIterateColorSyncFolder", ctypes.default_abi, this.CMError, this.CMProfileIterateUPP, this.UInt32.ptr, this.UInt32.ptr, ctypes.void_t.ptr);
+    this.CMGetColorSyncFolderSpec = lib.declare("CMGetColorSyncFolderSpec", ctypes.default_abi, this.CMError, ctypes.short, this.Boolean, ctypes.short.ptr, ctypes.long.ptr);
+    this.CMNewProfileSearch = lib.declare("CMNewProfileSearch", ctypes.default_abi, this.CMError, this.CMSearchRecord.ptr, ctypes.void_t.ptr, this.UInt32.ptr, this.CMProfileSearchRef.ptr);
+    this.CMUpdateProfileSearch = lib.declare("CMUpdateProfileSearch", ctypes.default_abi, this.CMError, this.CMProfileSearchRef, ctypes.void_t.ptr, this.UInt32.ptr);
+    this.CMDisposeProfileSearch = lib.declare("CMDisposeProfileSearch", ctypes.default_abi, ctypes.void_t, this.CMProfileSearchRef);
+    this.CMSearchGetIndProfile = lib.declare("CMSearchGetIndProfile", ctypes.default_abi, this.CMError, this.CMProfileSearchRef, this.UInt32, this.CMProfileRef.ptr);
+    this.CMSearchGetIndProfileFileSpec = lib.declare("CMSearchGetIndProfileFileSpec", ctypes.default_abi, this.CMError, this.CMProfileSearchRef, this.UInt32, this.FSSpec.ptr);
+    this.CMCreateProfileIdentifier = lib.declare("CMCreateProfileIdentifier", ctypes.default_abi, this.CMError, this.CMProfileRef, this.CMProfileIdentifierPtr, this.UInt32.ptr);
+    this.CMProfileIdentifierFolderSearch = lib.declare("CMProfileIdentifierFolderSearch", ctypes.default_abi, this.CMError, this.CMProfileIdentifierPtr, this.UInt32.ptr, this.CMProfileSearchRef.ptr);
+    this.CMProfileIdentifierListSearch = lib.declare("CMProfileIdentifierListSearch", ctypes.default_abi, this.CMError, this.CMProfileIdentifierPtr, this.CMProfileRef.ptr, this.UInt32, this.UInt32.ptr, this.CMProfileRef.ptr);
+    this.CMGetPreferredCMM = lib.declare("CMGetPreferredCMM", ctypes.default_abi, this.CMError, this.OSType.ptr, this.Boolean.ptr);
+    this.CMSetPreferredCMM = lib.declare("CMSetPreferredCMM", ctypes.default_abi, this.CMError, this.OSType);
+    this.CMIterateCMMInfo = lib.declare("CMIterateCMMInfo", ctypes.default_abi, this.CMError, this.CMMIterateUPP, this.UInt32.ptr, ctypes.void_t.ptr);
+    this.CMGetColorSyncVersion = lib.declare("CMGetColorSyncVersion", ctypes.default_abi, this.CMError, this.UInt32.ptr);
+    this.CMLaunchControlPanel = lib.declare("CMLaunchControlPanel", ctypes.default_abi, this.CMError, this.UInt32);
+    // Dropping declaration of 'CMConvertXYZToLab': 'size_t' defined out of scope
+    // Dropping declaration of 'CMConvertLabToXYZ': 'size_t' defined out of scope
+    // Dropping declaration of 'CMConvertXYZToLuv': 'size_t' defined out of scope
+    // Dropping declaration of 'CMConvertLuvToXYZ': 'size_t' defined out of scope
+    // Dropping declaration of 'CMConvertXYZToYxy': 'size_t' defined out of scope
+    // Dropping declaration of 'CMConvertYxyToXYZ': 'size_t' defined out of scope
+    // Dropping declaration of 'CMConvertRGBToHLS': 'size_t' defined out of scope
+    // Dropping declaration of 'CMConvertHLSToRGB': 'size_t' defined out of scope
+    // Dropping declaration of 'CMConvertRGBToHSV': 'size_t' defined out of scope
+    // Dropping declaration of 'CMConvertHSVToRGB': 'size_t' defined out of scope
+    // Dropping declaration of 'CMConvertRGBToGray': 'size_t' defined out of scope
+    // Dropping declaration of 'CMConvertXYZToFixedXYZ': 'size_t' defined out of scope
+    // Dropping declaration of 'CMConvertFixedXYZToXYZ': 'size_t' defined out of scope
+    // Dropping declaration of 'CMConvertXYZToXYZ': 'size_t' defined out of scope
+    this.CMGetPS2ColorSpace = lib.declare("CMGetPS2ColorSpace", ctypes.default_abi, this.CMError, this.CMProfileRef, this.UInt32, this.CMFlattenUPP, ctypes.void_t.ptr, this.Boolean.ptr);
+    this.CMGetPS2ColorRenderingIntent = lib.declare("CMGetPS2ColorRenderingIntent", ctypes.default_abi, this.CMError, this.CMProfileRef, this.UInt32, this.CMFlattenUPP, ctypes.void_t.ptr, this.Boolean.ptr);
+    this.CMGetPS2ColorRendering = lib.declare("CMGetPS2ColorRendering", ctypes.default_abi, this.CMError, this.CMProfileRef, this.CMProfileRef, this.UInt32, this.CMFlattenUPP, ctypes.void_t.ptr, this.Boolean.ptr);
+    this.CMGetPS2ColorRenderingVMSize = lib.declare("CMGetPS2ColorRenderingVMSize", ctypes.default_abi, this.CMError, this.CMProfileRef, this.CMProfileRef, this.UInt32.ptr, this.Boolean.ptr);
     this.kCMFloatBitmapFlagsNone = 0;
     this.kCMFloatBitmapFlagsAlpha = 1;
     this.kCMFloatBitmapFlagsAlphaPremul = 2;
     this.kCMFloatBitmapFlagsRangeClipped = 4;
     this.CMFloatBitmap = new ctypes.StructType("CMFloatBitmap", []);
+    // Dropping declaration of 'CMFloatBitmapMakeChunky': 'size_t' defined out of scope
+    this.CMConvertXYZFloatBitmap = lib.declare("CMConvertXYZFloatBitmap", ctypes.default_abi, this.CMError, this.CMFloatBitmap.ptr, ctypes.float.ptr, this.CMFloatBitmap.ptr, ctypes.float.ptr, this.CMChromaticAdaptation);
+    this.CMConvertRGBFloatBitmap = lib.declare("CMConvertRGBFloatBitmap", ctypes.default_abi, this.CMError, this.CMFloatBitmap.ptr, this.CMFloatBitmap.ptr);
+    this.CMMatchFloatBitmap = lib.declare("CMMatchFloatBitmap", ctypes.default_abi, this.CMError, this.CMWorldRef, this.CMFloatBitmap.ptr, this.CMFloatBitmap.ptr);
+    this.CWColorWorldSetProperty = lib.declare("CWColorWorldSetProperty", ctypes.default_abi, ctypes.void_t, this.CMWorldRef, this.CFStringRef, this.CFTypeRef);
+    this.CWColorWorldGetProperty = lib.declare("CWColorWorldGetProperty", ctypes.default_abi, ctypes.void_t.ptr, this.CMWorldRef, this.CFStringRef);
+    this.CMM_ConcatColorWorld = lib.declare("CMM_ConcatColorWorld", ctypes.default_abi, this.CMError, this.CMWorldRef, this.NCMConcatProfileSet.ptr, this.CMConcatCallBackUPP, ctypes.void_t.ptr);
+    this.CMM_MatchColors = lib.declare("CMM_MatchColors", ctypes.default_abi, this.CMError, this.CMWorldRef, this.CMColor.ptr, this.UInt32);
+    this.CMM_CheckColors = lib.declare("CMM_CheckColors", ctypes.default_abi, this.CMError, this.CMWorldRef, this.CMColor.ptr, this.UInt32, this.UInt8.ptr);
+    this.CMM_ValidateProfile = lib.declare("CMM_ValidateProfile", ctypes.default_abi, this.CMError, this.CMProfileRef, this.Boolean.ptr);
+    this.CMM_MatchBitmap = lib.declare("CMM_MatchBitmap", ctypes.default_abi, this.CMError, this.CMWorldRef, this.CMBitmap.ptr, this.CMBitmapCallBackUPP, ctypes.void_t.ptr, this.CMBitmap.ptr);
+    this.CMM_CheckBitmap = lib.declare("CMM_CheckBitmap", ctypes.default_abi, this.CMError, this.CMWorldRef, this.CMBitmap.ptr, this.CMBitmapCallBackUPP, ctypes.void_t.ptr, this.CMBitmap.ptr);
+    this.CMM_MatchFloatBitmap = lib.declare("CMM_MatchFloatBitmap", ctypes.default_abi, this.CMError, this.CMWorldRef, this.CMFloatBitmap.ptr, this.CMFloatBitmap.ptr);
+    this.CMM_CreateLinkProfile = lib.declare("CMM_CreateLinkProfile", ctypes.default_abi, this.CMError, this.CMProfileRef, this.NCMConcatProfileSet.ptr, this.CMConcatCallBackUPP, ctypes.void_t.ptr);
+    this.CMM_GetProperty = lib.declare("CMM_GetProperty", ctypes.default_abi, this.CFTypeRef, this.CMWorldRef, this.CFStringRef);
     this.cmspInvalidImageFile = -4220;
     this.cmspInvalidImageSpace = -4221;
     this.cmspInvalidProfileEmbed = -4222;
@@ -605,6 +727,16 @@ function ColorSyncDeprecated_h(lib) {
     this.cmspInvalidProfileProof = -4225;
     this.cmspInvalidProfileLink = -4226;
     this.cmspFavorEmbeddedMask = 1;
+    this.CMValidImage = lib.declare("CMValidImage", ctypes.default_abi, this.CMError, this.FSSpec.ptr);
+    this.CMGetImageSpace = lib.declare("CMGetImageSpace", ctypes.default_abi, this.CMError, this.FSSpec.ptr, this.OSType.ptr);
+    this.CMEmbedImage = lib.declare("CMEmbedImage", ctypes.default_abi, this.CMError, this.FSSpec.ptr, this.FSSpec.ptr, this.Boolean, this.CMProfileRef);
+    this.CMUnembedImage = lib.declare("CMUnembedImage", ctypes.default_abi, this.CMError, this.FSSpec.ptr, this.FSSpec.ptr, this.Boolean);
+    this.CMMatchImage = lib.declare("CMMatchImage", ctypes.default_abi, this.CMError, this.FSSpec.ptr, this.FSSpec.ptr, this.Boolean, this.UInt32, this.CMProfileRef, this.UInt32, this.CMProfileRef);
+    this.CMProofImage = lib.declare("CMProofImage", ctypes.default_abi, this.CMError, this.FSSpec.ptr, this.FSSpec.ptr, this.Boolean, this.UInt32, this.CMProfileRef, this.UInt32, this.CMProfileRef, this.CMProfileRef);
+    this.CMLinkImage = lib.declare("CMLinkImage", ctypes.default_abi, this.CMError, this.FSSpec.ptr, this.FSSpec.ptr, this.Boolean, this.UInt32, this.CMProfileRef, this.UInt32);
+    this.CMCountImageProfiles = lib.declare("CMCountImageProfiles", ctypes.default_abi, this.CMError, this.FSSpec.ptr, this.UInt32.ptr);
+    this.CMGetIndImageProfile = lib.declare("CMGetIndImageProfile", ctypes.default_abi, this.CMError, this.FSSpec.ptr, this.UInt32, this.CMProfileRef.ptr);
+    this.CMSetIndImageProfile = lib.declare("CMSetIndImageProfile", ctypes.default_abi, this.CMError, this.FSSpec.ptr, this.FSSpec.ptr, this.Boolean, this.UInt32, this.CMProfileRef);
     this.cmDeviceInfoVersion1 = 65536;
     this.cmDeviceProfileInfoVersion1 = 65536;
     this.cmDeviceProfileInfoVersion2 = 131072;
@@ -648,10 +780,34 @@ function ColorSyncDeprecated_h(lib) {
     this.CMDeviceProfileArrayPtr = this.CMDeviceProfileArray.ptr;
     this.CMIterateDeviceInfoProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.OSErr, [this.CMDeviceInfo.ptr, ctypes.void_t.ptr]).ptr;
     this.CMIterateDeviceProfileProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.OSErr, [this.CMDeviceInfo.ptr, this.NCMDeviceProfileInfo.ptr, ctypes.void_t.ptr]).ptr;
+    this.CMRegisterColorDevice = lib.declare("CMRegisterColorDevice", ctypes.default_abi, this.CMError, this.CMDeviceClass, this.CMDeviceID, this.CFDictionaryRef, this.CMDeviceScope.ptr);
+    this.CMUnregisterColorDevice = lib.declare("CMUnregisterColorDevice", ctypes.default_abi, this.CMError, this.CMDeviceClass, this.CMDeviceID);
+    this.CMSetDefaultDevice = lib.declare("CMSetDefaultDevice", ctypes.default_abi, this.CMError, this.CMDeviceClass, this.CMDeviceID);
+    this.CMGetDefaultDevice = lib.declare("CMGetDefaultDevice", ctypes.default_abi, this.CMError, this.CMDeviceClass, this.CMDeviceID.ptr);
+    this.CMSetDeviceFactoryProfiles = lib.declare("CMSetDeviceFactoryProfiles", ctypes.default_abi, this.CMError, this.CMDeviceClass, this.CMDeviceID, this.CMDeviceProfileID, this.CMDeviceProfileArray.ptr);
+    this.CMGetDeviceFactoryProfiles = lib.declare("CMGetDeviceFactoryProfiles", ctypes.default_abi, this.CMError, this.CMDeviceClass, this.CMDeviceID, this.CMDeviceProfileID.ptr, this.UInt32.ptr, this.CMDeviceProfileArray.ptr);
+    this.CMSetDeviceProfiles = lib.declare("CMSetDeviceProfiles", ctypes.default_abi, this.CMError, this.CMDeviceClass, this.CMDeviceID, this.CMDeviceProfileScope.ptr, this.CMDeviceProfileArray.ptr);
+    this.CMGetDeviceProfiles = lib.declare("CMGetDeviceProfiles", ctypes.default_abi, this.CMError, this.CMDeviceClass, this.CMDeviceID, this.UInt32.ptr, this.CMDeviceProfileArray.ptr);
+    this.CMSetDeviceDefaultProfileID = lib.declare("CMSetDeviceDefaultProfileID", ctypes.default_abi, this.CMError, this.CMDeviceClass, this.CMDeviceID, this.CMDeviceProfileID);
+    this.CMGetDeviceDefaultProfileID = lib.declare("CMGetDeviceDefaultProfileID", ctypes.default_abi, this.CMError, this.CMDeviceClass, this.CMDeviceID, this.CMDeviceProfileID.ptr);
+    this.CMSetDeviceProfile = lib.declare("CMSetDeviceProfile", ctypes.default_abi, this.CMError, this.CMDeviceClass, this.CMDeviceID, this.CMDeviceProfileScope.ptr, this.CMDeviceProfileID, this.CMProfileLocation.ptr);
+    this.CMGetDeviceProfile = lib.declare("CMGetDeviceProfile", ctypes.default_abi, this.CMError, this.CMDeviceClass, this.CMDeviceID, this.CMDeviceProfileID, this.CMProfileLocation.ptr);
+    this.CMSetDeviceState = lib.declare("CMSetDeviceState", ctypes.default_abi, this.CMError, this.CMDeviceClass, this.CMDeviceID, this.CMDeviceState);
+    this.CMGetDeviceState = lib.declare("CMGetDeviceState", ctypes.default_abi, this.CMError, this.CMDeviceClass, this.CMDeviceID, this.CMDeviceState.ptr);
+    this.CMGetDeviceInfo = lib.declare("CMGetDeviceInfo", ctypes.default_abi, this.CMError, this.CMDeviceClass, this.CMDeviceID, this.CMDeviceInfo.ptr);
+    this.CMIterateColorDevices = lib.declare("CMIterateColorDevices", ctypes.default_abi, this.CMError, this.CMIterateDeviceInfoProcPtr, this.UInt32.ptr, this.UInt32.ptr, ctypes.void_t.ptr);
+    this.CMIterateDeviceProfiles = lib.declare("CMIterateDeviceProfiles", ctypes.default_abi, this.CMError, this.CMIterateDeviceProfileProcPtr, this.UInt32.ptr, this.UInt32.ptr, this.UInt32, ctypes.void_t.ptr);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/ColorSync.framework/Headers/ColorSyncProfile.h
 function ColorSyncProfile_h(lib) {
+    CFData_h.call(this, lib);
+    CFUUID_h.call(this, lib);
+    CFError_h.call(this, lib);
+    CFDictionary_h.call(this, lib);
+    CFURL_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
 
     if (this._COLORSYNCPROFILE_H)
         return;
@@ -660,12 +816,39 @@ function ColorSyncProfile_h(lib) {
     this.ColorSyncProfile = new ctypes.StructType("ColorSyncProfile");
     this.ColorSyncProfileRef = this.ColorSyncProfile.ptr;
     this.ColorSyncMutableProfileRef = this.ColorSyncProfile.ptr;
+    this.ColorSyncProfileGetTypeID = lib.declare("ColorSyncProfileGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.ColorSyncProfileCreate = lib.declare("ColorSyncProfileCreate", ctypes.default_abi, this.ColorSyncProfileRef, this.CFDataRef, this.CFErrorRef.ptr);
+    this.ColorSyncProfileCreateWithURL = lib.declare("ColorSyncProfileCreateWithURL", ctypes.default_abi, this.ColorSyncProfileRef, this.CFURLRef, this.CFErrorRef.ptr);
+    this.ColorSyncProfileCreateWithName = lib.declare("ColorSyncProfileCreateWithName", ctypes.default_abi, this.ColorSyncProfileRef, this.CFStringRef);
+    // Dropping declaration of 'ColorSyncProfileCreateWithDisplayID': 'uint32_t' defined out of scope
+    this.ColorSyncProfileCreateDeviceProfile = lib.declare("ColorSyncProfileCreateDeviceProfile", ctypes.default_abi, this.ColorSyncProfileRef, this.CFStringRef, this.CFUUIDRef, this.CFTypeRef);
+    this.ColorSyncProfileCreateMutable = lib.declare("ColorSyncProfileCreateMutable", ctypes.default_abi, this.ColorSyncMutableProfileRef);
+    this.ColorSyncProfileCreateMutableCopy = lib.declare("ColorSyncProfileCreateMutableCopy", ctypes.default_abi, this.ColorSyncMutableProfileRef, this.ColorSyncProfileRef);
+    this.ColorSyncProfileCreateLink = lib.declare("ColorSyncProfileCreateLink", ctypes.default_abi, this.ColorSyncProfileRef, this.CFArrayRef, this.CFDictionaryRef);
+    // Dropping declaration of 'ColorSyncProfileVerify': Unknown type bool_t
+    // Dropping declaration of 'ColorSyncProfileEstimateGammaWithDisplayID': 'int32_t' defined out of scope
+    this.ColorSyncProfileEstimateGamma = lib.declare("ColorSyncProfileEstimateGamma", ctypes.default_abi, ctypes.float, this.ColorSyncProfileRef, this.CFErrorRef.ptr);
     this.ColorSyncMD5 = new ctypes.StructType("ColorSyncMD5", []);
+    this.ColorSyncProfileGetMD5 = lib.declare("ColorSyncProfileGetMD5", ctypes.default_abi, this.ColorSyncMD5, this.ColorSyncProfileRef);
+    this.ColorSyncProfileCopyData = lib.declare("ColorSyncProfileCopyData", ctypes.default_abi, this.CFDataRef, this.ColorSyncProfileRef, this.CFErrorRef.ptr);
+    this.ColorSyncProfileGetURL = lib.declare("ColorSyncProfileGetURL", ctypes.default_abi, this.CFURLRef, this.ColorSyncProfileRef, this.CFErrorRef.ptr);
+    this.ColorSyncProfileCopyHeader = lib.declare("ColorSyncProfileCopyHeader", ctypes.default_abi, this.CFDataRef, this.ColorSyncProfileRef);
+    this.ColorSyncProfileSetHeader = lib.declare("ColorSyncProfileSetHeader", ctypes.default_abi, ctypes.void_t, this.ColorSyncMutableProfileRef, this.CFDataRef);
+    this.ColorSyncProfileCopyDescriptionString = lib.declare("ColorSyncProfileCopyDescriptionString", ctypes.default_abi, this.CFStringRef, this.ColorSyncProfileRef);
+    this.ColorSyncProfileCopyTagSignatures = lib.declare("ColorSyncProfileCopyTagSignatures", ctypes.default_abi, this.CFArrayRef, this.ColorSyncProfileRef);
+    // Dropping declaration of 'ColorSyncProfileContainsTag': Unknown type bool_t
+    this.ColorSyncProfileCopyTag = lib.declare("ColorSyncProfileCopyTag", ctypes.default_abi, this.CFDataRef, this.ColorSyncProfileRef, this.CFStringRef);
+    this.ColorSyncProfileSetTag = lib.declare("ColorSyncProfileSetTag", ctypes.default_abi, ctypes.void_t, this.ColorSyncMutableProfileRef, this.CFStringRef, this.CFDataRef);
+    this.ColorSyncProfileRemoveTag = lib.declare("ColorSyncProfileRemoveTag", ctypes.default_abi, ctypes.void_t, this.ColorSyncMutableProfileRef, this.CFStringRef);
     // Dropping declaration of 'ColorSyncProfileIterateCallback': Unknown type bool_t
+    // Dropping declaration of 'ColorSyncIterateInstalledProfiles': 'uint32_t' defined out of scope
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/ColorSync.framework/Headers/ColorSyncTransform.h
 function ColorSyncTransform_h(lib) {
+    CFDictionary_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
 
     if (this._COLORSYNCTRANSFORM_H)
         return;
@@ -673,6 +856,10 @@ function ColorSyncTransform_h(lib) {
 
     this.ColorSyncTransform = new ctypes.StructType("ColorSyncTransform");
     this.ColorSyncTransformRef = this.ColorSyncTransform.ptr;
+    this.ColorSyncTransformGetTypeID = lib.declare("ColorSyncTransformGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.ColorSyncTransformCreate = lib.declare("ColorSyncTransformCreate", ctypes.default_abi, this.ColorSyncTransformRef, this.CFArrayRef, this.CFDictionaryRef);
+    this.ColorSyncTransformCopyProperty = lib.declare("ColorSyncTransformCopyProperty", ctypes.default_abi, this.CFTypeRef, this.ColorSyncTransformRef, this.CFTypeRef, this.CFDictionaryRef);
+    this.ColorSyncTransformSetProperty = lib.declare("ColorSyncTransformSetProperty", ctypes.default_abi, ctypes.void_t, this.ColorSyncTransformRef, this.CFTypeRef, this.CFTypeRef);
     this.kColorSync1BitGamut = 1;
     this.kColorSync8BitInteger = 2;
     this.kColorSync16BitInteger = 3;
@@ -695,6 +882,7 @@ function ColorSyncTransform_h(lib) {
     this.kColorSyncByteOrder16Big = 12288;
     this.kColorSyncByteOrder32Big = 16384;
     // Dropping declaration of 'ColorSyncDataLayout': 'uint32_t' defined out of scope
+    // Dropping declaration of 'ColorSyncTransformConvert': Unknown type bool_t
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/ColorSync.framework/Headers/ColorSyncCMM.h
@@ -702,6 +890,7 @@ function ColorSyncCMM_h(lib) {
     ColorSyncTransform_h.call(this, lib);
     CFDictionary_h.call(this, lib);
     CFBase_h.call(this, lib);
+    CFBundle_h.call(this, lib);
 
     if (this._COLORSYNCCMM_H)
         return;
@@ -709,7 +898,13 @@ function ColorSyncCMM_h(lib) {
 
     this.ColorSyncCMM = new ctypes.StructType("ColorSyncCMM");
     this.ColorSyncCMMRef = this.ColorSyncCMM.ptr;
+    this.ColorSyncCMMGetTypeID = lib.declare("ColorSyncCMMGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.ColorSyncCMMCreate = lib.declare("ColorSyncCMMCreate", ctypes.default_abi, this.ColorSyncCMMRef, this.CFBundleRef);
+    this.ColorSyncCMMGetBundle = lib.declare("ColorSyncCMMGetBundle", ctypes.default_abi, this.CFBundleRef, this.ColorSyncCMMRef);
+    this.ColorSyncCMMCopyLocalizedName = lib.declare("ColorSyncCMMCopyLocalizedName", ctypes.default_abi, this.CFStringRef, this.ColorSyncCMMRef);
+    this.ColorSyncCMMCopyCMMIdentifier = lib.declare("ColorSyncCMMCopyCMMIdentifier", ctypes.default_abi, this.CFStringRef, this.ColorSyncCMMRef);
     // Dropping declaration of 'ColorSyncCMMIterateCallback': Unknown type bool_t
+    this.ColorSyncIterateInstalledCMMs = lib.declare("ColorSyncIterateInstalledCMMs", ctypes.default_abi, ctypes.void_t, this.ColorSyncCMMIterateCallback, ctypes.void_t.ptr);
     // Dropping declaration of 'CMMInitializeLinkProfileProc': Unknown type bool_t
     // Dropping declaration of 'CMMInitializeTransformProc': Unknown type bool_t
     // Dropping declaration of 'CMMApplyTransformProc': Unknown type bool_t
@@ -725,9 +920,19 @@ const EXPORTED_SYMBOLS = ["ColorSync", "ColorSyncDevice_h", "ColorSyncDeprecated
 
 function ColorSync() {
     let libpath = "/System/Library/Frameworks/ApplicationServices.framework/Frameworks/ColorSync.framework/ColorSync";
-    let lib = ctypes.open(libpath);
+    let library = ctypes.open(libpath);
     this.close = function() {
-        lib.close();
+        library.close();
+    };
+    let lib = {
+        declare: function() {
+            try {
+                return library.declare.apply(library, arguments);
+            } catch (ex) {
+                dump("Failed to declare " + arguments[0] + "\n");
+                return null;
+            }
+        }
     };
 
     ColorSyncDevice_h.call(this, lib);

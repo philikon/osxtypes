@@ -1,11 +1,17 @@
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/QD.framework/Headers/ATSUnicodeGlyphs.h
 function ATSUnicodeGlyphs_h(lib) {
+    ATSUnicodeTypes_h.call(this, lib);
+    ATSTypes_h.call(this, lib);
+    TextCommon_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._ATSUNICODEGLYPHS_H)
         return;
     this._ATSUNICODEGLYPHS_H = true;
 
+    this.ATSUGlyphGetIdealMetrics = lib.declare("ATSUGlyphGetIdealMetrics", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.ItemCount, this.GlyphID.ptr, this.ByteOffset, this.ATSGlyphIdealMetrics.ptr);
+    this.ATSUGlyphGetScreenMetrics = lib.declare("ATSUGlyphGetScreenMetrics", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.ItemCount, this.GlyphID.ptr, this.ByteOffset, this.Boolean, this.Boolean, this.ATSGlyphScreenMetrics.ptr);
+    this.ATSUGetNativeCurveType = lib.declare("ATSUGetNativeCurveType", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.ATSCurveType.ptr);
     this.ATSQuadraticNewPathProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.OSStatus, [ctypes.void_t.ptr]).ptr;
     this.ATSQuadraticNewPathUPP = this.ATSQuadraticNewPathProcPtr;
     // Dropping inline function 'NewATSQuadraticNewPathUPP'.
@@ -26,6 +32,7 @@ function ATSUnicodeGlyphs_h(lib) {
     // Dropping inline function 'NewATSQuadraticClosePathUPP'.
     // Dropping inline function 'DisposeATSQuadraticClosePathUPP'.
     // Dropping inline function 'InvokeATSQuadraticClosePathUPP'.
+    this.ATSUGlyphGetQuadraticPaths = lib.declare("ATSUGlyphGetQuadraticPaths", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.GlyphID, this.ATSQuadraticNewPathUPP, this.ATSQuadraticLineUPP, this.ATSQuadraticCurveUPP, this.ATSQuadraticClosePathUPP, ctypes.void_t.ptr, this.OSStatus.ptr);
     this.ATSCubicMoveToProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.OSStatus, [this.Float32Point.ptr, ctypes.void_t.ptr]).ptr;
     this.ATSCubicMoveToUPP = this.ATSCubicMoveToProcPtr;
     // Dropping inline function 'NewATSCubicMoveToUPP'.
@@ -46,11 +53,19 @@ function ATSUnicodeGlyphs_h(lib) {
     // Dropping inline function 'NewATSCubicClosePathUPP'.
     // Dropping inline function 'DisposeATSCubicClosePathUPP'.
     // Dropping inline function 'InvokeATSCubicClosePathUPP'.
+    this.ATSUGlyphGetCubicPaths = lib.declare("ATSUGlyphGetCubicPaths", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.GlyphID, this.ATSCubicMoveToUPP, this.ATSCubicLineToUPP, this.ATSCubicCurveToUPP, this.ATSCubicClosePathUPP, ctypes.void_t.ptr, this.OSStatus.ptr);
+    this.ATSUGlyphGetCurvePaths = lib.declare("ATSUGlyphGetCurvePaths", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.GlyphID, this.ByteCount.ptr, this.ATSUCurvePaths.ptr);
+    this.ATSUGetGlyphInfo = lib.declare("ATSUGetGlyphInfo", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayOffset, this.UniCharCount, this.ByteCount.ptr, this.ATSUGlyphInfoArray.ptr);
+    this.ATSUDrawGlyphInfo = lib.declare("ATSUDrawGlyphInfo", ctypes.default_abi, this.OSStatus, this.ATSUGlyphInfoArray.ptr, this.Float32Point);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/QD.framework/Headers/QuickdrawAPI.h
 function QuickdrawAPI_h(lib) {
     QuickdrawTypes_h.call(this, lib);
+    CGContext_h.call(this, lib);
+    ColorSyncDeprecated_h.call(this, lib);
+    CGDirectDisplay_h.call(this, lib);
+    Components_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._QUICKDRAWAPI_H)
@@ -72,6 +87,224 @@ function QuickdrawAPI_h(lib) {
     // Dropping inline function 'NewRegionToRectsUPP'.
     // Dropping inline function 'DisposeRegionToRectsUPP'.
     // Dropping inline function 'InvokeRegionToRectsUPP'.
+    this.QDRegionToRects = lib.declare("QDRegionToRects", ctypes.default_abi, this.OSStatus, this.RgnHandle, this.QDRegionParseDirection, this.RegionToRectsUPP, ctypes.void_t.ptr);
+    this.LockPortBits = lib.declare("LockPortBits", ctypes.default_abi, this.OSErr, this.GrafPtr);
+    this.UnlockPortBits = lib.declare("UnlockPortBits", ctypes.default_abi, this.OSErr, this.GrafPtr);
+    this.SetPort = lib.declare("SetPort", ctypes.default_abi, ctypes.void_t, this.GrafPtr);
+    this.GetPort = lib.declare("GetPort", ctypes.default_abi, ctypes.void_t, this.GrafPtr.ptr);
+    this.QDSwapPort = lib.declare("QDSwapPort", ctypes.default_abi, this.Boolean, this.CGrafPtr, this.CGrafPtr.ptr);
+    this.GrafDevice = lib.declare("GrafDevice", ctypes.default_abi, ctypes.void_t, ctypes.short);
+    this.SetPortBits = lib.declare("SetPortBits", ctypes.default_abi, ctypes.void_t, this.BitMap.ptr);
+    this.PortSize = lib.declare("PortSize", ctypes.default_abi, ctypes.void_t, ctypes.short, ctypes.short);
+    this.MovePortTo = lib.declare("MovePortTo", ctypes.default_abi, ctypes.void_t, ctypes.short, ctypes.short);
+    this.SetOrigin = lib.declare("SetOrigin", ctypes.default_abi, ctypes.void_t, ctypes.short, ctypes.short);
+    this.SetClip = lib.declare("SetClip", ctypes.default_abi, ctypes.void_t, this.RgnHandle);
+    this.GetClip = lib.declare("GetClip", ctypes.default_abi, ctypes.void_t, this.RgnHandle);
+    this.ClipRect = lib.declare("ClipRect", ctypes.default_abi, ctypes.void_t, this.Rect.ptr);
+    this.BackPat = lib.declare("BackPat", ctypes.default_abi, ctypes.void_t, this.Pattern.ptr);
+    this.InitCursor = lib.declare("InitCursor", ctypes.default_abi, ctypes.void_t);
+    this.SetCursor = lib.declare("SetCursor", ctypes.default_abi, ctypes.void_t, this.Cursor.ptr);
+    this.HideCursor = lib.declare("HideCursor", ctypes.default_abi, ctypes.void_t);
+    this.ShowCursor = lib.declare("ShowCursor", ctypes.default_abi, ctypes.void_t);
+    this.ObscureCursor = lib.declare("ObscureCursor", ctypes.default_abi, ctypes.void_t);
+    this.HidePen = lib.declare("HidePen", ctypes.default_abi, ctypes.void_t);
+    this.ShowPen = lib.declare("ShowPen", ctypes.default_abi, ctypes.void_t);
+    this.GetPen = lib.declare("GetPen", ctypes.default_abi, ctypes.void_t, this.Point.ptr);
+    this.GetPenState = lib.declare("GetPenState", ctypes.default_abi, ctypes.void_t, this.PenState.ptr);
+    this.SetPenState = lib.declare("SetPenState", ctypes.default_abi, ctypes.void_t, this.PenState.ptr);
+    this.PenSize = lib.declare("PenSize", ctypes.default_abi, ctypes.void_t, ctypes.short, ctypes.short);
+    this.PenMode = lib.declare("PenMode", ctypes.default_abi, ctypes.void_t, ctypes.short);
+    this.PenPat = lib.declare("PenPat", ctypes.default_abi, ctypes.void_t, this.Pattern.ptr);
+    this.PenNormal = lib.declare("PenNormal", ctypes.default_abi, ctypes.void_t);
+    this.MoveTo = lib.declare("MoveTo", ctypes.default_abi, ctypes.void_t, ctypes.short, ctypes.short);
+    this.Move = lib.declare("Move", ctypes.default_abi, ctypes.void_t, ctypes.short, ctypes.short);
+    this.LineTo = lib.declare("LineTo", ctypes.default_abi, ctypes.void_t, ctypes.short, ctypes.short);
+    this.Line = lib.declare("Line", ctypes.default_abi, ctypes.void_t, ctypes.short, ctypes.short);
+    this.ForeColor = lib.declare("ForeColor", ctypes.default_abi, ctypes.void_t, ctypes.long);
+    this.BackColor = lib.declare("BackColor", ctypes.default_abi, ctypes.void_t, ctypes.long);
+    this.ColorBit = lib.declare("ColorBit", ctypes.default_abi, ctypes.void_t, ctypes.short);
+    this.SetRect = lib.declare("SetRect", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, ctypes.short, ctypes.short, ctypes.short, ctypes.short);
+    this.OffsetRect = lib.declare("OffsetRect", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, ctypes.short, ctypes.short);
+    this.InsetRect = lib.declare("InsetRect", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, ctypes.short, ctypes.short);
+    this.SectRect = lib.declare("SectRect", ctypes.default_abi, this.Boolean, this.Rect.ptr, this.Rect.ptr, this.Rect.ptr);
+    this.UnionRect = lib.declare("UnionRect", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, this.Rect.ptr, this.Rect.ptr);
+    this.EqualRect = lib.declare("EqualRect", ctypes.default_abi, this.Boolean, this.Rect.ptr, this.Rect.ptr);
+    this.EmptyRect = lib.declare("EmptyRect", ctypes.default_abi, this.Boolean, this.Rect.ptr);
+    this.FrameRect = lib.declare("FrameRect", ctypes.default_abi, ctypes.void_t, this.Rect.ptr);
+    this.PaintRect = lib.declare("PaintRect", ctypes.default_abi, ctypes.void_t, this.Rect.ptr);
+    this.EraseRect = lib.declare("EraseRect", ctypes.default_abi, ctypes.void_t, this.Rect.ptr);
+    this.InvertRect = lib.declare("InvertRect", ctypes.default_abi, ctypes.void_t, this.Rect.ptr);
+    this.FillRect = lib.declare("FillRect", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, this.Pattern.ptr);
+    this.FrameOval = lib.declare("FrameOval", ctypes.default_abi, ctypes.void_t, this.Rect.ptr);
+    this.PaintOval = lib.declare("PaintOval", ctypes.default_abi, ctypes.void_t, this.Rect.ptr);
+    this.EraseOval = lib.declare("EraseOval", ctypes.default_abi, ctypes.void_t, this.Rect.ptr);
+    this.InvertOval = lib.declare("InvertOval", ctypes.default_abi, ctypes.void_t, this.Rect.ptr);
+    this.FillOval = lib.declare("FillOval", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, this.Pattern.ptr);
+    this.FrameRoundRect = lib.declare("FrameRoundRect", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, ctypes.short, ctypes.short);
+    this.PaintRoundRect = lib.declare("PaintRoundRect", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, ctypes.short, ctypes.short);
+    this.EraseRoundRect = lib.declare("EraseRoundRect", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, ctypes.short, ctypes.short);
+    this.InvertRoundRect = lib.declare("InvertRoundRect", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, ctypes.short, ctypes.short);
+    this.FillRoundRect = lib.declare("FillRoundRect", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, ctypes.short, ctypes.short, this.Pattern.ptr);
+    this.FrameArc = lib.declare("FrameArc", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, ctypes.short, ctypes.short);
+    this.PaintArc = lib.declare("PaintArc", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, ctypes.short, ctypes.short);
+    this.EraseArc = lib.declare("EraseArc", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, ctypes.short, ctypes.short);
+    this.InvertArc = lib.declare("InvertArc", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, ctypes.short, ctypes.short);
+    this.FillArc = lib.declare("FillArc", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, ctypes.short, ctypes.short, this.Pattern.ptr);
+    this.NewRgn = lib.declare("NewRgn", ctypes.default_abi, this.RgnHandle);
+    this.OpenRgn = lib.declare("OpenRgn", ctypes.default_abi, ctypes.void_t);
+    this.CloseRgn = lib.declare("CloseRgn", ctypes.default_abi, ctypes.void_t, this.RgnHandle);
+    this.BitMapToRegion = lib.declare("BitMapToRegion", ctypes.default_abi, this.OSErr, this.RgnHandle, this.BitMap.ptr);
+    this.RgnToHandle = lib.declare("RgnToHandle", ctypes.default_abi, ctypes.void_t, this.RgnHandle, this.Handle);
+    this.HandleToRgn = lib.declare("HandleToRgn", ctypes.default_abi, ctypes.void_t, this.Handle, this.RgnHandle);
+    this.DisposeRgn = lib.declare("DisposeRgn", ctypes.default_abi, ctypes.void_t, this.RgnHandle);
+    this.CopyRgn = lib.declare("CopyRgn", ctypes.default_abi, ctypes.void_t, this.RgnHandle, this.RgnHandle);
+    this.SetEmptyRgn = lib.declare("SetEmptyRgn", ctypes.default_abi, ctypes.void_t, this.RgnHandle);
+    this.SetRectRgn = lib.declare("SetRectRgn", ctypes.default_abi, ctypes.void_t, this.RgnHandle, ctypes.short, ctypes.short, ctypes.short, ctypes.short);
+    this.RectRgn = lib.declare("RectRgn", ctypes.default_abi, ctypes.void_t, this.RgnHandle, this.Rect.ptr);
+    this.OffsetRgn = lib.declare("OffsetRgn", ctypes.default_abi, ctypes.void_t, this.RgnHandle, ctypes.short, ctypes.short);
+    this.InsetRgn = lib.declare("InsetRgn", ctypes.default_abi, ctypes.void_t, this.RgnHandle, ctypes.short, ctypes.short);
+    this.SectRgn = lib.declare("SectRgn", ctypes.default_abi, ctypes.void_t, this.RgnHandle, this.RgnHandle, this.RgnHandle);
+    this.UnionRgn = lib.declare("UnionRgn", ctypes.default_abi, ctypes.void_t, this.RgnHandle, this.RgnHandle, this.RgnHandle);
+    this.DiffRgn = lib.declare("DiffRgn", ctypes.default_abi, ctypes.void_t, this.RgnHandle, this.RgnHandle, this.RgnHandle);
+    this.XorRgn = lib.declare("XorRgn", ctypes.default_abi, ctypes.void_t, this.RgnHandle, this.RgnHandle, this.RgnHandle);
+    this.RectInRgn = lib.declare("RectInRgn", ctypes.default_abi, this.Boolean, this.Rect.ptr, this.RgnHandle);
+    this.EqualRgn = lib.declare("EqualRgn", ctypes.default_abi, this.Boolean, this.RgnHandle, this.RgnHandle);
+    this.EmptyRgn = lib.declare("EmptyRgn", ctypes.default_abi, this.Boolean, this.RgnHandle);
+    this.FrameRgn = lib.declare("FrameRgn", ctypes.default_abi, ctypes.void_t, this.RgnHandle);
+    this.PaintRgn = lib.declare("PaintRgn", ctypes.default_abi, ctypes.void_t, this.RgnHandle);
+    this.EraseRgn = lib.declare("EraseRgn", ctypes.default_abi, ctypes.void_t, this.RgnHandle);
+    this.InvertRgn = lib.declare("InvertRgn", ctypes.default_abi, ctypes.void_t, this.RgnHandle);
+    this.FillRgn = lib.declare("FillRgn", ctypes.default_abi, ctypes.void_t, this.RgnHandle, this.Pattern.ptr);
+    this.ScrollRect = lib.declare("ScrollRect", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, ctypes.short, ctypes.short, this.RgnHandle);
+    this.CopyBits = lib.declare("CopyBits", ctypes.default_abi, ctypes.void_t, this.BitMap.ptr, this.BitMap.ptr, this.Rect.ptr, this.Rect.ptr, ctypes.short, this.RgnHandle);
+    this.SeedFill = lib.declare("SeedFill", ctypes.default_abi, ctypes.void_t, ctypes.void_t.ptr, ctypes.void_t.ptr, ctypes.short, ctypes.short, ctypes.short, ctypes.short, ctypes.short, ctypes.short);
+    this.CalcMask = lib.declare("CalcMask", ctypes.default_abi, ctypes.void_t, ctypes.void_t.ptr, ctypes.void_t.ptr, ctypes.short, ctypes.short, ctypes.short, ctypes.short);
+    this.CopyMask = lib.declare("CopyMask", ctypes.default_abi, ctypes.void_t, this.BitMap.ptr, this.BitMap.ptr, this.BitMap.ptr, this.Rect.ptr, this.Rect.ptr, this.Rect.ptr);
+    this.OpenPicture = lib.declare("OpenPicture", ctypes.default_abi, this.PicHandle, this.Rect.ptr);
+    this.PicComment = lib.declare("PicComment", ctypes.default_abi, ctypes.void_t, ctypes.short, ctypes.short, this.Handle);
+    this.ClosePicture = lib.declare("ClosePicture", ctypes.default_abi, ctypes.void_t);
+    this.QDGetPictureBounds = lib.declare("QDGetPictureBounds", ctypes.default_abi, this.Rect.ptr, this.PicHandle, this.Rect.ptr);
+    this.DrawPicture = lib.declare("DrawPicture", ctypes.default_abi, ctypes.void_t, this.PicHandle, this.Rect.ptr);
+    this.KillPicture = lib.declare("KillPicture", ctypes.default_abi, ctypes.void_t, this.PicHandle);
+    this.OpenPoly = lib.declare("OpenPoly", ctypes.default_abi, this.PolyHandle);
+    this.ClosePoly = lib.declare("ClosePoly", ctypes.default_abi, ctypes.void_t);
+    this.KillPoly = lib.declare("KillPoly", ctypes.default_abi, ctypes.void_t, this.PolyHandle);
+    this.OffsetPoly = lib.declare("OffsetPoly", ctypes.default_abi, ctypes.void_t, this.PolyHandle, ctypes.short, ctypes.short);
+    this.FramePoly = lib.declare("FramePoly", ctypes.default_abi, ctypes.void_t, this.PolyHandle);
+    this.PaintPoly = lib.declare("PaintPoly", ctypes.default_abi, ctypes.void_t, this.PolyHandle);
+    this.ErasePoly = lib.declare("ErasePoly", ctypes.default_abi, ctypes.void_t, this.PolyHandle);
+    this.InvertPoly = lib.declare("InvertPoly", ctypes.default_abi, ctypes.void_t, this.PolyHandle);
+    this.FillPoly = lib.declare("FillPoly", ctypes.default_abi, ctypes.void_t, this.PolyHandle, this.Pattern.ptr);
+    this.SetPt = lib.declare("SetPt", ctypes.default_abi, ctypes.void_t, this.Point.ptr, ctypes.short, ctypes.short);
+    this.LocalToGlobal = lib.declare("LocalToGlobal", ctypes.default_abi, ctypes.void_t, this.Point.ptr);
+    this.GlobalToLocal = lib.declare("GlobalToLocal", ctypes.default_abi, ctypes.void_t, this.Point.ptr);
+    this.Random = lib.declare("Random", ctypes.default_abi, ctypes.short);
+    this.StuffHex = lib.declare("StuffHex", ctypes.default_abi, ctypes.void_t, ctypes.void_t.ptr, this.ConstStr255Param);
+    this.GetPixel = lib.declare("GetPixel", ctypes.default_abi, this.Boolean, ctypes.short, ctypes.short);
+    this.ScalePt = lib.declare("ScalePt", ctypes.default_abi, ctypes.void_t, this.Point.ptr, this.Rect.ptr, this.Rect.ptr);
+    this.MapPt = lib.declare("MapPt", ctypes.default_abi, ctypes.void_t, this.Point.ptr, this.Rect.ptr, this.Rect.ptr);
+    this.MapRect = lib.declare("MapRect", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, this.Rect.ptr, this.Rect.ptr);
+    this.MapRgn = lib.declare("MapRgn", ctypes.default_abi, ctypes.void_t, this.RgnHandle, this.Rect.ptr, this.Rect.ptr);
+    this.MapPoly = lib.declare("MapPoly", ctypes.default_abi, ctypes.void_t, this.PolyHandle, this.Rect.ptr, this.Rect.ptr);
+    this.SetStdProcs = lib.declare("SetStdProcs", ctypes.default_abi, ctypes.void_t, this.QDProcs.ptr);
+    this.StdRect = lib.declare("StdRect", ctypes.default_abi, ctypes.void_t, this.GrafVerb, this.Rect.ptr);
+    this.StdRRect = lib.declare("StdRRect", ctypes.default_abi, ctypes.void_t, this.GrafVerb, this.Rect.ptr, ctypes.short, ctypes.short);
+    this.StdOval = lib.declare("StdOval", ctypes.default_abi, ctypes.void_t, this.GrafVerb, this.Rect.ptr);
+    this.StdArc = lib.declare("StdArc", ctypes.default_abi, ctypes.void_t, this.GrafVerb, this.Rect.ptr, ctypes.short, ctypes.short);
+    this.StdPoly = lib.declare("StdPoly", ctypes.default_abi, ctypes.void_t, this.GrafVerb, this.PolyHandle);
+    this.StdRgn = lib.declare("StdRgn", ctypes.default_abi, ctypes.void_t, this.GrafVerb, this.RgnHandle);
+    this.StdBits = lib.declare("StdBits", ctypes.default_abi, ctypes.void_t, this.BitMap.ptr, this.Rect.ptr, this.Rect.ptr, ctypes.short, this.RgnHandle);
+    this.StdComment = lib.declare("StdComment", ctypes.default_abi, ctypes.void_t, ctypes.short, ctypes.short, this.Handle);
+    this.StdGetPic = lib.declare("StdGetPic", ctypes.default_abi, ctypes.void_t, ctypes.void_t.ptr, ctypes.short);
+    this.StdPutPic = lib.declare("StdPutPic", ctypes.default_abi, ctypes.void_t, ctypes.void_t.ptr, ctypes.short);
+    this.StdOpcode = lib.declare("StdOpcode", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, this.Rect.ptr, this.UInt16, this.SInt16);
+    this.AddPt = lib.declare("AddPt", ctypes.default_abi, ctypes.void_t, this.Point, this.Point.ptr);
+    this.EqualPt = lib.declare("EqualPt", ctypes.default_abi, this.Boolean, this.Point, this.Point);
+    this.PtInRect = lib.declare("PtInRect", ctypes.default_abi, this.Boolean, this.Point, this.Rect.ptr);
+    this.Pt2Rect = lib.declare("Pt2Rect", ctypes.default_abi, ctypes.void_t, this.Point, this.Point, this.Rect.ptr);
+    this.PtToAngle = lib.declare("PtToAngle", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, this.Point, ctypes.short.ptr);
+    this.SubPt = lib.declare("SubPt", ctypes.default_abi, ctypes.void_t, this.Point, this.Point.ptr);
+    this.PtInRgn = lib.declare("PtInRgn", ctypes.default_abi, this.Boolean, this.Point, this.RgnHandle);
+    this.StdLine = lib.declare("StdLine", ctypes.default_abi, ctypes.void_t, this.Point);
+    this.NewPixMap = lib.declare("NewPixMap", ctypes.default_abi, this.PixMapHandle);
+    this.DisposePixMap = lib.declare("DisposePixMap", ctypes.default_abi, ctypes.void_t, this.PixMapHandle);
+    this.CopyPixMap = lib.declare("CopyPixMap", ctypes.default_abi, ctypes.void_t, this.PixMapHandle, this.PixMapHandle);
+    this.NewPixPat = lib.declare("NewPixPat", ctypes.default_abi, this.PixPatHandle);
+    this.DisposePixPat = lib.declare("DisposePixPat", ctypes.default_abi, ctypes.void_t, this.PixPatHandle);
+    this.CopyPixPat = lib.declare("CopyPixPat", ctypes.default_abi, ctypes.void_t, this.PixPatHandle, this.PixPatHandle);
+    this.PenPixPat = lib.declare("PenPixPat", ctypes.default_abi, ctypes.void_t, this.PixPatHandle);
+    this.BackPixPat = lib.declare("BackPixPat", ctypes.default_abi, ctypes.void_t, this.PixPatHandle);
+    this.GetPixPat = lib.declare("GetPixPat", ctypes.default_abi, this.PixPatHandle, ctypes.short);
+    this.MakeRGBPat = lib.declare("MakeRGBPat", ctypes.default_abi, ctypes.void_t, this.PixPatHandle, this.RGBColor.ptr);
+    this.FillCRect = lib.declare("FillCRect", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, this.PixPatHandle);
+    this.FillCOval = lib.declare("FillCOval", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, this.PixPatHandle);
+    this.FillCRoundRect = lib.declare("FillCRoundRect", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, ctypes.short, ctypes.short, this.PixPatHandle);
+    this.FillCArc = lib.declare("FillCArc", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, ctypes.short, ctypes.short, this.PixPatHandle);
+    this.FillCRgn = lib.declare("FillCRgn", ctypes.default_abi, ctypes.void_t, this.RgnHandle, this.PixPatHandle);
+    this.FillCPoly = lib.declare("FillCPoly", ctypes.default_abi, ctypes.void_t, this.PolyHandle, this.PixPatHandle);
+    this.RGBForeColor = lib.declare("RGBForeColor", ctypes.default_abi, ctypes.void_t, this.RGBColor.ptr);
+    this.RGBBackColor = lib.declare("RGBBackColor", ctypes.default_abi, ctypes.void_t, this.RGBColor.ptr);
+    this.SetCPixel = lib.declare("SetCPixel", ctypes.default_abi, ctypes.void_t, ctypes.short, ctypes.short, this.RGBColor.ptr);
+    this.SetPortPix = lib.declare("SetPortPix", ctypes.default_abi, ctypes.void_t, this.PixMapHandle);
+    this.GetCPixel = lib.declare("GetCPixel", ctypes.default_abi, ctypes.void_t, ctypes.short, ctypes.short, this.RGBColor.ptr);
+    this.GetForeColor = lib.declare("GetForeColor", ctypes.default_abi, ctypes.void_t, this.RGBColor.ptr);
+    this.GetBackColor = lib.declare("GetBackColor", ctypes.default_abi, ctypes.void_t, this.RGBColor.ptr);
+    this.SeedCFill = lib.declare("SeedCFill", ctypes.default_abi, ctypes.void_t, this.BitMap.ptr, this.BitMap.ptr, this.Rect.ptr, this.Rect.ptr, ctypes.short, ctypes.short, this.ColorSearchUPP, ctypes.long);
+    this.CalcCMask = lib.declare("CalcCMask", ctypes.default_abi, ctypes.void_t, this.BitMap.ptr, this.BitMap.ptr, this.Rect.ptr, this.Rect.ptr, this.RGBColor.ptr, this.ColorSearchUPP, ctypes.long);
+    this.OpenCPicture = lib.declare("OpenCPicture", ctypes.default_abi, this.PicHandle, this.OpenCPicParams.ptr);
+    this.OpColor = lib.declare("OpColor", ctypes.default_abi, ctypes.void_t, this.RGBColor.ptr);
+    this.HiliteColor = lib.declare("HiliteColor", ctypes.default_abi, ctypes.void_t, this.RGBColor.ptr);
+    this.DisposeCTable = lib.declare("DisposeCTable", ctypes.default_abi, ctypes.void_t, this.CTabHandle);
+    this.GetCTable = lib.declare("GetCTable", ctypes.default_abi, this.CTabHandle, ctypes.short);
+    this.GetCCursor = lib.declare("GetCCursor", ctypes.default_abi, this.CCrsrHandle, ctypes.short);
+    this.SetCCursor = lib.declare("SetCCursor", ctypes.default_abi, ctypes.void_t, this.CCrsrHandle);
+    this.AllocCursor = lib.declare("AllocCursor", ctypes.default_abi, ctypes.void_t);
+    this.DisposeCCursor = lib.declare("DisposeCCursor", ctypes.default_abi, ctypes.void_t, this.CCrsrHandle);
+    this.SetStdCProcs = lib.declare("SetStdCProcs", ctypes.default_abi, ctypes.void_t, this.CQDProcs.ptr);
+    this.GetMaxDevice = lib.declare("GetMaxDevice", ctypes.default_abi, this.GDHandle, this.Rect.ptr);
+    this.GetCTSeed = lib.declare("GetCTSeed", ctypes.default_abi, ctypes.long);
+    this.GetDeviceList = lib.declare("GetDeviceList", ctypes.default_abi, this.GDHandle);
+    this.GetMainDevice = lib.declare("GetMainDevice", ctypes.default_abi, this.GDHandle);
+    this.GetNextDevice = lib.declare("GetNextDevice", ctypes.default_abi, this.GDHandle, this.GDHandle);
+    this.TestDeviceAttribute = lib.declare("TestDeviceAttribute", ctypes.default_abi, this.Boolean, this.GDHandle, ctypes.short);
+    this.SetDeviceAttribute = lib.declare("SetDeviceAttribute", ctypes.default_abi, ctypes.void_t, this.GDHandle, ctypes.short, this.Boolean);
+    this.InitGDevice = lib.declare("InitGDevice", ctypes.default_abi, ctypes.void_t, ctypes.short, ctypes.long, this.GDHandle);
+    this.NewGDevice = lib.declare("NewGDevice", ctypes.default_abi, this.GDHandle, ctypes.short, ctypes.long);
+    this.DisposeGDevice = lib.declare("DisposeGDevice", ctypes.default_abi, ctypes.void_t, this.GDHandle);
+    this.SetGDevice = lib.declare("SetGDevice", ctypes.default_abi, ctypes.void_t, this.GDHandle);
+    this.GetGDevice = lib.declare("GetGDevice", ctypes.default_abi, this.GDHandle);
+    this.Color2Index = lib.declare("Color2Index", ctypes.default_abi, ctypes.long, this.RGBColor.ptr);
+    this.Index2Color = lib.declare("Index2Color", ctypes.default_abi, ctypes.void_t, ctypes.long, this.RGBColor.ptr);
+    this.InvertColor = lib.declare("InvertColor", ctypes.default_abi, ctypes.void_t, this.RGBColor.ptr);
+    this.RealColor = lib.declare("RealColor", ctypes.default_abi, this.Boolean, this.RGBColor.ptr);
+    this.GetSubTable = lib.declare("GetSubTable", ctypes.default_abi, ctypes.void_t, this.CTabHandle, ctypes.short, this.CTabHandle);
+    this.MakeITable = lib.declare("MakeITable", ctypes.default_abi, ctypes.void_t, this.CTabHandle, this.ITabHandle, ctypes.short);
+    this.AddSearch = lib.declare("AddSearch", ctypes.default_abi, ctypes.void_t, this.ColorSearchUPP);
+    this.AddComp = lib.declare("AddComp", ctypes.default_abi, ctypes.void_t, this.ColorComplementUPP);
+    this.DelSearch = lib.declare("DelSearch", ctypes.default_abi, ctypes.void_t, this.ColorSearchUPP);
+    this.DelComp = lib.declare("DelComp", ctypes.default_abi, ctypes.void_t, this.ColorComplementUPP);
+    this.SetClientID = lib.declare("SetClientID", ctypes.default_abi, ctypes.void_t, ctypes.short);
+    this.ProtectEntry = lib.declare("ProtectEntry", ctypes.default_abi, ctypes.void_t, ctypes.short, this.Boolean);
+    this.ReserveEntry = lib.declare("ReserveEntry", ctypes.default_abi, ctypes.void_t, ctypes.short, this.Boolean);
+    this.SetEntries = lib.declare("SetEntries", ctypes.default_abi, ctypes.void_t, ctypes.short, ctypes.short, this.ColorSpec.ptr);
+    this.SaveEntries = lib.declare("SaveEntries", ctypes.default_abi, ctypes.void_t, this.CTabHandle, this.CTabHandle, this.ReqListRec.ptr);
+    this.RestoreEntries = lib.declare("RestoreEntries", ctypes.default_abi, ctypes.void_t, this.CTabHandle, this.CTabHandle, this.ReqListRec.ptr);
+    this.QDError = lib.declare("QDError", ctypes.default_abi, ctypes.short);
+    this.CopyDeepMask = lib.declare("CopyDeepMask", ctypes.default_abi, ctypes.void_t, this.BitMap.ptr, this.BitMap.ptr, this.BitMap.ptr, this.Rect.ptr, this.Rect.ptr, this.Rect.ptr, ctypes.short, this.RgnHandle);
+    this.DeviceLoop = lib.declare("DeviceLoop", ctypes.default_abi, ctypes.void_t, this.RgnHandle, this.DeviceLoopDrawingUPP, ctypes.long, this.DeviceLoopFlags);
+    this.GetMaskTable = lib.declare("GetMaskTable", ctypes.default_abi, this.Ptr);
+    this.GetPattern = lib.declare("GetPattern", ctypes.default_abi, this.PatHandle, ctypes.short);
+    this.GetCursor = lib.declare("GetCursor", ctypes.default_abi, this.CursHandle, ctypes.short);
+    this.GetPicture = lib.declare("GetPicture", ctypes.default_abi, this.PicHandle, ctypes.short);
+    this.DeltaPoint = lib.declare("DeltaPoint", ctypes.default_abi, ctypes.long, this.Point, this.Point);
+    this.ShieldCursor = lib.declare("ShieldCursor", ctypes.default_abi, ctypes.void_t, this.Rect.ptr, this.Point);
+    this.ScreenRes = lib.declare("ScreenRes", ctypes.default_abi, ctypes.void_t, ctypes.short.ptr, ctypes.short.ptr);
+    this.GetIndPattern = lib.declare("GetIndPattern", ctypes.default_abi, ctypes.void_t, this.Pattern.ptr, ctypes.short, ctypes.short);
+    this.deltapoint = lib.declare("deltapoint", ctypes.default_abi, ctypes.long, this.Point.ptr, this.Point.ptr);
+    this.PackBits = lib.declare("PackBits", ctypes.default_abi, ctypes.void_t, ctypes.char.ptr.ptr, ctypes.char.ptr.ptr, ctypes.short);
+    this.UnpackBits = lib.declare("UnpackBits", ctypes.default_abi, ctypes.void_t, ctypes.char.ptr.ptr, ctypes.char.ptr.ptr, ctypes.short);
+    this.SlopeFromAngle = lib.declare("SlopeFromAngle", ctypes.default_abi, this.Fixed, ctypes.short);
+    this.AngleFromSlope = lib.declare("AngleFromSlope", ctypes.default_abi, ctypes.short, this.Fixed);
     this.colorXorXFer = 52;
     this.noiseXFer = 53;
     this.customXFer = 54;
@@ -80,6 +313,8 @@ function QuickdrawAPI_h(lib) {
     this.CustomXFerRec = new ctypes.StructType("CustomXFerRec", [{version: this.UInt32}, {srcPixels: ctypes.void_t.ptr}, {destPixels: ctypes.void_t.ptr}, {resultPixels: ctypes.void_t.ptr}, {refCon: this.UInt32}, {pixelSize: this.UInt32}, {pixelCount: this.UInt32}, {firstPixelHV: this.Point}, {destBounds: this.Rect}]);
     this.CustomXFerRecPtr = this.CustomXFerRec.ptr;
     this.CustomXFerProcPtr = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.CustomXFerRecPtr]).ptr;
+    this.GetPortCustomXFerProc = lib.declare("GetPortCustomXFerProc", ctypes.default_abi, this.OSErr, this.CGrafPtr, this.CustomXFerProcPtr.ptr, this.UInt32.ptr, this.UInt32.ptr);
+    this.SetPortCustomXFerProc = lib.declare("SetPortCustomXFerProc", ctypes.default_abi, this.OSErr, this.CGrafPtr, this.CustomXFerProcPtr, this.UInt32, this.UInt32);
     this.kCursorComponentsVersion = 65537;
     this.kCursorComponentType = 1668641395;
     this.cursorDoesAnimate = 1;
@@ -98,8 +333,121 @@ function QuickdrawAPI_h(lib) {
     this.kCursorComponentMove = 8;
     this.kCursorComponentAnimate = 9;
     this.kCursorComponentLastReserved = 80;
+    this.OpenCursorComponent = lib.declare("OpenCursorComponent", ctypes.default_abi, this.OSErr, this.Component, this.ComponentInstance.ptr);
+    this.CloseCursorComponent = lib.declare("CloseCursorComponent", ctypes.default_abi, this.OSErr, this.ComponentInstance);
+    this.SetCursorComponent = lib.declare("SetCursorComponent", ctypes.default_abi, this.OSErr, this.ComponentInstance);
+    this.CursorComponentChanged = lib.declare("CursorComponentChanged", ctypes.default_abi, this.OSErr, this.ComponentInstance);
+    this.CursorComponentSetData = lib.declare("CursorComponentSetData", ctypes.default_abi, this.OSErr, this.ComponentInstance, ctypes.long);
+    this.CWMatchPixMap = lib.declare("CWMatchPixMap", ctypes.default_abi, this.CMError, this.CMWorldRef, this.PixMap.ptr, this.CMBitmapCallBackUPP, ctypes.void_t.ptr);
+    this.CWCheckPixMap = lib.declare("CWCheckPixMap", ctypes.default_abi, this.CMError, this.CMWorldRef, this.PixMap.ptr, this.CMBitmapCallBackUPP, ctypes.void_t.ptr, this.BitMap.ptr);
+    this.NCMBeginMatching = lib.declare("NCMBeginMatching", ctypes.default_abi, this.CMError, this.CMProfileRef, this.CMProfileRef, this.CMMatchRef.ptr);
+    this.CMEndMatching = lib.declare("CMEndMatching", ctypes.default_abi, ctypes.void_t, this.CMMatchRef);
+    this.NCMDrawMatchedPicture = lib.declare("NCMDrawMatchedPicture", ctypes.default_abi, ctypes.void_t, this.PicHandle, this.CMProfileRef, this.Rect.ptr);
+    this.CMEnableMatchingComment = lib.declare("CMEnableMatchingComment", ctypes.default_abi, ctypes.void_t, this.Boolean);
+    this.NCMUseProfileComment = lib.declare("NCMUseProfileComment", ctypes.default_abi, this.CMError, this.CMProfileRef, this.UInt32);
+    this.IsValidPort = lib.declare("IsValidPort", ctypes.default_abi, this.Boolean, this.CGrafPtr);
+    this.IsValidRgnHandle = lib.declare("IsValidRgnHandle", ctypes.default_abi, this.Boolean, this.RgnHandle);
+    this.GetPortPixMap = lib.declare("GetPortPixMap", ctypes.default_abi, this.PixMapHandle, this.CGrafPtr);
+    this.GetPortBitMapForCopyBits = lib.declare("GetPortBitMapForCopyBits", ctypes.default_abi, this.BitMap.ptr, this.CGrafPtr);
+    this.GetPortBounds = lib.declare("GetPortBounds", ctypes.default_abi, this.Rect.ptr, this.CGrafPtr, this.Rect.ptr);
+    this.GetPortForeColor = lib.declare("GetPortForeColor", ctypes.default_abi, this.RGBColor.ptr, this.CGrafPtr, this.RGBColor.ptr);
+    this.GetPortBackColor = lib.declare("GetPortBackColor", ctypes.default_abi, this.RGBColor.ptr, this.CGrafPtr, this.RGBColor.ptr);
+    this.GetPortOpColor = lib.declare("GetPortOpColor", ctypes.default_abi, this.RGBColor.ptr, this.CGrafPtr, this.RGBColor.ptr);
+    this.GetPortHiliteColor = lib.declare("GetPortHiliteColor", ctypes.default_abi, this.RGBColor.ptr, this.CGrafPtr, this.RGBColor.ptr);
+    this.GetPortGrafProcs = lib.declare("GetPortGrafProcs", ctypes.default_abi, this.CQDProcsPtr, this.CGrafPtr);
+    this.GetPortTextFont = lib.declare("GetPortTextFont", ctypes.default_abi, ctypes.short, this.CGrafPtr);
+    this.GetPortTextFace = lib.declare("GetPortTextFace", ctypes.default_abi, this.Style, this.CGrafPtr);
+    this.GetPortTextMode = lib.declare("GetPortTextMode", ctypes.default_abi, ctypes.short, this.CGrafPtr);
+    this.GetPortTextSize = lib.declare("GetPortTextSize", ctypes.default_abi, ctypes.short, this.CGrafPtr);
+    this.GetPortChExtra = lib.declare("GetPortChExtra", ctypes.default_abi, ctypes.short, this.CGrafPtr);
+    this.GetPortFracHPenLocation = lib.declare("GetPortFracHPenLocation", ctypes.default_abi, ctypes.short, this.CGrafPtr);
+    this.GetPortSpExtra = lib.declare("GetPortSpExtra", ctypes.default_abi, this.Fixed, this.CGrafPtr);
+    this.GetPortPenVisibility = lib.declare("GetPortPenVisibility", ctypes.default_abi, ctypes.short, this.CGrafPtr);
+    this.GetPortVisibleRegion = lib.declare("GetPortVisibleRegion", ctypes.default_abi, this.RgnHandle, this.CGrafPtr, this.RgnHandle);
+    this.GetPortClipRegion = lib.declare("GetPortClipRegion", ctypes.default_abi, this.RgnHandle, this.CGrafPtr, this.RgnHandle);
+    this.GetPortBackPixPat = lib.declare("GetPortBackPixPat", ctypes.default_abi, this.PixPatHandle, this.CGrafPtr, this.PixPatHandle);
+    this.GetPortPenPixPat = lib.declare("GetPortPenPixPat", ctypes.default_abi, this.PixPatHandle, this.CGrafPtr, this.PixPatHandle);
+    this.GetPortFillPixPat = lib.declare("GetPortFillPixPat", ctypes.default_abi, this.PixPatHandle, this.CGrafPtr, this.PixPatHandle);
+    this.GetPortPenSize = lib.declare("GetPortPenSize", ctypes.default_abi, this.Point.ptr, this.CGrafPtr, this.Point.ptr);
+    this.GetPortPenMode = lib.declare("GetPortPenMode", ctypes.default_abi, this.SInt32, this.CGrafPtr);
+    this.GetPortPenLocation = lib.declare("GetPortPenLocation", ctypes.default_abi, this.Point.ptr, this.CGrafPtr, this.Point.ptr);
+    this.IsPortRegionBeingDefined = lib.declare("IsPortRegionBeingDefined", ctypes.default_abi, this.Boolean, this.CGrafPtr);
+    this.IsPortPictureBeingDefined = lib.declare("IsPortPictureBeingDefined", ctypes.default_abi, this.Boolean, this.CGrafPtr);
+    this.IsPortPolyBeingDefined = lib.declare("IsPortPolyBeingDefined", ctypes.default_abi, this.Boolean, this.CGrafPtr);
+    this.IsPortOffscreen = lib.declare("IsPortOffscreen", ctypes.default_abi, this.Boolean, this.CGrafPtr);
+    this.IsPortColor = lib.declare("IsPortColor", ctypes.default_abi, this.Boolean, this.CGrafPtr);
+    this.IsPortVisibleRegionEmpty = lib.declare("IsPortVisibleRegionEmpty", ctypes.default_abi, this.Boolean, this.CGrafPtr);
+    this.IsPortClipRegionEmpty = lib.declare("IsPortClipRegionEmpty", ctypes.default_abi, this.Boolean, this.CGrafPtr);
+    this.SectRegionWithPortClipRegion = lib.declare("SectRegionWithPortClipRegion", ctypes.default_abi, ctypes.void_t, this.CGrafPtr, this.RgnHandle);
+    this.SectRegionWithPortVisibleRegion = lib.declare("SectRegionWithPortVisibleRegion", ctypes.default_abi, ctypes.void_t, this.CGrafPtr, this.RgnHandle);
+    this.SwapPortPicSaveHandle = lib.declare("SwapPortPicSaveHandle", ctypes.default_abi, this.Handle, this.CGrafPtr, this.Handle);
+    this.SwapPortPolySaveHandle = lib.declare("SwapPortPolySaveHandle", ctypes.default_abi, this.Handle, this.CGrafPtr, this.Handle);
+    this.SwapPortRegionSaveHandle = lib.declare("SwapPortRegionSaveHandle", ctypes.default_abi, this.Handle, this.CGrafPtr, this.Handle);
+    this.SetPortBounds = lib.declare("SetPortBounds", ctypes.default_abi, ctypes.void_t, this.CGrafPtr, this.Rect.ptr);
+    this.SetPortOpColor = lib.declare("SetPortOpColor", ctypes.default_abi, ctypes.void_t, this.CGrafPtr, this.RGBColor.ptr);
+    this.SetPortGrafProcs = lib.declare("SetPortGrafProcs", ctypes.default_abi, ctypes.void_t, this.CGrafPtr, this.CQDProcsPtr);
+    this.SetPortTextFont = lib.declare("SetPortTextFont", ctypes.default_abi, ctypes.void_t, this.CGrafPtr, ctypes.short);
+    this.SetPortTextSize = lib.declare("SetPortTextSize", ctypes.default_abi, ctypes.void_t, this.CGrafPtr, ctypes.short);
+    this.SetPortTextFace = lib.declare("SetPortTextFace", ctypes.default_abi, ctypes.void_t, this.CGrafPtr, this.StyleParameter);
+    this.SetPortTextMode = lib.declare("SetPortTextMode", ctypes.default_abi, ctypes.void_t, this.CGrafPtr, ctypes.short);
+    this.SetPortVisibleRegion = lib.declare("SetPortVisibleRegion", ctypes.default_abi, ctypes.void_t, this.CGrafPtr, this.RgnHandle);
+    this.SetPortClipRegion = lib.declare("SetPortClipRegion", ctypes.default_abi, ctypes.void_t, this.CGrafPtr, this.RgnHandle);
+    this.SetPortPenPixPat = lib.declare("SetPortPenPixPat", ctypes.default_abi, ctypes.void_t, this.CGrafPtr, this.PixPatHandle);
+    this.SetPortFillPixPat = lib.declare("SetPortFillPixPat", ctypes.default_abi, ctypes.void_t, this.CGrafPtr, this.PixPatHandle);
+    this.SetPortBackPixPat = lib.declare("SetPortBackPixPat", ctypes.default_abi, ctypes.void_t, this.CGrafPtr, this.PixPatHandle);
+    this.SetPortPenSize = lib.declare("SetPortPenSize", ctypes.default_abi, ctypes.void_t, this.CGrafPtr, this.Point);
+    this.SetPortPenMode = lib.declare("SetPortPenMode", ctypes.default_abi, ctypes.void_t, this.CGrafPtr, this.SInt32);
+    this.SetPortFracHPenLocation = lib.declare("SetPortFracHPenLocation", ctypes.default_abi, ctypes.void_t, this.CGrafPtr, ctypes.short);
+    this.GetPixBounds = lib.declare("GetPixBounds", ctypes.default_abi, this.Rect.ptr, this.PixMapHandle, this.Rect.ptr);
+    this.GetPixDepth = lib.declare("GetPixDepth", ctypes.default_abi, ctypes.short, this.PixMapHandle);
+    this.GetQDGlobalsRandomSeed = lib.declare("GetQDGlobalsRandomSeed", ctypes.default_abi, ctypes.long);
+    this.GetQDGlobalsScreenBits = lib.declare("GetQDGlobalsScreenBits", ctypes.default_abi, this.BitMap.ptr, this.BitMap.ptr);
+    this.GetQDGlobalsArrow = lib.declare("GetQDGlobalsArrow", ctypes.default_abi, this.Cursor.ptr, this.Cursor.ptr);
+    this.GetQDGlobalsDarkGray = lib.declare("GetQDGlobalsDarkGray", ctypes.default_abi, this.Pattern.ptr, this.Pattern.ptr);
+    this.GetQDGlobalsLightGray = lib.declare("GetQDGlobalsLightGray", ctypes.default_abi, this.Pattern.ptr, this.Pattern.ptr);
+    this.GetQDGlobalsGray = lib.declare("GetQDGlobalsGray", ctypes.default_abi, this.Pattern.ptr, this.Pattern.ptr);
+    this.GetQDGlobalsBlack = lib.declare("GetQDGlobalsBlack", ctypes.default_abi, this.Pattern.ptr, this.Pattern.ptr);
+    this.GetQDGlobalsWhite = lib.declare("GetQDGlobalsWhite", ctypes.default_abi, this.Pattern.ptr, this.Pattern.ptr);
+    this.GetQDGlobalsThePort = lib.declare("GetQDGlobalsThePort", ctypes.default_abi, this.CGrafPtr);
+    this.SetQDGlobalsRandomSeed = lib.declare("SetQDGlobalsRandomSeed", ctypes.default_abi, ctypes.void_t, ctypes.long);
+    this.SetQDGlobalsArrow = lib.declare("SetQDGlobalsArrow", ctypes.default_abi, ctypes.void_t, this.Cursor.ptr);
+    this.GetRegionBounds = lib.declare("GetRegionBounds", ctypes.default_abi, this.Rect.ptr, this.RgnHandle, this.Rect.ptr);
+    this.IsRegionRectangular = lib.declare("IsRegionRectangular", ctypes.default_abi, this.Boolean, this.RgnHandle);
+    this.CreateNewPort = lib.declare("CreateNewPort", ctypes.default_abi, this.CGrafPtr);
+    this.DisposePort = lib.declare("DisposePort", ctypes.default_abi, ctypes.void_t, this.CGrafPtr);
+    this.SetQDError = lib.declare("SetQDError", ctypes.default_abi, ctypes.void_t, this.OSErr);
+    this.QDLocalToGlobalPoint = lib.declare("QDLocalToGlobalPoint", ctypes.default_abi, this.Point.ptr, this.CGrafPtr, this.Point.ptr);
+    this.QDGlobalToLocalPoint = lib.declare("QDGlobalToLocalPoint", ctypes.default_abi, this.Point.ptr, this.CGrafPtr, this.Point.ptr);
+    this.QDLocalToGlobalRect = lib.declare("QDLocalToGlobalRect", ctypes.default_abi, this.Rect.ptr, this.CGrafPtr, this.Rect.ptr);
+    this.QDGlobalToLocalRect = lib.declare("QDGlobalToLocalRect", ctypes.default_abi, this.Rect.ptr, this.CGrafPtr, this.Rect.ptr);
+    this.QDLocalToGlobalRegion = lib.declare("QDLocalToGlobalRegion", ctypes.default_abi, this.RgnHandle, this.CGrafPtr, this.RgnHandle);
+    this.QDGlobalToLocalRegion = lib.declare("QDGlobalToLocalRegion", ctypes.default_abi, this.RgnHandle, this.CGrafPtr, this.RgnHandle);
+    this.QDIsPortBuffered = lib.declare("QDIsPortBuffered", ctypes.default_abi, this.Boolean, this.CGrafPtr);
+    this.QDIsPortBufferDirty = lib.declare("QDIsPortBufferDirty", ctypes.default_abi, this.Boolean, this.CGrafPtr);
+    this.QDFlushPortBuffer = lib.declare("QDFlushPortBuffer", ctypes.default_abi, ctypes.void_t, this.CGrafPtr, this.RgnHandle);
+    this.QDGetDirtyRegion = lib.declare("QDGetDirtyRegion", ctypes.default_abi, this.OSStatus, this.CGrafPtr, this.RgnHandle);
+    this.QDSetDirtyRegion = lib.declare("QDSetDirtyRegion", ctypes.default_abi, this.OSStatus, this.CGrafPtr, this.RgnHandle);
+    this.QDAddRectToDirtyRegion = lib.declare("QDAddRectToDirtyRegion", ctypes.default_abi, this.OSStatus, this.CGrafPtr, this.Rect.ptr);
+    this.QDAddRegionToDirtyRegion = lib.declare("QDAddRegionToDirtyRegion", ctypes.default_abi, this.OSStatus, this.CGrafPtr, this.RgnHandle);
+    this.CreateCGContextForPort = lib.declare("CreateCGContextForPort", ctypes.default_abi, this.OSStatus, this.CGrafPtr, this.CGContextRef.ptr);
+    this.ClipCGContextToRegion = lib.declare("ClipCGContextToRegion", ctypes.default_abi, this.OSStatus, this.CGContextRef, this.Rect.ptr, this.RgnHandle);
+    this.SyncCGContextOriginWithPort = lib.declare("SyncCGContextOriginWithPort", ctypes.default_abi, this.OSStatus, this.CGContextRef, this.CGrafPtr);
+    this.QDBeginCGContext = lib.declare("QDBeginCGContext", ctypes.default_abi, this.OSStatus, this.CGrafPtr, this.CGContextRef.ptr);
+    this.QDEndCGContext = lib.declare("QDEndCGContext", ctypes.default_abi, this.OSStatus, this.CGrafPtr, this.CGContextRef.ptr);
     this.OpaqueQDRegionBitsRef = new ctypes.StructType("OpaqueQDRegionBitsRef");
     this.QDRegionBitsRef = this.OpaqueQDRegionBitsRef.ptr;
+    this.QDSaveRegionBits = lib.declare("QDSaveRegionBits", ctypes.default_abi, this.QDRegionBitsRef, this.RgnHandle);
+    this.QDRestoreRegionBits = lib.declare("QDRestoreRegionBits", ctypes.default_abi, this.OSStatus, this.RgnHandle, this.QDRegionBitsRef);
+    this.QDDisposeRegionBits = lib.declare("QDDisposeRegionBits", ctypes.default_abi, this.OSStatus, this.QDRegionBitsRef);
+    this.CreateNewPortForCGDisplayID = lib.declare("CreateNewPortForCGDisplayID", ctypes.default_abi, this.CGrafPtr, this.UInt32);
+    this.QDDisplayWaitCursor = lib.declare("QDDisplayWaitCursor", ctypes.default_abi, ctypes.void_t, this.Boolean);
+    this.QDSetPatternOrigin = lib.declare("QDSetPatternOrigin", ctypes.default_abi, ctypes.void_t, this.Point);
+    this.QDGetPatternOrigin = lib.declare("QDGetPatternOrigin", ctypes.default_abi, ctypes.void_t, this.Point.ptr);
+    this.QDIsNamedPixMapCursorRegistered = lib.declare("QDIsNamedPixMapCursorRegistered", ctypes.default_abi, this.Boolean, ctypes.char.ptr);
+    this.QDRegisterNamedPixMapCursor = lib.declare("QDRegisterNamedPixMapCursor", ctypes.default_abi, this.OSStatus, this.PixMapHandle, this.PixMapHandle, this.Point, ctypes.char.ptr);
+    this.QDUnregisterNamedPixMapCursur = lib.declare("QDUnregisterNamedPixMapCursur", ctypes.default_abi, this.OSStatus, ctypes.char.ptr);
+    this.QDUnregisterNamedPixMapCursor = lib.declare("QDUnregisterNamedPixMapCursor", ctypes.default_abi, this.OSStatus, ctypes.char.ptr);
+    this.QDSetNamedPixMapCursor = lib.declare("QDSetNamedPixMapCursor", ctypes.default_abi, this.OSStatus, ctypes.char.ptr);
     this.kQDXArrowCursor = 0;
     this.kQDXIBeamCursor = 1;
     this.kQDXIBeamXORCursor = 2;
@@ -108,12 +456,49 @@ function QuickdrawAPI_h(lib) {
     this.kQDXMoveCursor = 5;
     this.kQDXNumberOfSystemCursors = 6;
     this.QDXSystemCursorID = this.UInt32;
+    this.QDGetCursorNameForSystemCursor = lib.declare("QDGetCursorNameForSystemCursor", ctypes.default_abi, ctypes.char.ptr, this.QDXSystemCursorID);
+    this.QDSetCursorScale = lib.declare("QDSetCursorScale", ctypes.default_abi, this.OSStatus, ctypes.float);
+    this.QDGetCursorScale = lib.declare("QDGetCursorScale", ctypes.default_abi, this.OSStatus, ctypes.float.ptr);
+    this.QDGetCursorData = lib.declare("QDGetCursorData", ctypes.default_abi, this.OSStatus, this.Boolean, this.PixMapHandle.ptr, this.Point.ptr);
     this.kQDUseDefaultTextRendering = 0;
     this.kQDUseTrueTypeScalerGlyphs = 1;
     this.kQDUseCGTextRendering = 2;
     this.kQDUseCGTextMetrics = 4;
     this.kQDSupportedFlags = 7;
     this.kQDDontChangeFlags = -1;
+    this.QDSwapTextFlags = lib.declare("QDSwapTextFlags", ctypes.default_abi, this.UInt32, this.UInt32);
+    this.QDSwapPortTextFlags = lib.declare("QDSwapPortTextFlags", ctypes.default_abi, this.UInt32, this.CGrafPtr, this.UInt32);
+    this.QDGetCGDirectDisplayID = lib.declare("QDGetCGDirectDisplayID", ctypes.default_abi, this.CGDirectDisplayID, this.GDHandle);
+    this.LMGetScrVRes = lib.declare("LMGetScrVRes", ctypes.default_abi, this.SInt16);
+    this.LMSetScrVRes = lib.declare("LMSetScrVRes", ctypes.default_abi, ctypes.void_t, this.SInt16);
+    this.LMGetScrHRes = lib.declare("LMGetScrHRes", ctypes.default_abi, this.SInt16);
+    this.LMSetScrHRes = lib.declare("LMSetScrHRes", ctypes.default_abi, ctypes.void_t, this.SInt16);
+    this.LMGetMainDevice = lib.declare("LMGetMainDevice", ctypes.default_abi, this.GDHandle);
+    this.LMSetMainDevice = lib.declare("LMSetMainDevice", ctypes.default_abi, ctypes.void_t, this.GDHandle);
+    this.LMGetDeviceList = lib.declare("LMGetDeviceList", ctypes.default_abi, this.GDHandle);
+    this.LMSetDeviceList = lib.declare("LMSetDeviceList", ctypes.default_abi, ctypes.void_t, this.GDHandle);
+    this.LMGetQDColors = lib.declare("LMGetQDColors", ctypes.default_abi, this.Handle);
+    this.LMSetQDColors = lib.declare("LMSetQDColors", ctypes.default_abi, ctypes.void_t, this.Handle);
+    this.LMGetWidthListHand = lib.declare("LMGetWidthListHand", ctypes.default_abi, this.Handle);
+    this.LMSetWidthListHand = lib.declare("LMSetWidthListHand", ctypes.default_abi, ctypes.void_t, this.Handle);
+    this.LMGetHiliteMode = lib.declare("LMGetHiliteMode", ctypes.default_abi, this.UInt8);
+    this.LMSetHiliteMode = lib.declare("LMSetHiliteMode", ctypes.default_abi, ctypes.void_t, this.UInt8);
+    this.LMGetWidthPtr = lib.declare("LMGetWidthPtr", ctypes.default_abi, this.Ptr);
+    this.LMSetWidthPtr = lib.declare("LMSetWidthPtr", ctypes.default_abi, ctypes.void_t, this.Ptr);
+    this.LMGetWidthTabHandle = lib.declare("LMGetWidthTabHandle", ctypes.default_abi, this.Handle);
+    this.LMSetWidthTabHandle = lib.declare("LMSetWidthTabHandle", ctypes.default_abi, ctypes.void_t, this.Handle);
+    this.LMGetLastSPExtra = lib.declare("LMGetLastSPExtra", ctypes.default_abi, this.SInt32);
+    this.LMSetLastSPExtra = lib.declare("LMSetLastSPExtra", ctypes.default_abi, ctypes.void_t, this.SInt32);
+    this.LMGetLastFOND = lib.declare("LMGetLastFOND", ctypes.default_abi, this.Handle);
+    this.LMSetLastFOND = lib.declare("LMSetLastFOND", ctypes.default_abi, ctypes.void_t, this.Handle);
+    this.LMGetFractEnable = lib.declare("LMGetFractEnable", ctypes.default_abi, this.UInt8);
+    this.LMSetFractEnable = lib.declare("LMSetFractEnable", ctypes.default_abi, ctypes.void_t, this.UInt8);
+    this.LMGetTheGDevice = lib.declare("LMGetTheGDevice", ctypes.default_abi, this.GDHandle);
+    this.LMSetTheGDevice = lib.declare("LMSetTheGDevice", ctypes.default_abi, ctypes.void_t, this.GDHandle);
+    this.LMGetHiliteRGB = lib.declare("LMGetHiliteRGB", ctypes.default_abi, ctypes.void_t, this.RGBColor.ptr);
+    this.LMSetHiliteRGB = lib.declare("LMSetHiliteRGB", ctypes.default_abi, ctypes.void_t, this.RGBColor.ptr);
+    this.LMGetCursorNew = lib.declare("LMGetCursorNew", ctypes.default_abi, this.Boolean);
+    this.LMSetCursorNew = lib.declare("LMSetCursorNew", ctypes.default_abi, ctypes.void_t, this.Boolean);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/QD.framework/Headers/Displays.h
@@ -306,6 +691,65 @@ function Displays_h(lib) {
     // Dropping inline function 'InvokeDMDisplayModeListIteratorUPP'.
     // Dropping inline function 'InvokeDMProfileListIteratorUPP'.
     // Dropping inline function 'InvokeDMDisplayListIteratorUPP'.
+    this.DMGetFirstScreenDevice = lib.declare("DMGetFirstScreenDevice", ctypes.default_abi, this.GDHandle, this.Boolean);
+    this.DMGetNextScreenDevice = lib.declare("DMGetNextScreenDevice", ctypes.default_abi, this.GDHandle, this.GDHandle, this.Boolean);
+    this.DMDrawDesktopRect = lib.declare("DMDrawDesktopRect", ctypes.default_abi, ctypes.void_t, this.Rect.ptr);
+    this.DMDrawDesktopRegion = lib.declare("DMDrawDesktopRegion", ctypes.default_abi, ctypes.void_t, this.RgnHandle);
+    this.DMBeginConfigureDisplays = lib.declare("DMBeginConfigureDisplays", ctypes.default_abi, this.OSErr, this.Handle.ptr);
+    this.DMEndConfigureDisplays = lib.declare("DMEndConfigureDisplays", ctypes.default_abi, this.OSErr, this.Handle);
+    this.DMAddDisplay = lib.declare("DMAddDisplay", ctypes.default_abi, this.OSErr, this.GDHandle, ctypes.short, this.UInt32, this.UInt32, this.UInt32, this.Component, this.Handle);
+    this.DMMoveDisplay = lib.declare("DMMoveDisplay", ctypes.default_abi, this.OSErr, this.GDHandle, ctypes.short, ctypes.short, this.Handle);
+    this.DMDisableDisplay = lib.declare("DMDisableDisplay", ctypes.default_abi, this.OSErr, this.GDHandle, this.Handle);
+    this.DMEnableDisplay = lib.declare("DMEnableDisplay", ctypes.default_abi, this.OSErr, this.GDHandle, this.Handle);
+    this.DMRemoveDisplay = lib.declare("DMRemoveDisplay", ctypes.default_abi, this.OSErr, this.GDHandle, this.Handle);
+    this.DMSetMainDisplay = lib.declare("DMSetMainDisplay", ctypes.default_abi, this.OSErr, this.GDHandle, this.Handle);
+    this.DMSetDisplayMode = lib.declare("DMSetDisplayMode", ctypes.default_abi, this.OSErr, this.GDHandle, this.UInt32, this.UInt32.ptr, ctypes.long, this.Handle);
+    this.DMCheckDisplayMode = lib.declare("DMCheckDisplayMode", ctypes.default_abi, this.OSErr, this.GDHandle, this.UInt32, this.UInt32, this.UInt32.ptr, this.UInt32, this.Boolean.ptr);
+    this.DMGetDeskRegion = lib.declare("DMGetDeskRegion", ctypes.default_abi, this.OSErr, this.RgnHandle.ptr);
+    this.DMRegisterNotifyProc = lib.declare("DMRegisterNotifyProc", ctypes.default_abi, this.OSErr, this.DMNotificationUPP, this.DMProcessInfoPtr);
+    this.DMRemoveNotifyProc = lib.declare("DMRemoveNotifyProc", ctypes.default_abi, this.OSErr, this.DMNotificationUPP, this.DMProcessInfoPtr);
+    this.DMQDIsMirroringCapable = lib.declare("DMQDIsMirroringCapable", ctypes.default_abi, this.OSErr, this.Boolean.ptr);
+    this.DMCanMirrorNow = lib.declare("DMCanMirrorNow", ctypes.default_abi, this.OSErr, this.Boolean.ptr);
+    this.DMIsMirroringOn = lib.declare("DMIsMirroringOn", ctypes.default_abi, this.OSErr, this.Boolean.ptr);
+    this.DMMirrorDevices = lib.declare("DMMirrorDevices", ctypes.default_abi, this.OSErr, this.GDHandle, this.GDHandle, this.Handle);
+    this.DMUnmirrorDevice = lib.declare("DMUnmirrorDevice", ctypes.default_abi, this.OSErr, this.GDHandle, this.Handle);
+    this.DMGetNextMirroredDevice = lib.declare("DMGetNextMirroredDevice", ctypes.default_abi, this.OSErr, this.GDHandle, this.GDHandle.ptr);
+    this.DMBlockMirroring = lib.declare("DMBlockMirroring", ctypes.default_abi, this.OSErr);
+    this.DMUnblockMirroring = lib.declare("DMUnblockMirroring", ctypes.default_abi, this.OSErr);
+    this.DMGetDisplayIDByGDevice = lib.declare("DMGetDisplayIDByGDevice", ctypes.default_abi, this.OSErr, this.GDHandle, this.DisplayIDType.ptr, this.Boolean);
+    this.DMGetGDeviceByDisplayID = lib.declare("DMGetGDeviceByDisplayID", ctypes.default_abi, this.OSErr, this.DisplayIDType, this.GDHandle.ptr, this.Boolean);
+    this.DMSetDisplayComponent = lib.declare("DMSetDisplayComponent", ctypes.default_abi, this.OSErr, this.GDHandle, this.Component);
+    this.DMGetDisplayComponent = lib.declare("DMGetDisplayComponent", ctypes.default_abi, this.OSErr, this.GDHandle, this.Component.ptr);
+    this.DMNewDisplay = lib.declare("DMNewDisplay", ctypes.default_abi, this.OSErr, this.GDHandle.ptr, ctypes.short, this.UInt32, this.UInt32, this.DisplayIDType, this.Component, this.Handle);
+    this.DMDisposeDisplay = lib.declare("DMDisposeDisplay", ctypes.default_abi, this.OSErr, this.GDHandle, this.Handle);
+    this.DMResolveDisplayComponents = lib.declare("DMResolveDisplayComponents", ctypes.default_abi, this.OSErr);
+    this.DMRegisterExtendedNotifyProc = lib.declare("DMRegisterExtendedNotifyProc", ctypes.default_abi, this.OSErr, this.DMExtendedNotificationUPP, ctypes.void_t.ptr, ctypes.unsigned_short, this.DMProcessInfoPtr);
+    this.DMRemoveExtendedNotifyProc = lib.declare("DMRemoveExtendedNotifyProc", ctypes.default_abi, this.OSErr, this.DMExtendedNotificationUPP, ctypes.void_t.ptr, this.DMProcessInfoPtr, ctypes.unsigned_short);
+    this.DMNewAVPanelList = lib.declare("DMNewAVPanelList", ctypes.default_abi, this.OSErr, this.DisplayIDType, this.ResType, this.DMFidelityType, this.UInt32, this.UInt32, this.DMListIndexType.ptr, this.DMListType.ptr);
+    this.DMNewAVEngineList = lib.declare("DMNewAVEngineList", ctypes.default_abi, this.OSErr, this.DisplayIDType, this.ResType, this.DMFidelityType, this.UInt32, this.UInt32, this.DMListIndexType.ptr, this.DMListType.ptr);
+    this.DMNewAVDeviceList = lib.declare("DMNewAVDeviceList", ctypes.default_abi, this.OSErr, this.ResType, this.UInt32, this.UInt32, this.DMListIndexType.ptr, this.DMListType.ptr);
+    this.DMNewAVPortListByPortType = lib.declare("DMNewAVPortListByPortType", ctypes.default_abi, this.OSErr, this.ResType, this.UInt32, this.UInt32, this.DMListIndexType.ptr, this.DMListType.ptr);
+    this.DMGetIndexedComponentFromList = lib.declare("DMGetIndexedComponentFromList", ctypes.default_abi, this.OSErr, this.DMListType, this.DMListIndexType, this.UInt32, this.DMComponentListIteratorUPP, ctypes.void_t.ptr);
+    this.DMDisposeList = lib.declare("DMDisposeList", ctypes.default_abi, this.OSErr, this.DMListType);
+    this.DMGetNameByAVID = lib.declare("DMGetNameByAVID", ctypes.default_abi, this.OSErr, this.AVIDType, this.UInt32, ctypes.unsigned_char.ptr);
+    this.DMNewAVIDByPortComponent = lib.declare("DMNewAVIDByPortComponent", ctypes.default_abi, this.OSErr, this.Component, this.ResType, this.UInt32, this.AVIDType.ptr);
+    this.DMGetPortComponentByAVID = lib.declare("DMGetPortComponentByAVID", ctypes.default_abi, this.OSErr, this.DisplayIDType, this.Component.ptr, this.ComponentDescription.ptr, this.ResType.ptr);
+    this.DMSendDependentNotification = lib.declare("DMSendDependentNotification", ctypes.default_abi, this.OSErr, this.ResType, this.ResType, this.AVIDType, this.ComponentInstance);
+    this.DMDisposeAVComponent = lib.declare("DMDisposeAVComponent", ctypes.default_abi, this.OSErr, this.Component);
+    this.DMSaveScreenPrefs = lib.declare("DMSaveScreenPrefs", ctypes.default_abi, this.OSErr, this.UInt32, this.UInt32, this.UInt32);
+    this.DMNewAVIDByDeviceComponent = lib.declare("DMNewAVIDByDeviceComponent", ctypes.default_abi, this.OSErr, this.Component, this.ResType, this.UInt32, this.DisplayIDType.ptr);
+    this.DMNewAVPortListByDeviceAVID = lib.declare("DMNewAVPortListByDeviceAVID", ctypes.default_abi, this.OSErr, this.AVIDType, this.DMFidelityType, this.UInt32, this.UInt32, this.DMListIndexType.ptr, this.DMListType.ptr);
+    this.DMGetDeviceComponentByAVID = lib.declare("DMGetDeviceComponentByAVID", ctypes.default_abi, this.OSErr, this.AVIDType, this.Component.ptr, this.ComponentDescription.ptr, this.ResType.ptr);
+    this.DMNewDisplayModeList = lib.declare("DMNewDisplayModeList", ctypes.default_abi, this.OSErr, this.DisplayIDType, this.UInt32, this.UInt32, this.DMListIndexType.ptr, this.DMListType.ptr);
+    this.DMGetIndexedDisplayModeFromList = lib.declare("DMGetIndexedDisplayModeFromList", ctypes.default_abi, this.OSErr, this.DMListType, this.DMListIndexType, this.UInt32, this.DMDisplayModeListIteratorUPP, ctypes.void_t.ptr);
+    this.DMGetGraphicInfoByAVID = lib.declare("DMGetGraphicInfoByAVID", ctypes.default_abi, this.OSErr, this.AVIDType, this.PicHandle.ptr, this.Handle.ptr, this.AVLocationRec.ptr);
+    this.DMGetAVPowerState = lib.declare("DMGetAVPowerState", ctypes.default_abi, this.OSErr, this.AVIDType, this.AVPowerStatePtr, this.UInt32);
+    this.DMSetAVPowerState = lib.declare("DMSetAVPowerState", ctypes.default_abi, this.OSErr, this.AVIDType, this.AVPowerStatePtr, this.UInt32, this.Handle);
+    this.DMGetDeviceAVIDByPortAVID = lib.declare("DMGetDeviceAVIDByPortAVID", ctypes.default_abi, this.OSErr, this.AVIDType, this.AVIDType.ptr);
+    this.DMGetEnableByAVID = lib.declare("DMGetEnableByAVID", ctypes.default_abi, this.OSErr, this.AVIDType, this.Boolean.ptr, this.Boolean.ptr);
+    this.DMSetEnableByAVID = lib.declare("DMSetEnableByAVID", ctypes.default_abi, this.OSErr, this.AVIDType, this.Boolean, this.Handle);
+    this.DMGetDisplayMode = lib.declare("DMGetDisplayMode", ctypes.default_abi, this.OSErr, this.GDHandle, this.VDSwitchInfoPtr);
+    this.DMConfirmConfiguration = lib.declare("DMConfirmConfiguration", ctypes.default_abi, this.OSErr, this.DMModalFilterUPP, this.UInt32, this.UInt32, this.Handle);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/QD.framework/Headers/QuickdrawTypes.h
@@ -637,20 +1081,107 @@ function QuickdrawTypes_h(lib) {
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/QD.framework/Headers/ATSUnicodeObjects.h
 function ATSUnicodeObjects_h(lib) {
+    ATSUnicodeTypes_h.call(this, lib);
+    SFNTLayoutTypes_h.call(this, lib);
+    TextCommon_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._ATSUNICODEOBJECTS_H)
         return;
     this._ATSUNICODEOBJECTS_H = true;
 
+    this.ATSUCreateStyle = lib.declare("ATSUCreateStyle", ctypes.default_abi, this.OSStatus, this.ATSUStyle.ptr);
+    this.ATSUCreateAndCopyStyle = lib.declare("ATSUCreateAndCopyStyle", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.ATSUStyle.ptr);
+    this.ATSUDisposeStyle = lib.declare("ATSUDisposeStyle", ctypes.default_abi, this.OSStatus, this.ATSUStyle);
+    this.ATSUSetStyleRefCon = lib.declare("ATSUSetStyleRefCon", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.URefCon);
+    this.ATSUGetStyleRefCon = lib.declare("ATSUGetStyleRefCon", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.URefCon.ptr);
+    this.ATSUCompareStyles = lib.declare("ATSUCompareStyles", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.ATSUStyle, this.ATSUStyleComparison.ptr);
+    this.ATSUCopyAttributes = lib.declare("ATSUCopyAttributes", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.ATSUStyle);
+    this.ATSUOverwriteAttributes = lib.declare("ATSUOverwriteAttributes", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.ATSUStyle);
+    this.ATSUUnderwriteAttributes = lib.declare("ATSUUnderwriteAttributes", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.ATSUStyle);
+    this.ATSUClearStyle = lib.declare("ATSUClearStyle", ctypes.default_abi, this.OSStatus, this.ATSUStyle);
+    this.ATSUStyleIsEmpty = lib.declare("ATSUStyleIsEmpty", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.Boolean.ptr);
+    this.ATSUCalculateBaselineDeltas = lib.declare("ATSUCalculateBaselineDeltas", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.BslnBaselineClass, this.Fixed.ptr);
+    this.ATSUSetAttributes = lib.declare("ATSUSetAttributes", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.ItemCount, this.ATSUAttributeTag.ptr, this.ByteCount.ptr, this.ATSUAttributeValuePtr.ptr);
+    this.ATSUGetAttribute = lib.declare("ATSUGetAttribute", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.ATSUAttributeTag, this.ByteCount, this.ATSUAttributeValuePtr, this.ByteCount.ptr);
+    this.ATSUGetAllAttributes = lib.declare("ATSUGetAllAttributes", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.ATSUAttributeInfo.ptr, this.ItemCount, this.ItemCount.ptr);
+    this.ATSUClearAttributes = lib.declare("ATSUClearAttributes", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.ItemCount, this.ATSUAttributeTag.ptr);
+    this.ATSUCreateTextLayout = lib.declare("ATSUCreateTextLayout", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout.ptr);
+    this.ATSUCreateAndCopyTextLayout = lib.declare("ATSUCreateAndCopyTextLayout", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.ATSUTextLayout.ptr);
+    this.ATSUCreateTextLayoutWithTextPtr = lib.declare("ATSUCreateTextLayoutWithTextPtr", ctypes.default_abi, this.OSStatus, this.ConstUniCharArrayPtr, this.UniCharArrayOffset, this.UniCharCount, this.UniCharCount, this.ItemCount, this.UniCharCount.ptr, this.ATSUStyle.ptr, this.ATSUTextLayout.ptr);
+    this.ATSUClearLayoutCache = lib.declare("ATSUClearLayoutCache", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayOffset);
+    this.ATSUDisposeTextLayout = lib.declare("ATSUDisposeTextLayout", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout);
+    this.ATSUSetTextLayoutRefCon = lib.declare("ATSUSetTextLayoutRefCon", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.URefCon);
+    this.ATSUGetTextLayoutRefCon = lib.declare("ATSUGetTextLayoutRefCon", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.URefCon.ptr);
+    this.ATSUSetTextPointerLocation = lib.declare("ATSUSetTextPointerLocation", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.ConstUniCharArrayPtr, this.UniCharArrayOffset, this.UniCharCount, this.UniCharCount);
+    this.ATSUGetTextLocation = lib.declare("ATSUGetTextLocation", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, ctypes.void_t.ptr.ptr, this.Boolean.ptr, this.UniCharArrayOffset.ptr, this.UniCharCount.ptr, this.UniCharCount.ptr);
+    this.ATSUTextDeleted = lib.declare("ATSUTextDeleted", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayOffset, this.UniCharCount);
+    this.ATSUTextInserted = lib.declare("ATSUTextInserted", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayOffset, this.UniCharCount);
+    this.ATSUTextMoved = lib.declare("ATSUTextMoved", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.ConstUniCharArrayPtr);
+    this.ATSUCopyLayoutControls = lib.declare("ATSUCopyLayoutControls", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.ATSUTextLayout);
+    this.ATSUSetLayoutControls = lib.declare("ATSUSetLayoutControls", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.ItemCount, this.ATSUAttributeTag.ptr, this.ByteCount.ptr, this.ATSUAttributeValuePtr.ptr);
+    this.ATSUGetLayoutControl = lib.declare("ATSUGetLayoutControl", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.ATSUAttributeTag, this.ByteCount, this.ATSUAttributeValuePtr, this.ByteCount.ptr);
+    this.ATSUGetAllLayoutControls = lib.declare("ATSUGetAllLayoutControls", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.ATSUAttributeInfo.ptr, this.ItemCount, this.ItemCount.ptr);
+    this.ATSUClearLayoutControls = lib.declare("ATSUClearLayoutControls", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.ItemCount, this.ATSUAttributeTag.ptr);
+    this.ATSUCopyLineControls = lib.declare("ATSUCopyLineControls", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayOffset, this.ATSUTextLayout, this.UniCharArrayOffset);
+    this.ATSUSetLineControls = lib.declare("ATSUSetLineControls", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayOffset, this.ItemCount, this.ATSUAttributeTag.ptr, this.ByteCount.ptr, this.ATSUAttributeValuePtr.ptr);
+    this.ATSUGetLineControl = lib.declare("ATSUGetLineControl", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayOffset, this.ATSUAttributeTag, this.ByteCount, this.ATSUAttributeValuePtr, this.ByteCount.ptr);
+    this.ATSUGetAllLineControls = lib.declare("ATSUGetAllLineControls", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayOffset, this.ATSUAttributeInfo.ptr, this.ItemCount, this.ItemCount.ptr);
+    this.ATSUClearLineControls = lib.declare("ATSUClearLineControls", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayOffset, this.ItemCount, this.ATSUAttributeTag.ptr);
+    this.ATSUSetRunStyle = lib.declare("ATSUSetRunStyle", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.ATSUStyle, this.UniCharArrayOffset, this.UniCharCount);
+    this.ATSUGetRunStyle = lib.declare("ATSUGetRunStyle", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayOffset, this.ATSUStyle.ptr, this.UniCharArrayOffset.ptr, this.UniCharCount.ptr);
+    this.ATSUGetContinuousAttributes = lib.declare("ATSUGetContinuousAttributes", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayOffset, this.UniCharCount, this.ATSUStyle);
+    this.ATSUSetTabArray = lib.declare("ATSUSetTabArray", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.ATSUTab.ptr, this.ItemCount);
+    this.ATSUGetTabArray = lib.declare("ATSUGetTabArray", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.ItemCount, this.ATSUTab.ptr, this.ItemCount.ptr);
+    this.ATSUCreateFontFallbacks = lib.declare("ATSUCreateFontFallbacks", ctypes.default_abi, this.OSStatus, this.ATSUFontFallbacks.ptr);
+    this.ATSUDisposeFontFallbacks = lib.declare("ATSUDisposeFontFallbacks", ctypes.default_abi, this.OSStatus, this.ATSUFontFallbacks);
+    this.ATSUSetObjFontFallbacks = lib.declare("ATSUSetObjFontFallbacks", ctypes.default_abi, this.OSStatus, this.ATSUFontFallbacks, this.ItemCount, this.ATSUFontID.ptr, this.ATSUFontFallbackMethod);
+    this.ATSUGetObjFontFallbacks = lib.declare("ATSUGetObjFontFallbacks", ctypes.default_abi, this.OSStatus, this.ATSUFontFallbacks, this.ItemCount, this.ATSUFontID.ptr, this.ATSUFontFallbackMethod.ptr, this.ItemCount.ptr);
+    this.ATSUMatchFontsToText = lib.declare("ATSUMatchFontsToText", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayOffset, this.UniCharCount, this.ATSUFontID.ptr, this.UniCharArrayOffset.ptr, this.UniCharCount.ptr);
+    this.ATSUSetTransientFontMatching = lib.declare("ATSUSetTransientFontMatching", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.Boolean);
+    this.ATSUGetTransientFontMatching = lib.declare("ATSUGetTransientFontMatching", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.Boolean.ptr);
+    this.ATSUSetFontFallbacks = lib.declare("ATSUSetFontFallbacks", ctypes.default_abi, this.OSStatus, this.ItemCount, this.ATSUFontID.ptr, this.ATSUFontFallbackMethod);
+    this.ATSUGetFontFallbacks = lib.declare("ATSUGetFontFallbacks", ctypes.default_abi, this.OSStatus, this.ItemCount, this.ATSUFontID.ptr, this.ATSUFontFallbackMethod.ptr, this.ItemCount.ptr);
+    this.ATSUCreateTextLayoutWithTextHandle = lib.declare("ATSUCreateTextLayoutWithTextHandle", ctypes.default_abi, this.OSStatus, this.UniCharArrayHandle, this.UniCharArrayOffset, this.UniCharCount, this.UniCharCount, this.ItemCount, this.UniCharCount.ptr, this.ATSUStyle.ptr, this.ATSUTextLayout.ptr);
+    this.ATSUSetTextHandleLocation = lib.declare("ATSUSetTextHandleLocation", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayHandle, this.UniCharArrayOffset, this.UniCharCount, this.UniCharCount);
+    this.ATSUIdle = lib.declare("ATSUIdle", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/QD.framework/Headers/ATSUnicodeDrawing.h
 function ATSUnicodeDrawing_h(lib) {
+    ATSUnicodeTypes_h.call(this, lib);
+    ATSLayoutTypes_h.call(this, lib);
+    QuickdrawTypes_h.call(this, lib);
+    TextCommon_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._ATSUNICODEDRAWING_H)
         return;
     this._ATSUNICODEDRAWING_H = true;
 
+    this.ATSUDrawText = lib.declare("ATSUDrawText", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayOffset, this.UniCharCount, this.ATSUTextMeasurement, this.ATSUTextMeasurement);
+    this.ATSUGetUnjustifiedBounds = lib.declare("ATSUGetUnjustifiedBounds", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayOffset, this.UniCharCount, this.ATSUTextMeasurement.ptr, this.ATSUTextMeasurement.ptr, this.ATSUTextMeasurement.ptr, this.ATSUTextMeasurement.ptr);
+    this.ATSUMeasureTextImage = lib.declare("ATSUMeasureTextImage", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayOffset, this.UniCharCount, this.ATSUTextMeasurement, this.ATSUTextMeasurement, this.Rect.ptr);
+    this.ATSUGetGlyphBounds = lib.declare("ATSUGetGlyphBounds", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.ATSUTextMeasurement, this.ATSUTextMeasurement, this.UniCharArrayOffset, this.UniCharCount, this.UInt16, this.ItemCount, this.ATSTrapezoid.ptr, this.ItemCount.ptr);
+    this.ATSUBatchBreakLines = lib.declare("ATSUBatchBreakLines", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayOffset, this.UniCharCount, this.ATSUTextMeasurement, this.ItemCount.ptr);
+    this.ATSUBreakLine = lib.declare("ATSUBreakLine", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayOffset, this.ATSUTextMeasurement, this.Boolean, this.UniCharArrayOffset.ptr);
+    this.ATSUSetSoftLineBreak = lib.declare("ATSUSetSoftLineBreak", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayOffset);
+    this.ATSUGetSoftLineBreaks = lib.declare("ATSUGetSoftLineBreaks", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayOffset, this.UniCharCount, this.ItemCount, this.UniCharArrayOffset.ptr, this.ItemCount.ptr);
+    this.ATSUClearSoftLineBreaks = lib.declare("ATSUClearSoftLineBreaks", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayOffset, this.UniCharCount);
+    this.ATSUSetHighlightingMethod = lib.declare("ATSUSetHighlightingMethod", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.ATSUHighlightMethod, this.ATSUUnhighlightData.ptr);
+    this.ATSUHighlightText = lib.declare("ATSUHighlightText", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.ATSUTextMeasurement, this.ATSUTextMeasurement, this.UniCharArrayOffset, this.UniCharCount);
+    this.ATSUUnhighlightText = lib.declare("ATSUUnhighlightText", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.ATSUTextMeasurement, this.ATSUTextMeasurement, this.UniCharArrayOffset, this.UniCharCount);
+    this.ATSUGetTextHighlight = lib.declare("ATSUGetTextHighlight", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.ATSUTextMeasurement, this.ATSUTextMeasurement, this.UniCharArrayOffset, this.UniCharCount, this.RgnHandle);
+    this.ATSUHighlightInactiveText = lib.declare("ATSUHighlightInactiveText", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.ATSUTextMeasurement, this.ATSUTextMeasurement, this.UniCharArrayOffset, this.UniCharCount);
+    this.ATSUPositionToOffset = lib.declare("ATSUPositionToOffset", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.ATSUTextMeasurement, this.ATSUTextMeasurement, this.UniCharArrayOffset.ptr, this.Boolean.ptr, this.UniCharArrayOffset.ptr);
+    this.ATSUOffsetToPosition = lib.declare("ATSUOffsetToPosition", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayOffset, this.Boolean, this.ATSUCaret.ptr, this.ATSUCaret.ptr, this.Boolean.ptr);
+    this.ATSUPositionToCursorOffset = lib.declare("ATSUPositionToCursorOffset", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.ATSUTextMeasurement, this.ATSUTextMeasurement, this.ATSUCursorMovementType, this.UniCharArrayOffset.ptr, this.Boolean.ptr, this.UniCharArrayOffset.ptr);
+    this.ATSUOffsetToCursorPosition = lib.declare("ATSUOffsetToCursorPosition", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayOffset, this.Boolean, this.ATSUCursorMovementType, this.ATSUCaret.ptr, this.ATSUCaret.ptr, this.Boolean.ptr);
+    this.ATSUNextCursorPosition = lib.declare("ATSUNextCursorPosition", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayOffset, this.ATSUCursorMovementType, this.UniCharArrayOffset.ptr);
+    this.ATSUPreviousCursorPosition = lib.declare("ATSUPreviousCursorPosition", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayOffset, this.ATSUCursorMovementType, this.UniCharArrayOffset.ptr);
+    this.ATSURightwardCursorPosition = lib.declare("ATSURightwardCursorPosition", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayOffset, this.ATSUCursorMovementType, this.UniCharArrayOffset.ptr);
+    this.ATSULeftwardCursorPosition = lib.declare("ATSULeftwardCursorPosition", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayOffset, this.ATSUCursorMovementType, this.UniCharArrayOffset.ptr);
+    this.ATSUMeasureText = lib.declare("ATSUMeasureText", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayOffset, this.UniCharCount, this.ATSUTextMeasurement.ptr, this.ATSUTextMeasurement.ptr, this.ATSUTextMeasurement.ptr, this.ATSUTextMeasurement.ptr);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/QD.framework/Headers/Video.h
@@ -1118,6 +1649,7 @@ function Video_h(lib) {
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/QD.framework/Headers/QDOffscreen.h
 function QDOffscreen_h(lib) {
     QuickdrawTypes_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._QDOFFSCREEN_H)
         return;
@@ -1162,6 +1694,7 @@ function QDOffscreen_h(lib) {
     this.gwFlagErr = -2147483648;
     this.GWorldFlags = ctypes.unsigned_long;
     this.GWorldPtr = this.CGrafPtr;
+    this.NewGWorld = lib.declare("NewGWorld", ctypes.default_abi, this.QDErr, this.GWorldPtr.ptr, ctypes.short, this.Rect.ptr, this.CTabHandle, this.GDHandle, this.GWorldFlags);
     this.deviceIsIndirect = 1;
     this.deviceNeedsLock = 2;
     this.deviceIsStatic = 4;
@@ -1171,17 +1704,49 @@ function QDOffscreen_h(lib) {
     this.deviceIsGDISurface = 64;
     this.deviceIsAScreen = 128;
     this.deviceIsOverlaySurface = 256;
+    this.NewGWorldFromPtr = lib.declare("NewGWorldFromPtr", ctypes.default_abi, this.QDErr, this.GWorldPtr.ptr, this.UInt32, this.Rect.ptr, this.CTabHandle, this.GDHandle, this.GWorldFlags, this.Ptr, this.SInt32);
+    this.LockPixels = lib.declare("LockPixels", ctypes.default_abi, this.Boolean, this.PixMapHandle);
+    this.UnlockPixels = lib.declare("UnlockPixels", ctypes.default_abi, ctypes.void_t, this.PixMapHandle);
+    this.UpdateGWorld = lib.declare("UpdateGWorld", ctypes.default_abi, this.GWorldFlags, this.GWorldPtr.ptr, ctypes.short, this.Rect.ptr, this.CTabHandle, this.GDHandle, this.GWorldFlags);
+    this.DisposeGWorld = lib.declare("DisposeGWorld", ctypes.default_abi, ctypes.void_t, this.GWorldPtr);
+    this.GetGWorld = lib.declare("GetGWorld", ctypes.default_abi, ctypes.void_t, this.CGrafPtr.ptr, this.GDHandle.ptr);
+    this.SetGWorld = lib.declare("SetGWorld", ctypes.default_abi, ctypes.void_t, this.CGrafPtr, this.GDHandle);
+    this.CTabChanged = lib.declare("CTabChanged", ctypes.default_abi, ctypes.void_t, this.CTabHandle);
+    this.PixPatChanged = lib.declare("PixPatChanged", ctypes.default_abi, ctypes.void_t, this.PixPatHandle);
+    this.PortChanged = lib.declare("PortChanged", ctypes.default_abi, ctypes.void_t, this.GrafPtr);
+    this.GDeviceChanged = lib.declare("GDeviceChanged", ctypes.default_abi, ctypes.void_t, this.GDHandle);
+    this.AllowPurgePixels = lib.declare("AllowPurgePixels", ctypes.default_abi, ctypes.void_t, this.PixMapHandle);
+    this.NoPurgePixels = lib.declare("NoPurgePixels", ctypes.default_abi, ctypes.void_t, this.PixMapHandle);
+    this.GetPixelsState = lib.declare("GetPixelsState", ctypes.default_abi, this.GWorldFlags, this.PixMapHandle);
+    this.SetPixelsState = lib.declare("SetPixelsState", ctypes.default_abi, ctypes.void_t, this.PixMapHandle, this.GWorldFlags);
+    this.GetPixBaseAddr = lib.declare("GetPixBaseAddr", ctypes.default_abi, this.Ptr, this.PixMapHandle);
+    this.GetPixRowBytes = lib.declare("GetPixRowBytes", ctypes.default_abi, this.SInt32, this.PixMapHandle);
+    this.NewScreenBuffer = lib.declare("NewScreenBuffer", ctypes.default_abi, this.QDErr, this.Rect.ptr, this.Boolean, this.GDHandle.ptr, this.PixMapHandle.ptr);
+    this.DisposeScreenBuffer = lib.declare("DisposeScreenBuffer", ctypes.default_abi, ctypes.void_t, this.PixMapHandle);
+    this.GetGWorldDevice = lib.declare("GetGWorldDevice", ctypes.default_abi, this.GDHandle, this.GWorldPtr);
+    this.QDDone = lib.declare("QDDone", ctypes.default_abi, this.Boolean, this.GrafPtr);
+    this.OffscreenVersion = lib.declare("OffscreenVersion", ctypes.default_abi, this.SInt32);
+    this.NewTempScreenBuffer = lib.declare("NewTempScreenBuffer", ctypes.default_abi, this.QDErr, this.Rect.ptr, this.Boolean, this.GDHandle.ptr, this.PixMapHandle.ptr);
+    this.PixMap32Bit = lib.declare("PixMap32Bit", ctypes.default_abi, this.Boolean, this.PixMapHandle);
+    this.GetGWorldPixMap = lib.declare("GetGWorldPixMap", ctypes.default_abi, this.PixMapHandle, this.GWorldPtr);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/QD.framework/Headers/Fonts.h
 function Fonts_h(lib) {
+    QuickdrawText_h.call(this, lib);
     ATSTypes_h.call(this, lib);
+    Files_h.call(this, lib);
+    CGFont_h.call(this, lib);
+    TextCommon_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._FONTS_H)
         return;
     this._FONTS_H = true;
 
+    this.FMGetATSFontRefFromFont = lib.declare("FMGetATSFontRefFromFont", ctypes.default_abi, this.ATSFontRef, this.FMFont);
+    this.FMGetFontFromATSFontRef = lib.declare("FMGetFontFromATSFontRef", ctypes.default_abi, this.FMFont, this.ATSFontRef);
+    this.FMFontGetCGFontRefFromFontFamilyInstance = lib.declare("FMFontGetCGFontRefFromFontFamilyInstance", ctypes.default_abi, this.OSStatus, this.FMFontFamily, this.FMFontStyle, this.CGFontRef.ptr, this.FMFontStyle.ptr);
     this.systemFont = 0;
     this.applFont = 1;
     this.kFMDefaultOptions = 0;
@@ -1212,6 +1777,56 @@ function Fonts_h(lib) {
     this.FMetricRec = new ctypes.StructType("FMetricRec", [{ascent: this.Fixed}, {descent: this.Fixed}, {leading: this.Fixed}, {widMax: this.Fixed}, {wTabHandle: this.Handle}]);
     this.FMetricRecPtr = this.FMetricRec.ptr;
     this.FMetricRecHandle = this.FMetricRecPtr.ptr;
+    this.GetFontName = lib.declare("GetFontName", ctypes.default_abi, ctypes.void_t, ctypes.short, ctypes.unsigned_char.ptr);
+    this.GetFNum = lib.declare("GetFNum", ctypes.default_abi, ctypes.void_t, this.ConstStr255Param, ctypes.short.ptr);
+    this.RealFont = lib.declare("RealFont", ctypes.default_abi, this.Boolean, ctypes.short, ctypes.short);
+    this.FMSwapFont = lib.declare("FMSwapFont", ctypes.default_abi, this.FMOutPtr, this.FMInput.ptr);
+    this.SetFScaleDisable = lib.declare("SetFScaleDisable", ctypes.default_abi, ctypes.void_t, this.Boolean);
+    this.FontMetrics = lib.declare("FontMetrics", ctypes.default_abi, ctypes.void_t, this.FMetricRecPtr);
+    this.SetFractEnable = lib.declare("SetFractEnable", ctypes.default_abi, ctypes.void_t, this.Boolean);
+    this.GetDefFontSize = lib.declare("GetDefFontSize", ctypes.default_abi, ctypes.short);
+    this.IsOutline = lib.declare("IsOutline", ctypes.default_abi, this.Boolean, this.Point, this.Point);
+    this.SetOutlinePreferred = lib.declare("SetOutlinePreferred", ctypes.default_abi, ctypes.void_t, this.Boolean);
+    this.GetOutlinePreferred = lib.declare("GetOutlinePreferred", ctypes.default_abi, this.Boolean);
+    this.OutlineMetrics = lib.declare("OutlineMetrics", ctypes.default_abi, this.OSErr, ctypes.short, ctypes.void_t.ptr, this.Point, this.Point, ctypes.short.ptr, ctypes.short.ptr, this.FixedPtr, this.FixedPtr, this.RectPtr);
+    this.SetPreserveGlyph = lib.declare("SetPreserveGlyph", ctypes.default_abi, ctypes.void_t, this.Boolean);
+    this.GetPreserveGlyph = lib.declare("GetPreserveGlyph", ctypes.default_abi, this.Boolean);
+    this.GetSysFont = lib.declare("GetSysFont", ctypes.default_abi, ctypes.short);
+    this.GetAppFont = lib.declare("GetAppFont", ctypes.default_abi, ctypes.short);
+    this.SetAntiAliasedTextEnabled = lib.declare("SetAntiAliasedTextEnabled", ctypes.default_abi, this.OSStatus, this.Boolean, this.SInt16);
+    this.IsAntiAliasedTextEnabled = lib.declare("IsAntiAliasedTextEnabled", ctypes.default_abi, this.Boolean, this.SInt16.ptr);
+    this.QDTextBounds = lib.declare("QDTextBounds", ctypes.default_abi, ctypes.void_t, ctypes.short, ctypes.void_t.ptr, this.Rect.ptr);
+    this.FetchFontInfo = lib.declare("FetchFontInfo", ctypes.default_abi, this.OSErr, this.SInt16, this.SInt16, this.SInt16, this.FontInfo.ptr);
+    this.FMCreateFontFamilyIterator = lib.declare("FMCreateFontFamilyIterator", ctypes.default_abi, this.OSStatus, this.FMFilter.ptr, ctypes.void_t.ptr, this.OptionBits, this.FMFontFamilyIterator.ptr);
+    this.FMDisposeFontFamilyIterator = lib.declare("FMDisposeFontFamilyIterator", ctypes.default_abi, this.OSStatus, this.FMFontFamilyIterator.ptr);
+    this.FMResetFontFamilyIterator = lib.declare("FMResetFontFamilyIterator", ctypes.default_abi, this.OSStatus, this.FMFilter.ptr, ctypes.void_t.ptr, this.OptionBits, this.FMFontFamilyIterator.ptr);
+    this.FMGetNextFontFamily = lib.declare("FMGetNextFontFamily", ctypes.default_abi, this.OSStatus, this.FMFontFamilyIterator.ptr, this.FMFontFamily.ptr);
+    this.FMCreateFontIterator = lib.declare("FMCreateFontIterator", ctypes.default_abi, this.OSStatus, this.FMFilter.ptr, ctypes.void_t.ptr, this.OptionBits, this.FMFontIterator.ptr);
+    this.FMDisposeFontIterator = lib.declare("FMDisposeFontIterator", ctypes.default_abi, this.OSStatus, this.FMFontIterator.ptr);
+    this.FMResetFontIterator = lib.declare("FMResetFontIterator", ctypes.default_abi, this.OSStatus, this.FMFilter.ptr, ctypes.void_t.ptr, this.OptionBits, this.FMFontIterator.ptr);
+    this.FMGetNextFont = lib.declare("FMGetNextFont", ctypes.default_abi, this.OSStatus, this.FMFontIterator.ptr, this.FMFont.ptr);
+    this.FMCreateFontFamilyInstanceIterator = lib.declare("FMCreateFontFamilyInstanceIterator", ctypes.default_abi, this.OSStatus, this.FMFontFamily, this.FMFontFamilyInstanceIterator.ptr);
+    this.FMDisposeFontFamilyInstanceIterator = lib.declare("FMDisposeFontFamilyInstanceIterator", ctypes.default_abi, this.OSStatus, this.FMFontFamilyInstanceIterator.ptr);
+    this.FMResetFontFamilyInstanceIterator = lib.declare("FMResetFontFamilyInstanceIterator", ctypes.default_abi, this.OSStatus, this.FMFontFamily, this.FMFontFamilyInstanceIterator.ptr);
+    this.FMGetNextFontFamilyInstance = lib.declare("FMGetNextFontFamilyInstance", ctypes.default_abi, this.OSStatus, this.FMFontFamilyInstanceIterator.ptr, this.FMFont.ptr, this.FMFontStyle.ptr, this.FMFontSize.ptr);
+    this.FMGetFontFamilyFromName = lib.declare("FMGetFontFamilyFromName", ctypes.default_abi, this.FMFontFamily, this.ConstStr255Param);
+    this.FMGetFontFamilyName = lib.declare("FMGetFontFamilyName", ctypes.default_abi, this.OSStatus, this.FMFontFamily, ctypes.unsigned_char.ptr);
+    this.FMGetFontFamilyTextEncoding = lib.declare("FMGetFontFamilyTextEncoding", ctypes.default_abi, this.OSStatus, this.FMFontFamily, this.TextEncoding.ptr);
+    this.FMGetFontFamilyGeneration = lib.declare("FMGetFontFamilyGeneration", ctypes.default_abi, this.OSStatus, this.FMFontFamily, this.FMGeneration.ptr);
+    this.FMGetFontFormat = lib.declare("FMGetFontFormat", ctypes.default_abi, this.OSStatus, this.FMFont, this.FourCharCode.ptr);
+    this.FMGetFontTableDirectory = lib.declare("FMGetFontTableDirectory", ctypes.default_abi, this.OSStatus, this.FMFont, this.ByteCount, ctypes.void_t.ptr, this.ByteCount.ptr);
+    this.FMGetFontTable = lib.declare("FMGetFontTable", ctypes.default_abi, this.OSStatus, this.FMFont, this.FourCharCode, this.ByteOffset, this.ByteCount, ctypes.void_t.ptr, this.ByteCount.ptr);
+    this.FMGetFontGeneration = lib.declare("FMGetFontGeneration", ctypes.default_abi, this.OSStatus, this.FMFont, this.FMGeneration.ptr);
+    this.FMGetFontContainer = lib.declare("FMGetFontContainer", ctypes.default_abi, this.OSStatus, this.FMFont, this.FSSpec.ptr);
+    this.FMGetFontFromFontFamilyInstance = lib.declare("FMGetFontFromFontFamilyInstance", ctypes.default_abi, this.OSStatus, this.FMFontFamily, this.FMFontStyle, this.FMFont.ptr, this.FMFontStyle.ptr);
+    this.FMGetFontFamilyInstanceFromFont = lib.declare("FMGetFontFamilyInstanceFromFont", ctypes.default_abi, this.OSStatus, this.FMFont, this.FMFontFamily.ptr, this.FMFontStyle.ptr);
+    this.FMGetATSFontFamilyRefFromFontFamily = lib.declare("FMGetATSFontFamilyRefFromFontFamily", ctypes.default_abi, this.ATSFontFamilyRef, this.FMFontFamily);
+    this.FMGetFontFamilyFromATSFontFamilyRef = lib.declare("FMGetFontFamilyFromATSFontFamilyRef", ctypes.default_abi, this.FMFontFamily, this.ATSFontFamilyRef);
+    this.FMActivateFonts = lib.declare("FMActivateFonts", ctypes.default_abi, this.OSStatus, this.FSSpec.ptr, this.FMFilter.ptr, ctypes.void_t.ptr, this.OptionBits);
+    this.FMDeactivateFonts = lib.declare("FMDeactivateFonts", ctypes.default_abi, this.OSStatus, this.FSSpec.ptr, this.FMFilter.ptr, ctypes.void_t.ptr, this.OptionBits);
+    this.FMGetGeneration = lib.declare("FMGetGeneration", ctypes.default_abi, this.FMGeneration);
+    this.FMGetFontContainerFromFontFamilyInstance = lib.declare("FMGetFontContainerFromFontFamilyInstance", ctypes.default_abi, this.OSStatus, this.FMFontFamily, this.FMFontStyle, this.FMFontSize, this.FSSpec.ptr);
+    this.FMGetFontFamilyResource = lib.declare("FMGetFontFamilyResource", ctypes.default_abi, this.OSStatus, this.FMFontFamily, this.FMFontStyle, this.FMFontSize, this.ByteCount, ctypes.void_t.ptr, this.ByteCount.ptr);
     this.FontFamilyID = this.FMFontFamily;
     this.FontPointSize = this.FMFontSize;
     this.kFMUseGlobalScopeOption = 1;
@@ -1251,6 +1866,7 @@ function Fonts_h(lib) {
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/QD.framework/Headers/Palettes.h
 function Palettes_h(lib) {
     QuickdrawTypes_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._PALETTES_H)
         return;
@@ -1279,10 +1895,43 @@ function Palettes_h(lib) {
     this.Palette = new ctypes.StructType("Palette", [{pmEntries: ctypes.short}, {pmDataFields: ctypes.short.array(7)}, {pmInfo: this.ColorInfo.array(1)}]);
     this.PalettePtr = this.Palette.ptr;
     this.PaletteHandle = this.PalettePtr.ptr;
+    this.InitPalettes = lib.declare("InitPalettes", ctypes.default_abi, ctypes.void_t);
+    this.NewPalette = lib.declare("NewPalette", ctypes.default_abi, this.PaletteHandle, ctypes.short, this.CTabHandle, ctypes.short, ctypes.short);
+    this.GetNewPalette = lib.declare("GetNewPalette", ctypes.default_abi, this.PaletteHandle, ctypes.short);
+    this.DisposePalette = lib.declare("DisposePalette", ctypes.default_abi, ctypes.void_t, this.PaletteHandle);
+    this.ActivatePalette = lib.declare("ActivatePalette", ctypes.default_abi, ctypes.void_t, this.WindowRef);
+    this.SetPalette = lib.declare("SetPalette", ctypes.default_abi, ctypes.void_t, this.WindowRef, this.PaletteHandle, this.Boolean);
+    this.NSetPalette = lib.declare("NSetPalette", ctypes.default_abi, ctypes.void_t, this.WindowRef, this.PaletteHandle, ctypes.short);
+    this.GetPalette = lib.declare("GetPalette", ctypes.default_abi, this.PaletteHandle, this.WindowRef);
+    this.CopyPalette = lib.declare("CopyPalette", ctypes.default_abi, ctypes.void_t, this.PaletteHandle, this.PaletteHandle, ctypes.short, ctypes.short, ctypes.short);
+    this.PmForeColor = lib.declare("PmForeColor", ctypes.default_abi, ctypes.void_t, ctypes.short);
+    this.PmBackColor = lib.declare("PmBackColor", ctypes.default_abi, ctypes.void_t, ctypes.short);
+    this.AnimateEntry = lib.declare("AnimateEntry", ctypes.default_abi, ctypes.void_t, this.WindowRef, ctypes.short, this.RGBColor.ptr);
+    this.AnimatePalette = lib.declare("AnimatePalette", ctypes.default_abi, ctypes.void_t, this.WindowRef, this.CTabHandle, ctypes.short, ctypes.short, ctypes.short);
+    this.GetEntryColor = lib.declare("GetEntryColor", ctypes.default_abi, ctypes.void_t, this.PaletteHandle, ctypes.short, this.RGBColor.ptr);
+    this.SetEntryColor = lib.declare("SetEntryColor", ctypes.default_abi, ctypes.void_t, this.PaletteHandle, ctypes.short, this.RGBColor.ptr);
+    this.GetEntryUsage = lib.declare("GetEntryUsage", ctypes.default_abi, ctypes.void_t, this.PaletteHandle, ctypes.short, ctypes.short.ptr, ctypes.short.ptr);
+    this.SetEntryUsage = lib.declare("SetEntryUsage", ctypes.default_abi, ctypes.void_t, this.PaletteHandle, ctypes.short, ctypes.short, ctypes.short);
+    this.CTab2Palette = lib.declare("CTab2Palette", ctypes.default_abi, ctypes.void_t, this.CTabHandle, this.PaletteHandle, ctypes.short, ctypes.short);
+    this.Palette2CTab = lib.declare("Palette2CTab", ctypes.default_abi, ctypes.void_t, this.PaletteHandle, this.CTabHandle);
+    this.Entry2Index = lib.declare("Entry2Index", ctypes.default_abi, this.SInt32, ctypes.short);
+    this.RestoreDeviceClut = lib.declare("RestoreDeviceClut", ctypes.default_abi, ctypes.void_t, this.GDHandle);
+    this.ResizePalette = lib.declare("ResizePalette", ctypes.default_abi, ctypes.void_t, this.PaletteHandle, ctypes.short);
+    this.SaveFore = lib.declare("SaveFore", ctypes.default_abi, ctypes.void_t, this.ColorSpec.ptr);
+    this.SaveBack = lib.declare("SaveBack", ctypes.default_abi, ctypes.void_t, this.ColorSpec.ptr);
+    this.RestoreFore = lib.declare("RestoreFore", ctypes.default_abi, ctypes.void_t, this.ColorSpec.ptr);
+    this.RestoreBack = lib.declare("RestoreBack", ctypes.default_abi, ctypes.void_t, this.ColorSpec.ptr);
+    this.SetDepth = lib.declare("SetDepth", ctypes.default_abi, this.OSErr, this.GDHandle, ctypes.short, ctypes.short, ctypes.short);
+    this.HasDepth = lib.declare("HasDepth", ctypes.default_abi, ctypes.short, this.GDHandle, ctypes.short, ctypes.short, ctypes.short);
+    this.PMgrVersion = lib.declare("PMgrVersion", ctypes.default_abi, ctypes.short);
+    this.SetPaletteUpdates = lib.declare("SetPaletteUpdates", ctypes.default_abi, ctypes.void_t, this.PaletteHandle, ctypes.short);
+    this.GetPaletteUpdates = lib.declare("GetPaletteUpdates", ctypes.default_abi, ctypes.short, this.PaletteHandle);
+    this.GetGray = lib.declare("GetGray", ctypes.default_abi, this.Boolean, this.GDHandle, this.RGBColor.ptr, this.RGBColor.ptr);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/QD.framework/Headers/QuickdrawText.h
 function QuickdrawText_h(lib) {
+    IntlResources_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._QUICKDRAWTEXT_H)
@@ -1324,11 +1973,41 @@ function QuickdrawText_h(lib) {
     this.FontInfo = new ctypes.StructType("FontInfo", [{ascent: ctypes.short}, {descent: ctypes.short}, {widMax: ctypes.short}, {leading: ctypes.short}]);
     this.FormatOrder = ctypes.short.array(1);
     this.FormatOrderPtr = this.FormatOrder.ptr;
+    this.StandardGlyphs = lib.declare("StandardGlyphs", ctypes.default_abi, this.OSStatus, ctypes.void_t.ptr, this.ByteCount);
     this.StyleRunDirectionProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.Boolean, [ctypes.short, ctypes.void_t.ptr]).ptr;
     this.StyleRunDirectionUPP = this.StyleRunDirectionProcPtr;
     // Dropping inline function 'NewStyleRunDirectionUPP'.
     // Dropping inline function 'DisposeStyleRunDirectionUPP'.
     // Dropping inline function 'InvokeStyleRunDirectionUPP'.
+    this.PixelToChar = lib.declare("PixelToChar", ctypes.default_abi, ctypes.short, this.Ptr, ctypes.long, this.Fixed, this.Fixed, this.Boolean.ptr, this.Fixed.ptr, this.JustStyleCode, this.Point, this.Point);
+    this.CharToPixel = lib.declare("CharToPixel", ctypes.default_abi, ctypes.short, this.Ptr, ctypes.long, this.Fixed, ctypes.long, ctypes.short, this.JustStyleCode, this.Point, this.Point);
+    this.DrawJustified = lib.declare("DrawJustified", ctypes.default_abi, ctypes.void_t, this.Ptr, ctypes.long, this.Fixed, this.JustStyleCode, this.Point, this.Point);
+    this.MeasureJustified = lib.declare("MeasureJustified", ctypes.default_abi, ctypes.void_t, this.Ptr, ctypes.long, this.Fixed, this.Ptr, this.JustStyleCode, this.Point, this.Point);
+    this.PortionLine = lib.declare("PortionLine", ctypes.default_abi, this.Fixed, this.Ptr, ctypes.long, this.JustStyleCode, this.Point, this.Point);
+    this.HiliteText = lib.declare("HiliteText", ctypes.default_abi, ctypes.void_t, this.Ptr, ctypes.short, ctypes.short, ctypes.short, this.OffPair.ptr);
+    this.VisibleLength = lib.declare("VisibleLength", ctypes.default_abi, ctypes.long, this.Ptr, ctypes.long);
+    this.GetFormatOrder = lib.declare("GetFormatOrder", ctypes.default_abi, ctypes.void_t, this.FormatOrderPtr, ctypes.short, ctypes.short, this.Boolean, this.StyleRunDirectionUPP, this.Ptr);
+    this.TextFont = lib.declare("TextFont", ctypes.default_abi, ctypes.void_t, ctypes.short);
+    this.TextFace = lib.declare("TextFace", ctypes.default_abi, ctypes.void_t, this.StyleParameter);
+    this.TextMode = lib.declare("TextMode", ctypes.default_abi, ctypes.void_t, ctypes.short);
+    this.TextSize = lib.declare("TextSize", ctypes.default_abi, ctypes.void_t, ctypes.short);
+    this.SpaceExtra = lib.declare("SpaceExtra", ctypes.default_abi, ctypes.void_t, this.Fixed);
+    this.DrawChar = lib.declare("DrawChar", ctypes.default_abi, ctypes.void_t, this.CharParameter);
+    this.DrawString = lib.declare("DrawString", ctypes.default_abi, ctypes.void_t, this.ConstStr255Param);
+    this.DrawText = lib.declare("DrawText", ctypes.default_abi, ctypes.void_t, ctypes.void_t.ptr, ctypes.short, ctypes.short);
+    this.CharWidth = lib.declare("CharWidth", ctypes.default_abi, ctypes.short, this.CharParameter);
+    this.StringWidth = lib.declare("StringWidth", ctypes.default_abi, ctypes.short, this.ConstStr255Param);
+    this.TextWidth = lib.declare("TextWidth", ctypes.default_abi, ctypes.short, ctypes.void_t.ptr, ctypes.short, ctypes.short);
+    this.MeasureText = lib.declare("MeasureText", ctypes.default_abi, ctypes.void_t, ctypes.short, ctypes.void_t.ptr, ctypes.void_t.ptr);
+    this.GetFontInfo = lib.declare("GetFontInfo", ctypes.default_abi, ctypes.void_t, this.FontInfo.ptr);
+    this.CharExtra = lib.declare("CharExtra", ctypes.default_abi, ctypes.void_t, this.Fixed);
+    this.StdText = lib.declare("StdText", ctypes.default_abi, ctypes.void_t, ctypes.short, ctypes.void_t.ptr, this.Point, this.Point);
+    this.StdTxMeas = lib.declare("StdTxMeas", ctypes.default_abi, ctypes.short, ctypes.short, ctypes.void_t.ptr, this.Point.ptr, this.Point.ptr, this.FontInfo.ptr);
+    this.StyledLineBreak = lib.declare("StyledLineBreak", ctypes.default_abi, this.StyledLineBreakCode, this.Ptr, this.SInt32, this.SInt32, this.SInt32, this.SInt32, this.Fixed.ptr, this.SInt32.ptr);
+    this.TruncString = lib.declare("TruncString", ctypes.default_abi, ctypes.short, ctypes.short, ctypes.unsigned_char.ptr, this.TruncCode);
+    this.TruncText = lib.declare("TruncText", ctypes.default_abi, ctypes.short, ctypes.short, this.Ptr, ctypes.short.ptr, this.TruncCode);
+    this.stdtext = lib.declare("stdtext", ctypes.default_abi, ctypes.void_t, ctypes.short, ctypes.void_t.ptr, this.Point.ptr, this.Point.ptr);
+    this.SwapQDTextFlags = lib.declare("SwapQDTextFlags", ctypes.default_abi, this.UInt32, this.UInt32);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/QD.framework/Headers/ATSUnicodeTypes.h
@@ -1501,11 +2180,43 @@ function ATSUnicodeTypes_h(lib) {
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/QD.framework/Headers/ATSUnicodeFonts.h
 function ATSUnicodeFonts_h(lib) {
+    ATSUnicodeTypes_h.call(this, lib);
+    SFNTTypes_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._ATSUNICODEFONTS_H)
         return;
     this._ATSUNICODEFONTS_H = true;
 
+    this.ATSUSetFontFeatures = lib.declare("ATSUSetFontFeatures", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.ItemCount, this.ATSUFontFeatureType.ptr, this.ATSUFontFeatureSelector.ptr);
+    this.ATSUGetFontFeature = lib.declare("ATSUGetFontFeature", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.ItemCount, this.ATSUFontFeatureType.ptr, this.ATSUFontFeatureSelector.ptr);
+    this.ATSUGetAllFontFeatures = lib.declare("ATSUGetAllFontFeatures", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.ItemCount, this.ATSUFontFeatureType.ptr, this.ATSUFontFeatureSelector.ptr, this.ItemCount.ptr);
+    this.ATSUClearFontFeatures = lib.declare("ATSUClearFontFeatures", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.ItemCount, this.ATSUFontFeatureType.ptr, this.ATSUFontFeatureSelector.ptr);
+    this.ATSUSetVariations = lib.declare("ATSUSetVariations", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.ItemCount, this.ATSUFontVariationAxis.ptr, this.ATSUFontVariationValue.ptr);
+    this.ATSUGetFontVariationValue = lib.declare("ATSUGetFontVariationValue", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.ATSUFontVariationAxis, this.ATSUFontVariationValue.ptr);
+    this.ATSUGetAllFontVariations = lib.declare("ATSUGetAllFontVariations", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.ItemCount, this.ATSUFontVariationAxis.ptr, this.ATSUFontVariationValue.ptr, this.ItemCount.ptr);
+    this.ATSUClearFontVariations = lib.declare("ATSUClearFontVariations", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.ItemCount, this.ATSUFontVariationAxis.ptr);
+    this.ATSUFontCount = lib.declare("ATSUFontCount", ctypes.default_abi, this.OSStatus, this.ItemCount.ptr);
+    this.ATSUGetFontIDs = lib.declare("ATSUGetFontIDs", ctypes.default_abi, this.OSStatus, this.ATSUFontID.ptr, this.ItemCount, this.ItemCount.ptr);
+    this.ATSUFONDtoFontID = lib.declare("ATSUFONDtoFontID", ctypes.default_abi, this.OSStatus, ctypes.short, this.Style, this.ATSUFontID.ptr);
+    this.ATSUFontIDtoFOND = lib.declare("ATSUFontIDtoFOND", ctypes.default_abi, this.OSStatus, this.ATSUFontID, ctypes.short.ptr, this.Style.ptr);
+    this.ATSUCountFontNames = lib.declare("ATSUCountFontNames", ctypes.default_abi, this.OSStatus, this.ATSUFontID, this.ItemCount.ptr);
+    this.ATSUGetIndFontName = lib.declare("ATSUGetIndFontName", ctypes.default_abi, this.OSStatus, this.ATSUFontID, this.ItemCount, this.ByteCount, this.Ptr, this.ByteCount.ptr, this.FontNameCode.ptr, this.FontPlatformCode.ptr, this.FontScriptCode.ptr, this.FontLanguageCode.ptr);
+    this.ATSUFindFontName = lib.declare("ATSUFindFontName", ctypes.default_abi, this.OSStatus, this.ATSUFontID, this.FontNameCode, this.FontPlatformCode, this.FontScriptCode, this.FontLanguageCode, this.ByteCount, this.Ptr, this.ByteCount.ptr, this.ItemCount.ptr);
+    this.ATSUFindFontFromName = lib.declare("ATSUFindFontFromName", ctypes.default_abi, this.OSStatus, ctypes.void_t.ptr, this.ByteCount, this.FontNameCode, this.FontPlatformCode, this.FontScriptCode, this.FontLanguageCode, this.ATSUFontID.ptr);
+    this.ATSUCountFontFeatureTypes = lib.declare("ATSUCountFontFeatureTypes", ctypes.default_abi, this.OSStatus, this.ATSUFontID, this.ItemCount.ptr);
+    this.ATSUCountFontFeatureSelectors = lib.declare("ATSUCountFontFeatureSelectors", ctypes.default_abi, this.OSStatus, this.ATSUFontID, this.ATSUFontFeatureType, this.ItemCount.ptr);
+    this.ATSUGetFontFeatureTypes = lib.declare("ATSUGetFontFeatureTypes", ctypes.default_abi, this.OSStatus, this.ATSUFontID, this.ItemCount, this.ATSUFontFeatureType.ptr, this.ItemCount.ptr);
+    this.ATSUGetFontFeatureSelectors = lib.declare("ATSUGetFontFeatureSelectors", ctypes.default_abi, this.OSStatus, this.ATSUFontID, this.ATSUFontFeatureType, this.ItemCount, this.ATSUFontFeatureSelector.ptr, this.Boolean.ptr, this.ItemCount.ptr, this.Boolean.ptr);
+    this.ATSUGetFontFeatureNameCode = lib.declare("ATSUGetFontFeatureNameCode", ctypes.default_abi, this.OSStatus, this.ATSUFontID, this.ATSUFontFeatureType, this.ATSUFontFeatureSelector, this.FontNameCode.ptr);
+    this.ATSUCountFontTracking = lib.declare("ATSUCountFontTracking", ctypes.default_abi, this.OSStatus, this.ATSUFontID, this.ATSUVerticalCharacterType, this.ItemCount.ptr);
+    this.ATSUGetIndFontTracking = lib.declare("ATSUGetIndFontTracking", ctypes.default_abi, this.OSStatus, this.ATSUFontID, this.ATSUVerticalCharacterType, this.ItemCount, this.Fixed.ptr, this.FontNameCode.ptr);
+    this.ATSUCountFontVariations = lib.declare("ATSUCountFontVariations", ctypes.default_abi, this.OSStatus, this.ATSUFontID, this.ItemCount.ptr);
+    this.ATSUGetIndFontVariation = lib.declare("ATSUGetIndFontVariation", ctypes.default_abi, this.OSStatus, this.ATSUFontID, this.ItemCount, this.ATSUFontVariationAxis.ptr, this.ATSUFontVariationValue.ptr, this.ATSUFontVariationValue.ptr, this.ATSUFontVariationValue.ptr);
+    this.ATSUGetFontVariationNameCode = lib.declare("ATSUGetFontVariationNameCode", ctypes.default_abi, this.OSStatus, this.ATSUFontID, this.ATSUFontVariationAxis, this.FontNameCode.ptr);
+    this.ATSUCountFontInstances = lib.declare("ATSUCountFontInstances", ctypes.default_abi, this.OSStatus, this.ATSUFontID, this.ItemCount.ptr);
+    this.ATSUGetFontInstance = lib.declare("ATSUGetFontInstance", ctypes.default_abi, this.OSStatus, this.ATSUFontID, this.ItemCount, this.ItemCount, this.ATSUFontVariationAxis.ptr, this.ATSUFontVariationValue.ptr, this.ItemCount.ptr);
+    this.ATSUGetFontInstanceNameCode = lib.declare("ATSUGetFontInstanceNameCode", ctypes.default_abi, this.OSStatus, this.ATSUFontID, this.ItemCount, this.FontNameCode.ptr);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/QD.framework/Headers/PictUtils.h
@@ -1559,10 +2270,20 @@ function PictUtils_h(lib) {
     // Dropping inline function 'InvokeRecordColorsUPP'.
     // Dropping inline function 'InvokeCalcColorTableUPP'.
     // Dropping inline function 'InvokeDisposeColorPickMethodUPP'.
+    this.GetPictInfo = lib.declare("GetPictInfo", ctypes.default_abi, this.OSErr, this.PicHandle, this.PictInfo.ptr, ctypes.short, ctypes.short, ctypes.short, ctypes.short);
+    this.GetPixMapInfo = lib.declare("GetPixMapInfo", ctypes.default_abi, this.OSErr, this.PixMapHandle, this.PictInfo.ptr, ctypes.short, ctypes.short, ctypes.short, ctypes.short);
+    this.NewPictInfo = lib.declare("NewPictInfo", ctypes.default_abi, this.OSErr, this.PictInfoID.ptr, ctypes.short, ctypes.short, ctypes.short, ctypes.short);
+    this.RecordPictInfo = lib.declare("RecordPictInfo", ctypes.default_abi, this.OSErr, this.PictInfoID, this.PicHandle);
+    this.RecordPixMapInfo = lib.declare("RecordPixMapInfo", ctypes.default_abi, this.OSErr, this.PictInfoID, this.PixMapHandle);
+    this.RetrievePictInfo = lib.declare("RetrievePictInfo", ctypes.default_abi, this.OSErr, this.PictInfoID, this.PictInfo.ptr, ctypes.short);
+    this.DisposePictInfo = lib.declare("DisposePictInfo", ctypes.default_abi, this.OSErr, this.PictInfoID);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/QD.framework/Headers/FontSync.h
 function FontSync_h(lib) {
+    Files_h.call(this, lib);
+    ATSTypes_h.call(this, lib);
+    SFNTTypes_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._FONTSYNC_H)
@@ -1583,21 +2304,55 @@ function FontSync_h(lib) {
     this.kFNSMissingDataNoMatch = -2147483648;
     this.kFNSMatchAll = -1;
     this.kFNSMatchDefaults = 0;
+    this.FNSMatchDefaultsGet = lib.declare("FNSMatchDefaultsGet", ctypes.default_abi, this.FNSMatchOptions);
     this.FNSObjectVersion = this.UInt32;
     this.kFNSVersionDontCare = 0;
     this.kFNSCurSysInfoVersion = 1;
     this.FNSFeatureFlags = this.UInt32;
     this.FNSSysInfo = new ctypes.StructType("FNSSysInfo", [{iSysInfoVersion: this.FNSObjectVersion}, {oFeatures: this.FNSFeatureFlags}, {oCurRefVersion: this.FNSObjectVersion}, {oMinRefVersion: this.FNSObjectVersion}, {oCurProfileVersion: this.FNSObjectVersion}, {oMinProfileVersion: this.FNSObjectVersion}, {oFontSyncVersion: this.UInt16}]);
+    this.FNSSysInfoGet = lib.declare("FNSSysInfoGet", ctypes.default_abi, ctypes.void_t, this.FNSSysInfo.ptr);
     this.OpaqueFNSFontReference = new ctypes.StructType("OpaqueFNSFontReference");
     this.FNSFontReference = this.OpaqueFNSFontReference.ptr;
+    this.FNSReferenceGetVersion = lib.declare("FNSReferenceGetVersion", ctypes.default_abi, this.OSStatus, this.FNSFontReference, this.FNSObjectVersion.ptr);
+    this.FNSReferenceDispose = lib.declare("FNSReferenceDispose", ctypes.default_abi, this.OSStatus, this.FNSFontReference);
+    this.FNSReferenceMatch = lib.declare("FNSReferenceMatch", ctypes.default_abi, this.OSStatus, this.FNSFontReference, this.FNSFontReference, this.FNSMatchOptions, this.FNSMatchOptions.ptr);
+    this.FNSReferenceFlattenedSize = lib.declare("FNSReferenceFlattenedSize", ctypes.default_abi, this.OSStatus, this.FNSFontReference, this.ByteCount.ptr);
+    this.FNSReferenceFlatten = lib.declare("FNSReferenceFlatten", ctypes.default_abi, this.OSStatus, this.FNSFontReference, ctypes.void_t.ptr, this.ByteCount.ptr);
+    this.FNSReferenceUnflatten = lib.declare("FNSReferenceUnflatten", ctypes.default_abi, this.OSStatus, ctypes.void_t.ptr, this.ByteCount, this.FNSFontReference.ptr);
     this.kFNSCreatorDefault = 0;
     this.kFNSProfileFileType = 1718514544;
     this.OpaqueFNSFontProfile = new ctypes.StructType("OpaqueFNSFontProfile");
     this.FNSFontProfile = this.OpaqueFNSFontProfile.ptr;
+    this.FNSProfileCreate = lib.declare("FNSProfileCreate", ctypes.default_abi, this.OSStatus, this.FSSpec.ptr, this.FourCharCode, this.ItemCount, this.FNSObjectVersion, this.FNSFontProfile.ptr);
+    this.FNSProfileOpen = lib.declare("FNSProfileOpen", ctypes.default_abi, this.OSStatus, this.FSSpec.ptr, this.Boolean, this.FNSFontProfile.ptr);
+    this.FNSProfileCreateWithFSRef = lib.declare("FNSProfileCreateWithFSRef", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.UniCharCount, this.UniChar.ptr, this.FourCharCode, this.ItemCount, this.FNSObjectVersion, this.FNSFontProfile.ptr);
+    this.FNSProfileOpenWithFSRef = lib.declare("FNSProfileOpenWithFSRef", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.Boolean, this.FNSFontProfile.ptr);
+    this.FNSProfileGetVersion = lib.declare("FNSProfileGetVersion", ctypes.default_abi, this.OSStatus, this.FNSFontProfile, this.FNSObjectVersion.ptr);
+    this.FNSProfileCompact = lib.declare("FNSProfileCompact", ctypes.default_abi, this.OSStatus, this.FNSFontProfile);
+    this.FNSProfileClose = lib.declare("FNSProfileClose", ctypes.default_abi, this.OSStatus, this.FNSFontProfile);
+    this.FNSProfileAddReference = lib.declare("FNSProfileAddReference", ctypes.default_abi, this.OSStatus, this.FNSFontProfile, this.FNSFontReference);
+    this.FNSProfileRemoveReference = lib.declare("FNSProfileRemoveReference", ctypes.default_abi, this.OSStatus, this.FNSFontProfile, this.FNSFontReference);
+    this.FNSProfileRemoveIndReference = lib.declare("FNSProfileRemoveIndReference", ctypes.default_abi, this.OSStatus, this.FNSFontProfile, this.UInt32);
+    this.FNSProfileClear = lib.declare("FNSProfileClear", ctypes.default_abi, this.OSStatus, this.FNSFontProfile);
+    this.FNSProfileCountReferences = lib.declare("FNSProfileCountReferences", ctypes.default_abi, this.OSStatus, this.FNSFontProfile, this.ItemCount.ptr);
+    this.FNSProfileGetIndReference = lib.declare("FNSProfileGetIndReference", ctypes.default_abi, this.OSStatus, this.FNSFontProfile, this.UInt32, this.FNSFontReference.ptr);
+    this.FNSProfileMatchReference = lib.declare("FNSProfileMatchReference", ctypes.default_abi, this.OSStatus, this.FNSFontProfile, this.FNSFontReference, this.FNSMatchOptions, this.ItemCount, this.UInt32.ptr, this.ItemCount.ptr);
+    this.FNSReferenceCreate = lib.declare("FNSReferenceCreate", ctypes.default_abi, this.OSStatus, this.FMFont, this.FNSObjectVersion, this.FNSFontReference.ptr);
+    this.FNSReferenceMatchFonts = lib.declare("FNSReferenceMatchFonts", ctypes.default_abi, this.OSStatus, this.FNSFontReference, this.FNSMatchOptions, this.ItemCount, this.FMFont.ptr, this.ItemCount.ptr);
+    this.FNSReferenceCreateFromFamily = lib.declare("FNSReferenceCreateFromFamily", ctypes.default_abi, this.OSStatus, this.FMFontFamily, this.FMFontStyle, this.FNSObjectVersion, this.FNSFontReference.ptr, this.FMFontStyle.ptr);
+    this.FNSReferenceMatchFamilies = lib.declare("FNSReferenceMatchFamilies", ctypes.default_abi, this.OSStatus, this.FNSFontReference, this.FNSMatchOptions, this.ItemCount, this.FMFontFamilyInstance.ptr, this.ItemCount.ptr);
+    this.FNSReferenceGetFamilyInfo = lib.declare("FNSReferenceGetFamilyInfo", ctypes.default_abi, this.OSStatus, this.FNSFontReference, ctypes.unsigned_char.ptr, this.ScriptCode.ptr, this.FMFontStyle.ptr);
+    this.FNSReferenceCountNames = lib.declare("FNSReferenceCountNames", ctypes.default_abi, this.OSStatus, this.FNSFontReference, this.ItemCount.ptr);
+    this.FNSReferenceGetIndName = lib.declare("FNSReferenceGetIndName", ctypes.default_abi, this.OSStatus, this.FNSFontReference, this.ItemCount, this.ByteCount, this.Ptr, this.ByteCount.ptr, this.FontNameCode.ptr, this.FontPlatformCode.ptr, this.FontScriptCode.ptr, this.FontLanguageCode.ptr);
+    this.FNSReferenceFindName = lib.declare("FNSReferenceFindName", ctypes.default_abi, this.OSStatus, this.FNSFontReference, this.FontNameCode, this.FontPlatformCode, this.FontScriptCode, this.FontLanguageCode, this.ByteCount, this.Ptr, this.ByteCount.ptr, this.ItemCount.ptr);
+    this.FNSEnabled = lib.declare("FNSEnabled", ctypes.default_abi, this.Boolean);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/QD.framework/Headers/ATSUnicodeDirectAccess.h
 function ATSUnicodeDirectAccess_h(lib) {
+    ATSLayoutTypes_h.call(this, lib);
+    ATSUnicodeTypes_h.call(this, lib);
+    TextCommon_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._ATSUNICODEDIRECTACCESS_H)
@@ -1614,10 +2369,19 @@ function ATSUnicodeDirectAccess_h(lib) {
     this.kATSUDirectDataLayoutRecordATSLayoutRecordCurrent = 100;
     this.LLCStyleInfo = new ctypes.StructType("LLCStyleInfo");
     this.ATSUStyleSettingRef = this.LLCStyleInfo.ptr;
+    this.ATSUDirectGetLayoutDataArrayPtrFromLineRef = lib.declare("ATSUDirectGetLayoutDataArrayPtrFromLineRef", ctypes.default_abi, this.OSStatus, this.ATSULineRef, this.ATSUDirectDataSelector, this.Boolean, ctypes.void_t.ptr.ptr, this.ItemCount.ptr);
+    this.ATSUDirectGetLayoutDataArrayPtrFromTextLayout = lib.declare("ATSUDirectGetLayoutDataArrayPtrFromTextLayout", ctypes.default_abi, this.OSStatus, this.ATSUTextLayout, this.UniCharArrayOffset, this.ATSUDirectDataSelector, ctypes.void_t.ptr.ptr, this.ItemCount.ptr);
+    this.ATSUDirectReleaseLayoutDataArrayPtr = lib.declare("ATSUDirectReleaseLayoutDataArrayPtr", ctypes.default_abi, this.OSStatus, this.ATSULineRef, this.ATSUDirectDataSelector, ctypes.void_t.ptr.ptr);
+    this.ATSUDirectAddStyleSettingRef = lib.declare("ATSUDirectAddStyleSettingRef", ctypes.default_abi, this.OSStatus, this.ATSULineRef, this.ATSUStyleSettingRef, this.UInt16.ptr);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/QD.framework/Headers/QDPictToCGContext.h
 function QDPictToCGContext_h(lib) {
+    CGDataProvider_h.call(this, lib);
+    CGGeometry_h.call(this, lib);
+    CGContext_h.call(this, lib);
+    CFURL_h.call(this, lib);
+    MacTypes_h.call(this, lib);
 
     if (this._QDPICTTOCGCONTEXT_H)
         return;
@@ -1625,6 +2389,13 @@ function QDPictToCGContext_h(lib) {
 
     this.QDPict = new ctypes.StructType("QDPict");
     this.QDPictRef = this.QDPict.ptr;
+    this.QDPictCreateWithProvider = lib.declare("QDPictCreateWithProvider", ctypes.default_abi, this.QDPictRef, this.CGDataProviderRef);
+    this.QDPictCreateWithURL = lib.declare("QDPictCreateWithURL", ctypes.default_abi, this.QDPictRef, this.CFURLRef);
+    this.QDPictRetain = lib.declare("QDPictRetain", ctypes.default_abi, this.QDPictRef, this.QDPictRef);
+    this.QDPictRelease = lib.declare("QDPictRelease", ctypes.default_abi, ctypes.void_t, this.QDPictRef);
+    this.QDPictGetBounds = lib.declare("QDPictGetBounds", ctypes.default_abi, this.CGRect, this.QDPictRef);
+    this.QDPictGetResolution = lib.declare("QDPictGetResolution", ctypes.default_abi, ctypes.void_t, this.QDPictRef, ctypes.float.ptr, ctypes.float.ptr);
+    this.QDPictDrawToCGContext = lib.declare("QDPictDrawToCGContext", ctypes.default_abi, this.OSStatus, this.CGContextRef, this.CGRect, this.QDPictRef);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/QD.framework/Headers/ATSUnicodeFlattening.h
@@ -1664,21 +2435,38 @@ function ATSUnicodeFlattening_h(lib) {
     this.ATSFlatDataFontNameDataHeader = new ctypes.StructType("ATSFlatDataFontNameDataHeader", [{nameSpecifierType: this.ATSFlatDataFontSpeciferType}, {nameSpecifierSize: this.UInt32}]);
     this.ATSFlatDataFontSpecRawNameData = new ctypes.StructType("ATSFlatDataFontSpecRawNameData", [{fontNameType: this.FontNameCode}, {fontNamePlatform: this.FontPlatformCode}, {fontNameScript: this.FontScriptCode}, {fontNameLanguage: this.FontLanguageCode}, {fontNameLength: this.UInt32}]);
     this.ATSFlatDataFontSpecRawNameDataHeader = new ctypes.StructType("ATSFlatDataFontSpecRawNameDataHeader", [{numberOfFlattenedNames: this.UInt32}, {nameDataArray: this.ATSFlatDataFontSpecRawNameData.array(1)}]);
+    this.ATSUFlattenStyleRunsToStream = lib.declare("ATSUFlattenStyleRunsToStream", ctypes.default_abi, this.OSStatus, this.ATSUFlattenedDataStreamFormat, this.ATSUFlattenStyleRunOptions, this.ItemCount, this.ATSUStyleRunInfo.ptr, this.ItemCount, this.ATSUStyle.ptr, this.ByteCount, ctypes.void_t.ptr, this.ByteCount.ptr);
+    this.ATSUUnflattenStyleRunsFromStream = lib.declare("ATSUUnflattenStyleRunsFromStream", ctypes.default_abi, this.OSStatus, this.ATSUFlattenedDataStreamFormat, this.ATSUUnFlattenStyleRunOptions, this.ByteCount, ctypes.void_t.ptr, this.ItemCount, this.ItemCount, this.ATSUStyleRunInfo.ptr, this.ATSUStyle.ptr, this.ItemCount.ptr, this.ItemCount.ptr);
+    this.ATSUCopyToHandle = lib.declare("ATSUCopyToHandle", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.Handle);
+    this.ATSUPasteFromHandle = lib.declare("ATSUPasteFromHandle", ctypes.default_abi, this.OSStatus, this.ATSUStyle, this.Handle);
 }
 
 Components.utils.import("resource://gre/modules/ctypes.jsm");
-Components.utils.import("resource://osxtypes/MacTypes.jsm");
-Components.utils.import("resource://osxtypes/CarbonCore.jsm");
+Components.utils.import("resource://osxtypes/CoreFoundation.jsm");
 Components.utils.import("resource://osxtypes/AE.jsm");
+Components.utils.import("resource://osxtypes/CarbonCore.jsm");
+Components.utils.import("resource://osxtypes/ColorSync.jsm");
+Components.utils.import("resource://osxtypes/MacTypes.jsm");
+Components.utils.import("resource://osxtypes/CoreGraphics.jsm");
 Components.utils.import("resource://osxtypes/ATS.jsm");
 
 const EXPORTED_SYMBOLS = ["QD", "ATSUnicodeGlyphs_h", "QuickdrawAPI_h", "Displays_h", "QuickdrawTypes_h", "ATSUnicodeObjects_h", "ATSUnicodeDrawing_h", "Video_h", "QDOffscreen_h", "Fonts_h", "Palettes_h", "QuickdrawText_h", "ATSUnicodeTypes_h", "ATSUnicodeFonts_h", "PictUtils_h", "FontSync_h", "ATSUnicodeDirectAccess_h", "QDPictToCGContext_h", "ATSUnicodeFlattening_h"];
 
 function QD() {
     let libpath = "/System/Library/Frameworks/ApplicationServices.framework/Frameworks/QD.framework/QD";
-    let lib = ctypes.open(libpath);
+    let library = ctypes.open(libpath);
     this.close = function() {
-        lib.close();
+        library.close();
+    };
+    let lib = {
+        declare: function() {
+            try {
+                return library.declare.apply(library, arguments);
+            } catch (ex) {
+                dump("Failed to declare " + arguments[0] + "\n");
+                return null;
+            }
+        }
     };
 
     ATSUnicodeGlyphs_h.call(this, lib);

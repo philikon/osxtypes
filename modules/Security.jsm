@@ -39,10 +39,20 @@ function Authorization_h(lib) {
     this.AuthorizationExternalForm = new ctypes.StructType("AuthorizationExternalForm", [{bytes: ctypes.char.array(32)}]);
     this.AuthorizationRights = this.AuthorizationItemSet;
     this.AuthorizationEnvironment = this.AuthorizationItemSet;
+    this.AuthorizationCreate = lib.declare("AuthorizationCreate", ctypes.default_abi, this.OSStatus, this.AuthorizationRights.ptr, this.AuthorizationEnvironment.ptr, this.AuthorizationFlags, this.AuthorizationRef.ptr);
+    this.AuthorizationFree = lib.declare("AuthorizationFree", ctypes.default_abi, this.OSStatus, this.AuthorizationRef, this.AuthorizationFlags);
+    this.AuthorizationCopyRights = lib.declare("AuthorizationCopyRights", ctypes.default_abi, this.OSStatus, this.AuthorizationRef, this.AuthorizationRights.ptr, this.AuthorizationEnvironment.ptr, this.AuthorizationFlags, this.AuthorizationRights.ptr.ptr);
+    this.AuthorizationCopyInfo = lib.declare("AuthorizationCopyInfo", ctypes.default_abi, this.OSStatus, this.AuthorizationRef, this.AuthorizationString, this.AuthorizationItemSet.ptr.ptr);
+    this.AuthorizationMakeExternalForm = lib.declare("AuthorizationMakeExternalForm", ctypes.default_abi, this.OSStatus, this.AuthorizationRef, this.AuthorizationExternalForm.ptr);
+    this.AuthorizationCreateFromExternalForm = lib.declare("AuthorizationCreateFromExternalForm", ctypes.default_abi, this.OSStatus, this.AuthorizationExternalForm.ptr, this.AuthorizationRef.ptr);
+    this.AuthorizationFreeItemSet = lib.declare("AuthorizationFreeItemSet", ctypes.default_abi, this.OSStatus, this.AuthorizationItemSet.ptr);
+    // Dropping declaration of 'AuthorizationExecuteWithPrivileges': 'FILE' defined out of scope
+    this.AuthorizationCopyPrivilegedReference = lib.declare("AuthorizationCopyPrivilegedReference", ctypes.default_abi, this.OSStatus, this.AuthorizationRef.ptr, this.AuthorizationFlags);
 }
 
 // Based on /System/Library/Frameworks/Security.framework/Headers/SecBase.h
 function SecBase_h(lib) {
+    CFBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._SECBASE_H)
@@ -77,6 +87,7 @@ function SecBase_h(lib) {
     this.OpaqueSecPasswordRef = new ctypes.StructType("OpaqueSecPasswordRef");
     this.SecPasswordRef = this.OpaqueSecPasswordRef.ptr;
     this.SecKeychainAttributeInfo = new ctypes.StructType("SecKeychainAttributeInfo", [{count: this.UInt32}, {tag: this.UInt32.ptr}, {format: this.UInt32.ptr}]);
+    this.SecCopyErrorMessageString = lib.declare("SecCopyErrorMessageString", ctypes.default_abi, this.CFStringRef, this.OSStatus, ctypes.void_t.ptr);
     this.errSecSuccess = 0;
     this.errSecUnimplemented = -4;
     this.errSecParam = -50;
@@ -476,6 +487,9 @@ function cssmapple_h(lib) {
     this.CSSM_APPLEX509CL_OBTAIN_CSR = 0;
     this.CSSM_APPLEX509CL_VERIFY_CSR = 1;
     this.CSSM_APPLE_CL_CSR_REQUEST = new ctypes.StructType("CSSM_APPLE_CL_CSR_REQUEST", [{subjectNameX509: this.CSSM_X509_NAME_PTR}, {signatureAlg: this.CSSM_ALGORITHMS}, {signatureOid: this.CSSM_OID}, {cspHand: this.CSSM_CSP_HANDLE}, {subjectPublicKey: this.CSSM_KEY.ptr}, {subjectPrivateKey: this.CSSM_KEY.ptr}, {challengeString: ctypes.char.ptr}]);
+    this.cssmPerror = lib.declare("cssmPerror", ctypes.default_abi, ctypes.void_t, ctypes.char.ptr, this.CSSM_RETURN);
+    // Dropping declaration of 'cssmOidToAlg': Unknown type bool_t
+    this.cssmAlgToOid = lib.declare("cssmAlgToOid", ctypes.default_abi, this.CSSM_OID.ptr, this.CSSM_ALGORITHMS);
 }
 
 // Based on /System/Library/Frameworks/Security.framework/Headers/cssmtype.h
@@ -1839,7 +1853,15 @@ function certextensions_h(lib) {
 
 // Based on /System/Library/Frameworks/Security.framework/Headers/SecTrust.h
 function SecTrust_h(lib) {
+    CFData_h.call(this, lib);
+    cssmconfig_h.call(this, lib);
     SecBase_h.call(this, lib);
+    cssmapple_h.call(this, lib);
+    cssmtype_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    CFArray_h.call(this, lib);
+    MacTypes_h.call(this, lib);
+    CFDate_h.call(this, lib);
 
     if (this._SECTRUST_H)
         return;
@@ -1856,6 +1878,26 @@ function SecTrust_h(lib) {
     this.kSecTrustResultOtherError = 7;
     this.SecTrustUserSetting = this.SecTrustResultType;
     this.SecTrustRef = this.OpaqueSecTrustRef.ptr;
+    this.SecTrustGetTypeID = lib.declare("SecTrustGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.SecTrustCreateWithCertificates = lib.declare("SecTrustCreateWithCertificates", ctypes.default_abi, this.OSStatus, this.CFArrayRef, this.CFTypeRef, this.SecTrustRef.ptr);
+    this.SecTrustSetPolicies = lib.declare("SecTrustSetPolicies", ctypes.default_abi, this.OSStatus, this.SecTrustRef, this.CFTypeRef);
+    this.SecTrustSetParameters = lib.declare("SecTrustSetParameters", ctypes.default_abi, this.OSStatus, this.SecTrustRef, this.CSSM_TP_ACTION, this.CFDataRef);
+    this.SecTrustSetAnchorCertificates = lib.declare("SecTrustSetAnchorCertificates", ctypes.default_abi, this.OSStatus, this.SecTrustRef, this.CFArrayRef);
+    this.SecTrustSetAnchorCertificatesOnly = lib.declare("SecTrustSetAnchorCertificatesOnly", ctypes.default_abi, this.OSStatus, this.SecTrustRef, this.Boolean);
+    this.SecTrustSetKeychains = lib.declare("SecTrustSetKeychains", ctypes.default_abi, this.OSStatus, this.SecTrustRef, this.CFTypeRef);
+    this.SecTrustSetVerifyDate = lib.declare("SecTrustSetVerifyDate", ctypes.default_abi, this.OSStatus, this.SecTrustRef, this.CFDateRef);
+    this.SecTrustGetVerifyTime = lib.declare("SecTrustGetVerifyTime", ctypes.default_abi, this.CFAbsoluteTime, this.SecTrustRef);
+    this.SecTrustEvaluate = lib.declare("SecTrustEvaluate", ctypes.default_abi, this.OSStatus, this.SecTrustRef, this.SecTrustResultType.ptr);
+    this.SecTrustGetResult = lib.declare("SecTrustGetResult", ctypes.default_abi, this.OSStatus, this.SecTrustRef, this.SecTrustResultType.ptr, this.CFArrayRef.ptr, this.CSSM_TP_APPLE_EVIDENCE_INFO.ptr.ptr);
+    this.SecTrustGetCssmResult = lib.declare("SecTrustGetCssmResult", ctypes.default_abi, this.OSStatus, this.SecTrustRef, this.CSSM_TP_VERIFY_CONTEXT_RESULT_PTR.ptr);
+    this.SecTrustGetCssmResultCode = lib.declare("SecTrustGetCssmResultCode", ctypes.default_abi, this.OSStatus, this.SecTrustRef, this.OSStatus.ptr);
+    this.SecTrustGetTPHandle = lib.declare("SecTrustGetTPHandle", ctypes.default_abi, this.OSStatus, this.SecTrustRef, this.CSSM_TP_HANDLE.ptr);
+    this.SecTrustCopyPolicies = lib.declare("SecTrustCopyPolicies", ctypes.default_abi, this.OSStatus, this.SecTrustRef, this.CFArrayRef.ptr);
+    this.SecTrustCopyCustomAnchorCertificates = lib.declare("SecTrustCopyCustomAnchorCertificates", ctypes.default_abi, this.OSStatus, this.SecTrustRef, this.CFArrayRef.ptr);
+    this.SecTrustCopyAnchorCertificates = lib.declare("SecTrustCopyAnchorCertificates", ctypes.default_abi, this.OSStatus, this.CFArrayRef.ptr);
+    this.SecTrustGetCSSMAnchorCertificates = lib.declare("SecTrustGetCSSMAnchorCertificates", ctypes.default_abi, this.OSStatus, this.CSSM_DATA.ptr.ptr, this.uint32.ptr);
+    this.SecTrustGetUserTrust = lib.declare("SecTrustGetUserTrust", ctypes.default_abi, this.OSStatus, this.SecCertificateRef, this.SecPolicyRef, this.SecTrustUserSetting.ptr);
+    this.SecTrustSetUserTrust = lib.declare("SecTrustSetUserTrust", ctypes.default_abi, this.OSStatus, this.SecCertificateRef, this.SecPolicyRef, this.SecTrustUserSetting);
 }
 
 // Based on /System/Library/Frameworks/Security.framework/Headers/cssmconfig.h
@@ -2370,23 +2412,47 @@ function cssmerr_h(lib) {
 
 // Based on /System/Library/Frameworks/Security.framework/Headers/SecIdentity.h
 function SecIdentity_h(lib) {
+    cssmtype_h.call(this, lib);
+    CFBase_h.call(this, lib);
+    SecBase_h.call(this, lib);
+    MacTypes_h.call(this, lib);
+    CFArray_h.call(this, lib);
 
     if (this._SECIDENTITY_H)
         return;
     this._SECIDENTITY_H = true;
 
+    this.SecIdentityGetTypeID = lib.declare("SecIdentityGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.SecIdentityCreateWithCertificate = lib.declare("SecIdentityCreateWithCertificate", ctypes.default_abi, this.OSStatus, this.CFTypeRef, this.SecCertificateRef, this.SecIdentityRef.ptr);
+    this.SecIdentityCopyCertificate = lib.declare("SecIdentityCopyCertificate", ctypes.default_abi, this.OSStatus, this.SecIdentityRef, this.SecCertificateRef.ptr);
+    this.SecIdentityCopyPrivateKey = lib.declare("SecIdentityCopyPrivateKey", ctypes.default_abi, this.OSStatus, this.SecIdentityRef, this.SecKeyRef.ptr);
+    this.SecIdentityCopyPreference = lib.declare("SecIdentityCopyPreference", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.CSSM_KEYUSE, this.CFArrayRef, this.SecIdentityRef.ptr);
+    this.SecIdentitySetPreference = lib.declare("SecIdentitySetPreference", ctypes.default_abi, this.OSStatus, this.SecIdentityRef, this.CFStringRef, this.CSSM_KEYUSE);
+    this.SecIdentityCopySystemIdentity = lib.declare("SecIdentityCopySystemIdentity", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.SecIdentityRef.ptr, this.CFStringRef.ptr);
+    this.SecIdentitySetSystemIdentity = lib.declare("SecIdentitySetSystemIdentity", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.SecIdentityRef);
 }
 
 Components.utils.import("resource://gre/modules/ctypes.jsm");
 Components.utils.import("resource://osxtypes/MacTypes.jsm");
+Components.utils.import("resource://osxtypes/CoreFoundation.jsm");
 
 const EXPORTED_SYMBOLS = ["Security", "Authorization_h", "SecBase_h", "cssmapple_h", "cssmtype_h", "x509defs_h", "certextensions_h", "SecTrust_h", "cssmconfig_h", "cssmerr_h", "SecIdentity_h"];
 
 function Security() {
     let libpath = "/System/Library/Frameworks/Security.framework/Security";
-    let lib = ctypes.open(libpath);
+    let library = ctypes.open(libpath);
     this.close = function() {
-        lib.close();
+        library.close();
+    };
+    let lib = {
+        declare: function() {
+            try {
+                return library.declare.apply(library, arguments);
+            } catch (ex) {
+                dump("Failed to declare " + arguments[0] + "\n");
+                return null;
+            }
+        }
     };
 
     Authorization_h.call(this, lib);
