@@ -367,6 +367,7 @@ function Files_h(lib) {
     this.FSSpecHandle = this.FSSpecPtr.ptr;
     this.FSSpecArrayPtr = this.FSSpecPtr;
     this.ConstFSSpecPtr = this.FSSpec.ptr;
+    this.ParamBlockRec = new ctypes.StructType("ParamBlockRec");
     this.ParmBlkPtr = this.ParamBlockRec.ptr;
     this.IOCompletionProcPtr = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.ParmBlkPtr]).ptr;
     this.IOCompletionUPP = this.IOCompletionProcPtr;
@@ -2906,6 +2907,7 @@ function Timer_h(lib) {
     this._TIMER_H = true;
 
     this.kTMTaskActive = 32768;
+    this.TMTask = new ctypes.StructType("TMTask");
     this.TMTaskPtr = this.TMTask.ptr;
     this.TimerProcPtr = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.TMTaskPtr]).ptr;
     this.TimerUPP = this.TimerProcPtr;
@@ -3469,6 +3471,7 @@ function OSUtils_h(lib) {
     this.dtQType = 7;
     this.nmType = 8;
     this.QTypes = this.SignedByte;
+    this.QElem = new ctypes.StructType("QElem");
     this.QElem = new ctypes.StructType("QElem", [{qLink: this.QElem.ptr}, {qType: ctypes.short}, {qData: ctypes.short.array(1)}]);
     this.QElemPtr = this.QElem.ptr;
     this.QHdr = new ctypes.StructType("QHdr", [{qFlags: ctypes.short}, {qHead: this.QElemPtr}, {qTail: this.QElemPtr}]);
