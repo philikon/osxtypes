@@ -201,7 +201,7 @@ def ctypesNameForType(typ):
 def writeFramework(framework, declarations):
     global dependencies
     framework_deps = set()
-    out = open(framework + ".jsm", "w")
+    out = open("modules/" + framework + ".jsm", "w")
 
     # Group declarations by file.
     by_file = groupByFile(declarations)
