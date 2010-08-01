@@ -240,7 +240,7 @@ function %(header)s(lib) {
                             'declarations': tempout.getvalue(),
                             'filename': filename})
 
-    imports = "".join('Components.utils.import("resource://osxtypes/modules/%s.jsm");\n'
+    imports = "".join('Components.utils.import("resource://osxtypes/%s.jsm");\n'
                       % frmwrk for frmwrk in framework_deps
                       if not frmwrk == framework)
     basecalls = "".join('    %s.call(this, lib);\n'
