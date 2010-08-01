@@ -205,6 +205,12 @@ def ctypesNameForType(typ):
 # Big picture stuff below
 #
 
+def _declKey(declaration):
+    # HACK: Use declaration class name as secondary sort key so that
+    # an opaque struct definition that's typedef'ed on the same line
+    # comes first ('class_declaration_t' < 'typedef_t').
+    return (declaration.location.line, declaration.__class__.__name__)
+
 def writeFramework(framework, declarations):
     global dependencies
     framework_deps = set()
@@ -215,7 +221,7 @@ def writeFramework(framework, declarations):
     for filename, decls in by_file.iteritems():
         # Make sure we write declarations out in the same order they
         # were defined in the header file.
-        decls = sorted(decls, key=operator.attrgetter('location.line'))
+        decls = sorted(decls, key=_declKey)
 
         dependencies = set()
         tempout = io.BytesIO()
