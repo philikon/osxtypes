@@ -30,6 +30,13 @@ def groupByFramework(declarations):
 
 def frameworkFromFilename(filename):
     segments = filename.split(os.path.sep)
+
+    # The types defined in this file are needed all over the place
+    # which may likely cause circular imports. Let's make it its own
+    # fake framework.
+    if segments[-1] == "MacTypes.h":
+        return "MacTypes"
+
     if segments[-2] == "Headers":
         return segments[-3][:-10]
     return "stdlib"
