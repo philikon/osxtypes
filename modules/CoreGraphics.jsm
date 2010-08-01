@@ -298,6 +298,10 @@ function CGFont_h(lib) {
     this.CGFontCreatePostScriptEncoding = lib.declare("CGFontCreatePostScriptEncoding", ctypes.default_abi, this.CFDataRef, this.CGFontRef, this.CGGlyph.ptr);
     this.CGFontCopyTableTags = lib.declare("CGFontCopyTableTags", ctypes.default_abi, this.CFArrayRef, this.CGFontRef);
     // Dropping declaration of 'CGFontCopyTableForTag': 'uint32_t' defined out of scope
+    this.kCGFontVariationAxisName = lib.declare("kCGFontVariationAxisName", this.CFStringRef);
+    this.kCGFontVariationAxisMinValue = lib.declare("kCGFontVariationAxisMinValue", this.CFStringRef);
+    this.kCGFontVariationAxisMaxValue = lib.declare("kCGFontVariationAxisMaxValue", this.CFStringRef);
+    this.kCGFontVariationAxisDefaultValue = lib.declare("kCGFontVariationAxisDefaultValue", this.CFStringRef);
     this.CGGlyphMin = 0;
     this.CGGlyphMax = 65534;
 }
@@ -484,6 +488,9 @@ function CGColor_h(lib) {
     this.CGColorGetColorSpace = lib.declare("CGColorGetColorSpace", ctypes.default_abi, this.CGColorSpaceRef, this.CGColorRef);
     this.CGColorGetPattern = lib.declare("CGColorGetPattern", ctypes.default_abi, this.CGPatternRef, this.CGColorRef);
     this.CGColorGetTypeID = lib.declare("CGColorGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.kCGColorWhite = lib.declare("kCGColorWhite", this.CFStringRef);
+    this.kCGColorBlack = lib.declare("kCGColorBlack", this.CFStringRef);
+    this.kCGColorClear = lib.declare("kCGColorClear", this.CFStringRef);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/CoreGraphics.framework/Headers/CGPDFOperatorTable.h
@@ -519,6 +526,11 @@ function CGGeometry_h(lib) {
     this.CGRectMinYEdge = 1;
     this.CGRectMaxXEdge = 2;
     this.CGRectMaxYEdge = 3;
+    this.CGPointZero = lib.declare("CGPointZero", this.CGPoint);
+    this.CGSizeZero = lib.declare("CGSizeZero", this.CGSize);
+    this.CGRectZero = lib.declare("CGRectZero", this.CGRect);
+    this.CGRectNull = lib.declare("CGRectNull", this.CGRect);
+    this.CGRectInfinite = lib.declare("CGRectInfinite", this.CGRect);
     this.CGRectGetMinX = lib.declare("CGRectGetMinX", ctypes.default_abi, this.CGFloat, this.CGRect);
     this.CGRectGetMidX = lib.declare("CGRectGetMidX", ctypes.default_abi, this.CGFloat, this.CGRect);
     this.CGRectGetMaxX = lib.declare("CGRectGetMaxX", ctypes.default_abi, this.CGFloat, this.CGRect);
@@ -599,12 +611,36 @@ function CGPDFContext_h(lib) {
     this.CGPDFContextSetURLForRect = lib.declare("CGPDFContextSetURLForRect", ctypes.default_abi, ctypes.void_t, this.CGContextRef, this.CFURLRef, this.CGRect);
     this.CGPDFContextAddDestinationAtPoint = lib.declare("CGPDFContextAddDestinationAtPoint", ctypes.default_abi, ctypes.void_t, this.CGContextRef, this.CFStringRef, this.CGPoint);
     this.CGPDFContextSetDestinationForRect = lib.declare("CGPDFContextSetDestinationForRect", ctypes.default_abi, ctypes.void_t, this.CGContextRef, this.CFStringRef, this.CGRect);
+    this.kCGPDFContextMediaBox = lib.declare("kCGPDFContextMediaBox", this.CFStringRef);
+    this.kCGPDFContextCropBox = lib.declare("kCGPDFContextCropBox", this.CFStringRef);
+    this.kCGPDFContextBleedBox = lib.declare("kCGPDFContextBleedBox", this.CFStringRef);
+    this.kCGPDFContextTrimBox = lib.declare("kCGPDFContextTrimBox", this.CFStringRef);
+    this.kCGPDFContextArtBox = lib.declare("kCGPDFContextArtBox", this.CFStringRef);
+    this.kCGPDFContextTitle = lib.declare("kCGPDFContextTitle", this.CFStringRef);
+    this.kCGPDFContextAuthor = lib.declare("kCGPDFContextAuthor", this.CFStringRef);
+    this.kCGPDFContextSubject = lib.declare("kCGPDFContextSubject", this.CFStringRef);
+    this.kCGPDFContextKeywords = lib.declare("kCGPDFContextKeywords", this.CFStringRef);
+    this.kCGPDFContextCreator = lib.declare("kCGPDFContextCreator", this.CFStringRef);
+    this.kCGPDFContextOwnerPassword = lib.declare("kCGPDFContextOwnerPassword", this.CFStringRef);
+    this.kCGPDFContextUserPassword = lib.declare("kCGPDFContextUserPassword", this.CFStringRef);
+    this.kCGPDFContextEncryptionKeyLength = lib.declare("kCGPDFContextEncryptionKeyLength", this.CFStringRef);
+    this.kCGPDFContextAllowsPrinting = lib.declare("kCGPDFContextAllowsPrinting", this.CFStringRef);
+    this.kCGPDFContextAllowsCopying = lib.declare("kCGPDFContextAllowsCopying", this.CFStringRef);
+    this.kCGPDFContextOutputIntent = lib.declare("kCGPDFContextOutputIntent", this.CFStringRef);
+    this.kCGPDFXOutputIntentSubtype = lib.declare("kCGPDFXOutputIntentSubtype", this.CFStringRef);
+    this.kCGPDFXOutputConditionIdentifier = lib.declare("kCGPDFXOutputConditionIdentifier", this.CFStringRef);
+    this.kCGPDFXOutputCondition = lib.declare("kCGPDFXOutputCondition", this.CFStringRef);
+    this.kCGPDFXRegistryName = lib.declare("kCGPDFXRegistryName", this.CFStringRef);
+    this.kCGPDFXInfo = lib.declare("kCGPDFXInfo", this.CFStringRef);
+    this.kCGPDFXDestinationOutputProfile = lib.declare("kCGPDFXDestinationOutputProfile", this.CFStringRef);
+    this.kCGPDFContextOutputIntents = lib.declare("kCGPDFContextOutputIntents", this.CFStringRef);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/CoreGraphics.framework/Headers/CGWindow.h
 function CGWindow_h(lib) {
     CGGeometry_h.call(this, lib);
     CGImage_h.call(this, lib);
+    CFBase_h.call(this, lib);
     CFArray_h.call(this, lib);
 
     if (this._CGWINDOW_H)
@@ -622,6 +658,19 @@ function CGWindow_h(lib) {
     this.kCGBackingStoreNonretained = 1;
     this.kCGBackingStoreBuffered = 2;
     // Dropping declaration of 'CGWindowBackingType': 'uint32_t' defined out of scope
+    this.kCGWindowNumber = lib.declare("kCGWindowNumber", this.CFStringRef);
+    this.kCGWindowStoreType = lib.declare("kCGWindowStoreType", this.CFStringRef);
+    this.kCGWindowLayer = lib.declare("kCGWindowLayer", this.CFStringRef);
+    this.kCGWindowBounds = lib.declare("kCGWindowBounds", this.CFStringRef);
+    this.kCGWindowSharingState = lib.declare("kCGWindowSharingState", this.CFStringRef);
+    this.kCGWindowAlpha = lib.declare("kCGWindowAlpha", this.CFStringRef);
+    this.kCGWindowOwnerPID = lib.declare("kCGWindowOwnerPID", this.CFStringRef);
+    this.kCGWindowMemoryUsage = lib.declare("kCGWindowMemoryUsage", this.CFStringRef);
+    this.kCGWindowWorkspace = lib.declare("kCGWindowWorkspace", this.CFStringRef);
+    this.kCGWindowOwnerName = lib.declare("kCGWindowOwnerName", this.CFStringRef);
+    this.kCGWindowName = lib.declare("kCGWindowName", this.CFStringRef);
+    this.kCGWindowIsOnscreen = lib.declare("kCGWindowIsOnscreen", this.CFStringRef);
+    this.kCGWindowBackingLocationVideoMemory = lib.declare("kCGWindowBackingLocationVideoMemory", this.CFStringRef);
     this.kCGWindowListOptionAll = 0;
     this.kCGWindowListOptionOnScreenOnly = 1;
     this.kCGWindowListOptionOnScreenAboveWindow = 2;
@@ -664,6 +713,13 @@ function CGColorSpace_h(lib) {
     this.kCGColorSpaceModelDeviceN = 4;
     this.kCGColorSpaceModelIndexed = 5;
     this.kCGColorSpaceModelPattern = 6;
+    this.kCGColorSpaceGenericGray = lib.declare("kCGColorSpaceGenericGray", this.CFStringRef);
+    this.kCGColorSpaceGenericRGB = lib.declare("kCGColorSpaceGenericRGB", this.CFStringRef);
+    this.kCGColorSpaceGenericCMYK = lib.declare("kCGColorSpaceGenericCMYK", this.CFStringRef);
+    this.kCGColorSpaceGenericRGBLinear = lib.declare("kCGColorSpaceGenericRGBLinear", this.CFStringRef);
+    this.kCGColorSpaceAdobeRGB1998 = lib.declare("kCGColorSpaceAdobeRGB1998", this.CFStringRef);
+    this.kCGColorSpaceSRGB = lib.declare("kCGColorSpaceSRGB", this.CFStringRef);
+    this.kCGColorSpaceGenericGrayGamma2_2 = lib.declare("kCGColorSpaceGenericGrayGamma2_2", this.CFStringRef);
     this.CGColorSpaceCreateDeviceGray = lib.declare("CGColorSpaceCreateDeviceGray", ctypes.default_abi, this.CGColorSpaceRef);
     this.CGColorSpaceCreateDeviceRGB = lib.declare("CGColorSpaceCreateDeviceRGB", ctypes.default_abi, this.CGColorSpaceRef);
     this.CGColorSpaceCreateDeviceCMYK = lib.declare("CGColorSpaceCreateDeviceCMYK", ctypes.default_abi, this.CGColorSpaceRef);
@@ -856,6 +912,7 @@ function CGDirectDisplay_h(lib) {
 function CGDisplayConfiguration_h(lib) {
     CGGeometry_h.call(this, lib);
     CGColorSpace_h.call(this, lib);
+    IOTypes_h.call(this, lib);
     CFDictionary_h.call(this, lib);
     CGError_h.call(this, lib);
     CGDirectDisplay_h.call(this, lib);
@@ -1092,6 +1149,7 @@ function CGAffineTransform_h(lib) {
     this._CGAFFINETRANSFORM_H = true;
 
     this.CGAffineTransform = new ctypes.StructType("CGAffineTransform", [{a: this.CGFloat}, {b: this.CGFloat}, {c: this.CGFloat}, {d: this.CGFloat}, {tx: this.CGFloat}, {ty: this.CGFloat}]);
+    this.CGAffineTransformIdentity = lib.declare("CGAffineTransformIdentity", this.CGAffineTransform);
     this.CGAffineTransformMake = lib.declare("CGAffineTransformMake", ctypes.default_abi, this.CGAffineTransform, this.CGFloat, this.CGFloat, this.CGFloat, this.CGFloat, this.CGFloat, this.CGFloat);
     this.CGAffineTransformMakeTranslation = lib.declare("CGAffineTransformMakeTranslation", ctypes.default_abi, this.CGAffineTransform, this.CGFloat, this.CGFloat);
     this.CGAffineTransformMakeScale = lib.declare("CGAffineTransformMakeScale", ctypes.default_abi, this.CGAffineTransform, this.CGFloat, this.CGFloat);

@@ -81,6 +81,24 @@ function CTFont_h(lib) {
     this.__CTFont = new ctypes.StructType("__CTFont");
     this.CTFontRef = this.__CTFont.ptr;
     this.CTFontGetTypeID = lib.declare("CTFontGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.kCTFontCopyrightNameKey = lib.declare("kCTFontCopyrightNameKey", this.CFStringRef);
+    this.kCTFontFamilyNameKey = lib.declare("kCTFontFamilyNameKey", this.CFStringRef);
+    this.kCTFontSubFamilyNameKey = lib.declare("kCTFontSubFamilyNameKey", this.CFStringRef);
+    this.kCTFontStyleNameKey = lib.declare("kCTFontStyleNameKey", this.CFStringRef);
+    this.kCTFontUniqueNameKey = lib.declare("kCTFontUniqueNameKey", this.CFStringRef);
+    this.kCTFontFullNameKey = lib.declare("kCTFontFullNameKey", this.CFStringRef);
+    this.kCTFontVersionNameKey = lib.declare("kCTFontVersionNameKey", this.CFStringRef);
+    this.kCTFontPostScriptNameKey = lib.declare("kCTFontPostScriptNameKey", this.CFStringRef);
+    this.kCTFontTrademarkNameKey = lib.declare("kCTFontTrademarkNameKey", this.CFStringRef);
+    this.kCTFontManufacturerNameKey = lib.declare("kCTFontManufacturerNameKey", this.CFStringRef);
+    this.kCTFontDesignerNameKey = lib.declare("kCTFontDesignerNameKey", this.CFStringRef);
+    this.kCTFontDescriptionNameKey = lib.declare("kCTFontDescriptionNameKey", this.CFStringRef);
+    this.kCTFontVendorURLNameKey = lib.declare("kCTFontVendorURLNameKey", this.CFStringRef);
+    this.kCTFontDesignerURLNameKey = lib.declare("kCTFontDesignerURLNameKey", this.CFStringRef);
+    this.kCTFontLicenseNameKey = lib.declare("kCTFontLicenseNameKey", this.CFStringRef);
+    this.kCTFontLicenseURLNameKey = lib.declare("kCTFontLicenseURLNameKey", this.CFStringRef);
+    this.kCTFontSampleTextNameKey = lib.declare("kCTFontSampleTextNameKey", this.CFStringRef);
+    this.kCTFontPostScriptCIDNameKey = lib.declare("kCTFontPostScriptCIDNameKey", this.CFStringRef);
     this.CTFontCreateWithName = lib.declare("CTFontCreateWithName", ctypes.default_abi, this.CTFontRef, this.CFStringRef, this.CGFloat, this.CGAffineTransform.ptr);
     this.CTFontCreateWithFontDescriptor = lib.declare("CTFontCreateWithFontDescriptor", ctypes.default_abi, this.CTFontRef, this.CTFontDescriptorRef, this.CGFloat, this.CGAffineTransform.ptr);
     this.kCTFontOptionsDefault = 0;
@@ -155,8 +173,21 @@ function CTFont_h(lib) {
     this.CTFontGetAdvancesForGlyphs = lib.declare("CTFontGetAdvancesForGlyphs", ctypes.default_abi, ctypes.double, this.CTFontRef, this.CTFontOrientation, this.CGGlyph.ptr, this.CGSize.ptr, this.CFIndex);
     this.CTFontGetVerticalTranslationsForGlyphs = lib.declare("CTFontGetVerticalTranslationsForGlyphs", ctypes.default_abi, ctypes.void_t, this.CTFontRef, this.CGGlyph.ptr, this.CGSize.ptr, this.CFIndex);
     this.CTFontCreatePathForGlyph = lib.declare("CTFontCreatePathForGlyph", ctypes.default_abi, this.CGPathRef, this.CTFontRef, this.CGGlyph, this.CGAffineTransform.ptr);
+    this.kCTFontVariationAxisIdentifierKey = lib.declare("kCTFontVariationAxisIdentifierKey", this.CFStringRef);
+    this.kCTFontVariationAxisMinimumValueKey = lib.declare("kCTFontVariationAxisMinimumValueKey", this.CFStringRef);
+    this.kCTFontVariationAxisMaximumValueKey = lib.declare("kCTFontVariationAxisMaximumValueKey", this.CFStringRef);
+    this.kCTFontVariationAxisDefaultValueKey = lib.declare("kCTFontVariationAxisDefaultValueKey", this.CFStringRef);
+    this.kCTFontVariationAxisNameKey = lib.declare("kCTFontVariationAxisNameKey", this.CFStringRef);
     this.CTFontCopyVariationAxes = lib.declare("CTFontCopyVariationAxes", ctypes.default_abi, this.CFArrayRef, this.CTFontRef);
     this.CTFontCopyVariation = lib.declare("CTFontCopyVariation", ctypes.default_abi, this.CFDictionaryRef, this.CTFontRef);
+    this.kCTFontFeatureTypeIdentifierKey = lib.declare("kCTFontFeatureTypeIdentifierKey", this.CFStringRef);
+    this.kCTFontFeatureTypeNameKey = lib.declare("kCTFontFeatureTypeNameKey", this.CFStringRef);
+    this.kCTFontFeatureTypeExclusiveKey = lib.declare("kCTFontFeatureTypeExclusiveKey", this.CFStringRef);
+    this.kCTFontFeatureTypeSelectorsKey = lib.declare("kCTFontFeatureTypeSelectorsKey", this.CFStringRef);
+    this.kCTFontFeatureSelectorIdentifierKey = lib.declare("kCTFontFeatureSelectorIdentifierKey", this.CFStringRef);
+    this.kCTFontFeatureSelectorNameKey = lib.declare("kCTFontFeatureSelectorNameKey", this.CFStringRef);
+    this.kCTFontFeatureSelectorDefaultKey = lib.declare("kCTFontFeatureSelectorDefaultKey", this.CFStringRef);
+    this.kCTFontFeatureSelectorSettingKey = lib.declare("kCTFontFeatureSelectorSettingKey", this.CFStringRef);
     this.CTFontCopyFeatures = lib.declare("CTFontCopyFeatures", ctypes.default_abi, this.CFArrayRef, this.CTFontRef);
     this.CTFontCopyFeatureSettings = lib.declare("CTFontCopyFeatureSettings", ctypes.default_abi, this.CFArrayRef, this.CTFontRef);
     this.CTFontCopyGraphicsFont = lib.declare("CTFontCopyGraphicsFont", ctypes.default_abi, this.CGFontRef, this.CTFontRef, this.CTFontDescriptorRef.ptr);
@@ -239,6 +270,8 @@ function CTTypesetter_h(lib) {
     this.__CTTypesetter = new ctypes.StructType("__CTTypesetter");
     this.CTTypesetterRef = this.__CTTypesetter.ptr;
     this.CTTypesetterGetTypeID = lib.declare("CTTypesetterGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.kCTTypesetterOptionDisableBidiProcessing = lib.declare("kCTTypesetterOptionDisableBidiProcessing", this.CFStringRef);
+    this.kCTTypesetterOptionForcedEmbeddingLevel = lib.declare("kCTTypesetterOptionForcedEmbeddingLevel", this.CFStringRef);
     this.CTTypesetterCreateWithAttributedString = lib.declare("CTTypesetterCreateWithAttributedString", ctypes.default_abi, this.CTTypesetterRef, this.CFAttributedStringRef);
     this.CTTypesetterCreateWithAttributedStringAndOptions = lib.declare("CTTypesetterCreateWithAttributedStringAndOptions", ctypes.default_abi, this.CTTypesetterRef, this.CFAttributedStringRef, this.CFDictionaryRef);
     this.CTTypesetterCreateLine = lib.declare("CTTypesetterCreateLine", ctypes.default_abi, this.CTLineRef, this.CTTypesetterRef, this.CFRange);
@@ -254,6 +287,8 @@ function CTFontManagerErrors_h(lib) {
         return;
     this._CTFONTMANAGERERRORS_H = true;
 
+    this.kCTFontManagerErrorDomain = lib.declare("kCTFontManagerErrorDomain", this.CFStringRef);
+    this.kCTFontManagerErrorFontURLsKey = lib.declare("kCTFontManagerErrorFontURLsKey", this.CFStringRef);
     this.kCTFontManagerErrorFileNotFound = 101;
     this.kCTFontManagerErrorInsufficientPermissions = 102;
     this.kCTFontManagerErrorUnrecognizedFormat = 103;
@@ -320,6 +355,7 @@ function CTFontCollection_h(lib) {
     this.CTFontCollectionRef = this.__CTFontCollection.ptr;
     this.CTFontCollectionGetTypeID = lib.declare("CTFontCollectionGetTypeID", ctypes.default_abi, this.CFTypeID);
     this.CTFontCollectionSortDescriptorsCallback = new ctypes.FunctionType(ctypes.default_abi, this.CFComparisonResult, [this.CTFontDescriptorRef, this.CTFontDescriptorRef, ctypes.void_t.ptr]).ptr;
+    this.kCTFontCollectionRemoveDuplicatesOption = lib.declare("kCTFontCollectionRemoveDuplicatesOption", this.CFStringRef);
     this.CTFontCollectionCreateFromAvailableFonts = lib.declare("CTFontCollectionCreateFromAvailableFonts", ctypes.default_abi, this.CTFontCollectionRef, this.CFDictionaryRef);
     this.CTFontCollectionCreateWithFontDescriptors = lib.declare("CTFontCollectionCreateWithFontDescriptors", ctypes.default_abi, this.CTFontCollectionRef, this.CFArrayRef, this.CFDictionaryRef);
     this.CTFontCollectionCreateCopyWithFontDescriptors = lib.declare("CTFontCollectionCreateCopyWithFontDescriptors", ctypes.default_abi, this.CTFontCollectionRef, this.CTFontCollectionRef, this.CFArrayRef, this.CFDictionaryRef);
@@ -343,10 +379,29 @@ function CTFontDescriptor_h(lib) {
     this.__CTFontDescriptor = new ctypes.StructType("__CTFontDescriptor");
     this.CTFontDescriptorRef = this.__CTFontDescriptor.ptr;
     this.CTFontDescriptorGetTypeID = lib.declare("CTFontDescriptorGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.kCTFontURLAttribute = lib.declare("kCTFontURLAttribute", this.CFStringRef);
+    this.kCTFontNameAttribute = lib.declare("kCTFontNameAttribute", this.CFStringRef);
+    this.kCTFontDisplayNameAttribute = lib.declare("kCTFontDisplayNameAttribute", this.CFStringRef);
+    this.kCTFontFamilyNameAttribute = lib.declare("kCTFontFamilyNameAttribute", this.CFStringRef);
+    this.kCTFontStyleNameAttribute = lib.declare("kCTFontStyleNameAttribute", this.CFStringRef);
+    this.kCTFontTraitsAttribute = lib.declare("kCTFontTraitsAttribute", this.CFStringRef);
+    this.kCTFontVariationAttribute = lib.declare("kCTFontVariationAttribute", this.CFStringRef);
+    this.kCTFontSizeAttribute = lib.declare("kCTFontSizeAttribute", this.CFStringRef);
+    this.kCTFontMatrixAttribute = lib.declare("kCTFontMatrixAttribute", this.CFStringRef);
+    this.kCTFontCascadeListAttribute = lib.declare("kCTFontCascadeListAttribute", this.CFStringRef);
+    this.kCTFontCharacterSetAttribute = lib.declare("kCTFontCharacterSetAttribute", this.CFStringRef);
+    this.kCTFontLanguagesAttribute = lib.declare("kCTFontLanguagesAttribute", this.CFStringRef);
+    this.kCTFontBaselineAdjustAttribute = lib.declare("kCTFontBaselineAdjustAttribute", this.CFStringRef);
+    this.kCTFontMacintoshEncodingsAttribute = lib.declare("kCTFontMacintoshEncodingsAttribute", this.CFStringRef);
+    this.kCTFontFeaturesAttribute = lib.declare("kCTFontFeaturesAttribute", this.CFStringRef);
+    this.kCTFontFeatureSettingsAttribute = lib.declare("kCTFontFeatureSettingsAttribute", this.CFStringRef);
+    this.kCTFontFixedAdvanceAttribute = lib.declare("kCTFontFixedAdvanceAttribute", this.CFStringRef);
+    this.kCTFontOrientationAttribute = lib.declare("kCTFontOrientationAttribute", this.CFStringRef);
     this.kCTFontDefaultOrientation = 0;
     this.kCTFontHorizontalOrientation = 1;
     this.kCTFontVerticalOrientation = 2;
     // Dropping declaration of 'CTFontOrientation': 'uint32_t' defined out of scope
+    this.kCTFontFormatAttribute = lib.declare("kCTFontFormatAttribute", this.CFStringRef);
     this.kCTFontFormatUnrecognized = 0;
     this.kCTFontFormatOpenTypePostScript = 1;
     this.kCTFontFormatOpenTypeTrueType = 2;
@@ -354,6 +409,8 @@ function CTFontDescriptor_h(lib) {
     this.kCTFontFormatPostScript = 4;
     this.kCTFontFormatBitmap = 5;
     // Dropping declaration of 'CTFontFormat': 'uint32_t' defined out of scope
+    this.kCTFontRegistrationScopeAttribute = lib.declare("kCTFontRegistrationScopeAttribute", this.CFStringRef);
+    this.kCTFontPriorityAttribute = lib.declare("kCTFontPriorityAttribute", this.CFStringRef);
     this.kCTFontPrioritySystem = 10000;
     this.kCTFontPriorityNetwork = 20000;
     this.kCTFontPriorityComputer = 30000;
@@ -361,6 +418,7 @@ function CTFontDescriptor_h(lib) {
     this.kCTFontPriorityDynamic = 50000;
     this.kCTFontPriorityProcess = 60000;
     // Dropping declaration of 'CTFontPriority': 'uint32_t' defined out of scope
+    this.kCTFontEnabledAttribute = lib.declare("kCTFontEnabledAttribute", this.CFStringRef);
     this.CTFontDescriptorCreateWithNameAndSize = lib.declare("CTFontDescriptorCreateWithNameAndSize", ctypes.default_abi, this.CTFontDescriptorRef, this.CFStringRef, this.CGFloat);
     this.CTFontDescriptorCreateWithAttributes = lib.declare("CTFontDescriptorCreateWithAttributes", ctypes.default_abi, this.CTFontDescriptorRef, this.CFDictionaryRef);
     this.CTFontDescriptorCreateCopyWithAttributes = lib.declare("CTFontDescriptorCreateCopyWithAttributes", ctypes.default_abi, this.CTFontDescriptorRef, this.CTFontDescriptorRef, this.CFDictionaryRef);
@@ -386,6 +444,7 @@ function CTTextTab_h(lib) {
     this.__CTTextTab = new ctypes.StructType("__CTTextTab");
     this.CTTextTabRef = this.__CTTextTab.ptr;
     this.CTTextTabGetTypeID = lib.declare("CTTextTabGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.kCTTabColumnTerminatorsAttributeName = lib.declare("kCTTabColumnTerminatorsAttributeName", this.CFStringRef);
     this.CTTextTabCreate = lib.declare("CTTextTabCreate", ctypes.default_abi, this.CTTextTabRef, this.CTTextAlignment, ctypes.double, this.CFDictionaryRef);
     this.CTTextTabGetAlignment = lib.declare("CTTextTabGetAlignment", ctypes.default_abi, this.CTTextAlignment, this.CTTextTabRef);
     this.CTTextTabGetLocation = lib.declare("CTTextTabGetLocation", ctypes.default_abi, ctypes.double, this.CTTextTabRef);
@@ -419,6 +478,7 @@ function CTFontManager_h(lib) {
     // Dropping declaration of 'CTFontManagerEnableFontDescriptors': Unknown type bool_t
     this.CTFontManagerGetScopeForURL = lib.declare("CTFontManagerGetScopeForURL", ctypes.default_abi, this.CTFontManagerScope, this.CFURLRef);
     // Dropping declaration of 'CTFontManagerIsSupportedFont': Unknown type bool_t
+    this.kCTFontManagerBundleIdentifier = lib.declare("kCTFontManagerBundleIdentifier", this.CFStringRef);
     this.kCTFontManagerAutoActivationDefault = 0;
     this.kCTFontManagerAutoActivationDisabled = 1;
     this.kCTFontManagerAutoActivationEnabled = 2;
@@ -426,6 +486,7 @@ function CTFontManager_h(lib) {
     // Dropping declaration of 'CTFontManagerAutoActivationSetting': 'uint32_t' defined out of scope
     this.CTFontManagerSetAutoActivationSetting = lib.declare("CTFontManagerSetAutoActivationSetting", ctypes.default_abi, ctypes.void_t, this.CFStringRef, this.CTFontManagerAutoActivationSetting);
     this.CTFontManagerGetAutoActivationSetting = lib.declare("CTFontManagerGetAutoActivationSetting", ctypes.default_abi, this.CTFontManagerAutoActivationSetting, this.CFStringRef);
+    this.kCTFontManagerRegisteredFontsChangedNotification = lib.declare("kCTFontManagerRegisteredFontsChangedNotification", this.CFStringRef);
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/CoreText.framework/Headers/CTGlyphInfo.h
@@ -508,11 +569,26 @@ function CTParagraphStyle_h(lib) {
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/CoreText.framework/Headers/CTStringAttributes.h
 function CTStringAttributes_h(lib) {
+    CFBase_h.call(this, lib);
 
     if (this._CTSTRINGATTRIBUTES_H)
         return;
     this._CTSTRINGATTRIBUTES_H = true;
 
+    this.kCTFontAttributeName = lib.declare("kCTFontAttributeName", this.CFStringRef);
+    this.kCTForegroundColorFromContextAttributeName = lib.declare("kCTForegroundColorFromContextAttributeName", this.CFStringRef);
+    this.kCTKernAttributeName = lib.declare("kCTKernAttributeName", this.CFStringRef);
+    this.kCTLigatureAttributeName = lib.declare("kCTLigatureAttributeName", this.CFStringRef);
+    this.kCTForegroundColorAttributeName = lib.declare("kCTForegroundColorAttributeName", this.CFStringRef);
+    this.kCTParagraphStyleAttributeName = lib.declare("kCTParagraphStyleAttributeName", this.CFStringRef);
+    this.kCTStrokeWidthAttributeName = lib.declare("kCTStrokeWidthAttributeName", this.CFStringRef);
+    this.kCTStrokeColorAttributeName = lib.declare("kCTStrokeColorAttributeName", this.CFStringRef);
+    this.kCTUnderlineStyleAttributeName = lib.declare("kCTUnderlineStyleAttributeName", this.CFStringRef);
+    this.kCTSuperscriptAttributeName = lib.declare("kCTSuperscriptAttributeName", this.CFStringRef);
+    this.kCTUnderlineColorAttributeName = lib.declare("kCTUnderlineColorAttributeName", this.CFStringRef);
+    this.kCTVerticalFormsAttributeName = lib.declare("kCTVerticalFormsAttributeName", this.CFStringRef);
+    this.kCTGlyphInfoAttributeName = lib.declare("kCTGlyphInfoAttributeName", this.CFStringRef);
+    this.kCTCharacterShapeAttributeName = lib.declare("kCTCharacterShapeAttributeName", this.CFStringRef);
     this.kCTUnderlineStyleNone = 0;
     this.kCTUnderlineStyleSingle = 1;
     this.kCTUnderlineStyleThick = 2;
@@ -528,11 +604,16 @@ function CTStringAttributes_h(lib) {
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/CoreText.framework/Headers/CTFontTraits.h
 function CTFontTraits_h(lib) {
+    CFBase_h.call(this, lib);
 
     if (this._CTFONTTRAITS_H)
         return;
     this._CTFONTTRAITS_H = true;
 
+    this.kCTFontSymbolicTrait = lib.declare("kCTFontSymbolicTrait", this.CFStringRef);
+    this.kCTFontWeightTrait = lib.declare("kCTFontWeightTrait", this.CFStringRef);
+    this.kCTFontWidthTrait = lib.declare("kCTFontWidthTrait", this.CFStringRef);
+    this.kCTFontSlantTrait = lib.declare("kCTFontSlantTrait", this.CFStringRef);
     this.kCTFontClassMaskShift = 28;
     this.kCTFontItalicTrait = 1;
     this.kCTFontBoldTrait = 2;
@@ -576,6 +657,7 @@ function CTFrame_h(lib) {
     this.kCTFrameProgressionTopToBottom = 0;
     this.kCTFrameProgressionRightToLeft = 1;
     // Dropping declaration of 'CTFrameProgression': 'uint32_t' defined out of scope
+    this.kCTFrameProgressionAttributeName = lib.declare("kCTFrameProgressionAttributeName", this.CFStringRef);
     this.CTFrameGetStringRange = lib.declare("CTFrameGetStringRange", ctypes.default_abi, this.CFRange, this.CTFrameRef);
     this.CTFrameGetVisibleStringRange = lib.declare("CTFrameGetVisibleStringRange", ctypes.default_abi, this.CFRange, this.CTFrameRef);
     this.CTFrameGetPath = lib.declare("CTFrameGetPath", ctypes.default_abi, this.CGPathRef, this.CTFrameRef);

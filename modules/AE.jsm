@@ -973,6 +973,10 @@ function AppleEvents_h(lib) {
     this.AERemoveSpecialHandler = lib.declare("AERemoveSpecialHandler", ctypes.default_abi, this.OSErr, this.AEKeyword, this.AEEventHandlerUPP, this.Boolean);
     this.AEGetSpecialHandler = lib.declare("AEGetSpecialHandler", ctypes.default_abi, this.OSErr, this.AEKeyword, this.AEEventHandlerUPP.ptr, this.Boolean);
     this.AEManagerInfo = lib.declare("AEManagerInfo", ctypes.default_abi, this.OSErr, this.AEKeyword, ctypes.long.ptr);
+    this.kAERemoteProcessURLKey = lib.declare("kAERemoteProcessURLKey", this.CFStringRef);
+    this.kAERemoteProcessNameKey = lib.declare("kAERemoteProcessNameKey", this.CFStringRef);
+    this.kAERemoteProcessUserIDKey = lib.declare("kAERemoteProcessUserIDKey", this.CFStringRef);
+    this.kAERemoteProcessProcessIDKey = lib.declare("kAERemoteProcessProcessIDKey", this.CFStringRef);
     this.AERemoteProcessResolverContext = new ctypes.StructType("AERemoteProcessResolverContext", [{version: this.CFIndex}, {info: ctypes.void_t.ptr}, {retain: this.CFAllocatorRetainCallBack}, {release: this.CFAllocatorReleaseCallBack}, {copyDescription: this.CFAllocatorCopyDescriptionCallBack}]);
     this.AERemoteProcessResolver = new ctypes.StructType("AERemoteProcessResolver");
     this.AERemoteProcessResolverRef = this.AERemoteProcessResolver.ptr;

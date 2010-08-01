@@ -10,6 +10,19 @@ function UTType_h(lib) {
         return;
     this._UTTYPE_H = true;
 
+    this.kUTExportedTypeDeclarationsKey = lib.declare("kUTExportedTypeDeclarationsKey", this.CFStringRef);
+    this.kUTImportedTypeDeclarationsKey = lib.declare("kUTImportedTypeDeclarationsKey", this.CFStringRef);
+    this.kUTTypeIdentifierKey = lib.declare("kUTTypeIdentifierKey", this.CFStringRef);
+    this.kUTTypeTagSpecificationKey = lib.declare("kUTTypeTagSpecificationKey", this.CFStringRef);
+    this.kUTTypeConformsToKey = lib.declare("kUTTypeConformsToKey", this.CFStringRef);
+    this.kUTTypeDescriptionKey = lib.declare("kUTTypeDescriptionKey", this.CFStringRef);
+    this.kUTTypeIconFileKey = lib.declare("kUTTypeIconFileKey", this.CFStringRef);
+    this.kUTTypeReferenceURLKey = lib.declare("kUTTypeReferenceURLKey", this.CFStringRef);
+    this.kUTTypeVersionKey = lib.declare("kUTTypeVersionKey", this.CFStringRef);
+    this.kUTTagClassFilenameExtension = lib.declare("kUTTagClassFilenameExtension", this.CFStringRef);
+    this.kUTTagClassMIMEType = lib.declare("kUTTagClassMIMEType", this.CFStringRef);
+    this.kUTTagClassNSPboardType = lib.declare("kUTTagClassNSPboardType", this.CFStringRef);
+    this.kUTTagClassOSType = lib.declare("kUTTagClassOSType", this.CFStringRef);
     this.UTTypeCreatePreferredIdentifierForTag = lib.declare("UTTypeCreatePreferredIdentifierForTag", ctypes.default_abi, this.CFStringRef, this.CFStringRef, this.CFStringRef, this.CFStringRef);
     this.UTTypeCreateAllIdentifiersForTag = lib.declare("UTTypeCreateAllIdentifiersForTag", ctypes.default_abi, this.CFArrayRef, this.CFStringRef, this.CFStringRef, this.CFStringRef);
     this.UTTypeCopyPreferredTagWithClass = lib.declare("UTTypeCopyPreferredTagWithClass", ctypes.default_abi, this.CFStringRef, this.CFStringRef, this.CFStringRef);
@@ -42,6 +55,21 @@ function LSSharedFileList_h(lib) {
     this.LSSharedFileListRef = this.OpaqueLSSharedFileListRef.ptr;
     this.OpaqueLSSharedFileListItemRef = new ctypes.StructType("OpaqueLSSharedFileListItemRef");
     this.LSSharedFileListItemRef = this.OpaqueLSSharedFileListItemRef.ptr;
+    // Dropping declaration of 'kLSSharedFileListFavoriteVolumes': No value
+    // Dropping declaration of 'kLSSharedFileListFavoriteItems': No value
+    // Dropping declaration of 'kLSSharedFileListRecentApplicationItems': No value
+    // Dropping declaration of 'kLSSharedFileListRecentDocumentItems': No value
+    // Dropping declaration of 'kLSSharedFileListRecentServerItems': No value
+    // Dropping declaration of 'kLSSharedFileListSessionLoginItems': No value
+    // Dropping declaration of 'kLSSharedFileListGlobalLoginItems': No value
+    // Dropping declaration of 'kLSSharedFileListRecentItemsMaxAmount': No value
+    // Dropping declaration of 'kLSSharedFileListVolumesComputerVisible': No value
+    // Dropping declaration of 'kLSSharedFileListVolumesIDiskVisible': No value
+    // Dropping declaration of 'kLSSharedFileListVolumesNetworkVisible': No value
+    // Dropping declaration of 'kLSSharedFileListItemBeforeFirst': No value
+    // Dropping declaration of 'kLSSharedFileListItemLast': No value
+    // Dropping declaration of 'kLSSharedFileListItemHidden': No value
+    // Dropping declaration of 'kLSSharedFileListLoginItemHidden': No value
     this.kLSSharedFileListNoUserInteraction = 1;
     this.kLSSharedFileListDoNotMountVolumes = 2;
     this.LSSharedFileListChangedProcPtr = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.LSSharedFileListRef, ctypes.void_t.ptr]).ptr;
@@ -171,6 +199,16 @@ function LSInfo_h(lib) {
     this.LSRegisterURL = lib.declare("LSRegisterURL", ctypes.default_abi, this.OSStatus, this.CFURLRef, this.Boolean);
     this.LSRegisterFSRef = lib.declare("LSRegisterFSRef", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.Boolean);
     this.LSCopyApplicationURLsForURL = lib.declare("LSCopyApplicationURLsForURL", ctypes.default_abi, this.CFArrayRef, this.CFURLRef, this.LSRolesMask);
+    this.kLSItemContentType = lib.declare("kLSItemContentType", this.CFStringRef);
+    this.kLSItemFileType = lib.declare("kLSItemFileType", this.CFStringRef);
+    this.kLSItemFileCreator = lib.declare("kLSItemFileCreator", this.CFStringRef);
+    this.kLSItemExtension = lib.declare("kLSItemExtension", this.CFStringRef);
+    this.kLSItemDisplayName = lib.declare("kLSItemDisplayName", this.CFStringRef);
+    this.kLSItemDisplayKind = lib.declare("kLSItemDisplayKind", this.CFStringRef);
+    this.kLSItemRoleHandlerDisplayName = lib.declare("kLSItemRoleHandlerDisplayName", this.CFStringRef);
+    this.kLSItemIsInvisible = lib.declare("kLSItemIsInvisible", this.CFStringRef);
+    this.kLSItemExtensionIsHidden = lib.declare("kLSItemExtensionIsHidden", this.CFStringRef);
+    this.kLSItemQuarantineProperties = lib.declare("kLSItemQuarantineProperties", this.CFStringRef);
     this.LSCopyItemAttribute = lib.declare("LSCopyItemAttribute", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.LSRolesMask, this.CFStringRef, this.CFTypeRef.ptr);
     this.LSCopyItemAttributes = lib.declare("LSCopyItemAttributes", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.LSRolesMask, this.CFArrayRef, this.CFDictionaryRef.ptr);
     this.LSSetItemAttribute = lib.declare("LSSetItemAttribute", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.LSRolesMask, this.CFStringRef, this.CFTypeRef);
@@ -189,11 +227,80 @@ function LSInfo_h(lib) {
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Headers/UTCoreTypes.h
 function UTCoreTypes_h(lib) {
+    CFBase_h.call(this, lib);
 
     if (this._UTCORETYPES_H)
         return;
     this._UTCORETYPES_H = true;
 
+    this.kUTTypeItem = lib.declare("kUTTypeItem", this.CFStringRef);
+    this.kUTTypeContent = lib.declare("kUTTypeContent", this.CFStringRef);
+    this.kUTTypeCompositeContent = lib.declare("kUTTypeCompositeContent", this.CFStringRef);
+    this.kUTTypeApplication = lib.declare("kUTTypeApplication", this.CFStringRef);
+    this.kUTTypeMessage = lib.declare("kUTTypeMessage", this.CFStringRef);
+    this.kUTTypeContact = lib.declare("kUTTypeContact", this.CFStringRef);
+    this.kUTTypeArchive = lib.declare("kUTTypeArchive", this.CFStringRef);
+    this.kUTTypeDiskImage = lib.declare("kUTTypeDiskImage", this.CFStringRef);
+    this.kUTTypeData = lib.declare("kUTTypeData", this.CFStringRef);
+    this.kUTTypeDirectory = lib.declare("kUTTypeDirectory", this.CFStringRef);
+    this.kUTTypeResolvable = lib.declare("kUTTypeResolvable", this.CFStringRef);
+    this.kUTTypeSymLink = lib.declare("kUTTypeSymLink", this.CFStringRef);
+    this.kUTTypeMountPoint = lib.declare("kUTTypeMountPoint", this.CFStringRef);
+    this.kUTTypeAliasFile = lib.declare("kUTTypeAliasFile", this.CFStringRef);
+    this.kUTTypeAliasRecord = lib.declare("kUTTypeAliasRecord", this.CFStringRef);
+    this.kUTTypeURL = lib.declare("kUTTypeURL", this.CFStringRef);
+    this.kUTTypeFileURL = lib.declare("kUTTypeFileURL", this.CFStringRef);
+    this.kUTTypeText = lib.declare("kUTTypeText", this.CFStringRef);
+    this.kUTTypePlainText = lib.declare("kUTTypePlainText", this.CFStringRef);
+    this.kUTTypeUTF8PlainText = lib.declare("kUTTypeUTF8PlainText", this.CFStringRef);
+    this.kUTTypeUTF16ExternalPlainText = lib.declare("kUTTypeUTF16ExternalPlainText", this.CFStringRef);
+    this.kUTTypeUTF16PlainText = lib.declare("kUTTypeUTF16PlainText", this.CFStringRef);
+    this.kUTTypeRTF = lib.declare("kUTTypeRTF", this.CFStringRef);
+    this.kUTTypeHTML = lib.declare("kUTTypeHTML", this.CFStringRef);
+    this.kUTTypeXML = lib.declare("kUTTypeXML", this.CFStringRef);
+    this.kUTTypeSourceCode = lib.declare("kUTTypeSourceCode", this.CFStringRef);
+    this.kUTTypeCSource = lib.declare("kUTTypeCSource", this.CFStringRef);
+    this.kUTTypeObjectiveCSource = lib.declare("kUTTypeObjectiveCSource", this.CFStringRef);
+    this.kUTTypeCPlusPlusSource = lib.declare("kUTTypeCPlusPlusSource", this.CFStringRef);
+    this.kUTTypeObjectiveCPlusPlusSource = lib.declare("kUTTypeObjectiveCPlusPlusSource", this.CFStringRef);
+    this.kUTTypeCHeader = lib.declare("kUTTypeCHeader", this.CFStringRef);
+    this.kUTTypeCPlusPlusHeader = lib.declare("kUTTypeCPlusPlusHeader", this.CFStringRef);
+    this.kUTTypeJavaSource = lib.declare("kUTTypeJavaSource", this.CFStringRef);
+    this.kUTTypePDF = lib.declare("kUTTypePDF", this.CFStringRef);
+    this.kUTTypeRTFD = lib.declare("kUTTypeRTFD", this.CFStringRef);
+    this.kUTTypeFlatRTFD = lib.declare("kUTTypeFlatRTFD", this.CFStringRef);
+    this.kUTTypeTXNTextAndMultimediaData = lib.declare("kUTTypeTXNTextAndMultimediaData", this.CFStringRef);
+    this.kUTTypeWebArchive = lib.declare("kUTTypeWebArchive", this.CFStringRef);
+    this.kUTTypeImage = lib.declare("kUTTypeImage", this.CFStringRef);
+    this.kUTTypeJPEG = lib.declare("kUTTypeJPEG", this.CFStringRef);
+    this.kUTTypeJPEG2000 = lib.declare("kUTTypeJPEG2000", this.CFStringRef);
+    this.kUTTypeTIFF = lib.declare("kUTTypeTIFF", this.CFStringRef);
+    this.kUTTypePICT = lib.declare("kUTTypePICT", this.CFStringRef);
+    this.kUTTypeGIF = lib.declare("kUTTypeGIF", this.CFStringRef);
+    this.kUTTypePNG = lib.declare("kUTTypePNG", this.CFStringRef);
+    this.kUTTypeQuickTimeImage = lib.declare("kUTTypeQuickTimeImage", this.CFStringRef);
+    this.kUTTypeAppleICNS = lib.declare("kUTTypeAppleICNS", this.CFStringRef);
+    this.kUTTypeBMP = lib.declare("kUTTypeBMP", this.CFStringRef);
+    this.kUTTypeICO = lib.declare("kUTTypeICO", this.CFStringRef);
+    this.kUTTypeAudiovisualContent = lib.declare("kUTTypeAudiovisualContent", this.CFStringRef);
+    this.kUTTypeMovie = lib.declare("kUTTypeMovie", this.CFStringRef);
+    this.kUTTypeVideo = lib.declare("kUTTypeVideo", this.CFStringRef);
+    this.kUTTypeAudio = lib.declare("kUTTypeAudio", this.CFStringRef);
+    this.kUTTypeQuickTimeMovie = lib.declare("kUTTypeQuickTimeMovie", this.CFStringRef);
+    this.kUTTypeMPEG = lib.declare("kUTTypeMPEG", this.CFStringRef);
+    this.kUTTypeMPEG4 = lib.declare("kUTTypeMPEG4", this.CFStringRef);
+    this.kUTTypeMP3 = lib.declare("kUTTypeMP3", this.CFStringRef);
+    this.kUTTypeMPEG4Audio = lib.declare("kUTTypeMPEG4Audio", this.CFStringRef);
+    this.kUTTypeAppleProtectedMPEG4Audio = lib.declare("kUTTypeAppleProtectedMPEG4Audio", this.CFStringRef);
+    this.kUTTypeFolder = lib.declare("kUTTypeFolder", this.CFStringRef);
+    this.kUTTypeVolume = lib.declare("kUTTypeVolume", this.CFStringRef);
+    this.kUTTypePackage = lib.declare("kUTTypePackage", this.CFStringRef);
+    this.kUTTypeBundle = lib.declare("kUTTypeBundle", this.CFStringRef);
+    this.kUTTypeFramework = lib.declare("kUTTypeFramework", this.CFStringRef);
+    this.kUTTypeApplicationBundle = lib.declare("kUTTypeApplicationBundle", this.CFStringRef);
+    this.kUTTypeApplicationFile = lib.declare("kUTTypeApplicationFile", this.CFStringRef);
+    this.kUTTypeVCard = lib.declare("kUTTypeVCard", this.CFStringRef);
+    this.kUTTypeInkText = lib.declare("kUTTypeInkText", this.CFStringRef);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Headers/IconsCore.h
@@ -541,11 +648,24 @@ function LSOpen_h(lib) {
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Headers/LSQuarantine.h
 function LSQuarantine_h(lib) {
+    CFBase_h.call(this, lib);
 
     if (this._LSQUARANTINE_H)
         return;
     this._LSQUARANTINE_H = true;
 
+    this.kLSQuarantineAgentNameKey = lib.declare("kLSQuarantineAgentNameKey", this.CFStringRef);
+    this.kLSQuarantineAgentBundleIdentifierKey = lib.declare("kLSQuarantineAgentBundleIdentifierKey", this.CFStringRef);
+    this.kLSQuarantineTimeStampKey = lib.declare("kLSQuarantineTimeStampKey", this.CFStringRef);
+    this.kLSQuarantineTypeKey = lib.declare("kLSQuarantineTypeKey", this.CFStringRef);
+    this.kLSQuarantineTypeWebDownload = lib.declare("kLSQuarantineTypeWebDownload", this.CFStringRef);
+    this.kLSQuarantineTypeOtherDownload = lib.declare("kLSQuarantineTypeOtherDownload", this.CFStringRef);
+    this.kLSQuarantineTypeEmailAttachment = lib.declare("kLSQuarantineTypeEmailAttachment", this.CFStringRef);
+    this.kLSQuarantineTypeInstantMessageAttachment = lib.declare("kLSQuarantineTypeInstantMessageAttachment", this.CFStringRef);
+    this.kLSQuarantineTypeCalendarEventAttachment = lib.declare("kLSQuarantineTypeCalendarEventAttachment", this.CFStringRef);
+    this.kLSQuarantineTypeOtherAttachment = lib.declare("kLSQuarantineTypeOtherAttachment", this.CFStringRef);
+    this.kLSQuarantineOriginURLKey = lib.declare("kLSQuarantineOriginURLKey", this.CFStringRef);
+    this.kLSQuarantineDataURLKey = lib.declare("kLSQuarantineDataURLKey", this.CFStringRef);
 }
 
 Components.utils.import("resource://gre/modules/ctypes.jsm");

@@ -1163,12 +1163,12 @@ function MacWindows_h(lib) {
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/MacTextEditor.h
 function MacTextEditor_h(lib) {
     CFData_h.call(this, lib);
-    Events_h.call(this, lib);
-    HIGeometry_h.call(this, lib);
     QuickdrawTypes_h.call(this, lib);
+    Events_h.call(this, lib);
+    QDOffscreen_h.call(this, lib);
+    HIGeometry_h.call(this, lib);
     HIObject_h.call(this, lib);
     Files_h.call(this, lib);
-    QDOffscreen_h.call(this, lib);
     ATSUnicodeTypes_h.call(this, lib);
     CFDictionary_h.call(this, lib);
     TextCommon_h.call(this, lib);
@@ -1278,6 +1278,24 @@ function MacTextEditor_h(lib) {
     this.kTXNMovieData = 1836019574;
     this.kTXNSoundData = 1936614432;
     this.kTXNTextAndMultimediaData = 1954051182;
+    this.kTXNActionTyping = lib.declare("kTXNActionTyping", this.CFStringRef);
+    this.kTXNActionCut = lib.declare("kTXNActionCut", this.CFStringRef);
+    this.kTXNActionPaste = lib.declare("kTXNActionPaste", this.CFStringRef);
+    this.kTXNActionClear = lib.declare("kTXNActionClear", this.CFStringRef);
+    this.kTXNActionChangeFont = lib.declare("kTXNActionChangeFont", this.CFStringRef);
+    this.kTXNActionChangeColor = lib.declare("kTXNActionChangeColor", this.CFStringRef);
+    this.kTXNActionChangeSize = lib.declare("kTXNActionChangeSize", this.CFStringRef);
+    this.kTXNActionChangeStyle = lib.declare("kTXNActionChangeStyle", this.CFStringRef);
+    this.kTXNActionAlignLeft = lib.declare("kTXNActionAlignLeft", this.CFStringRef);
+    this.kTXNActionAlignCenter = lib.declare("kTXNActionAlignCenter", this.CFStringRef);
+    this.kTXNActionAlignRight = lib.declare("kTXNActionAlignRight", this.CFStringRef);
+    this.kTXNActionDrop = lib.declare("kTXNActionDrop", this.CFStringRef);
+    this.kTXNActionMove = lib.declare("kTXNActionMove", this.CFStringRef);
+    this.kTXNActionChangeFontFeature = lib.declare("kTXNActionChangeFontFeature", this.CFStringRef);
+    this.kTXNActionChangeFontVariation = lib.declare("kTXNActionChangeFontVariation", this.CFStringRef);
+    this.kTXNActionChangeGlyphVariation = lib.declare("kTXNActionChangeGlyphVariation", this.CFStringRef);
+    this.kTXNActionChangeTextPosition = lib.declare("kTXNActionChangeTextPosition", this.CFStringRef);
+    this.kTXNActionUndoLast = lib.declare("kTXNActionUndoLast", this.CFStringRef);
     this.TXNTabType = this.SInt8;
     this.kTXNRightTab = -1;
     this.kTXNLeftTab = 0;
@@ -1391,6 +1409,9 @@ function MacTextEditor_h(lib) {
     this.kTXNBackgroundTypeRGB = 1;
     this.TXNBackgroundData = new ctypes.StructType("TXNBackgroundData", [{color: this.RGBColor}]);
     this.TXNBackground = new ctypes.StructType("TXNBackground", [{bgType: this.TXNBackgroundType}, {bg: this.TXNBackgroundData}]);
+    this.kTXNActionCountOfTextChanges = lib.declare("kTXNActionCountOfTextChanges", this.CFStringRef);
+    this.kTXNActionCountOfStyleChanges = lib.declare("kTXNActionCountOfStyleChanges", this.CFStringRef);
+    this.kTXNActionCountOfAllChanges = lib.declare("kTXNActionCountOfAllChanges", this.CFStringRef);
     this.TXNScrollUnit = this.UInt32;
     this.kTXNScrollUnitsInPixels = 0;
     this.kTXNScrollUnitsInLines = 1;
@@ -1416,6 +1437,22 @@ function MacTextEditor_h(lib) {
     this.kTXNVerticalScrollBarRectKey = 3;
     this.kTXNHorizontalScrollBarRectKey = 4;
     this.TXNCarbonEventInfo = new ctypes.StructType("TXNCarbonEventInfo", [{useCarbonEvents: this.Boolean}, {filler: this.UInt8}, {flags: this.UInt16}, {fDictionary: this.CFDictionaryRef}]);
+    this.kTXNDocumentAttributeTitleKey = lib.declare("kTXNDocumentAttributeTitleKey", this.CFStringRef);
+    this.kTXNDocumentAttributeCompanyNameKey = lib.declare("kTXNDocumentAttributeCompanyNameKey", this.CFStringRef);
+    this.kTXNDocumentAttributeSubjectKey = lib.declare("kTXNDocumentAttributeSubjectKey", this.CFStringRef);
+    this.kTXNDocumentAttributeAuthorKey = lib.declare("kTXNDocumentAttributeAuthorKey", this.CFStringRef);
+    this.kTXNDocumentAttributeKeywordsKey = lib.declare("kTXNDocumentAttributeKeywordsKey", this.CFStringRef);
+    this.kTXNDocumentAttributeCommentKey = lib.declare("kTXNDocumentAttributeCommentKey", this.CFStringRef);
+    this.kTXNDocumentAttributeEditorKey = lib.declare("kTXNDocumentAttributeEditorKey", this.CFStringRef);
+    this.kTXNDocumentAttributeCreationTimeKey = lib.declare("kTXNDocumentAttributeCreationTimeKey", this.CFStringRef);
+    this.kTXNDocumentAttributeModificationTimeKey = lib.declare("kTXNDocumentAttributeModificationTimeKey", this.CFStringRef);
+    this.kTXNDocumentAttributeCopyrightKey = lib.declare("kTXNDocumentAttributeCopyrightKey", this.CFStringRef);
+    this.kTXNDataOptionDocumentTypeKey = lib.declare("kTXNDataOptionDocumentTypeKey", this.CFStringRef);
+    this.kTXNDataOptionCharacterEncodingKey = lib.declare("kTXNDataOptionCharacterEncodingKey", this.CFStringRef);
+    this.kTXNPlainTextDocumentType = lib.declare("kTXNPlainTextDocumentType", this.CFStringRef);
+    this.kTXNMLTEDocumentType = lib.declare("kTXNMLTEDocumentType", this.CFStringRef);
+    this.kTXNRTFDocumentType = lib.declare("kTXNRTFDocumentType", this.CFStringRef);
+    this.kTXNQuickTimeDocumentType = lib.declare("kTXNQuickTimeDocumentType", this.CFStringRef);
     this.TXNFindProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.OSStatus, [this.TXNMatchTextRecord.ptr, this.TXNDataType, this.TXNMatchOptions, ctypes.void_t.ptr, this.TextEncoding, this.TXNOffset, this.ByteCount, this.TXNOffset.ptr, this.TXNOffset.ptr, this.Boolean.ptr, this.URefCon]).ptr;
     this.TXNActionNameMapperProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.CFStringRef, [this.CFStringRef, this.UInt32, ctypes.void_t.ptr]).ptr;
     this.TXNContextualMenuSetupProcPtr = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [this.MenuRef, this.TXNObject, ctypes.void_t.ptr]).ptr;
@@ -4071,6 +4108,7 @@ function CarbonEvents_h(lib) {
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HIWindowViews.h
 function HIWindowViews_h(lib) {
+    HIView_h.call(this, lib);
     HIObject_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
@@ -4078,6 +4116,14 @@ function HIWindowViews_h(lib) {
         return;
     this._HIWINDOWVIEWS_H = true;
 
+    this.kHIViewWindowContentID = lib.declare("kHIViewWindowContentID", this.HIViewID);
+    this.kHIViewWindowCloseBoxID = lib.declare("kHIViewWindowCloseBoxID", this.HIViewID);
+    this.kHIViewWindowCollapseBoxID = lib.declare("kHIViewWindowCollapseBoxID", this.HIViewID);
+    this.kHIViewWindowZoomBoxID = lib.declare("kHIViewWindowZoomBoxID", this.HIViewID);
+    this.kHIViewWindowToolbarButtonID = lib.declare("kHIViewWindowToolbarButtonID", this.HIViewID);
+    this.kHIViewWindowTitleID = lib.declare("kHIViewWindowTitleID", this.HIViewID);
+    this.kHIViewWindowToolbarID = lib.declare("kHIViewWindowToolbarID", this.HIViewID);
+    this.kHIViewWindowGrowBoxID = lib.declare("kHIViewWindowGrowBoxID", this.HIViewID);
     this.kHIWindowTitleBarPart = 2;
     this.kHIWindowDragPart = 3;
     this.kHIWindowTitleProxyIconPart = 2;
@@ -6723,6 +6769,31 @@ function TextInputSources_h(lib) {
     this.__TISInputSource = new ctypes.StructType("__TISInputSource");
     this.TISInputSourceRef = this.__TISInputSource.ptr;
     this.TISInputSourceGetTypeID = lib.declare("TISInputSourceGetTypeID", ctypes.default_abi, this.CFTypeID);
+    this.kTISPropertyInputSourceCategory = lib.declare("kTISPropertyInputSourceCategory", this.CFStringRef);
+    this.kTISPropertyInputSourceType = lib.declare("kTISPropertyInputSourceType", this.CFStringRef);
+    this.kTISPropertyInputSourceIsASCIICapable = lib.declare("kTISPropertyInputSourceIsASCIICapable", this.CFStringRef);
+    this.kTISPropertyInputSourceIsEnableCapable = lib.declare("kTISPropertyInputSourceIsEnableCapable", this.CFStringRef);
+    this.kTISPropertyInputSourceIsSelectCapable = lib.declare("kTISPropertyInputSourceIsSelectCapable", this.CFStringRef);
+    this.kTISPropertyInputSourceIsEnabled = lib.declare("kTISPropertyInputSourceIsEnabled", this.CFStringRef);
+    this.kTISPropertyInputSourceIsSelected = lib.declare("kTISPropertyInputSourceIsSelected", this.CFStringRef);
+    this.kTISPropertyInputSourceID = lib.declare("kTISPropertyInputSourceID", this.CFStringRef);
+    this.kTISPropertyBundleID = lib.declare("kTISPropertyBundleID", this.CFStringRef);
+    this.kTISPropertyInputModeID = lib.declare("kTISPropertyInputModeID", this.CFStringRef);
+    this.kTISPropertyLocalizedName = lib.declare("kTISPropertyLocalizedName", this.CFStringRef);
+    this.kTISPropertyInputSourceLanguages = lib.declare("kTISPropertyInputSourceLanguages", this.CFStringRef);
+    this.kTISPropertyUnicodeKeyLayoutData = lib.declare("kTISPropertyUnicodeKeyLayoutData", this.CFStringRef);
+    this.kTISPropertyIconRef = lib.declare("kTISPropertyIconRef", this.CFStringRef);
+    this.kTISPropertyIconImageURL = lib.declare("kTISPropertyIconImageURL", this.CFStringRef);
+    this.kTISCategoryKeyboardInputSource = lib.declare("kTISCategoryKeyboardInputSource", this.CFStringRef);
+    this.kTISCategoryPaletteInputSource = lib.declare("kTISCategoryPaletteInputSource", this.CFStringRef);
+    this.kTISCategoryInkInputSource = lib.declare("kTISCategoryInkInputSource", this.CFStringRef);
+    this.kTISTypeKeyboardLayout = lib.declare("kTISTypeKeyboardLayout", this.CFStringRef);
+    this.kTISTypeKeyboardInputMethodWithoutModes = lib.declare("kTISTypeKeyboardInputMethodWithoutModes", this.CFStringRef);
+    this.kTISTypeKeyboardInputMethodModeEnabled = lib.declare("kTISTypeKeyboardInputMethodModeEnabled", this.CFStringRef);
+    this.kTISTypeKeyboardInputMode = lib.declare("kTISTypeKeyboardInputMode", this.CFStringRef);
+    this.kTISTypeCharacterPalette = lib.declare("kTISTypeCharacterPalette", this.CFStringRef);
+    this.kTISTypeKeyboardViewer = lib.declare("kTISTypeKeyboardViewer", this.CFStringRef);
+    this.kTISTypeInk = lib.declare("kTISTypeInk", this.CFStringRef);
     this.TISGetInputSourceProperty = lib.declare("TISGetInputSourceProperty", ctypes.default_abi, ctypes.void_t.ptr, this.TISInputSourceRef, this.CFStringRef);
     this.TISCreateInputSourceList = lib.declare("TISCreateInputSourceList", ctypes.default_abi, this.CFArrayRef, this.CFDictionaryRef, this.Boolean);
     this.TISCopyCurrentKeyboardInputSource = lib.declare("TISCopyCurrentKeyboardInputSource", ctypes.default_abi, this.TISInputSourceRef);
@@ -6735,6 +6806,8 @@ function TextInputSources_h(lib) {
     this.TISDeselectInputSource = lib.declare("TISDeselectInputSource", ctypes.default_abi, this.OSStatus, this.TISInputSourceRef);
     this.TISEnableInputSource = lib.declare("TISEnableInputSource", ctypes.default_abi, this.OSStatus, this.TISInputSourceRef);
     this.TISDisableInputSource = lib.declare("TISDisableInputSource", ctypes.default_abi, this.OSStatus, this.TISInputSourceRef);
+    this.kTISNotifySelectedKeyboardInputSourceChanged = lib.declare("kTISNotifySelectedKeyboardInputSourceChanged", this.CFStringRef);
+    this.kTISNotifyEnabledKeyboardInputSourcesChanged = lib.declare("kTISNotifyEnabledKeyboardInputSourcesChanged", this.CFStringRef);
     this.TISSetInputMethodKeyboardLayoutOverride = lib.declare("TISSetInputMethodKeyboardLayoutOverride", ctypes.default_abi, this.OSStatus, this.TISInputSourceRef);
     this.TISCopyInputMethodKeyboardLayoutOverride = lib.declare("TISCopyInputMethodKeyboardLayoutOverride", ctypes.default_abi, this.TISInputSourceRef);
     this.TISRegisterInputSource = lib.declare("TISRegisterInputSource", ctypes.default_abi, this.OSStatus, this.CFURLRef);
@@ -6901,6 +6974,7 @@ function HITextViews_h(lib) {
     this.kEventTextAccepted = 1;
     this.kEventTextShouldChangeInRange = 2;
     this.kEventTextDidChange = 3;
+    this.kHITextViewClassID = lib.declare("kHITextViewClassID", this.CFStringRef);
     this.kControlKindHITextView = 1751741560;
     this.HITextViewCreate = lib.declare("HITextViewCreate", ctypes.default_abi, this.OSStatus, this.HIRect.ptr, this.OptionBits, this.TXNFrameOptions, this.HIViewRef.ptr);
     this.HITextViewGetTXNObject = lib.declare("HITextViewGetTXNObject", ctypes.default_abi, this.TXNObject, this.HIViewRef);
@@ -7034,6 +7108,10 @@ function HIObject_h(lib) {
     this.kEventParamDecodingForEditor = 1684366949;
     this.kEventParamInitParameters = 1885434465;
     this.typeHIObjectRef = 1751740258;
+    this.kHIObjectInitParamUserName = lib.declare("kHIObjectInitParamUserName", this.CFStringRef);
+    this.kHIObjectInitParamDescription = lib.declare("kHIObjectInitParamDescription", this.CFStringRef);
+    this.kHIObjectInitParamEventName = lib.declare("kHIObjectInitParamEventName", this.CFStringRef);
+    this.kHIObjectInitParamEventType = lib.declare("kHIObjectInitParamEventType", this.CFStringRef);
     this.kEventHIObjectConstruct = 1;
     this.kEventHIObjectInitialize = 2;
     this.kEventHIObjectDestruct = 3;
@@ -7064,12 +7142,21 @@ function HIObject_h(lib) {
     this.HIObjectFromEventTarget = lib.declare("HIObjectFromEventTarget", ctypes.default_abi, this.HIObjectRef, this.EventTargetRef);
     this.HIObjectIsArchivingIgnored = lib.declare("HIObjectIsArchivingIgnored", ctypes.default_abi, this.Boolean, this.HIObjectRef);
     this.HIObjectSetArchivingIgnored = lib.declare("HIObjectSetArchivingIgnored", ctypes.default_abi, this.OSStatus, this.HIObjectRef, this.Boolean);
+    this.kHIObjectCustomDataParameterNamesKey = lib.declare("kHIObjectCustomDataParameterNamesKey", this.CFStringRef);
+    this.kHIObjectCustomDataParameterTypesKey = lib.declare("kHIObjectCustomDataParameterTypesKey", this.CFStringRef);
+    this.kHIObjectCustomDataParameterValuesKey = lib.declare("kHIObjectCustomDataParameterValuesKey", this.CFStringRef);
+    this.kHIObjectCustomDataClassIDKey = lib.declare("kHIObjectCustomDataClassIDKey", this.CFStringRef);
+    this.kHIObjectCustomDataSuperClassIDKey = lib.declare("kHIObjectCustomDataSuperClassIDKey", this.CFStringRef);
+    this.kHIObjectCustomDataCDEFProcIDKey = lib.declare("kHIObjectCustomDataCDEFProcIDKey", this.CFStringRef);
+    this.kHIObjectCustomDataDelegateGroupParametersKey = lib.declare("kHIObjectCustomDataDelegateGroupParametersKey", this.CFStringRef);
     this.HIObjectCopyCustomArchiveData = lib.declare("HIObjectCopyCustomArchiveData", ctypes.default_abi, this.OSStatus, this.HIObjectRef, this.CFDictionaryRef.ptr);
     this.HIObjectSetCustomArchiveData = lib.declare("HIObjectSetCustomArchiveData", ctypes.default_abi, this.OSStatus, this.HIObjectRef, this.CFDictionaryRef);
     this.HIDelegatePosition = this.UInt32;
     this.kHIDelegateAll = 0;
     this.kHIDelegateBefore = 1;
     this.kHIDelegateAfter = 2;
+    this.kHIDelegateBeforeKey = lib.declare("kHIDelegateBeforeKey", this.CFStringRef);
+    this.kHIDelegateAfterKey = lib.declare("kHIDelegateAfterKey", this.CFStringRef);
     this.HIObjectAddDelegate = lib.declare("HIObjectAddDelegate", ctypes.default_abi, this.OSStatus, this.HIObjectRef, this.HIObjectRef, this.HIDelegatePosition);
     this.HIObjectRemoveDelegate = lib.declare("HIObjectRemoveDelegate", ctypes.default_abi, this.OSStatus, this.HIObjectRef, this.HIObjectRef, this.HIDelegatePosition);
     this.HIObjectCopyDelegates = lib.declare("HIObjectCopyDelegates", ctypes.default_abi, this.OSStatus, this.HIObjectRef, this.CFDictionaryRef.ptr);
@@ -7253,6 +7340,7 @@ function MacApplication_h(lib) {
         return;
     this._MACAPPLICATION_H = true;
 
+    this.kHIToolboxVersionNumber = lib.declare("kHIToolboxVersionNumber", ctypes.float);
     this.kUIModeNormal = 0;
     this.kUIModeContentSuppressed = 1;
     this.kUIModeContentHidden = 2;
@@ -7438,6 +7526,7 @@ function HIClockView_h(lib) {
 
 // Based on /System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/Headers/HIMenuView.h
 function HIMenuView_h(lib) {
+    HIView_h.call(this, lib);
     Menus_h.call(this, lib);
     HIObject_h.call(this, lib);
 
@@ -7447,6 +7536,7 @@ function HIMenuView_h(lib) {
 
     this.kControlKindHIMenuView = 1835363957;
     this.kControlKindHIStandardMenuView = 1936551541;
+    this.kHIViewMenuContentID = lib.declare("kHIViewMenuContentID", this.HIViewID);
     this.HIMenuViewGetMenu = lib.declare("HIMenuViewGetMenu", ctypes.default_abi, this.MenuRef, this.HIViewRef);
 }
 

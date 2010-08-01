@@ -107,6 +107,34 @@ function WSMethodInvocation_h(lib) {
         return;
     this._WSMETHODINVOCATION_H = true;
 
+    // Dropping declaration of 'kWSMethodInvocationResult': No value
+    // Dropping declaration of 'kWSFaultString': No value
+    // Dropping declaration of 'kWSFaultCode': No value
+    // Dropping declaration of 'kWSFaultExtra': No value
+    // Dropping declaration of 'kWSNetworkStreamFaultString': No value
+    // Dropping declaration of 'kWSStreamErrorMessage': No value
+    // Dropping declaration of 'kWSStreamErrorDomain': No value
+    // Dropping declaration of 'kWSStreamErrorError': No value
+    // Dropping declaration of 'kWSHTTPMessage': No value
+    // Dropping declaration of 'kWSHTTPResponseMessage': No value
+    // Dropping declaration of 'kWSHTTPVersion': No value
+    // Dropping declaration of 'kWSHTTPExtraHeaders': No value
+    // Dropping declaration of 'kWSHTTPProxy': No value
+    // Dropping declaration of 'kWSHTTPFollowsRedirects': No value
+    // Dropping declaration of 'kWSDebugOutgoingHeaders': No value
+    // Dropping declaration of 'kWSDebugOutgoingBody': No value
+    // Dropping declaration of 'kWSDebugIncomingHeaders': No value
+    // Dropping declaration of 'kWSDebugIncomingBody': No value
+    // Dropping declaration of 'kWSSOAPMethodNamespaceURI': No value
+    // Dropping declaration of 'kWSSOAPBodyEncodingStyle': No value
+    // Dropping declaration of 'kWSSOAPStyleDoc': No value
+    // Dropping declaration of 'kWSSOAPStyleRPC': No value
+    // Dropping declaration of 'kWSSOAPMessageHeaders': No value
+    // Dropping declaration of 'kWSRecordParameterOrder': No value
+    // Dropping declaration of 'kWSRecordNamespaceURI': No value
+    // Dropping declaration of 'kWSRecordType': No value
+    // Dropping declaration of 'kWSMethodInvocationResultParameterName': No value
+    // Dropping declaration of 'kWSMethodInvocationTimeoutValue': No value
     this.OpaqueWSMethodInvocationRef = new ctypes.StructType("OpaqueWSMethodInvocationRef");
     this.WSMethodInvocationRef = this.OpaqueWSMethodInvocationRef.ptr;
     this.WSMethodInvocationGetTypeID = lib.declare("WSMethodInvocationGetTypeID", ctypes.default_abi, this.CFTypeID);
@@ -1079,6 +1107,7 @@ function CSIdentity_h(lib) {
         return;
     this._CSIDENTITY_H = true;
 
+    this.kCSIdentityErrorDomain = lib.declare("kCSIdentityErrorDomain", this.CFStringRef);
     this.kCSIdentityUnknownAuthorityErr = -1;
     this.kCSIdentityAuthorityNotAccessibleErr = -2;
     this.kCSIdentityPermissionErr = -3;
@@ -1091,6 +1120,7 @@ function CSIdentity_h(lib) {
     this.CSIdentityRef = this.__CSIdentity.ptr;
     this.__CSIdentityQuery = new ctypes.StructType("__CSIdentityQuery");
     this.CSIdentityQueryRef = this.__CSIdentityQuery.ptr;
+    this.kCSIdentityGeneratePosixName = lib.declare("kCSIdentityGeneratePosixName", this.CFStringRef);
     this.kCSIdentityClassUser = 1;
     this.kCSIdentityClassGroup = 2;
     this.CSIdentityClass = this.CFIndex;
@@ -1165,6 +1195,9 @@ function WSTypes_h(lib) {
     this.WSClientContextReleaseCallBackProcPtr = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [ctypes.void_t.ptr]).ptr;
     this.WSClientContextCopyDescriptionCallBackProcPtr = new ctypes.FunctionType(ctypes.default_abi, this.CFStringRef, [ctypes.void_t.ptr]).ptr;
     this.WSClientContext = new ctypes.StructType("WSClientContext", [{version: this.CFIndex}, {info: ctypes.void_t.ptr}, {retain: this.WSClientContextRetainCallBackProcPtr}, {release: this.WSClientContextReleaseCallBackProcPtr}, {copyDescription: this.WSClientContextCopyDescriptionCallBackProcPtr}]);
+    // Dropping declaration of 'kWSXMLRPCProtocol': No value
+    // Dropping declaration of 'kWSSOAP1999Protocol': No value
+    // Dropping declaration of 'kWSSOAP2001Protocol': No value
     this.WSGetWSTypeIDFromCFType = lib.declare("WSGetWSTypeIDFromCFType", ctypes.default_abi, this.WSTypeID, this.CFTypeRef);
     this.WSGetCFTypeIDFromWSTypeID = lib.declare("WSGetCFTypeIDFromWSTypeID", ctypes.default_abi, this.CFTypeID, this.WSTypeID);
 }

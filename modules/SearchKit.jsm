@@ -48,11 +48,21 @@ function SKSearch_h(lib) {
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/SearchKit.framework/Headers/SKAnalysis.h
 function SKAnalysis_h(lib) {
+    CFBase_h.call(this, lib);
 
     if (this._SKANALYSIS_H)
         return;
     this._SKANALYSIS_H = true;
 
+    this.kSKMinTermLength = lib.declare("kSKMinTermLength", this.CFStringRef);
+    this.kSKSubstitutions = lib.declare("kSKSubstitutions", this.CFStringRef);
+    this.kSKStopWords = lib.declare("kSKStopWords", this.CFStringRef);
+    this.kSKProximityIndexing = lib.declare("kSKProximityIndexing", this.CFStringRef);
+    this.kSKMaximumTerms = lib.declare("kSKMaximumTerms", this.CFStringRef);
+    this.kSKTermChars = lib.declare("kSKTermChars", this.CFStringRef);
+    this.kSKStartTermChars = lib.declare("kSKStartTermChars", this.CFStringRef);
+    this.kSKEndTermChars = lib.declare("kSKEndTermChars", this.CFStringRef);
+    this.kSKLanguageTypes = lib.declare("kSKLanguageTypes", this.CFStringRef);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/SearchKit.framework/Headers/SKIndex.h

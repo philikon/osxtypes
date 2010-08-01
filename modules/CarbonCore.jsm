@@ -880,6 +880,16 @@ function Files_h(lib) {
     this.kFSOperationStagePreflighting = 1;
     this.kFSOperationStageRunning = 2;
     this.kFSOperationStageComplete = 3;
+    this.kFSOperationTotalBytesKey = lib.declare("kFSOperationTotalBytesKey", this.CFStringRef);
+    this.kFSOperationBytesCompleteKey = lib.declare("kFSOperationBytesCompleteKey", this.CFStringRef);
+    this.kFSOperationBytesRemainingKey = lib.declare("kFSOperationBytesRemainingKey", this.CFStringRef);
+    this.kFSOperationTotalObjectsKey = lib.declare("kFSOperationTotalObjectsKey", this.CFStringRef);
+    this.kFSOperationObjectsCompleteKey = lib.declare("kFSOperationObjectsCompleteKey", this.CFStringRef);
+    this.kFSOperationObjectsRemainingKey = lib.declare("kFSOperationObjectsRemainingKey", this.CFStringRef);
+    this.kFSOperationTotalUserVisibleObjectsKey = lib.declare("kFSOperationTotalUserVisibleObjectsKey", this.CFStringRef);
+    this.kFSOperationUserVisibleObjectsCompleteKey = lib.declare("kFSOperationUserVisibleObjectsCompleteKey", this.CFStringRef);
+    this.kFSOperationUserVisibleObjectsRemainingKey = lib.declare("kFSOperationUserVisibleObjectsRemainingKey", this.CFStringRef);
+    this.kFSOperationThroughputKey = lib.declare("kFSOperationThroughputKey", this.CFStringRef);
     this.FSCopyObjectSync = lib.declare("FSCopyObjectSync", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.FSRef.ptr, this.CFStringRef, this.FSRef.ptr, this.OptionBits);
     this.FSMoveObjectSync = lib.declare("FSMoveObjectSync", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.FSRef.ptr, this.CFStringRef, this.FSRef.ptr, this.OptionBits);
     this.FSMoveObjectToTrashSync = lib.declare("FSMoveObjectToTrashSync", ctypes.default_abi, this.OSStatus, this.FSRef.ptr, this.FSRef.ptr, this.OptionBits);
@@ -4384,6 +4394,7 @@ function fp_h(lib) {
         return;
     this._FP_H = true;
 
+    // Dropping declaration of 'pi': 'double_t' defined out of scope
     this.compound = lib.declare("compound", ctypes.default_abi, ctypes.double, ctypes.double, ctypes.double);
     this.annuity = lib.declare("annuity", ctypes.default_abi, ctypes.double, ctypes.double, ctypes.double);
     // Dropping declaration of 'randomx': 'double_t' defined out of scope

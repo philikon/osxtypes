@@ -10,6 +10,27 @@ function CFFTPStream_h(lib) {
         return;
     this._CFFTPSTREAM_H = true;
 
+    this.kCFStreamErrorDomainFTP = lib.declare("kCFStreamErrorDomainFTP", this.SInt32);
+    this.kCFStreamPropertyFTPUserName = lib.declare("kCFStreamPropertyFTPUserName", this.CFStringRef);
+    this.kCFStreamPropertyFTPPassword = lib.declare("kCFStreamPropertyFTPPassword", this.CFStringRef);
+    this.kCFStreamPropertyFTPUsePassiveMode = lib.declare("kCFStreamPropertyFTPUsePassiveMode", this.CFStringRef);
+    this.kCFStreamPropertyFTPResourceSize = lib.declare("kCFStreamPropertyFTPResourceSize", this.CFStringRef);
+    this.kCFStreamPropertyFTPFetchResourceInfo = lib.declare("kCFStreamPropertyFTPFetchResourceInfo", this.CFStringRef);
+    this.kCFStreamPropertyFTPFileTransferOffset = lib.declare("kCFStreamPropertyFTPFileTransferOffset", this.CFStringRef);
+    this.kCFStreamPropertyFTPAttemptPersistentConnection = lib.declare("kCFStreamPropertyFTPAttemptPersistentConnection", this.CFStringRef);
+    this.kCFStreamPropertyFTPProxy = lib.declare("kCFStreamPropertyFTPProxy", this.CFStringRef);
+    this.kCFStreamPropertyFTPProxyHost = lib.declare("kCFStreamPropertyFTPProxyHost", this.CFStringRef);
+    this.kCFStreamPropertyFTPProxyPort = lib.declare("kCFStreamPropertyFTPProxyPort", this.CFStringRef);
+    this.kCFStreamPropertyFTPProxyUser = lib.declare("kCFStreamPropertyFTPProxyUser", this.CFStringRef);
+    this.kCFStreamPropertyFTPProxyPassword = lib.declare("kCFStreamPropertyFTPProxyPassword", this.CFStringRef);
+    this.kCFFTPResourceMode = lib.declare("kCFFTPResourceMode", this.CFStringRef);
+    this.kCFFTPResourceName = lib.declare("kCFFTPResourceName", this.CFStringRef);
+    this.kCFFTPResourceOwner = lib.declare("kCFFTPResourceOwner", this.CFStringRef);
+    this.kCFFTPResourceGroup = lib.declare("kCFFTPResourceGroup", this.CFStringRef);
+    this.kCFFTPResourceLink = lib.declare("kCFFTPResourceLink", this.CFStringRef);
+    this.kCFFTPResourceSize = lib.declare("kCFFTPResourceSize", this.CFStringRef);
+    this.kCFFTPResourceType = lib.declare("kCFFTPResourceType", this.CFStringRef);
+    this.kCFFTPResourceModDate = lib.declare("kCFFTPResourceModDate", this.CFStringRef);
     this.CFReadStreamCreateWithFTPURL = lib.declare("CFReadStreamCreateWithFTPURL", ctypes.default_abi, this.CFReadStreamRef, this.CFAllocatorRef, this.CFURLRef);
     this.CFFTPCreateParsedResourceListing = lib.declare("CFFTPCreateParsedResourceListing", ctypes.default_abi, this.CFIndex, this.CFAllocatorRef, this.UInt8.ptr, this.CFIndex, this.CFDictionaryRef.ptr);
     this.CFWriteStreamCreateWithFTPURL = lib.declare("CFWriteStreamCreateWithFTPURL", ctypes.default_abi, this.CFWriteStreamRef, this.CFAllocatorRef, this.CFURLRef);
@@ -33,6 +54,9 @@ function CFHTTPAuthentication_h(lib) {
     this.kCFStreamErrorHTTPAuthenticationTypeUnsupported = -1000;
     this.kCFStreamErrorHTTPAuthenticationBadUserName = -1001;
     this.kCFStreamErrorHTTPAuthenticationBadPassword = -1002;
+    this.kCFHTTPAuthenticationUsername = lib.declare("kCFHTTPAuthenticationUsername", this.CFStringRef);
+    this.kCFHTTPAuthenticationPassword = lib.declare("kCFHTTPAuthenticationPassword", this.CFStringRef);
+    this.kCFHTTPAuthenticationAccountDomain = lib.declare("kCFHTTPAuthenticationAccountDomain", this.CFStringRef);
     this.CFHTTPAuthenticationGetTypeID = lib.declare("CFHTTPAuthenticationGetTypeID", ctypes.default_abi, this.CFTypeID);
     this.CFHTTPAuthenticationCreateFromResponse = lib.declare("CFHTTPAuthenticationCreateFromResponse", ctypes.default_abi, this.CFHTTPAuthenticationRef, this.CFAllocatorRef, this.CFHTTPMessageRef);
     this.CFHTTPAuthenticationIsValid = lib.declare("CFHTTPAuthenticationIsValid", ctypes.default_abi, this.Boolean, this.CFHTTPAuthenticationRef, this.CFStreamError.ptr);
@@ -68,6 +92,8 @@ function CFNetServices_h(lib) {
     this.CFNetServiceMonitorRef = this.__CFNetServiceMonitor.ptr;
     this.__CFNetServiceBrowser = new ctypes.StructType("__CFNetServiceBrowser");
     this.CFNetServiceBrowserRef = this.__CFNetServiceBrowser.ptr;
+    this.kCFStreamErrorDomainMach = lib.declare("kCFStreamErrorDomainMach", this.SInt32);
+    this.kCFStreamErrorDomainNetServices = lib.declare("kCFStreamErrorDomainNetServices", this.SInt32);
     this.kCFNetServicesErrorUnknown = -72000;
     this.kCFNetServicesErrorCollision = -72001;
     this.kCFNetServicesErrorNotFound = -72002;
@@ -147,6 +173,43 @@ function CFProxySupport_h(lib) {
     this.CFNetworkCopyProxiesForAutoConfigurationScript = lib.declare("CFNetworkCopyProxiesForAutoConfigurationScript", ctypes.default_abi, this.CFArrayRef, this.CFStringRef, this.CFURLRef, this.CFErrorRef.ptr);
     this.CFNetworkExecuteProxyAutoConfigurationScript = lib.declare("CFNetworkExecuteProxyAutoConfigurationScript", ctypes.default_abi, this.CFRunLoopSourceRef, this.CFStringRef, this.CFURLRef, this.CFProxyAutoConfigurationResultCallback, this.CFStreamClientContext.ptr);
     this.CFNetworkExecuteProxyAutoConfigurationURL = lib.declare("CFNetworkExecuteProxyAutoConfigurationURL", ctypes.default_abi, this.CFRunLoopSourceRef, this.CFURLRef, this.CFURLRef, this.CFProxyAutoConfigurationResultCallback, this.CFStreamClientContext.ptr);
+    this.kCFProxyTypeKey = lib.declare("kCFProxyTypeKey", this.CFStringRef);
+    this.kCFProxyHostNameKey = lib.declare("kCFProxyHostNameKey", this.CFStringRef);
+    this.kCFProxyPortNumberKey = lib.declare("kCFProxyPortNumberKey", this.CFStringRef);
+    this.kCFProxyAutoConfigurationURLKey = lib.declare("kCFProxyAutoConfigurationURLKey", this.CFStringRef);
+    this.kCFProxyUsernameKey = lib.declare("kCFProxyUsernameKey", this.CFStringRef);
+    this.kCFProxyPasswordKey = lib.declare("kCFProxyPasswordKey", this.CFStringRef);
+    this.kCFProxyTypeNone = lib.declare("kCFProxyTypeNone", this.CFStringRef);
+    this.kCFProxyTypeHTTP = lib.declare("kCFProxyTypeHTTP", this.CFStringRef);
+    this.kCFProxyTypeHTTPS = lib.declare("kCFProxyTypeHTTPS", this.CFStringRef);
+    this.kCFProxyTypeSOCKS = lib.declare("kCFProxyTypeSOCKS", this.CFStringRef);
+    this.kCFProxyTypeFTP = lib.declare("kCFProxyTypeFTP", this.CFStringRef);
+    this.kCFProxyTypeAutoConfigurationURL = lib.declare("kCFProxyTypeAutoConfigurationURL", this.CFStringRef);
+    this.kCFProxyAutoConfigurationHTTPResponseKey = lib.declare("kCFProxyAutoConfigurationHTTPResponseKey", this.CFStringRef);
+    this.kCFNetworkProxiesExceptionsList = lib.declare("kCFNetworkProxiesExceptionsList", this.CFStringRef);
+    this.kCFNetworkProxiesExcludeSimpleHostnames = lib.declare("kCFNetworkProxiesExcludeSimpleHostnames", this.CFStringRef);
+    this.kCFNetworkProxiesFTPEnable = lib.declare("kCFNetworkProxiesFTPEnable", this.CFStringRef);
+    this.kCFNetworkProxiesFTPPassive = lib.declare("kCFNetworkProxiesFTPPassive", this.CFStringRef);
+    this.kCFNetworkProxiesFTPPort = lib.declare("kCFNetworkProxiesFTPPort", this.CFStringRef);
+    this.kCFNetworkProxiesFTPProxy = lib.declare("kCFNetworkProxiesFTPProxy", this.CFStringRef);
+    this.kCFNetworkProxiesGopherEnable = lib.declare("kCFNetworkProxiesGopherEnable", this.CFStringRef);
+    this.kCFNetworkProxiesGopherPort = lib.declare("kCFNetworkProxiesGopherPort", this.CFStringRef);
+    this.kCFNetworkProxiesGopherProxy = lib.declare("kCFNetworkProxiesGopherProxy", this.CFStringRef);
+    this.kCFNetworkProxiesHTTPEnable = lib.declare("kCFNetworkProxiesHTTPEnable", this.CFStringRef);
+    this.kCFNetworkProxiesHTTPPort = lib.declare("kCFNetworkProxiesHTTPPort", this.CFStringRef);
+    this.kCFNetworkProxiesHTTPProxy = lib.declare("kCFNetworkProxiesHTTPProxy", this.CFStringRef);
+    this.kCFNetworkProxiesHTTPSEnable = lib.declare("kCFNetworkProxiesHTTPSEnable", this.CFStringRef);
+    this.kCFNetworkProxiesHTTPSPort = lib.declare("kCFNetworkProxiesHTTPSPort", this.CFStringRef);
+    this.kCFNetworkProxiesHTTPSProxy = lib.declare("kCFNetworkProxiesHTTPSProxy", this.CFStringRef);
+    this.kCFNetworkProxiesRTSPEnable = lib.declare("kCFNetworkProxiesRTSPEnable", this.CFStringRef);
+    this.kCFNetworkProxiesRTSPPort = lib.declare("kCFNetworkProxiesRTSPPort", this.CFStringRef);
+    this.kCFNetworkProxiesRTSPProxy = lib.declare("kCFNetworkProxiesRTSPProxy", this.CFStringRef);
+    this.kCFNetworkProxiesSOCKSEnable = lib.declare("kCFNetworkProxiesSOCKSEnable", this.CFStringRef);
+    this.kCFNetworkProxiesSOCKSPort = lib.declare("kCFNetworkProxiesSOCKSPort", this.CFStringRef);
+    this.kCFNetworkProxiesSOCKSProxy = lib.declare("kCFNetworkProxiesSOCKSProxy", this.CFStringRef);
+    this.kCFNetworkProxiesProxyAutoConfigEnable = lib.declare("kCFNetworkProxiesProxyAutoConfigEnable", this.CFStringRef);
+    this.kCFNetworkProxiesProxyAutoConfigURLString = lib.declare("kCFNetworkProxiesProxyAutoConfigURLString", this.CFStringRef);
+    this.kCFNetworkProxiesProxyAutoDiscoveryEnable = lib.declare("kCFNetworkProxiesProxyAutoDiscoveryEnable", this.CFStringRef);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CFNetwork.framework/Headers/CFNetDiagnostics.h
@@ -186,6 +249,19 @@ function CFSocketStream_h(lib) {
         return;
     this._CFSOCKETSTREAM_H = true;
 
+    this.kCFStreamPropertySSLPeerTrust = lib.declare("kCFStreamPropertySSLPeerTrust", this.CFStringRef);
+    this.kCFStreamSSLValidatesCertificateChain = lib.declare("kCFStreamSSLValidatesCertificateChain", this.CFStringRef);
+    this.kCFStreamPropertySSLSettings = lib.declare("kCFStreamPropertySSLSettings", this.CFStringRef);
+    this.kCFStreamSSLLevel = lib.declare("kCFStreamSSLLevel", this.CFStringRef);
+    this.kCFStreamSSLPeerName = lib.declare("kCFStreamSSLPeerName", this.CFStringRef);
+    this.kCFStreamSSLCertificates = lib.declare("kCFStreamSSLCertificates", this.CFStringRef);
+    this.kCFStreamSSLIsServer = lib.declare("kCFStreamSSLIsServer", this.CFStringRef);
+    this.kCFStreamPropertySSLPeerCertificates = lib.declare("kCFStreamPropertySSLPeerCertificates", this.CFStringRef);
+    this.kCFStreamSSLAllowsExpiredCertificates = lib.declare("kCFStreamSSLAllowsExpiredCertificates", this.CFStringRef);
+    this.kCFStreamSSLAllowsExpiredRoots = lib.declare("kCFStreamSSLAllowsExpiredRoots", this.CFStringRef);
+    this.kCFStreamSSLAllowsAnyRoot = lib.declare("kCFStreamSSLAllowsAnyRoot", this.CFStringRef);
+    this.kCFStreamErrorDomainWinSock = lib.declare("kCFStreamErrorDomainWinSock", this.CFIndex);
+    this.kCFStreamErrorDomainSOCKS = lib.declare("kCFStreamErrorDomainSOCKS", ctypes.int);
     // Dropping inline function 'CFSocketStreamSOCKSGetErrorSubdomain'.
     // Dropping inline function 'CFSocketStreamSOCKSGetError'.
     this.kCFStreamErrorSOCKSSubDomainNone = 0;
@@ -201,6 +277,24 @@ function CFSocketStream_h(lib) {
     this.kCFStreamErrorSOCKS4IdentdFailed = 92;
     this.kCFStreamErrorSOCKS4IdConflict = 93;
     this.kSOCKS5NoAcceptableMethod = 255;
+    this.kCFStreamPropertySOCKSProxy = lib.declare("kCFStreamPropertySOCKSProxy", this.CFStringRef);
+    this.kCFStreamPropertySOCKSProxyHost = lib.declare("kCFStreamPropertySOCKSProxyHost", this.CFStringRef);
+    this.kCFStreamPropertySOCKSProxyPort = lib.declare("kCFStreamPropertySOCKSProxyPort", this.CFStringRef);
+    this.kCFStreamPropertySOCKSVersion = lib.declare("kCFStreamPropertySOCKSVersion", this.CFStringRef);
+    this.kCFStreamSocketSOCKSVersion4 = lib.declare("kCFStreamSocketSOCKSVersion4", this.CFStringRef);
+    this.kCFStreamSocketSOCKSVersion5 = lib.declare("kCFStreamSocketSOCKSVersion5", this.CFStringRef);
+    this.kCFStreamPropertySOCKSUser = lib.declare("kCFStreamPropertySOCKSUser", this.CFStringRef);
+    this.kCFStreamPropertySOCKSPassword = lib.declare("kCFStreamPropertySOCKSPassword", this.CFStringRef);
+    this.kCFStreamErrorDomainSSL = lib.declare("kCFStreamErrorDomainSSL", ctypes.int);
+    this.kCFStreamPropertySocketSecurityLevel = lib.declare("kCFStreamPropertySocketSecurityLevel", this.CFStringRef);
+    this.kCFStreamSocketSecurityLevelNone = lib.declare("kCFStreamSocketSecurityLevelNone", this.CFStringRef);
+    this.kCFStreamSocketSecurityLevelSSLv2 = lib.declare("kCFStreamSocketSecurityLevelSSLv2", this.CFStringRef);
+    this.kCFStreamSocketSecurityLevelSSLv3 = lib.declare("kCFStreamSocketSecurityLevelSSLv3", this.CFStringRef);
+    this.kCFStreamSocketSecurityLevelTLSv1 = lib.declare("kCFStreamSocketSecurityLevelTLSv1", this.CFStringRef);
+    this.kCFStreamSocketSecurityLevelNegotiatedSSL = lib.declare("kCFStreamSocketSecurityLevelNegotiatedSSL", this.CFStringRef);
+    this.kCFStreamPropertyShouldCloseNativeSocket = lib.declare("kCFStreamPropertyShouldCloseNativeSocket", this.CFStringRef);
+    this.kCFStreamPropertySocketRemoteHost = lib.declare("kCFStreamPropertySocketRemoteHost", this.CFStringRef);
+    this.kCFStreamPropertySocketRemoteNetService = lib.declare("kCFStreamPropertySocketRemoteNetService", this.CFStringRef);
     this.CFStreamCreatePairWithSocketToCFHost = lib.declare("CFStreamCreatePairWithSocketToCFHost", ctypes.default_abi, ctypes.void_t, this.CFAllocatorRef, this.CFHostRef, this.SInt32, this.CFReadStreamRef.ptr, this.CFWriteStreamRef.ptr);
     this.CFStreamCreatePairWithSocketToNetService = lib.declare("CFStreamCreatePairWithSocketToNetService", ctypes.default_abi, ctypes.void_t, this.CFAllocatorRef, this.CFNetServiceRef, this.CFReadStreamRef.ptr, this.CFWriteStreamRef.ptr);
     this.kCFStreamSocketSecurityNone = 0;
@@ -209,6 +303,7 @@ function CFSocketStream_h(lib) {
     this.kCFStreamSocketSecuritySSLv23 = 3;
     this.kCFStreamSocketSecurityTLSv1 = 4;
     this.CFSocketStreamPairSetSecurityProtocol = lib.declare("CFSocketStreamPairSetSecurityProtocol", ctypes.default_abi, this.Boolean, this.CFReadStreamRef, this.CFWriteStreamRef, this.CFStreamSocketSecurityProtocol);
+    this.kCFStreamPropertyProxyLocalBypass = lib.declare("kCFStreamPropertyProxyLocalBypass", this.CFStringRef);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CFNetwork.framework/Headers/CFHTTPMessage.h
@@ -223,6 +318,12 @@ function CFHTTPMessage_h(lib) {
         return;
     this._CFHTTPMESSAGE_H = true;
 
+    this.kCFHTTPVersion1_0 = lib.declare("kCFHTTPVersion1_0", this.CFStringRef);
+    this.kCFHTTPVersion1_1 = lib.declare("kCFHTTPVersion1_1", this.CFStringRef);
+    this.kCFHTTPAuthenticationSchemeBasic = lib.declare("kCFHTTPAuthenticationSchemeBasic", this.CFStringRef);
+    this.kCFHTTPAuthenticationSchemeDigest = lib.declare("kCFHTTPAuthenticationSchemeDigest", this.CFStringRef);
+    this.kCFHTTPAuthenticationSchemeNTLM = lib.declare("kCFHTTPAuthenticationSchemeNTLM", this.CFStringRef);
+    this.kCFHTTPAuthenticationSchemeNegotiate = lib.declare("kCFHTTPAuthenticationSchemeNegotiate", this.CFStringRef);
     this.__CFHTTPMessage = new ctypes.StructType("__CFHTTPMessage");
     this.CFHTTPMessageRef = this.__CFHTTPMessage.ptr;
     this.CFHTTPMessageGetTypeID = lib.declare("CFHTTPMessageGetTypeID", ctypes.default_abi, this.CFTypeID);
@@ -258,9 +359,21 @@ function CFHTTPStream_h(lib) {
         return;
     this._CFHTTPSTREAM_H = true;
 
+    this.kCFStreamErrorDomainHTTP = lib.declare("kCFStreamErrorDomainHTTP", this.SInt32);
     this.kCFStreamErrorHTTPParseFailure = -1;
     this.kCFStreamErrorHTTPRedirectionLoop = -2;
     this.kCFStreamErrorHTTPBadURL = -3;
+    this.kCFStreamPropertyHTTPResponseHeader = lib.declare("kCFStreamPropertyHTTPResponseHeader", this.CFStringRef);
+    this.kCFStreamPropertyHTTPFinalURL = lib.declare("kCFStreamPropertyHTTPFinalURL", this.CFStringRef);
+    this.kCFStreamPropertyHTTPFinalRequest = lib.declare("kCFStreamPropertyHTTPFinalRequest", this.CFStringRef);
+    this.kCFStreamPropertyHTTPProxy = lib.declare("kCFStreamPropertyHTTPProxy", this.CFStringRef);
+    this.kCFStreamPropertyHTTPProxyHost = lib.declare("kCFStreamPropertyHTTPProxyHost", this.CFStringRef);
+    this.kCFStreamPropertyHTTPProxyPort = lib.declare("kCFStreamPropertyHTTPProxyPort", this.CFStringRef);
+    this.kCFStreamPropertyHTTPSProxyHost = lib.declare("kCFStreamPropertyHTTPSProxyHost", this.CFStringRef);
+    this.kCFStreamPropertyHTTPSProxyPort = lib.declare("kCFStreamPropertyHTTPSProxyPort", this.CFStringRef);
+    this.kCFStreamPropertyHTTPShouldAutoredirect = lib.declare("kCFStreamPropertyHTTPShouldAutoredirect", this.CFStringRef);
+    this.kCFStreamPropertyHTTPAttemptPersistentConnection = lib.declare("kCFStreamPropertyHTTPAttemptPersistentConnection", this.CFStringRef);
+    this.kCFStreamPropertyHTTPRequestBytesWrittenCount = lib.declare("kCFStreamPropertyHTTPRequestBytesWrittenCount", this.CFStringRef);
     this.CFReadStreamCreateForHTTPRequest = lib.declare("CFReadStreamCreateForHTTPRequest", ctypes.default_abi, this.CFReadStreamRef, this.CFAllocatorRef, this.CFHTTPMessageRef);
     this.CFReadStreamCreateForStreamedHTTPRequest = lib.declare("CFReadStreamCreateForStreamedHTTPRequest", ctypes.default_abi, this.CFReadStreamRef, this.CFAllocatorRef, this.CFHTTPMessageRef, this.CFReadStreamRef);
     this.CFHTTPReadStreamSetRedirectsAutomatically = lib.declare("CFHTTPReadStreamSetRedirectsAutomatically", ctypes.default_abi, ctypes.void_t, this.CFReadStreamRef, this.Boolean);
@@ -269,11 +382,14 @@ function CFHTTPStream_h(lib) {
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CFNetwork.framework/Headers/CFNetworkErrors.h
 function CFNetworkErrors_h(lib) {
+    CFBase_h.call(this, lib);
 
     if (this._CFNETWORKERRORS_H)
         return;
     this._CFNETWORKERRORS_H = true;
 
+    this.kCFErrorDomainCFNetwork = lib.declare("kCFErrorDomainCFNetwork", this.CFStringRef);
+    this.kCFErrorDomainWinSock = lib.declare("kCFErrorDomainWinSock", this.CFStringRef);
     this.kCFHostErrorHostNotFound = 1;
     this.kCFHostErrorUnknown = 2;
     this.kCFSOCKSErrorUnknownClientVersion = 100;
@@ -353,6 +469,14 @@ function CFNetworkErrors_h(lib) {
     this.kCFNetServiceErrorInvalid = -72006;
     this.kCFNetServiceErrorTimeout = -72007;
     this.kCFNetServiceErrorDNSServiceFailure = -73000;
+    this.kCFURLErrorFailingURLErrorKey = lib.declare("kCFURLErrorFailingURLErrorKey", this.CFStringRef);
+    this.kCFURLErrorFailingURLStringErrorKey = lib.declare("kCFURLErrorFailingURLStringErrorKey", this.CFStringRef);
+    this.kCFGetAddrInfoFailureKey = lib.declare("kCFGetAddrInfoFailureKey", this.CFStringRef);
+    this.kCFSOCKSStatusCodeKey = lib.declare("kCFSOCKSStatusCodeKey", this.CFStringRef);
+    this.kCFSOCKSVersionKey = lib.declare("kCFSOCKSVersionKey", this.CFStringRef);
+    this.kCFSOCKSNegotiationMethodKey = lib.declare("kCFSOCKSNegotiationMethodKey", this.CFStringRef);
+    this.kCFDNSServiceFailureKey = lib.declare("kCFDNSServiceFailureKey", this.CFStringRef);
+    this.kCFFTPStatusCodeKey = lib.declare("kCFFTPStatusCodeKey", this.CFStringRef);
 }
 
 // Based on /System/Library/Frameworks/CoreServices.framework/Frameworks/CFNetwork.framework/Headers/CFHost.h
@@ -370,6 +494,8 @@ function CFHost_h(lib) {
 
     this.__CFHost = new ctypes.StructType("__CFHost");
     this.CFHostRef = this.__CFHost.ptr;
+    this.kCFStreamErrorDomainNetDB = lib.declare("kCFStreamErrorDomainNetDB", this.SInt32);
+    this.kCFStreamErrorDomainSystemConfiguration = lib.declare("kCFStreamErrorDomainSystemConfiguration", this.SInt32);
     this.kCFHostAddresses = 0;
     this.kCFHostNames = 1;
     this.kCFHostReachability = 2;

@@ -142,14 +142,24 @@ function SecBase_h(lib) {
 // Based on /System/Library/Frameworks/Security.framework/Headers/cssmapple.h
 function cssmapple_h(lib) {
     x509defs_h.call(this, lib);
-    cssmtype_h.call(this, lib);
-    cssmconfig_h.call(this, lib);
     certextensions_h.call(this, lib);
+    cssmconfig_h.call(this, lib);
+    cssmtype_h.call(this, lib);
 
     if (this._CSSMAPPLE_H)
         return;
     this._CSSMAPPLE_H = true;
 
+    this.gGuidCssm = lib.declare("gGuidCssm", this.CSSM_GUID);
+    this.gGuidAppleFileDL = lib.declare("gGuidAppleFileDL", this.CSSM_GUID);
+    this.gGuidAppleCSP = lib.declare("gGuidAppleCSP", this.CSSM_GUID);
+    this.gGuidAppleCSPDL = lib.declare("gGuidAppleCSPDL", this.CSSM_GUID);
+    this.gGuidAppleX509CL = lib.declare("gGuidAppleX509CL", this.CSSM_GUID);
+    this.gGuidAppleX509TP = lib.declare("gGuidAppleX509TP", this.CSSM_GUID);
+    this.gGuidAppleLDAPDL = lib.declare("gGuidAppleLDAPDL", this.CSSM_GUID);
+    this.gGuidAppleDotMacTP = lib.declare("gGuidAppleDotMacTP", this.CSSM_GUID);
+    this.gGuidAppleSdCSPDL = lib.declare("gGuidAppleSdCSPDL", this.CSSM_GUID);
+    this.gGuidAppleDotMacDL = lib.declare("gGuidAppleDotMacDL", this.CSSM_GUID);
     this.CSSM_WORDID_KEYCHAIN_PROMPT = 65536;
     this.CSSM_WORDID_KEYCHAIN_LOCK = 65537;
     this.CSSM_WORDID_KEYCHAIN_CHANGE_LOCK = 65538;
@@ -2430,6 +2440,8 @@ function SecIdentity_h(lib) {
     this.SecIdentitySetPreference = lib.declare("SecIdentitySetPreference", ctypes.default_abi, this.OSStatus, this.SecIdentityRef, this.CFStringRef, this.CSSM_KEYUSE);
     this.SecIdentityCopySystemIdentity = lib.declare("SecIdentityCopySystemIdentity", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.SecIdentityRef.ptr, this.CFStringRef.ptr);
     this.SecIdentitySetSystemIdentity = lib.declare("SecIdentitySetSystemIdentity", ctypes.default_abi, this.OSStatus, this.CFStringRef, this.SecIdentityRef);
+    this.kSecIdentityDomainDefault = lib.declare("kSecIdentityDomainDefault", this.CFStringRef);
+    this.kSecIdentityDomainKerberosKDC = lib.declare("kSecIdentityDomainKerberosKDC", this.CFStringRef);
 }
 
 Components.utils.import("resource://gre/modules/ctypes.jsm");

@@ -103,11 +103,15 @@ def writeFunction(declaration, out):
               '%s%s);\n' % (name, name, return_type, args_types));
 
 def writeVariable(declaration, out):
-    value = declaration.value
-    if value is None:
-        return
     name = declaration.name
+    value = declaration.value
     typ = ctypesNameForType(declaration.type)
+    if value is None:
+        if isinstance(declaration.type, pygccxml.declarations.const_t):
+            out.write('    this.%s = lib.declare("%s", %s);\n'
+                      % (name, name, typ))
+            return
+        raise CTypesError("No value")
     out.write('    this.%s = %s(%s);\n' % (name, typ, value))
 
 def writeEnum(declaration, out):
@@ -117,7 +121,7 @@ def writeEnum(declaration, out):
 def writeStruct(declaration, out):
     #TODO need to deal with unions separately... how does ctypes handle them?
     if declaration.class_type not in ("struct", "union"):
-        return
+        raise CTypesError("Unsupported class type")
     name = declaration.name
     try:
         members = ", ".join(

@@ -8,6 +8,32 @@ function ColorSyncDevice_h(lib) {
         return;
     this._COLORSYNCDEVICE_H = true;
 
+    // Dropping declaration of 'kColorSyncDeviceID': No value
+    // Dropping declaration of 'kColorSyncDeviceClass': No value
+    // Dropping declaration of 'kColorSyncCameraDeviceClass': No value
+    // Dropping declaration of 'kColorSyncDisplayDeviceClass': No value
+    // Dropping declaration of 'kColorSyncPrinterDeviceClass': No value
+    // Dropping declaration of 'kColorSyncScannerDeviceClass': No value
+    // Dropping declaration of 'kColorSyncDeviceProfileURL': No value
+    // Dropping declaration of 'kColorSyncDeviceDescription': No value
+    // Dropping declaration of 'kColorSyncDeviceDescriptions': No value
+    // Dropping declaration of 'kColorSyncFactoryProfiles': No value
+    // Dropping declaration of 'kColorSyncCustomProfiles': No value
+    // Dropping declaration of 'kColorSyncDeviceModeDescription': No value
+    // Dropping declaration of 'kColorSyncDeviceModeDescriptions': No value
+    // Dropping declaration of 'kColorSyncDeviceDefaultProfileID': No value
+    // Dropping declaration of 'kColorSyncDeviceHostScope': No value
+    // Dropping declaration of 'kColorSyncDeviceUserScope': No value
+    // Dropping declaration of 'kColorSyncProfileHostScope': No value
+    // Dropping declaration of 'kColorSyncProfileUserScope': No value
+    // Dropping declaration of 'kColorSyncDeviceProfileIsFactory': No value
+    // Dropping declaration of 'kColorSyncDeviceProfileIsDefault': No value
+    // Dropping declaration of 'kColorSyncDeviceProfileIsCurrent': No value
+    // Dropping declaration of 'kColorSyncDeviceProfileID': No value
+    // Dropping declaration of 'kColorSyncDeviceRegisteredNotification': No value
+    // Dropping declaration of 'kColorSyncDeviceUnregisteredNotification': No value
+    // Dropping declaration of 'kColorSyncDeviceProfilesNotification': No value
+    // Dropping declaration of 'kColorSyncDisplayDeviceProfilesNotification': No value
     // Dropping declaration of 'ColorSyncRegisterDevice': Unknown type bool_t
     // Dropping declaration of 'ColorSyncUnregisterDevice': Unknown type bool_t
     // Dropping declaration of 'ColorSyncDeviceSetCustomProfiles': Unknown type bool_t
@@ -704,6 +730,8 @@ function ColorSyncDeprecated_h(lib) {
     this.kCMFloatBitmapFlagsAlphaPremul = 2;
     this.kCMFloatBitmapFlagsRangeClipped = 4;
     this.CMFloatBitmap = new ctypes.StructType("CMFloatBitmap", []);
+    this.kCMIlluminantD50 = lib.declare("kCMIlluminantD50", ctypes.float.array(3));
+    this.kCMIlluminantD65 = lib.declare("kCMIlluminantD65", ctypes.float.array(3));
     // Dropping declaration of 'CMFloatBitmapMakeChunky': 'size_t' defined out of scope
     this.CMConvertXYZFloatBitmap = lib.declare("CMConvertXYZFloatBitmap", ctypes.default_abi, this.CMError, this.CMFloatBitmap.ptr, ctypes.float.ptr, this.CMFloatBitmap.ptr, ctypes.float.ptr, this.CMChromaticAdaptation);
     this.CMConvertRGBFloatBitmap = lib.declare("CMConvertRGBFloatBitmap", ctypes.default_abi, this.CMError, this.CMFloatBitmap.ptr, this.CMFloatBitmap.ptr);
@@ -816,6 +844,21 @@ function ColorSyncProfile_h(lib) {
     this.ColorSyncProfile = new ctypes.StructType("ColorSyncProfile");
     this.ColorSyncProfileRef = this.ColorSyncProfile.ptr;
     this.ColorSyncMutableProfileRef = this.ColorSyncProfile.ptr;
+    // Dropping declaration of 'kColorSyncGenericGrayProfile': No value
+    // Dropping declaration of 'kColorSyncGenericGrayGamma22Profile': No value
+    // Dropping declaration of 'kColorSyncGenericRGBProfile': No value
+    // Dropping declaration of 'kColorSyncGenericCMYKProfile': No value
+    // Dropping declaration of 'kColorSyncSRGBProfile': No value
+    // Dropping declaration of 'kColorSyncAdobeRGB1998Profile': No value
+    // Dropping declaration of 'kColorSyncGenericLabProfile': No value
+    // Dropping declaration of 'kColorSyncGenericXYZProfile': No value
+    // Dropping declaration of 'kColorSyncProfileHeader': No value
+    // Dropping declaration of 'kColorSyncProfileClass': No value
+    // Dropping declaration of 'kColorSyncProfileColorSpace': No value
+    // Dropping declaration of 'kColorSyncProfilePCS': No value
+    // Dropping declaration of 'kColorSyncProfileURL': No value
+    // Dropping declaration of 'kColorSyncProfileDescription': No value
+    // Dropping declaration of 'kColorSyncProfileMD5Digest': No value
     this.ColorSyncProfileGetTypeID = lib.declare("ColorSyncProfileGetTypeID", ctypes.default_abi, this.CFTypeID);
     this.ColorSyncProfileCreate = lib.declare("ColorSyncProfileCreate", ctypes.default_abi, this.ColorSyncProfileRef, this.CFDataRef, this.CFErrorRef.ptr);
     this.ColorSyncProfileCreateWithURL = lib.declare("ColorSyncProfileCreateWithURL", ctypes.default_abi, this.ColorSyncProfileRef, this.CFURLRef, this.CFErrorRef.ptr);
@@ -883,6 +926,46 @@ function ColorSyncTransform_h(lib) {
     this.kColorSyncByteOrder32Big = 16384;
     // Dropping declaration of 'ColorSyncDataLayout': 'uint32_t' defined out of scope
     // Dropping declaration of 'ColorSyncTransformConvert': Unknown type bool_t
+    // Dropping declaration of 'kColorSyncProfile': No value
+    // Dropping declaration of 'kColorSyncRenderingIntent': No value
+    // Dropping declaration of 'kColorSyncRenderingIntentPerceptual': No value
+    // Dropping declaration of 'kColorSyncRenderingIntentRelative': No value
+    // Dropping declaration of 'kColorSyncRenderingIntentSaturation': No value
+    // Dropping declaration of 'kColorSyncRenderingIntentAbsolute': No value
+    // Dropping declaration of 'kColorSyncRenderingIntentUseProfileHeader': No value
+    // Dropping declaration of 'kColorSyncTransformTag': No value
+    // Dropping declaration of 'kColorSyncTransformDeviceToPCS': No value
+    // Dropping declaration of 'kColorSyncTransformPCSToPCS': No value
+    // Dropping declaration of 'kColorSyncTransformPCSToDevice': No value
+    // Dropping declaration of 'kColorSyncTransformDeviceToDevice': No value
+    // Dropping declaration of 'kColorSyncTransformGamutCheck': No value
+    // Dropping declaration of 'kColorSyncBlackPointCompensation': No value
+    // Dropping declaration of 'kColorSyncPreferredCMM': No value
+    // Dropping declaration of 'kColorSyncConvertQuality': No value
+    // Dropping declaration of 'kColorSyncBestQuality': No value
+    // Dropping declaration of 'kColorSyncNormalQuality': No value
+    // Dropping declaration of 'kColorSyncDraftQuality': No value
+    // Dropping declaration of 'kColorSyncConvertThreadCount': No value
+    // Dropping declaration of 'kColorSyncTranformInfo': No value
+    // Dropping declaration of 'kColorSyncTransformCreator': No value
+    // Dropping declaration of 'kColorSyncTransformSrcSpace': No value
+    // Dropping declaration of 'kColorSyncTransformDstSpace': No value
+    // Dropping declaration of 'kColorSyncTransformFullConversionData': No value
+    // Dropping declaration of 'kColorSyncTransformSimplifiedConversionData': No value
+    // Dropping declaration of 'kColorSyncTransformParametricConversionData': No value
+    // Dropping declaration of 'kColorSyncConversionMatrix': No value
+    // Dropping declaration of 'kColorSyncConversionParamCurve0': No value
+    // Dropping declaration of 'kColorSyncConversionParamCurve1': No value
+    // Dropping declaration of 'kColorSyncConversionParamCurve2': No value
+    // Dropping declaration of 'kColorSyncConversionParamCurve3': No value
+    // Dropping declaration of 'kColorSyncConversionParamCurve4': No value
+    // Dropping declaration of 'kColorSyncConversion1DLut': No value
+    // Dropping declaration of 'kColorSyncConversionGridPoints': No value
+    // Dropping declaration of 'kColorSyncConversionChannelID': No value
+    // Dropping declaration of 'kColorSyncConversion3DLut': No value
+    // Dropping declaration of 'kColorSyncConversionInpChan': No value
+    // Dropping declaration of 'kColorSyncConversionOutChan': No value
+    // Dropping declaration of 'kColorSyncConversionBPC': No value
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/ColorSync.framework/Headers/ColorSyncCMM.h
@@ -909,6 +992,10 @@ function ColorSyncCMM_h(lib) {
     // Dropping declaration of 'CMMInitializeTransformProc': Unknown type bool_t
     // Dropping declaration of 'CMMApplyTransformProc': Unknown type bool_t
     this.CMMCreateTransformPropertyProc = new ctypes.FunctionType(ctypes.default_abi, this.CFTypeRef, [this.ColorSyncTransformRef, this.CFTypeRef, this.CFDictionaryRef]).ptr;
+    // Dropping declaration of 'kCMMInitializeLinkProfileProcName': No value
+    // Dropping declaration of 'kCMMInitializeTransformProcName': No value
+    // Dropping declaration of 'kCMMApplyTransformProcName': No value
+    // Dropping declaration of 'kCMMCreateTransformPropertyProcName': No value
 }
 
 Components.utils.import("resource://gre/modules/ctypes.jsm");

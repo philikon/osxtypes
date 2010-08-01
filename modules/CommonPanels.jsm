@@ -63,6 +63,17 @@ function FontPanel_h(lib) {
     this.kEventParamFontColor = 1717791858;
     this.kEventParamDictionary = 1684628340;
     this.kEventParamViewAttributesDictionary = 1684104291;
+    this.kFontPanelATSUFontIDKey = lib.declare("kFontPanelATSUFontIDKey", this.CFStringRef);
+    this.kFontPanelVariationAxesKey = lib.declare("kFontPanelVariationAxesKey", this.CFStringRef);
+    this.kFontPanelVariationValuesKey = lib.declare("kFontPanelVariationValuesKey", this.CFStringRef);
+    this.kFontPanelFeatureTypesKey = lib.declare("kFontPanelFeatureTypesKey", this.CFStringRef);
+    this.kFontPanelFeatureSelectorsKey = lib.declare("kFontPanelFeatureSelectorsKey", this.CFStringRef);
+    this.kFontPanelAttributesKey = lib.declare("kFontPanelAttributesKey", this.CFStringRef);
+    this.kFontPanelAttributeTagsKey = lib.declare("kFontPanelAttributeTagsKey", this.CFStringRef);
+    this.kFontPanelAttributeSizesKey = lib.declare("kFontPanelAttributeSizesKey", this.CFStringRef);
+    this.kFontPanelAttributeValuesKey = lib.declare("kFontPanelAttributeValuesKey", this.CFStringRef);
+    this.kFontPanelMouseTrackingState = lib.declare("kFontPanelMouseTrackingState", this.CFStringRef);
+    this.kFontPanelBackgroundColorAttributeName = lib.declare("kFontPanelBackgroundColorAttributeName", this.CFStringRef);
     this.fontPanelShowErr = -8880;
     this.fontPanelSelectionStyleErr = -8881;
     this.fontPanelFontSelectionQDStyleVersionErr = -8882;
@@ -83,6 +94,12 @@ function FontPanel_h(lib) {
     this.FCRemoveCollection = lib.declare("FCRemoveCollection", ctypes.default_abi, this.OSStatus, this.CFStringRef);
     this.FCAddFontDescriptorToCollection = lib.declare("FCAddFontDescriptorToCollection", ctypes.default_abi, this.OSStatus, this.FCFontDescriptorRef, this.CFStringRef);
     this.FCRemoveFontDescriptorFromCollection = lib.declare("FCRemoveFontDescriptorFromCollection", ctypes.default_abi, this.OSStatus, this.FCFontDescriptorRef, this.CFStringRef);
+    this.kFCFontFamilyAttribute = lib.declare("kFCFontFamilyAttribute", this.CFStringRef);
+    this.kFCFontNameAttribute = lib.declare("kFCFontNameAttribute", this.CFStringRef);
+    this.kFCFontFaceAttribute = lib.declare("kFCFontFaceAttribute", this.CFStringRef);
+    this.kFCFontSizeAttribute = lib.declare("kFCFontSizeAttribute", this.CFStringRef);
+    this.kFCFontVisibleNameAttribute = lib.declare("kFCFontVisibleNameAttribute", this.CFStringRef);
+    this.kFCFontCGColorAttribute = lib.declare("kFCFontCGColorAttribute", this.CFStringRef);
     this.FCFontDescriptorCreateWithFontAttributes = lib.declare("FCFontDescriptorCreateWithFontAttributes", ctypes.default_abi, this.FCFontDescriptorRef, this.CFDictionaryRef);
     this.FCFontDescriptorCreateWithName = lib.declare("FCFontDescriptorCreateWithName", ctypes.default_abi, this.FCFontDescriptorRef, this.CFStringRef, this.CGFloat);
 }

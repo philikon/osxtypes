@@ -632,17 +632,37 @@ function Pasteboard_h(lib) {
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/HIServices.framework/Headers/AXTextAttributedString.h
 function AXTextAttributedString_h(lib) {
+    CFBase_h.call(this, lib);
     MacTypes_h.call(this, lib);
 
     if (this._AXTEXTATTRIBUTEDSTRING_H)
         return;
     this._AXTEXTATTRIBUTEDSTRING_H = true;
 
+    // Dropping declaration of 'kAXFontTextAttribute': No value
+    // Dropping declaration of 'kAXForegroundColorTextAttribute': No value
+    // Dropping declaration of 'kAXBackgroundColorTextAttribute': No value
+    // Dropping declaration of 'kAXUnderlineColorTextAttribute': No value
+    // Dropping declaration of 'kAXStrikethroughColorTextAttribute': No value
+    // Dropping declaration of 'kAXUnderlineTextAttribute': No value
+    // Dropping declaration of 'kAXSuperscriptTextAttribute': No value
+    // Dropping declaration of 'kAXStrikethroughTextAttribute': No value
+    // Dropping declaration of 'kAXShadowTextAttribute': No value
+    // Dropping declaration of 'kAXAttachmentTextAttribute': No value
+    // Dropping declaration of 'kAXLinkTextAttribute': No value
+    // Dropping declaration of 'kAXNaturalLanguageTextAttribute': No value
+    // Dropping declaration of 'kAXReplacementStringTextAttribute': No value
+    // Dropping declaration of 'kAXMisspelledTextAttribute': No value
+    // Dropping declaration of 'kAXFontNameKey': No value
+    // Dropping declaration of 'kAXFontFamilyKey': No value
+    // Dropping declaration of 'kAXVisibleNameKey': No value
+    // Dropping declaration of 'kAXFontSizeKey': No value
     this.kAXUnderlineStyleNone = 0;
     this.kAXUnderlineStyleSingle = 1;
     this.kAXUnderlineStyleThick = 2;
     this.kAXUnderlineStyleDouble = 9;
     this.AXUnderlineStyle = this.UInt32;
+    // Dropping declaration of 'kAXForegoundColorTextAttribute': No value
 }
 
 // Based on /System/Library/Frameworks/ApplicationServices.framework/Frameworks/HIServices.framework/Headers/UniversalAccess.h

@@ -14,6 +14,7 @@ function IOKitLib_h(lib) {
     this.IONotificationPortRef = this.IONotificationPort.ptr;
     this.IOServiceMatchingCallback = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [ctypes.void_t.ptr, this.io_iterator_t]).ptr;
     // Dropping declaration of 'IOServiceInterestCallback': 'uint32_t' defined out of scope
+    // Dropping declaration of 'kIOMasterPortDefault': 'mach_port_t' defined out of scope
     // Dropping declaration of 'IOMasterPort': 'kern_return_t' defined out of scope
     // Dropping declaration of 'IONotificationPortCreate': 'mach_port_t' defined out of scope
     this.IONotificationPortDestroy = lib.declare("IONotificationPortDestroy", ctypes.default_abi, ctypes.void_t, this.IONotificationPortRef);
