@@ -46,6 +46,7 @@ def mangleFilename(filename):
     segments = filename.split(os.path.sep)
     return segments[-1].replace('.h', '_h')
 
+# This acts as a global namespace where we find names
 lookup = {}
 def addToLookup(declaration):
     if not declaration.name:
@@ -54,6 +55,8 @@ def addToLookup(declaration):
         print "%s already defined, overwriting." % declaration.name
     lookup[declaration.name] = declaration
 
+# This will be a new set for every file where we track dependencies on
+# other files (everytime we prefix() a name).
 dependencies = None
 def prefix(name):
     declaration = lookup.get(name)
@@ -72,6 +75,11 @@ def prefix(name):
     # We assume that the relevant definitions have been loaded into
     # the 'this' object.
     return 'this.' + name
+
+
+#
+# Writers for the different kinds of declarations
+#
 
 def writeTypedef(declaration, out):
     value = ctypesNameForType(declaration.type)
@@ -123,12 +131,18 @@ def writeOpaqueStruct(declaration, out):
     name = declaration.name
     out.write('    this.%s = new ctypes.StructType("%s");\n' % (name, name))
 
+
 writers = {pygccxml.declarations.typedef_t:           writeTypedef,
            pygccxml.declarations.free_function_t:     writeFunction,
            pygccxml.declarations.variable_t:          writeVariable,
            pygccxml.declarations.enumeration_t:       writeEnum,
            pygccxml.declarations.class_t:             writeStruct,
            pygccxml.declarations.class_declaration_t: writeOpaqueStruct}
+
+def writeError(declaration, error, out):
+    print "Dropping declaration", declaration.name, ". ".join(error.args)
+    out.write("    // Dropping declaration of '%s': %s\n"
+              % (declaration.name, ". ".join(error.args)));
 
 
 builtin_types = {
@@ -179,10 +193,10 @@ def ctypesNameForType(typ):
 
     raise CTypesError("Unknown type %s" % typ.__class__.__name__)
 
-def writeError(declaration, error, out):
-    print "Dropping declaration", declaration.name, ". ".join(error.args)
-    out.write("    // Dropping declaration of '%s': %s\n"
-              % (declaration.name, ". ".join(error.args)));
+
+#
+# Big picture stuff below
+#
 
 def writeFramework(framework, declarations):
     global dependencies
