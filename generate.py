@@ -2,6 +2,7 @@
 # Philipp von Weitershausen <philipp@weitershausen.de>
 
 import os
+import io
 import pygccxml
 import operator
 from ordereddict import OrderedDict
@@ -19,7 +20,7 @@ def groupByFile(declarations):
     return by_file
 
 def groupByFramework(declarations):
-    by_framework = OrderedDict()
+    by_framework = {}
     for decl in declarations:
         if not decl.location:
             continue
@@ -41,6 +42,10 @@ def frameworkFromFilename(filename):
         return segments[-3][:-10]
     return "stdlib"
 
+def mangleFilename(filename):
+    segments = filename.split(os.path.sep)
+    return segments[-1].replace('.h', '_h')
+
 lookup = {}
 def addToLookup(declaration):
     if not declaration.name:
@@ -49,19 +54,24 @@ def addToLookup(declaration):
         print "%s already defined, overwriting." % declaration.name
     lookup[declaration.name] = declaration
 
-current_framework = None
+dependencies = None
 def prefix(name):
     declaration = lookup.get(name)
     if not declaration or not declaration.location:
         raise CTypesError("Couldn't find prefix for '%s'." % name)
-    framework = frameworkFromFilename(declaration.location.file_name)
-    if framework == current_framework:
-        return "this." + name
+
     # For now we don't allow references into the "stdlib".
     # We may lift this restriction in the future.
+    framework = frameworkFromFilename(declaration.location.file_name)
     if framework == "stdlib":
         raise CTypesError("'%s' defined out of scope" % name)
-    return framework + "." + name
+
+    mangled = mangleFilename(declaration.location.file_name)
+    dependencies.add((framework, mangled))
+
+    # We assume that the relevant definitions have been loaded into
+    # the 'this' object.
+    return 'this.' + name
 
 def writeTypedef(declaration, out):
     value = ctypesNameForType(declaration.type)
@@ -77,7 +87,7 @@ def writeFunction(declaration, out):
     if declaration.arguments:
         args_types = ', ' + ', '.join(ctypesNameForType(arg.type)
                                       for arg in declaration.arguments)
-    out.write('    this.%s = this.lib.declare("%s", ctypes.default_abi, '
+    out.write('    this.%s = lib.declare("%s", ctypes.default_abi, '
               '%s%s);\n' % (name, name, return_type, args_types));
 
 def writeVariable(declaration, out):
@@ -174,18 +184,10 @@ def writeError(declaration, error, out):
     out.write("    // Dropping declaration of '%s': %s\n"
               % (declaration.name, ". ".join(error.args)));
 
-def writeFramework(framework, declarations, out):
-    global current_framework
-    current_framework = framework
-
-    out.write('''\
-Components.utils.import("resource://gre/modules/ctypes.jsm");
-const EXPORTED_SYMBOLS = ["%(framework)s"];
-
-function %(framework)sFramework() {
-    this.libpath = "/System/Library/Frameworks/%(framework)s.framework/%(framework)s";
-    this.lib = ctypes.open(this.libpath);
-''' % {'framework': framework});
+def writeFramework(framework, declarations):
+    global dependencies
+    framework_deps = set()
+    out = open(framework + ".jsm", "w")
 
     # Group declarations by file.
     by_file = groupByFile(declarations)
@@ -194,20 +196,57 @@ function %(framework)sFramework() {
         # were defined in the header file.
         decls = sorted(decls, key=operator.attrgetter('location.line'))
 
-        out.write("\n    // File: %s\n" % filename)
+        dependencies = set()
+        tempout = io.BytesIO()
         for decl in decls:
             writer = writers.get(type(decl))
             if not writer:
                 print "Ignoring declaration %r" % decl
                 continue
             try:
-                writer(decl, out)
+                writer(decl, tempout)
             except CTypesError as error:
-                writeError(decl, error, out)
+                writeError(decl, error, tempout)
+        mangled = mangleFilename(filename)
+        deps = "".join("    %s.call(this, lib);\n" % header
+                       for framework, header in dependencies
+                       if not header == mangled)
+        framework_deps.update(framework for framework, header in dependencies)
+        out.write('''\
+// Based on %(filename)s
+function %(header)s(lib) {
+%(dependencies)s
+    if (this._%(upper)s)
+        return;
+    this._%(upper)s = true;
+
+%(declarations)s}\n\n''' % {'header': mangled,
+                            'upper': mangled.upper(),
+                            'dependencies': deps,
+                            'declarations': tempout.getvalue(),
+                            'filename': filename})
+
+    imports = "".join('Components.utils.import("resource://osxtypes/modules/%s.jsm");\n'
+                      % frmwrk for frmwrk in framework_deps
+                      if not frmwrk == framework)
+    basecalls = "".join('    %s.call(this, lib);\n'
+                        % mangleFilename(filename) for filename in by_file)
     out.write('''\
-}
-const %(framework)s = new %(framework)sFramework();
-''' % {'framework': framework})
+Components.utils.import("resource://gre/modules/ctypes.jsm");
+%(imports)s
+const EXPORTED_SYMBOLS = ["%(framework)s", %(headers)s];
+
+function %(framework)s() {
+    let libpath = "/System/Library/Frameworks/%(framework)s.framework/%(framework)s";
+    let lib = ctypes.open(libpath);
+
+%(basecalls)s}
+''' % {'framework': framework,
+       'headers': ", ".join('"%s"' % mangleFilename(filename)
+                            for filename in by_file),
+       'imports': imports,
+       'basecalls': basecalls})
+    out.close()
 
 
 filename = "/System/Library/Frameworks/CoreServices.framework/Headers/CoreServices.h"
@@ -225,10 +264,9 @@ def main():
     by_framework = groupByFramework(global_ns.declarations)
     [addToLookup(decl) for decl in global_ns.declarations]
     for framework, declarations in by_framework.iteritems():
-        outfile = framework + ".jsm"
-        out = open(outfile, "w")
-        writeFramework(framework, declarations, out)
-        out.close()
+        if framework == "stdlib":
+            continue
+        writeFramework(framework, declarations)
 
 if __name__ == "__main__":
     main()
