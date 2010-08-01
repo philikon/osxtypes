@@ -67,9 +67,9 @@ function MacTypes_h(lib) {
     this.kUnknownType = 1061109567;
     this.UnicodeScalarValue = this.UInt32;
     this.UTF32Char = this.UInt32;
-    this.UniChar = this.UInt16;
-    this.UTF16Char = this.UInt16;
-    this.UTF8Char = this.UInt8;
+    this.UniChar = ctypes.jschar;   // uint16 with automatic conversion
+    this.UTF16Char = ctypes.jschar; // uint16 with automatic conversion
+    this.UTF8Char = ctypes.char;    // uint8 with automatic conversion
     this.UniCharPtr = this.UniChar.ptr;
     this.UniCharCount = ctypes.unsigned_long;
     this.UniCharCountPtr = this.UniCharCount.ptr;
