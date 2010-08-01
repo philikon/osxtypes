@@ -90,6 +90,8 @@ def writeTypedef(declaration, out):
 
 def writeFunction(declaration, out):
     name = declaration.name
+    if declaration.has_extern:
+        return
     if declaration.inline:
         out.write("    // Dropping inline function '%s'.\n" % name);
         return
