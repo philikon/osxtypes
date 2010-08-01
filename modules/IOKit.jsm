@@ -135,10 +135,23 @@ function IOReturn_h(lib) {
     // Dropping declaration of 'IOReturn': 'kern_return_t' defined out of scope
 }
 
+// Based on /System/Library/Frameworks/IOKit.framework/Headers/IOSharedLock.h
+function IOSharedLock_h(lib) {
+
+    if (this._IOSHAREDLOCK_H)
+        return;
+    this._IOSHAREDLOCK_H = true;
+
+    this.IOSharedLockData = ctypes.int;
+    this.IOSharedLock = this.IOSharedLockData.ptr;
+    this.ev_lock_data_t = this.IOSharedLockData;
+    this.ev_lock_t = this.ev_lock_data_t.ptr;
+}
+
 Components.utils.import("resource://gre/modules/ctypes.jsm");
 Components.utils.import("resource://osxtypes/MacTypes.jsm");
 
-const EXPORTED_SYMBOLS = ["IOKit", "IOKitLib_h", "IOTypes_h", "OSMessageNotification_h", "IOReturn_h"];
+const EXPORTED_SYMBOLS = ["IOKit", "IOKitLib_h", "IOTypes_h", "OSMessageNotification_h", "IOReturn_h", "IOSharedLock_h"];
 
 function IOKit() {
     let libpath = "/System/Library/Frameworks/IOKit.framework/IOKit";
@@ -148,4 +161,5 @@ function IOKit() {
     IOTypes_h.call(this, lib);
     OSMessageNotification_h.call(this, lib);
     IOReturn_h.call(this, lib);
+    IOSharedLock_h.call(this, lib);
 }

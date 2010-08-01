@@ -279,11 +279,15 @@ function %(framework)s() {
 filenames = [
     "/System/Library/Frameworks/CoreFoundation.framework/Headers/CoreFoundation.h",
     "/System/Library/Frameworks/CoreServices.framework/Headers/CoreServices.h",
+    "/System/Library/Frameworks/Carbon.framework/Headers/Carbon.h",
+    "/System/Library/Frameworks/ApplicationServices.framework/Headers/ApplicationServices.h",
     "/System/Library/Frameworks/AudioUnit.framework/Headers/AudioUnit.h",
     ]
 gccxml_path = "/Users/philipp/gccxml/bin/gccxml"
 cflags = "-F /System/Library/Frameworks "\
-         "-F /System/Library/Frameworks/CoreServices.framework/Frameworks"
+         "-F /System/Library/Frameworks/CoreServices.framework/Frameworks "\
+         "-F /System/Library/Frameworks/Carbon.framework/Frameworks "\
+         "-F /System/Library/Frameworks/ApplicationServices.framework/Frameworks"
 
 def main():
     config = pygccxml.parser.config_t(gccxml_path=gccxml_path,
