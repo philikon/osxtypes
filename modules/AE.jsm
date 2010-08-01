@@ -1272,6 +1272,9 @@ const EXPORTED_SYMBOLS = ["AE", "AEObjects_h", "AERegistry_h", "AppleEvents_h", 
 function AE() {
     let libpath = "/System/Library/Frameworks/AE.framework/AE";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     AEObjects_h.call(this, lib);
     AERegistry_h.call(this, lib);

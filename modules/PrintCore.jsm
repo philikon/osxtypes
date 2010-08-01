@@ -358,6 +358,9 @@ const EXPORTED_SYMBOLS = ["PrintCore", "PMCore_h", "PMDefinitions_h", "PMCoreDep
 function PrintCore() {
     let libpath = "/System/Library/Frameworks/PrintCore.framework/PrintCore";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     PMCore_h.call(this, lib);
     PMDefinitions_h.call(this, lib);

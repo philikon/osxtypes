@@ -156,6 +156,9 @@ const EXPORTED_SYMBOLS = ["IOKit", "IOKitLib_h", "IOTypes_h", "OSMessageNotifica
 function IOKit() {
     let libpath = "/System/Library/Frameworks/IOKit.framework/IOKit";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     IOKitLib_h.call(this, lib);
     IOTypes_h.call(this, lib);

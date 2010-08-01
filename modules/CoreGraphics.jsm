@@ -879,6 +879,9 @@ const EXPORTED_SYMBOLS = ["CoreGraphics", "CGDirectPalette_h", "CGShading_h", "C
 function CoreGraphics() {
     let libpath = "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     CGDirectPalette_h.call(this, lib);
     CGShading_h.call(this, lib);

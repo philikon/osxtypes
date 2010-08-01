@@ -506,6 +506,9 @@ const EXPORTED_SYMBOLS = ["HIServices", "AXValue_h", "Icons_h", "HIShape_h", "In
 function HIServices() {
     let libpath = "/System/Library/Frameworks/HIServices.framework/HIServices";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     AXValue_h.call(this, lib);
     Icons_h.call(this, lib);

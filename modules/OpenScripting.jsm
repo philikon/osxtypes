@@ -822,6 +822,9 @@ const EXPORTED_SYMBOLS = ["OpenScripting", "OSA_h", "OSAGeneric_h", "AppleScript
 function OpenScripting() {
     let libpath = "/System/Library/Frameworks/OpenScripting.framework/OpenScripting";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     OSA_h.call(this, lib);
     OSAGeneric_h.call(this, lib);

@@ -1021,6 +1021,9 @@ const EXPORTED_SYMBOLS = ["ATS", "ATSLayoutTypes_h", "ATSFont_h", "SFNTLayoutTyp
 function ATS() {
     let libpath = "/System/Library/Frameworks/ATS.framework/ATS";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     ATSLayoutTypes_h.call(this, lib);
     ATSFont_h.call(this, lib);

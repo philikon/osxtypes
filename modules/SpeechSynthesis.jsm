@@ -125,6 +125,9 @@ const EXPORTED_SYMBOLS = ["SpeechSynthesis", "SpeechSynthesis_h"];
 function SpeechSynthesis() {
     let libpath = "/System/Library/Frameworks/SpeechSynthesis.framework/SpeechSynthesis";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     SpeechSynthesis_h.call(this, lib);
 }

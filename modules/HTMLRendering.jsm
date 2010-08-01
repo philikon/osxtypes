@@ -65,6 +65,9 @@ const EXPORTED_SYMBOLS = ["HTMLRendering", "HTMLRendering_h"];
 function HTMLRendering() {
     let libpath = "/System/Library/Frameworks/HTMLRendering.framework/HTMLRendering";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     HTMLRendering_h.call(this, lib);
 }

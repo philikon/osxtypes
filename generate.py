@@ -266,6 +266,9 @@ const EXPORTED_SYMBOLS = ["%(framework)s", %(headers)s];
 function %(framework)s() {
     let libpath = "/System/Library/Frameworks/%(framework)s.framework/%(framework)s";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
 %(basecalls)s}
 ''' % {'framework': framework,

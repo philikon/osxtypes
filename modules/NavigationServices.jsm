@@ -184,6 +184,9 @@ const EXPORTED_SYMBOLS = ["NavigationServices", "Navigation_h"];
 function NavigationServices() {
     let libpath = "/System/Library/Frameworks/NavigationServices.framework/NavigationServices";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     Navigation_h.call(this, lib);
 }

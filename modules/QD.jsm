@@ -1677,6 +1677,9 @@ const EXPORTED_SYMBOLS = ["QD", "ATSUnicodeGlyphs_h", "QuickdrawAPI_h", "Display
 function QD() {
     let libpath = "/System/Library/Frameworks/QD.framework/QD";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     ATSUnicodeGlyphs_h.call(this, lib);
     QuickdrawAPI_h.call(this, lib);

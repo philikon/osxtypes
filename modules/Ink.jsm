@@ -85,6 +85,9 @@ const EXPORTED_SYMBOLS = ["Ink", "Ink_h"];
 function Ink() {
     let libpath = "/System/Library/Frameworks/Ink.framework/Ink";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     Ink_h.call(this, lib);
 }

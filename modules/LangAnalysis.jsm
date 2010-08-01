@@ -225,6 +225,9 @@ const EXPORTED_SYMBOLS = ["LangAnalysis", "Dictionary_h", "LanguageAnalysis_h"];
 function LangAnalysis() {
     let libpath = "/System/Library/Frameworks/LangAnalysis.framework/LangAnalysis";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     Dictionary_h.call(this, lib);
     LanguageAnalysis_h.call(this, lib);

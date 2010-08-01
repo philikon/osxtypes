@@ -89,6 +89,9 @@ const EXPORTED_SYMBOLS = ["SearchKit", "SKSearch_h", "SKAnalysis_h", "SKIndex_h"
 function SearchKit() {
     let libpath = "/System/Library/Frameworks/SearchKit.framework/SearchKit";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     SKSearch_h.call(this, lib);
     SKAnalysis_h.call(this, lib);

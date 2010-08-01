@@ -21,6 +21,9 @@ const EXPORTED_SYMBOLS = ["Help", "AppleHelp_h"];
 function Help() {
     let libpath = "/System/Library/Frameworks/Help.framework/Help";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     AppleHelp_h.call(this, lib);
 }

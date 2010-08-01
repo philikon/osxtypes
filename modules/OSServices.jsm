@@ -941,6 +941,9 @@ const EXPORTED_SYMBOLS = ["OSServices", "NSLCore_h", "WSMethodInvocation_h", "WS
 function OSServices() {
     let libpath = "/System/Library/Frameworks/OSServices.framework/OSServices";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     NSLCore_h.call(this, lib);
     WSMethodInvocation_h.call(this, lib);

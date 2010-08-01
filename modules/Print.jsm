@@ -41,6 +41,9 @@ const EXPORTED_SYMBOLS = ["Print", "PMApplication_h", "PMApplicationDeprecated_h
 function Print() {
     let libpath = "/System/Library/Frameworks/Print.framework/Print";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     PMApplication_h.call(this, lib);
     PMApplicationDeprecated_h.call(this, lib);

@@ -843,6 +843,9 @@ const EXPORTED_SYMBOLS = ["AudioUnit", "AUComponent_h", "AudioUnitProperties_h",
 function AudioUnit() {
     let libpath = "/System/Library/Frameworks/AudioUnit.framework/AudioUnit";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     AUComponent_h.call(this, lib);
     AudioUnitProperties_h.call(this, lib);

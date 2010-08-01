@@ -112,6 +112,9 @@ const EXPORTED_SYMBOLS = ["SecurityHI", "KeychainHI_h", "SecCertificateSupport_h
 function SecurityHI() {
     let libpath = "/System/Library/Frameworks/SecurityHI.framework/SecurityHI";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     KeychainHI_h.call(this, lib);
     SecCertificateSupport_h.call(this, lib);

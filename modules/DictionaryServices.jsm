@@ -16,6 +16,9 @@ const EXPORTED_SYMBOLS = ["DictionaryServices", "DictionaryServices_h"];
 function DictionaryServices() {
     let libpath = "/System/Library/Frameworks/DictionaryServices.framework/DictionaryServices";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     DictionaryServices_h.call(this, lib);
 }

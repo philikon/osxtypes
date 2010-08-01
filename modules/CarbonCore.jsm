@@ -7152,6 +7152,9 @@ const EXPORTED_SYMBOLS = ["CarbonCore", "FSEvents_h", "TextEncodingConverter_h",
 function CarbonCore() {
     let libpath = "/System/Library/Frameworks/CarbonCore.framework/CarbonCore";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     FSEvents_h.call(this, lib);
     TextEncodingConverter_h.call(this, lib);

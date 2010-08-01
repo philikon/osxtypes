@@ -434,6 +434,9 @@ const EXPORTED_SYMBOLS = ["LaunchServices", "UTType_h", "LSSharedFileList_h", "L
 function LaunchServices() {
     let libpath = "/System/Library/Frameworks/LaunchServices.framework/LaunchServices";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     UTType_h.call(this, lib);
     LSSharedFileList_h.call(this, lib);

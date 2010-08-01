@@ -615,6 +615,9 @@ const EXPORTED_SYMBOLS = ["CoreAudio", "CoreAudioTypes_h", "AudioHardware_h", "H
 function CoreAudio() {
     let libpath = "/System/Library/Frameworks/CoreAudio.framework/CoreAudio";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     CoreAudioTypes_h.call(this, lib);
     AudioHardware_h.call(this, lib);

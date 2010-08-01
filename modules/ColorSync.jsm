@@ -726,6 +726,9 @@ const EXPORTED_SYMBOLS = ["ColorSync", "ColorSyncDevice_h", "ColorSyncDeprecated
 function ColorSync() {
     let libpath = "/System/Library/Frameworks/ColorSync.framework/ColorSync";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     ColorSyncDevice_h.call(this, lib);
     ColorSyncDeprecated_h.call(this, lib);

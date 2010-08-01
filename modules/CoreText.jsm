@@ -390,6 +390,9 @@ const EXPORTED_SYMBOLS = ["CoreText", "CTFramesetter_h", "CTLine_h", "CTFont_h",
 function CoreText() {
     let libpath = "/System/Library/Frameworks/CoreText.framework/CoreText";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     CTFramesetter_h.call(this, lib);
     CTLine_h.call(this, lib);

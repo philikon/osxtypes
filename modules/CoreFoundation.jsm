@@ -1149,6 +1149,9 @@ const EXPORTED_SYMBOLS = ["CoreFoundation", "CFString_h", "CFStringTokenizer_h",
 function CoreFoundation() {
     let libpath = "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     CFString_h.call(this, lib);
     CFStringTokenizer_h.call(this, lib);

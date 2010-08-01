@@ -2385,6 +2385,9 @@ const EXPORTED_SYMBOLS = ["Security", "Authorization_h", "SecBase_h", "cssmapple
 function Security() {
     let libpath = "/System/Library/Frameworks/Security.framework/Security";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     Authorization_h.call(this, lib);
     SecBase_h.call(this, lib);

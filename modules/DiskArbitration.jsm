@@ -28,6 +28,9 @@ const EXPORTED_SYMBOLS = ["DiskArbitration", "DADisk_h", "DASession_h"];
 function DiskArbitration() {
     let libpath = "/System/Library/Frameworks/DiskArbitration.framework/DiskArbitration";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     DADisk_h.call(this, lib);
     DASession_h.call(this, lib);

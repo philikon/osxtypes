@@ -249,6 +249,9 @@ const EXPORTED_SYMBOLS = ["ImageCapture", "ICAApplication_h", "ICADevice_h", "IC
 function ImageCapture() {
     let libpath = "/System/Library/Frameworks/ImageCapture.framework/ImageCapture";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     ICAApplication_h.call(this, lib);
     ICADevice_h.call(this, lib);

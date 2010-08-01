@@ -134,6 +134,9 @@ const EXPORTED_SYMBOLS = ["SpeechRecognition", "SpeechRecognition_h"];
 function SpeechRecognition() {
     let libpath = "/System/Library/Frameworks/SpeechRecognition.framework/SpeechRecognition";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     SpeechRecognition_h.call(this, lib);
 }

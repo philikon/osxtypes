@@ -42,6 +42,9 @@ const EXPORTED_SYMBOLS = ["ImageIO", "CGImageProperties_h", "CGImageDestination_
 function ImageIO() {
     let libpath = "/System/Library/Frameworks/ImageIO.framework/ImageIO";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     CGImageProperties_h.call(this, lib);
     CGImageDestination_h.call(this, lib);

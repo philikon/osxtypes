@@ -45,6 +45,9 @@ const EXPORTED_SYMBOLS = ["Metadata", "MDItem_h", "MDQuery_h", "MDSchema_h"];
 function Metadata() {
     let libpath = "/System/Library/Frameworks/Metadata.framework/Metadata";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     MDItem_h.call(this, lib);
     MDQuery_h.call(this, lib);

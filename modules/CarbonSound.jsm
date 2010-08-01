@@ -491,6 +491,9 @@ const EXPORTED_SYMBOLS = ["CarbonSound", "Sound_h"];
 function CarbonSound() {
     let libpath = "/System/Library/Frameworks/CarbonSound.framework/CarbonSound";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     Sound_h.call(this, lib);
 }

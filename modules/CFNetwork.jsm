@@ -254,6 +254,9 @@ const EXPORTED_SYMBOLS = ["CFNetwork", "CFFTPStream_h", "CFHTTPAuthentication_h"
 function CFNetwork() {
     let libpath = "/System/Library/Frameworks/CFNetwork.framework/CFNetwork";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     CFFTPStream_h.call(this, lib);
     CFHTTPAuthentication_h.call(this, lib);

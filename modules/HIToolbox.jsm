@@ -5739,6 +5739,9 @@ const EXPORTED_SYMBOLS = ["HIToolbox", "Menus_h", "MacWindows_h", "MacTextEditor
 function HIToolbox() {
     let libpath = "/System/Library/Frameworks/HIToolbox.framework/HIToolbox";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     Menus_h.call(this, lib);
     MacWindows_h.call(this, lib);

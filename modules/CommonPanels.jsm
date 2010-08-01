@@ -167,6 +167,9 @@ const EXPORTED_SYMBOLS = ["CommonPanels", "CMCalibrator_h", "FontPanel_h", "NSL_
 function CommonPanels() {
     let libpath = "/System/Library/Frameworks/CommonPanels.framework/CommonPanels";
     let lib = ctypes.open(libpath);
+    this.close = function() {
+        lib.close();
+    };
 
     CMCalibrator_h.call(this, lib);
     FontPanel_h.call(this, lib);
