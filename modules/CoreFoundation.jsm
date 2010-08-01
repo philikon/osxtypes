@@ -48,7 +48,8 @@ function CFString_h(lib) {
     this.CFStringGetLength = lib.declare("CFStringGetLength", ctypes.default_abi, this.CFIndex, this.CFStringRef);
     this.CFStringGetCharacterAtIndex = lib.declare("CFStringGetCharacterAtIndex", ctypes.default_abi, this.UniChar, this.CFStringRef, this.CFIndex);
     this.CFStringGetCharacters = lib.declare("CFStringGetCharacters", ctypes.default_abi, ctypes.void_t, this.CFStringRef, this.CFRange, this.UniChar.ptr);
-    this.CFStringGetCharacters = lib.declare("CFStringGetCharacters", ctypes.default_abi, ctypes.void_t, this.CFStringRef, this.CFRange, ctypes.unsigned_short.ptr);
+    // Disabled useless declaration.
+    //this.CFStringGetCharacters = lib.declare("CFStringGetCharacters", ctypes.default_abi, ctypes.void_t, this.CFStringRef, this.CFRange, ctypes.unsigned_short.ptr);
     this.CFStringGetPascalString = lib.declare("CFStringGetPascalString", ctypes.default_abi, this.Boolean, this.CFStringRef, this.StringPtr, this.CFIndex, this.CFStringEncoding);
     this.CFStringGetCString = lib.declare("CFStringGetCString", ctypes.default_abi, this.Boolean, this.CFStringRef, ctypes.char.ptr, this.CFIndex, this.CFStringEncoding);
     this.CFStringGetPascalStringPtr = lib.declare("CFStringGetPascalStringPtr", ctypes.default_abi, this.ConstStringPtr, this.CFStringRef, this.CFStringEncoding);
