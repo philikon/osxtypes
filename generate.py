@@ -276,7 +276,11 @@ function %(framework)s() {
     out.close()
 
 
-filename = "/System/Library/Frameworks/CoreServices.framework/Headers/CoreServices.h"
+filenames = [
+    "/System/Library/Frameworks/CoreFoundation.framework/Headers/CoreFoundation.h",
+    "/System/Library/Frameworks/CoreServices.framework/Headers/CoreServices.h",
+    "/System/Library/Frameworks/AudioUnit.framework/Headers/AudioUnit.h",
+    ]
 gccxml_path = "/Users/philipp/gccxml/bin/gccxml"
 cflags = "-F /System/Library/Frameworks "\
          "-F /System/Library/Frameworks/CoreServices.framework/Frameworks"
@@ -285,7 +289,7 @@ def main():
     config = pygccxml.parser.config_t(gccxml_path=gccxml_path,
                                       cflags=cflags,
                                       compiler="/usr/bin/gcc-4.0")
-    decls = pygccxml.parser.parse([filename], config)
+    decls = pygccxml.parser.parse(filenames, config)
     global_ns = pygccxml.declarations.get_global_namespace(decls)
 
     by_framework = groupByFramework(global_ns.declarations)
