@@ -175,7 +175,7 @@ def ctypesNameForType(typ):
 
     if isinstance(typ, pygccxml.declarations.cpptypes.array_t):
          #TODO what if unsized?
-         return "%s[%s]" % (ctypesNameForType(typ.base), typ.size)
+         return "%s.array(%s)" % (ctypesNameForType(typ.base), typ.size)
     if isinstance(typ, pygccxml.declarations.declarated_t):
         return prefix(typ.declaration.name)
     if isinstance(typ, pygccxml.declarations.const_t):
