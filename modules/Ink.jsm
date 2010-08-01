@@ -83,7 +83,7 @@ Components.utils.import("resource://osxtypes/HIToolbox.jsm");
 const EXPORTED_SYMBOLS = ["Ink", "Ink_h"];
 
 function Ink() {
-    let libpath = "/System/Library/Frameworks/Ink.framework/Ink";
+    let libpath = "/System/Library/Frameworks/Carbon.framework/Frameworks/Ink.framework/Ink";
     let lib = ctypes.open(libpath);
     this.close = function() {
         lib.close();

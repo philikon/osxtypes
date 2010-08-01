@@ -223,7 +223,7 @@ Components.utils.import("resource://osxtypes/AE.jsm");
 const EXPORTED_SYMBOLS = ["LangAnalysis", "Dictionary_h", "LanguageAnalysis_h"];
 
 function LangAnalysis() {
-    let libpath = "/System/Library/Frameworks/LangAnalysis.framework/LangAnalysis";
+    let libpath = "/System/Library/Frameworks/ApplicationServices.framework/Frameworks/LangAnalysis.framework/LangAnalysis";
     let lib = ctypes.open(libpath);
     this.close = function() {
         lib.close();

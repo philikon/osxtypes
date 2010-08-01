@@ -63,7 +63,7 @@ Components.utils.import("resource://osxtypes/MacTypes.jsm");
 const EXPORTED_SYMBOLS = ["HTMLRendering", "HTMLRendering_h"];
 
 function HTMLRendering() {
-    let libpath = "/System/Library/Frameworks/HTMLRendering.framework/HTMLRendering";
+    let libpath = "/System/Library/Frameworks/Carbon.framework/Frameworks/HTMLRendering.framework/HTMLRendering";
     let lib = ctypes.open(libpath);
     this.close = function() {
         lib.close();

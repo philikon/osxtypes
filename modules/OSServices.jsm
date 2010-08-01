@@ -939,7 +939,7 @@ Components.utils.import("resource://osxtypes/CoreFoundation.jsm");
 const EXPORTED_SYMBOLS = ["OSServices", "NSLCore_h", "WSMethodInvocation_h", "WSProtocolHandler_h", "Power_h", "IconStorage_h", "SCSI_h", "CSIdentityQuery_h", "KeychainCore_h", "SystemSound_h", "CSIdentity_h", "WSTypes_h", "CSIdentityAuthority_h"];
 
 function OSServices() {
-    let libpath = "/System/Library/Frameworks/OSServices.framework/OSServices";
+    let libpath = "/System/Library/Frameworks/CoreServices.framework/Frameworks/OSServices.framework/OSServices";
     let lib = ctypes.open(libpath);
     this.close = function() {
         lib.close();

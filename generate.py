@@ -253,6 +253,8 @@ function %(header)s(lib) {
                             'declarations': tempout.getvalue(),
                             'filename': filename})
 
+    somefile = iter(by_file).next()
+    framework_path = os.path.sep.join(somefile.split(os.path.sep)[:-2])
     imports = "".join('Components.utils.import("resource://osxtypes/%s.jsm");\n'
                       % frmwrk for frmwrk in framework_deps
                       if not frmwrk == framework)
@@ -264,14 +266,15 @@ Components.utils.import("resource://gre/modules/ctypes.jsm");
 const EXPORTED_SYMBOLS = ["%(framework)s", %(headers)s];
 
 function %(framework)s() {
-    let libpath = "/System/Library/Frameworks/%(framework)s.framework/%(framework)s";
+    let libpath = "%(framework_path)s/%(framework)s";
     let lib = ctypes.open(libpath);
     this.close = function() {
         lib.close();
     };
 
 %(basecalls)s}
-''' % {'framework': framework,
+''' % {'framework_path': framework_path,
+       'framework': framework,
        'headers': ", ".join('"%s"' % mangleFilename(filename)
                             for filename in by_file),
        'imports': imports,

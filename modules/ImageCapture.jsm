@@ -247,7 +247,7 @@ Components.utils.import("resource://osxtypes/MacTypes.jsm");
 const EXPORTED_SYMBOLS = ["ImageCapture", "ICAApplication_h", "ICADevice_h", "ICACamera_h"];
 
 function ImageCapture() {
-    let libpath = "/System/Library/Frameworks/ImageCapture.framework/ImageCapture";
+    let libpath = "/System/Library/Frameworks/Carbon.framework/Frameworks/ImageCapture.framework/ImageCapture";
     let lib = ctypes.open(libpath);
     this.close = function() {
         lib.close();

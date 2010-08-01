@@ -40,7 +40,7 @@ Components.utils.import("resource://gre/modules/ctypes.jsm");
 const EXPORTED_SYMBOLS = ["ImageIO", "CGImageProperties_h", "CGImageDestination_h", "CGImageSource_h"];
 
 function ImageIO() {
-    let libpath = "/System/Library/Frameworks/ImageIO.framework/ImageIO";
+    let libpath = "/System/Library/Frameworks/ApplicationServices.framework/Frameworks/ImageIO.framework/ImageIO";
     let lib = ctypes.open(libpath);
     this.close = function() {
         lib.close();

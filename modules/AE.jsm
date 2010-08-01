@@ -1270,7 +1270,7 @@ Components.utils.import("resource://osxtypes/CoreFoundation.jsm");
 const EXPORTED_SYMBOLS = ["AE", "AEObjects_h", "AERegistry_h", "AppleEvents_h", "AEDataModel_h", "AEHelpers_h", "AEPackObject_h", "AEMach_h", "AEUserTermTypes_h"];
 
 function AE() {
-    let libpath = "/System/Library/Frameworks/AE.framework/AE";
+    let libpath = "/System/Library/Frameworks/CoreServices.framework/Frameworks/AE.framework/AE";
     let lib = ctypes.open(libpath);
     this.close = function() {
         lib.close();

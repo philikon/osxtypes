@@ -43,7 +43,7 @@ Components.utils.import("resource://osxtypes/CoreFoundation.jsm");
 const EXPORTED_SYMBOLS = ["Metadata", "MDItem_h", "MDQuery_h", "MDSchema_h"];
 
 function Metadata() {
-    let libpath = "/System/Library/Frameworks/Metadata.framework/Metadata";
+    let libpath = "/System/Library/Frameworks/CoreServices.framework/Frameworks/Metadata.framework/Metadata";
     let lib = ctypes.open(libpath);
     this.close = function() {
         lib.close();

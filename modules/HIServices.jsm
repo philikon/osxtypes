@@ -504,7 +504,7 @@ Components.utils.import("resource://osxtypes/QD.jsm");
 const EXPORTED_SYMBOLS = ["HIServices", "AXValue_h", "Icons_h", "HIShape_h", "InternetConfig_h", "AXUIElement_h", "Processes_h", "Pasteboard_h", "AXTextAttributedString_h", "UniversalAccess_h", "TranslationServices_h", "AXError_h"];
 
 function HIServices() {
-    let libpath = "/System/Library/Frameworks/HIServices.framework/HIServices";
+    let libpath = "/System/Library/Frameworks/ApplicationServices.framework/Frameworks/HIServices.framework/HIServices";
     let lib = ctypes.open(libpath);
     this.close = function() {
         lib.close();

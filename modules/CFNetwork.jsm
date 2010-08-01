@@ -252,7 +252,7 @@ Components.utils.import("resource://osxtypes/CoreFoundation.jsm");
 const EXPORTED_SYMBOLS = ["CFNetwork", "CFFTPStream_h", "CFHTTPAuthentication_h", "CFNetServices_h", "CFProxySupport_h", "CFNetDiagnostics_h", "CFSocketStream_h", "CFHTTPMessage_h", "CFHTTPStream_h", "CFNetworkErrors_h", "CFHost_h"];
 
 function CFNetwork() {
-    let libpath = "/System/Library/Frameworks/CFNetwork.framework/CFNetwork";
+    let libpath = "/System/Library/Frameworks/CoreServices.framework/Frameworks/CFNetwork.framework/CFNetwork";
     let lib = ctypes.open(libpath);
     this.close = function() {
         lib.close();

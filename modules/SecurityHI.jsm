@@ -110,7 +110,7 @@ Components.utils.import("resource://osxtypes/HIToolbox.jsm");
 const EXPORTED_SYMBOLS = ["SecurityHI", "KeychainHI_h", "SecCertificateSupport_h", "URLAccess_h"];
 
 function SecurityHI() {
-    let libpath = "/System/Library/Frameworks/SecurityHI.framework/SecurityHI";
+    let libpath = "/System/Library/Frameworks/Carbon.framework/Frameworks/SecurityHI.framework/SecurityHI";
     let lib = ctypes.open(libpath);
     this.close = function() {
         lib.close();

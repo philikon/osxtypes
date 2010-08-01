@@ -1675,7 +1675,7 @@ Components.utils.import("resource://osxtypes/ATS.jsm");
 const EXPORTED_SYMBOLS = ["QD", "ATSUnicodeGlyphs_h", "QuickdrawAPI_h", "Displays_h", "QuickdrawTypes_h", "ATSUnicodeObjects_h", "ATSUnicodeDrawing_h", "Video_h", "QDOffscreen_h", "Fonts_h", "Palettes_h", "QuickdrawText_h", "ATSUnicodeTypes_h", "ATSUnicodeFonts_h", "PictUtils_h", "FontSync_h", "ATSUnicodeDirectAccess_h", "QDPictToCGContext_h", "ATSUnicodeFlattening_h"];
 
 function QD() {
-    let libpath = "/System/Library/Frameworks/QD.framework/QD";
+    let libpath = "/System/Library/Frameworks/ApplicationServices.framework/Frameworks/QD.framework/QD";
     let lib = ctypes.open(libpath);
     this.close = function() {
         lib.close();

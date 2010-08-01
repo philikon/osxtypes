@@ -39,7 +39,7 @@ Components.utils.import("resource://osxtypes/PrintCore.jsm");
 const EXPORTED_SYMBOLS = ["Print", "PMApplication_h", "PMApplicationDeprecated_h"];
 
 function Print() {
-    let libpath = "/System/Library/Frameworks/Print.framework/Print";
+    let libpath = "/System/Library/Frameworks/Carbon.framework/Frameworks/Print.framework/Print";
     let lib = ctypes.open(libpath);
     this.close = function() {
         lib.close();

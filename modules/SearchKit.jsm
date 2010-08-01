@@ -87,7 +87,7 @@ Components.utils.import("resource://osxtypes/CoreFoundation.jsm");
 const EXPORTED_SYMBOLS = ["SearchKit", "SKSearch_h", "SKAnalysis_h", "SKIndex_h", "SKDocument_h", "SKSummary_h"];
 
 function SearchKit() {
-    let libpath = "/System/Library/Frameworks/SearchKit.framework/SearchKit";
+    let libpath = "/System/Library/Frameworks/CoreServices.framework/Frameworks/SearchKit.framework/SearchKit";
     let lib = ctypes.open(libpath);
     this.close = function() {
         lib.close();

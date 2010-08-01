@@ -123,7 +123,7 @@ Components.utils.import("resource://osxtypes/MacTypes.jsm");
 const EXPORTED_SYMBOLS = ["SpeechSynthesis", "SpeechSynthesis_h"];
 
 function SpeechSynthesis() {
-    let libpath = "/System/Library/Frameworks/SpeechSynthesis.framework/SpeechSynthesis";
+    let libpath = "/System/Library/Frameworks/ApplicationServices.framework/Frameworks/SpeechSynthesis.framework/SpeechSynthesis";
     let lib = ctypes.open(libpath);
     this.close = function() {
         lib.close();

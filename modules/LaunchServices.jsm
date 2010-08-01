@@ -432,7 +432,7 @@ Components.utils.import("resource://osxtypes/AE.jsm");
 const EXPORTED_SYMBOLS = ["LaunchServices", "UTType_h", "LSSharedFileList_h", "LSInfo_h", "UTCoreTypes_h", "IconsCore_h", "LSOpen_h", "LSQuarantine_h"];
 
 function LaunchServices() {
-    let libpath = "/System/Library/Frameworks/LaunchServices.framework/LaunchServices";
+    let libpath = "/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/LaunchServices";
     let lib = ctypes.open(libpath);
     this.close = function() {
         lib.close();

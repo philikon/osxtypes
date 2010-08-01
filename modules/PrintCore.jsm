@@ -356,7 +356,7 @@ Components.utils.import("resource://osxtypes/MacTypes.jsm");
 const EXPORTED_SYMBOLS = ["PrintCore", "PMCore_h", "PMDefinitions_h", "PMCoreDeprecated_h", "PMDefinitionsDeprecated_h", "PMPrintSettingsKeys_h", "PMErrors_h"];
 
 function PrintCore() {
-    let libpath = "/System/Library/Frameworks/PrintCore.framework/PrintCore";
+    let libpath = "/System/Library/Frameworks/ApplicationServices.framework/Frameworks/PrintCore.framework/PrintCore";
     let lib = ctypes.open(libpath);
     this.close = function() {
         lib.close();

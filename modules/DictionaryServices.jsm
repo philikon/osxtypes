@@ -14,7 +14,7 @@ Components.utils.import("resource://gre/modules/ctypes.jsm");
 const EXPORTED_SYMBOLS = ["DictionaryServices", "DictionaryServices_h"];
 
 function DictionaryServices() {
-    let libpath = "/System/Library/Frameworks/DictionaryServices.framework/DictionaryServices";
+    let libpath = "/System/Library/Frameworks/CoreServices.framework/Frameworks/DictionaryServices.framework/DictionaryServices";
     let lib = ctypes.open(libpath);
     this.close = function() {
         lib.close();

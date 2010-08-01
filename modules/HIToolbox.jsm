@@ -5737,7 +5737,7 @@ Components.utils.import("resource://osxtypes/ATS.jsm");
 const EXPORTED_SYMBOLS = ["HIToolbox", "Menus_h", "MacWindows_h", "MacTextEditor_h", "CarbonEventsCore_h", "HITheme_h", "Drag_h", "Events_h", "TranslationExtensions_h", "Controls_h", "HIView_h", "TSMTE_h", "CarbonEvents_h", "HIWindowViews_h", "TextServices_h", "HIImageViews_h", "Appearance_h", "Dialogs_h", "TextEdit_h", "MacHelp_h", "HIToolboxDebugging_h", "HIDataBrowser_h", "IBCarbonRuntime_h", "HIContainerViews_h", "Lists_h", "HISegmentedView_h", "Keyboards_h", "HIAccessibility_h", "HITabbedView_h", "HIButtonViews_h", "HIArchive_h", "TextInputSources_h", "HIToolbar_h", "HITextViews_h", "HIPopupButton_h", "HIObject_h", "AEInteraction_h", "Translation_h", "HIComboBox_h", "HIGeometry_h", "MacApplication_h", "HIDisclosureViews_h", "Scrap_h", "HISearchField_h", "HIClockView_h", "HIMenuView_h", "HIScrollView_h", "HISeparator_h", "TypeSelect_h", "Notification_h", "HISlider_h", "HIProgressViews_h", "ControlDefinitions_h", "HITextUtils_h", "HIRelevanceBar_h", "HILittleArrows_h", "HITextLengthFilter_h"];
 
 function HIToolbox() {
-    let libpath = "/System/Library/Frameworks/HIToolbox.framework/HIToolbox";
+    let libpath = "/System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/HIToolbox";
     let lib = ctypes.open(libpath);
     this.close = function() {
         lib.close();

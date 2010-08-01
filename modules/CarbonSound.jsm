@@ -489,7 +489,7 @@ Components.utils.import("resource://osxtypes/MacTypes.jsm");
 const EXPORTED_SYMBOLS = ["CarbonSound", "Sound_h"];
 
 function CarbonSound() {
-    let libpath = "/System/Library/Frameworks/CarbonSound.framework/CarbonSound";
+    let libpath = "/System/Library/Frameworks/Carbon.framework/Frameworks/CarbonSound.framework/CarbonSound";
     let lib = ctypes.open(libpath);
     this.close = function() {
         lib.close();

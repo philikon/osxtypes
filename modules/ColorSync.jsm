@@ -724,7 +724,7 @@ Components.utils.import("resource://osxtypes/MacTypes.jsm");
 const EXPORTED_SYMBOLS = ["ColorSync", "ColorSyncDevice_h", "ColorSyncDeprecated_h", "ColorSyncProfile_h", "ColorSyncTransform_h", "ColorSyncCMM_h"];
 
 function ColorSync() {
-    let libpath = "/System/Library/Frameworks/ColorSync.framework/ColorSync";
+    let libpath = "/System/Library/Frameworks/ApplicationServices.framework/Frameworks/ColorSync.framework/ColorSync";
     let lib = ctypes.open(libpath);
     this.close = function() {
         lib.close();

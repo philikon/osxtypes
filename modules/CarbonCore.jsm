@@ -7150,7 +7150,7 @@ Components.utils.import("resource://osxtypes/MacTypes.jsm");
 const EXPORTED_SYMBOLS = ["CarbonCore", "FSEvents_h", "TextEncodingConverter_h", "AVLTree_h", "Threads_h", "Files_h", "UnicodeConverter_h", "TextCommon_h", "Aliases_h", "LowMem_h", "Script_h", "Math64_h", "Multiprocessing_h", "Resources_h", "CodeFragments_h", "Folders_h", "FixMath_h", "Collections_h", "PEFBinaryFormat_h", "MacMemory_h", "Components_h", "Timer_h", "DateTimeUtils_h", "IntlResources_h", "TextUtils_h", "MixedMode_h", "StringCompare_h", "fp_h", "MacLocales_h", "UnicodeUtilities_h", "DriverSynchronization_h", "MachineExceptions_h", "OSUtils_h", "Finder_h", "PLStringFuncs_h", "AIFF_h", "Gestalt_h", "MacErrors_h", "Endian_h", "TextEncodingPlugin_h", "MultiprocessingInfo_h", "UTCUtils_h", "Debugging_h", "NumberFormatting_h", "DriverServices_h", "HFSVolumes_h", "ToolUtils_h", "BackupCore_h"];
 
 function CarbonCore() {
-    let libpath = "/System/Library/Frameworks/CarbonCore.framework/CarbonCore";
+    let libpath = "/System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/CarbonCore";
     let lib = ctypes.open(libpath);
     this.close = function() {
         lib.close();

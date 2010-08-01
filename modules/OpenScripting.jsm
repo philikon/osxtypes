@@ -820,7 +820,7 @@ Components.utils.import("resource://osxtypes/HIToolbox.jsm");
 const EXPORTED_SYMBOLS = ["OpenScripting", "OSA_h", "OSAGeneric_h", "AppleScript_h", "ASDebugging_h", "ASRegistry_h", "FinderRegistry_h", "DigitalHubRegistry_h", "OSAComp_h"];
 
 function OpenScripting() {
-    let libpath = "/System/Library/Frameworks/OpenScripting.framework/OpenScripting";
+    let libpath = "/System/Library/Frameworks/Carbon.framework/Frameworks/OpenScripting.framework/OpenScripting";
     let lib = ctypes.open(libpath);
     this.close = function() {
         lib.close();

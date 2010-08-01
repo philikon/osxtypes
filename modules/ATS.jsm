@@ -1019,7 +1019,7 @@ Components.utils.import("resource://osxtypes/CarbonCore.jsm");
 const EXPORTED_SYMBOLS = ["ATS", "ATSLayoutTypes_h", "ATSFont_h", "SFNTLayoutTypes_h", "ATSTypes_h", "SFNTTypes_h", "ScalerStreamTypes_h"];
 
 function ATS() {
-    let libpath = "/System/Library/Frameworks/ATS.framework/ATS";
+    let libpath = "/System/Library/Frameworks/ApplicationServices.framework/Frameworks/ATS.framework/ATS";
     let lib = ctypes.open(libpath);
     this.close = function() {
         lib.close();

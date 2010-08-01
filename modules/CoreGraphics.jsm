@@ -877,7 +877,7 @@ Components.utils.import("resource://osxtypes/CoreFoundation.jsm");
 const EXPORTED_SYMBOLS = ["CoreGraphics", "CGDirectPalette_h", "CGShading_h", "CGContext_h", "CGFont_h", "CGPath_h", "CGEvent_h", "CGRemoteOperation_h", "CGColor_h", "CGPDFOperatorTable_h", "CGGeometry_h", "CGPDFContentStream_h", "CGPDFContext_h", "CGWindow_h", "CGColorSpace_h", "CGFunction_h", "CGPDFArray_h", "CGBitmapContext_h", "CGDirectDisplay_h", "CGDisplayConfiguration_h", "CGImage_h", "CGPDFObject_h", "CGDataProvider_h", "CGPDFDocument_h", "CGAffineTransform_h", "CGPDFDictionary_h", "CGEventTypes_h", "CGPSConverter_h", "CGGradient_h", "CGGLContext_h", "CGPDFStream_h", "CGPattern_h", "CGPDFPage_h", "CGDisplayFade_h", "CGDataConsumer_h", "CGLayer_h", "CGEventSource_h", "CGPDFScanner_h", "CGPDFString_h", "CGBase_h", "CGError_h", "CGSession_h", "CGWindowLevel_h"];
 
 function CoreGraphics() {
-    let libpath = "/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics";
+    let libpath = "/System/Library/Frameworks/ApplicationServices.framework/Frameworks/CoreGraphics.framework/CoreGraphics";
     let lib = ctypes.open(libpath);
     this.close = function() {
         lib.close();

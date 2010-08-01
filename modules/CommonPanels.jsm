@@ -165,7 +165,7 @@ Components.utils.import("resource://osxtypes/ATS.jsm");
 const EXPORTED_SYMBOLS = ["CommonPanels", "CMCalibrator_h", "FontPanel_h", "NSL_h", "ColorPicker_h"];
 
 function CommonPanels() {
-    let libpath = "/System/Library/Frameworks/CommonPanels.framework/CommonPanels";
+    let libpath = "/System/Library/Frameworks/Carbon.framework/Frameworks/CommonPanels.framework/CommonPanels";
     let lib = ctypes.open(libpath);
     this.close = function() {
         lib.close();
