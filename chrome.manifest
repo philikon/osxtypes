@@ -1,1 +1,7 @@
 resource osxtypes modules/
+
+# Examples
+content osxtypes-examples       examples/content/
+locale  osxtypes-examples en-US examples/locale/en-US/
+
+overlay chrome://browser/content/browser.xul chrome://osxtypes-examples/content/iphoto.xul

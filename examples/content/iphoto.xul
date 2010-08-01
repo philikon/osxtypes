@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE overlay SYSTEM "chrome://osxtypes-examples/locale/iphoto.dtd">
+<overlay id="osxtypes-iphoto-overlay"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<script type="application/javascript" src="iphoto.js"/>
+
+<popup id="contentAreaContextMenu">
+  <menuitem id="iphoto_menuitem"
+            oncommand="iPhoto.add();"
+            label="&add-to-iphoto_menuitem;" />
+</popup>
+
+<stringbundleset id="stringbundleset">
+  <stringbundle id="iphoto-string-bundle"
+                src="chrome://osxtypes-examples/locale/iphoto.properties"/>
+</stringbundleset>
+
+</overlay>
