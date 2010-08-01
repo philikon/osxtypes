@@ -90,6 +90,10 @@ def writeTypedef(declaration, out):
 
 def writeFunction(declaration, out):
     name = declaration.name
+    if declaration.inline:
+        out.write("    // Dropping inline function '%s'.\n" % name);
+        return
+
     return_type = ctypesNameForType(declaration.return_type)
     args_types = ''
     if declaration.arguments:
