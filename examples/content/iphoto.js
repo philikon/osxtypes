@@ -68,7 +68,7 @@ let iPhoto = {
     
   addImageByURL: function(src) {
     let CoreFoundation = new osxtypes.CoreFoundation();
-    let AppServices = new osxtypes.LaunchServices();
+    let LaunchServices = new osxtypes.LaunchServices();
 
     let filePath = this.downloadImage(src);
     let mutableArray = CoreFoundation.CFArrayCreateMutable(null, 1, CoreFoundation.kCFTypeArrayCallBacks.address());
@@ -81,8 +81,8 @@ let iPhoto = {
     CoreFoundation.CFRelease(url);
       
     // Call Launch Services to open iPhoto and deliver the image      
-    let ref = new AppServices.FSRef();
-    let appParams = AppServices.LSApplicationParameters(0, 1, ref.address(), null, null, null, null);
+    let ref = new LaunchServices.FSRef();
+    let appParams = LaunchServices.LSApplicationParameters(0, 1, ref.address(), null, null, null, null);
     let appstr = "file:///Applications/iPhoto.app";
     let appstrCF = CoreFoundation.CFStringCreateWithCharacters(null, appstr, appstr.length);
     let appurl = CoreFoundation.CFURLCreateWithString(null, appstrCF, null);
@@ -93,13 +93,13 @@ let iPhoto = {
       let stringsBundle = document.getElementById("iphoto-string-bundle");
       alert(stringsBundle.getString('alert_download_error_string'));
     } else {
-      let array = ctypes.cast(mutableArray, AppServices.CFArrayRef);
-      AppServices.LSOpenURLsWithRole(array, 0, null, appParams.address(), null, 0);
+      let array = ctypes.cast(mutableArray, LaunchServices.CFArrayRef);
+      LaunchServices.LSOpenURLsWithRole(array, 0, null, appParams.address(), null, 0);
       CoreFoundation.CFRelease(array);
     }
     CoreFoundation.CFRelease(appurl);
     
-    AppServices.close();
+    LaunchServices.close();
     CoreFoundation.close();
   }
   
