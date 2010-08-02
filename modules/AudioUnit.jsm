@@ -388,6 +388,7 @@ function AudioUnitProperties_h(lib) {
     this.kScheduledAudioSliceFlag_Complete = 1;
     this.kScheduledAudioSliceFlag_BeganToRender = 2;
     this.kScheduledAudioSliceFlag_BeganToRenderLate = 4;
+    this.ScheduledAudioSlice = new ctypes.StructType("ScheduledAudioSlice");
     this.ScheduledAudioSliceCompletionProc = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [ctypes.void_t.ptr, this.ScheduledAudioSlice.ptr]).ptr;
     this.ScheduledAudioSlice = new ctypes.StructType("ScheduledAudioSlice", [{mTimeStamp: this.AudioTimeStamp}, {mCompletionProc: this.ScheduledAudioSliceCompletionProc}, {mCompletionProcUserData: ctypes.void_t.ptr}, {mFlags: this.UInt32}, {mReserved: this.UInt32}, {mReserved2: ctypes.void_t.ptr}, {mNumberFrames: this.UInt32}, {mBufferList: this.AudioBufferList.ptr}]);
     this.kAudioUnitProperty_ScheduledFileIDs = 3310;
@@ -395,9 +396,10 @@ function AudioUnitProperties_h(lib) {
     this.kAudioUnitProperty_ScheduledFilePrime = 3312;
     this.kAudioUnitProperty_ScheduledFileBufferSizeFrames = 3313;
     this.kAudioUnitProperty_ScheduledFileNumberBuffers = 3314;
+    this.ScheduledAudioFileRegion = new ctypes.StructType("ScheduledAudioFileRegion");
     this.ScheduledAudioFileRegionCompletionProc = new ctypes.FunctionType(ctypes.default_abi, ctypes.void_t, [ctypes.void_t.ptr, this.ScheduledAudioFileRegion.ptr, this.OSStatus]).ptr;
-    this.ScheduledAudioFileRegion = new ctypes.StructType("ScheduledAudioFileRegion", [{mTimeStamp: this.AudioTimeStamp}, {mCompletionProc: this.ScheduledAudioFileRegionCompletionProc}, {mCompletionProcUserData: ctypes.void_t.ptr}, {mAudioFile: this.OpaqueAudioFileID.ptr}, {mLoopCount: this.UInt32}, {mStartFrame: this.SInt64}, {mFramesToPlay: this.UInt32}]);
     this.OpaqueAudioFileID = new ctypes.StructType("OpaqueAudioFileID");
+    this.ScheduledAudioFileRegion = new ctypes.StructType("ScheduledAudioFileRegion", [{mTimeStamp: this.AudioTimeStamp}, {mCompletionProc: this.ScheduledAudioFileRegionCompletionProc}, {mCompletionProcUserData: ctypes.void_t.ptr}, {mAudioFile: this.OpaqueAudioFileID.ptr}, {mLoopCount: this.UInt32}, {mStartFrame: this.SInt64}, {mFramesToPlay: this.UInt32}]);
     this.kAudioUnitProperty_DeferredRendererPullSize = 3320;
     this.kAudioUnitProperty_DeferredRendererExtraLatency = 3321;
     this.kAudioUnitProperty_DeferredRendererWaitFrames = 3322;
