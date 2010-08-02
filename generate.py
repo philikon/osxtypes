@@ -91,8 +91,7 @@ def writeTypedef(declaration, out):
 def writeFunction(declaration, out):
     name = declaration.name
     if declaration.inline:
-        out.write("    // Dropping inline function '%s'.\n" % name);
-        return
+        raise CTypesError("Inline function");
 
     return_type = ctypesNameForType(declaration.return_type)
     args_types = ''
@@ -111,7 +110,7 @@ def writeVariable(declaration, out):
             out.write('    this.%s = lib.declare("%s", %s);\n'
                       % (name, name, typ))
             return
-        raise CTypesError("No value")
+        raise CTypesError("Variable has no value")
     out.write('    this.%s = %s(%s);\n' % (name, typ, value))
 
 def writeEnum(declaration, out):
