@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE page SYSTEM "chrome://osxtypes-examples/locale/audio.dtd">
+<page id="osxtypes-audio"
+      xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script type="application/javascript" src="audio.js"/>
+
+  <hbox>
+    <button label="Start" oncommand="startRecording();"/>
+    <button label="Stop" oncommand="stopRecording();"/>
+  </hbox>
+
+  <textbox id="debug" flex="1" multiline="true" />
+</page>

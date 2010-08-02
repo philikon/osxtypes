@@ -3,9 +3,7 @@ Components.utils.import("resource://osxtypes/CarbonCore.jsm");
 Components.utils.import("resource://osxtypes/AudioUnit.jsm");
 Components.utils.import("resource://osxtypes/CoreAudio.jsm");
 
-const EXPORTED_SYMBOLS = ["configureAudioUnit"];
-
-function configureAudioUnit() {
+function makeAudioRecorder(onAudioInput) {
     let carbon = new CarbonCore();
     let au = new AudioUnit();
     let ca = new CoreAudio();
@@ -81,19 +79,18 @@ function configureAudioUnit() {
 
     // Setup render callback
     // This will be called when the AUHAL has input data
-    function renderCallback(refCon, actionFlags, timestamp, busNumber,
-                            NumberFrames, data) {
-        dump("render callback\n");
-    }
-    let renderCallbackFunc = au.AURenderCallback(renderCallback);
-    let callback = au.AURenderCallbackStruct(renderCallbackFunc, null);
+    let cRenderCallback = au.AURenderCallback(onAudioInput);
+    let cCallbackStruct = au.AURenderCallbackStruct(cRenderCallback, null);
     err = au.AudioUnitSetProperty(
         cAudioUnit,
         au.kAudioOutputUnitProperty_SetInputCallback,
         au.kAudioUnitScope_Global,
         0,
-        callback.address(),
+        cCallbackStruct.address(),
         au.AURenderCallbackStruct.size);
+    if (err != 0) {
+        throw err;
+    }
 
 	// Get hardware device format
 	let cDeviceFormat = au.AudioStreamBasicDescription();
@@ -171,7 +168,66 @@ function configureAudioUnit() {
 	}
     cAudioBuffer.mBuffers = ctypes.cast(buffers, au.AudioBuffer.array(1));
 
-    carbon.close();
-    au.close();
-    ca.close();
+    debug("AudioUnit configured!\n");
+    return {
+        start: function() {
+	        let err = au.AudioOutputUnitStart(cAudioUnit);
+            if (err != 0) {
+                throw err;
+            }
+        },
+
+        stop: function() {
+	        let err = au.AudioOutputUnitStop(cAudioUnit);
+            if (err != 0) {
+                throw err;
+            }
+        },
+
+        close: function() {
+            carbon.close();
+            au.close();
+            ca.close();
+        }
+    };
 }
+
+function debug(msg) {
+    document.getElementById("debug").value += msg;
+}
+
+function renderAudio(refCon, actionFlags, timestamp, busNumber,
+                     NumberFrames, data) {
+    debug("render callback\n");
+}
+
+function startRecording() {
+    debug("startRecording()\n");
+    try {
+        recorder.start();
+    } catch(ex) {
+        debug("recorder.start() threw " + ex + "\n");
+    }
+    debug("startRecording() successful\n");
+}
+
+function stopRecording() {
+    debug("stopRecording()\n");
+    try {
+        recorder.stop();
+    } catch(ex) {
+        debug("recorder.stop() threw " + ex + "\n");
+    }
+    debug("stopRecording() successful\n");
+}
+
+var recorder;
+window.addEventListener("load", function() {
+    window.removeEventListener("load", arguments.callee, false);
+    debug("window.onload\n");
+    try {
+      recorder = makeAudioRecorder(renderAudio);
+    } catch(ex) {
+        debug("makeAudioRecorder() threw " + JSON.stringify(ex) + "\n");
+    }
+}, false);
