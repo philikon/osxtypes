@@ -1,4 +1,4 @@
-Components.utils.import("resource://gre/modules/ctypes.jsm");    
+Components.utils.import("resource://gre/modules/ctypes.jsm");
 
 let osxtypes = {};
 Components.utils.import("resource://osxtypes/CoreFoundation.jsm", osxtypes);
@@ -14,13 +14,13 @@ let iPhoto = {
   },
 
   onPopupShowing: function() {
-	let node = iPhoto.getCurrentNode();	  
-	let item = document.getElementById("iphoto_menuitem");	  
+	let node = iPhoto.getCurrentNode();
+	let item = document.getElementById("iphoto_menuitem");
 	if (item) {
 	  item.hidden = !node; // Hide it if we're not on an image
 	}
   },
-  
+
   add: function() {
     let node = iPhoto.getCurrentNode();
     if (!node) {
@@ -31,41 +31,41 @@ let iPhoto = {
       iPhoto.addImageByURL(src);
     }
   },
-  
+
   getCurrentNode: function() {
     let node = document.popupNode;
     if (!node) {
       return null;
     }
-    // Is it an image node?    
+    // Is it an image node?
     if (node.localName.toUpperCase() == "IMG") {
       return node;
     }
     return null;
   },
-  
+
   downloadImage: function(src) {
     // Get the file name to download from the URL
     let fileName = src.slice(src.lastIndexOf("/") + 1);
-  
+
     // Build the path to download to
     let dest = Cc["@mozilla.org/file/directory_service;1"]
                .getService(Ci.nsIProperties)
                .get("TmpD", Ci.nsIFile);
     dest.append(fileName);
-    
+
     dest.createUnique(dest.NORMAL_FILE_TYPE, 0600);
     let wbp = Cc['@mozilla.org/embedding/browser/nsWebBrowserPersist;1']
               .createInstance(Ci.nsIWebBrowserPersist);
-    
+
     var uri = Services.io.newURI(src, document.characterSet,
                   gBrowser.selectedBrowser.contentDocument.documentURIObject);
     // don't save gzipped
     wbp.persistFlags &= ~Ci.nsIWebBrowserPersist.PERSIST_FLAGS_NO_CONVERSION;
-    wbp.saveURI(uri, null, null, null, null, dest);    
+    wbp.saveURI(uri, null, null, null, null, dest);
     return dest.path;
   },
-    
+
   addImageByURL: function(src) {
     let CoreFoundation = new osxtypes.CoreFoundation();
     let LaunchServices = new osxtypes.LaunchServices();
@@ -79,8 +79,8 @@ let iPhoto = {
     let url = CoreFoundation.CFURLCreateFromFileSystemRepresentation(null, filePath, filePath.length, false);
     CoreFoundation.CFArrayAppendValue(mutableArray, url);
     CoreFoundation.CFRelease(url);
-      
-    // Call Launch Services to open iPhoto and deliver the image      
+
+    // Call Launch Services to open iPhoto and deliver the image
     let ref = new LaunchServices.FSRef();
     let appParams = LaunchServices.LSApplicationParameters(0, 1, ref.address(), null, null, null, null);
     let appstr = "file:///Applications/iPhoto.app";
@@ -98,11 +98,11 @@ let iPhoto = {
       CoreFoundation.CFRelease(array);
     }
     CoreFoundation.CFRelease(appurl);
-    
+
     LaunchServices.close();
     CoreFoundation.close();
   }
-  
+
 };
 
 window.addEventListener("load", function() {
