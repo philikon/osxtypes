@@ -80,7 +80,7 @@ let iPhoto = {
     CoreFoundation.CFArrayAppendValue(mutableArray, url);
     CoreFoundation.CFRelease(url);
 
-    // Call Launch Services to open iPhoto and deliver the image
+    // Call LaunchServices to open iPhoto and deliver the image
     let ref = new LaunchServices.FSRef();
     let appParams = LaunchServices.LSApplicationParameters(0, 1, ref.address(), null, null, null, null);
     let appstr = "file:///Applications/iPhoto.app";
