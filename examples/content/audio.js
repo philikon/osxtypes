@@ -9,11 +9,11 @@ function makeAudioRecorder(onAudioInput) {
     let ca = new CoreAudio();
 
     let description = carbon.ComponentDescription();
-	description.componentType = au.kAudioUnitType_Output;
-	description.componentSubType = au.kAudioUnitSubType_HALOutput;
-	description.componentManufacturer = au.kAudioUnitManufacturer_Apple;
-	description.componentFlags = 0;
-	description.componentFlagsMask = 0;
+    description.componentType = au.kAudioUnitType_Output;
+    description.componentSubType = au.kAudioUnitSubType_HALOutput;
+    description.componentManufacturer = au.kAudioUnitManufacturer_Apple;
+    description.componentFlags = 0;
+    description.componentFlagsMask = 0;
 
     // Open an AudioOutputUnit.
     let cAudioUnit = au.AudioUnit();
@@ -92,93 +92,93 @@ function makeAudioRecorder(onAudioInput) {
         throw err;
     }
 
-	// Get hardware device format
-	let cDeviceFormat = au.AudioStreamBasicDescription();
-	param = au.UInt32(au.AudioStreamBasicDescription.size);
-	err = au.AudioUnitGetProperty(
+    // Get hardware device format
+    let cDeviceFormat = au.AudioStreamBasicDescription();
+    param = au.UInt32(au.AudioStreamBasicDescription.size);
+    err = au.AudioUnitGetProperty(
         cAudioUnit,
         au.kAudioUnitProperty_StreamFormat,
         au.kAudioUnitScope_Input,
         1,
         cDeviceFormat.address(),
         param.address());
-	if (err != 0) {
+    if (err != 0) {
         throw err;
-	}
-
-	// Twiddle the format to our liking
-	let numChannels = Math.max(cDeviceFormat.mChannelsPerFrame, 2);
-    let cOutputFormat = au.AudioStreamBasicDescription();
-	cOutputFormat.mChannelsPerFrame = numChannels;
-	cOutputFormat.mSampleRate = cDeviceFormat.mSampleRate;
-	cOutputFormat.mFormatID = au.kAudioFormatLinearPCM;
-	cOutputFormat.mFormatFlags = au.kAudioFormatFlagIsFloat
-        | au.kAudioFormatFlagIsPacked | au.kAudioFormatFlagIsNonInterleaved;
-	if (cOutputFormat.mFormatID == au.kAudioFormatLinearPCM
-        && numChannels == 1) {
-		cOutputFormat.mFormatFlags &= ~au.kLinearPCMFormatFlagIsNonInterleaved;
     }
-	//cOutputFormat.mFormatFlags |= kAudioFormatFlagIsBigEndian;
-	cOutputFormat.mBitsPerChannel = au.Float32.size * 8;
-	cOutputFormat.mBytesPerFrame = cOutputFormat.mBitsPerChannel / 8;
-	cOutputFormat.mFramesPerPacket = 1;
-	cOutputFormat.mBytesPerPacket = cOutputFormat.mBytesPerFrame;
 
-	// Set the AudioOutputUnit output data format
-	err = au.AudioUnitSetProperty(
+    // Twiddle the format to our liking
+    let numChannels = Math.max(cDeviceFormat.mChannelsPerFrame, 2);
+    let cOutputFormat = au.AudioStreamBasicDescription();
+    cOutputFormat.mChannelsPerFrame = numChannels;
+    cOutputFormat.mSampleRate = cDeviceFormat.mSampleRate;
+    cOutputFormat.mFormatID = au.kAudioFormatLinearPCM;
+    cOutputFormat.mFormatFlags = au.kAudioFormatFlagIsFloat
+        | au.kAudioFormatFlagIsPacked | au.kAudioFormatFlagIsNonInterleaved;
+    if (cOutputFormat.mFormatID == au.kAudioFormatLinearPCM
+        && numChannels == 1) {
+        cOutputFormat.mFormatFlags &= ~au.kLinearPCMFormatFlagIsNonInterleaved;
+    }
+    //cOutputFormat.mFormatFlags |= kAudioFormatFlagIsBigEndian;
+    cOutputFormat.mBitsPerChannel = au.Float32.size * 8;
+    cOutputFormat.mBytesPerFrame = cOutputFormat.mBitsPerChannel / 8;
+    cOutputFormat.mFramesPerPacket = 1;
+    cOutputFormat.mBytesPerPacket = cOutputFormat.mBytesPerFrame;
+
+    // Set the AudioOutputUnit output data format
+    err = au.AudioUnitSetProperty(
         cAudioUnit,
         au.kAudioUnitProperty_StreamFormat,
         au.kAudioUnitScope_Output,
         1,
         cOutputFormat.address(),
         au.AudioStreamBasicDescription.size);
-	if (err != 0) {
-		throw err;
-	}
+    if (err != 0) {
+        throw err;
+    }
 
-	// Get the number of frames in the IO buffer(s)
+    // Get the number of frames in the IO buffer(s)
     let cAudioSamples = au.UInt32();
-	param = au.UInt32(au.UInt32.size);
-	err = au.AudioUnitGetProperty(
+    param = au.UInt32(au.UInt32.size);
+    err = au.AudioUnitGetProperty(
         cAudioUnit,
         ca.kAudioDevicePropertyBufferFrameSize,
         au.kAudioUnitScope_Global,
         0,
         cAudioSamples.address(),
         param.address());
-	if (err != 0) {
-        throw err;
-	}
-
-	// Initialize the AU
-	err = au.AudioUnitInitialize(cAudioUnit);
-	if (err != 0) {
+    if (err != 0) {
         throw err;
     }
 
-	// Allocate our audio buffers
-	let cAudioBuffer = au.AudioBufferList();
+    // Initialize the AU
+    err = au.AudioUnitInitialize(cAudioUnit);
+    if (err != 0) {
+        throw err;
+    }
+
+    // Allocate our audio buffers
+    let cAudioBuffer = au.AudioBufferList();
     let size = cAudioSamples.value * cOutputFormat.mBytesPerFrame;
     cAudioBuffer.mNumberBuffers = numChannels;
     let buffers = au.AudioBuffer.array(numChannels)();
-	for (let i = 0; i < numChannels; i++) {
-		buffers[i].mNumberChannels = 1;
-		buffers[i].mDataByteSize = size;
-		buffers[i].mData = ctypes.uint8_t.array(size)();
-	}
+    for (let i = 0; i < numChannels; i++) {
+        buffers[i].mNumberChannels = 1;
+        buffers[i].mDataByteSize = size;
+        buffers[i].mData = ctypes.uint8_t.array(size)();
+    }
     cAudioBuffer.mBuffers = ctypes.cast(buffers, au.AudioBuffer.array(1));
 
     debug("AudioUnit configured!\n");
     return {
         start: function() {
-	        let err = au.AudioOutputUnitStart(cAudioUnit);
+            let err = au.AudioOutputUnitStart(cAudioUnit);
             if (err != 0) {
                 throw err;
             }
         },
 
         stop: function() {
-	        let err = au.AudioOutputUnitStop(cAudioUnit);
+            let err = au.AudioOutputUnitStop(cAudioUnit);
             if (err != 0) {
                 throw err;
             }
