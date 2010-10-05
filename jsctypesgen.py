@@ -1,5 +1,8 @@
 # Generate js-ctypes declarations from C header files
-# Philipp von Weitershausen <philipp@weitershausen.de>
+# Copyright (c) 2010 Philipp von Weitershausen <philipp@weitershausen.de>
+# Distributed under the MIT License (see LICENSE.txt)
+#
+# Usage: jsctypesgen.py [CFLAGS] filename.h
 
 import os
 import io

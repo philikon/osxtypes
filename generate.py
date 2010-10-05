@@ -1,5 +1,6 @@
 # Generate js-ctypes declarations from OS X framework header files
-# Philipp von Weitershausen <philipp@weitershausen.de>
+# Copyright (c) 2010 Philipp von Weitershausen <philipp@weitershausen.de>
+# Distributed under the MIT License (see LICENSE.txt)
 
 import os
 import io
